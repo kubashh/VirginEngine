@@ -4,4 +4,4 @@ git push
 
 clear
 
-#npm run deploy -- -m "u"
+npm run deploy -- -m "u"
