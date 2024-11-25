@@ -1,4 +1,6 @@
-export const config = {
+import { config } from "../data"
+
+const obj = {
   gameName: "Name of Game",
   screenWidth: 1600,
   screenHeight: 900,
@@ -9,6 +11,8 @@ export const config = {
   description: "Write what game is"
 }
 
-export const files = {}
-export const scenes = {}
-export const editor = {}
+export const initConfig = () => {
+  for(const key in obj) {
+    config[key] = obj[key]
+  }
+}
