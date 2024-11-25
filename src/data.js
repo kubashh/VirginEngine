@@ -11,4 +11,7 @@ export const config = {
 
 export const files = {}
 export const scenes = {}
-export const editor = {}
+export const editor = {
+  width: window.innerWidth,
+  height: window.innerHeight
+}

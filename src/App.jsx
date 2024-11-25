@@ -12,10 +12,8 @@ export const App = () => {
     }
   })
 
-  return (
-    <div>
-      {!editor.setUp ? <LoadData /> : <></>}
-      <Editor />
-    </div>
-  )
+  return <>
+    {!editor.setUp ? <LoadData /> : <></>}
+    <Editor />
+  </>
 }
