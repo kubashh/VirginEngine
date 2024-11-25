@@ -28,7 +28,7 @@ export const LoadData = () => {
         width: "100vw",
         height: "100vh",
         backgroundColor: "rgba(0, 0, 0, 0.5)",
-        zIndex: 1
+        zIndex: 3
       }}
     >
       <div

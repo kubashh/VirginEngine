@@ -1,6 +1,13 @@
 body {
   margin: 0;
   font-family: sans-serif;
+}
+
+* {
   color: white;
   background-color: black;
+}
+
+input {
+  cursor: pointer;
 }

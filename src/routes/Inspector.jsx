@@ -11,6 +11,5 @@ export const Inspector = () => {
     <Header
       text="Inspectior"
     />
-    Inspector
   </div>
 }

@@ -1,3 +1,5 @@
+import { Header } from "./Header"
+
 export const Files = () => {
   return <div
     style={{
@@ -6,6 +8,8 @@ export const Files = () => {
       gridRow: "1 / span 1"
     }}
   >
-    Files
+    <Header
+      text="Files"
+    />
   </div>
 }

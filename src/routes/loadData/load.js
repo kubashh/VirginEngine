@@ -1,17 +1,26 @@
 import { config, editor, files, scenes } from "../../data"
 
+const creanObj = (obj) => {
+  for(const key in obj) {
+    delete obj[key]
+  }
+}
+
 const setData = (data) => {
   // Config
+  creanObj(config)
   for(const key in data.config) {
     config[key] = data.config[key]
   }
 
   // Files
+  creanObj(files)
   for(const key in data.files) {
     files[key] = data.files[key]
   }
 
   // Scenes
+  creanObj(scenes)
   for(const key in data.scenes) {
     scenes[key] = data.scenes[key]
   }
@@ -29,16 +38,13 @@ export const load = () => {
     const file = this.files[0]
     const reader = new FileReader()
 
-    reader.onload = (event) => {
-      const jsonFile = event.target.result
-      try {
-        const data = JSON.parse(jsonFile)
-        console.log(data)
+    reader.onload = ({ target }) => {
+      const jsonFile = target.result
 
-        setData(data)
-      } catch (error) {
-        console.error('Błąd parsowania JSON:', error)
-      }
+      const data = JSON.parse(jsonFile)
+      console.log(data)
+
+      setData(data)
     }
 
     reader.readAsText(file)
