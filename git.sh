@@ -7,7 +7,7 @@ if ! [ $1 = 0 ] && ! [ $1 = 1 ] && ! [ $1 = 2 ] && ! [ $1 = 3 ]; then
 fi
 
 
-line=$(head -n 1 version)
+oldVersion=$(head -n 1 version)
 
 v0=0
 v1=0
@@ -16,7 +16,7 @@ v3=0
 
 i=0
 
-for element in $(echo $line | tr "." "\n")
+for element in $(echo $oldVersion | tr "." "\n")
 do
   if [ $i = 0 ]; then
     v0=$element
@@ -58,7 +58,7 @@ fi
 
 newVersion=$v0.$v1.$v2.$v3
 echo $output > version
-echo "$line (old)"
+echo "$oldVersion (old)"
 echo "$newVersion (new)"
 
 git add .
