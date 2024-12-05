@@ -1,4 +1,4 @@
-import { editor } from "../../data"
+import { editor } from "../data"
 import { load } from "./load"
 
 const inputStyle = {

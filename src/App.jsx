@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { editor } from "./data"
-import { Editor } from "./routes/Editor"
-import { LoadData } from "./routes/loadData/LoadData"
+import { Editor } from "./editor/Editor"
+import { LoadData } from "./loadData/LoadData"
 
 export const App = () => {
   const [state, setState] = useState(0)
