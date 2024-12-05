@@ -57,8 +57,10 @@ if [ $1 = 3 ]; then
 fi
 
 # Set new version
-newv="$v0.$v1.$v2.$v3"
-echo $output > version
+newv=$v0.$v1.$v2.$v3
+
+# Update version file
+echo $newv > version
 
 # Debug
 echo "$oldv (old)"
