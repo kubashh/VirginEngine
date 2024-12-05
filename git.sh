@@ -64,3 +64,5 @@ echo "$newVersion (new)"
 git add .
 git commit -m $newVersion
 git push
+
+clear
