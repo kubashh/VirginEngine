@@ -1,4 +1,4 @@
-import { config, files, scenes } from "../data"
+const { config, files, scenes } = window.data
 
 const inputStyle = {
   border: 0,

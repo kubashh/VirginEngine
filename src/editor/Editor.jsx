@@ -1,8 +1,8 @@
-import { editor } from "../data"
 import { Files } from "./Files"
 import { Hierarchy } from "./Hierarchy"
 import { Inspector } from "./Inspector"
 import { UI } from "./UI"
+const { editor } = window.data
 
 export const Editor = () => {
   return <>

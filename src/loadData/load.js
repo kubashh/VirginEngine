@@ -1,4 +1,4 @@
-import { config, editor, files, scenes } from "../data"
+const { config, editor, files, scenes } = window.data
 
 const creanObj = (obj) => {
   for(const key in obj) {

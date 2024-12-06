@@ -1,4 +1,5 @@
 import { Header } from "./Header"
+const { editor } = window.data
 
 export const Inspector = () => {
   return <div
@@ -6,6 +7,9 @@ export const Inspector = () => {
       backgroundColor: "black",
       gridColumn: "2 / span 1",
       gridRow: "1 / span 2"
+    }}
+    onClick={() => {
+      editor.selectedField = `inspector`
     }}
   >
     <Header

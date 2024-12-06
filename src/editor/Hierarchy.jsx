@@ -1,4 +1,5 @@
 import { Header } from "./Header"
+const { editor } = window.data
 
 export const Hierarchy = () => {
   return <div
@@ -6,6 +7,9 @@ export const Hierarchy = () => {
       backgroundColor: "black",
       gridColumn: "1 / span 1",
       gridRow: "2 / span 1"
+    }}
+    onClick={() => {
+      editor.selectedField = `hierarchy`
     }}
   >
     <Header

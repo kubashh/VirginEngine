@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
-import { editor } from "./data"
 import { Editor } from "./editor/Editor"
 import { LoadData } from "./loadData/LoadData"
+const { editor } = window.data
 
 export const App = () => {
   const [state, setState] = useState(0)

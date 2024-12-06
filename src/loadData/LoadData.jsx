@@ -1,5 +1,5 @@
-import { editor } from "../data"
 import { load } from "./load"
+const { editor } = window.data
 
 const inputStyle = {
   display: "block",
