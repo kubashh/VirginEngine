@@ -42,14 +42,20 @@ done
 # Increase version
 if [ $1 = 0 ]; then
   v0=$((v0+1))
+  v1=0
+  v2=0
+  v3=0
 fi
 
 if [ $1 = 1 ]; then
   v1=$((v1+1))
+  v2=0
+  v3=0
 fi
 
 if [ $1 = 2 ]; then
   v2=$((v2+1))
+  v3=0
 fi
 
 if [ $1 = 3 ]; then
