@@ -1,6 +1,6 @@
-import { Files } from "./Files"
-import { Hierarchy } from "./Hierarchy"
-import { Inspector } from "./Inspector"
+import { Files } from "./files/Files"
+import { Hierarchy } from "./hierarchy/Hierarchy"
+import { Inspector } from "./inspector/Inspector"
 import { UI } from "./UI"
 const { editor } = window.data
 

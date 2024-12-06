@@ -1,7 +1,7 @@
-import { Header } from "./Header"
+import { Header } from "../Header"
 const { editor } = window.data
 
-export const Files = () => {
+export const Hierarchy = () => {
   return <div
     style={{
       backgroundColor: "black",
@@ -9,11 +9,11 @@ export const Files = () => {
       gridRow: "1 / span 1"
     }}
     onClick={() => {
-      editor.selectedField = `files`
+      editor.selectedField = `hierarchy`
     }}
   >
     <Header
-      text="Files"
+      text="Hierarchy"
     />
   </div>
 }
