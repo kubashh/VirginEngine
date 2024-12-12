@@ -1,21 +1,43 @@
-export const File = ({ style = {}, file, name, deep = 0 }) => {
+import { useState } from "react"
+
+export const File = ({ file, name, main, deep = 0 }) => {
+  const [open, setOpen] = useState(true)
+
   return <>
-    <div
+    {!main && <div
       style={{
-        ...style,
         cursor: "pointer",
-        marginLeft: deep * 10
+        marginLeft: deep * 10,
+        display: "flex",
+        flexDirection: "row"
       }}
       onClick={() => {
-        console.log(name)
+        setOpen(!open)
       }}
     >
-      {name}
-    </div>
-    {file.type === `folder` ? <>
+      {file.type === `folder` && <div
+        style={{
+          width: 24,
+          height: 24,
+          textAlign: "center",
+          justifySelf: "center",
+          borderRadius: 12,
+          transform: `rotate(${open ? 90 : 0}deg)`,
+          transition: "transform 150ms"
+        }}
+      >
+        {">"}
+      </div>}
+      <div
+        style={{
+          marginLeft: file.type !== `folder` && 24
+        }}
+      >{name}</div>
+    </div>}
+    {file.type === `folder` && open && <>
       {Object.entries(file).map(([key, value]) => {
         if(key === `type`) {
-          return
+          return null
         }
         return <File
           file={value}
@@ -24,6 +46,6 @@ export const File = ({ style = {}, file, name, deep = 0 }) => {
           deep={deep + 1}
         />
       })}
-    </> : <></>}
+    </>}
   </>
 }

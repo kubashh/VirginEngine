@@ -1,29 +1,23 @@
 import { Header } from "./Header"
 
-export const EditorWindow = ({ text, content, position }) => {
-  const { editor } = window.data
-
+export const EditorWindow = ({ style, text, content, position }) => {
   return <div
     style={{
       backgroundColor: "black",
       gridColumn: `${position.x} / span ${position.a | 1}`,
       gridRow: `${position.y} / span ${position.b | 1}`,
       display: "grid",
-      gridTemplateRows: "24px auto"
+      gridTemplateRows: "24px auto",
+      overflow: "scroll",
+      ...style
     }}
     onClick={() => {
-      editor.selectedField = text
+      window.data.editor.selectedField = text
     }}
   >
     <Header
       text={text}
     />
-    <div
-      style={{
-        overflow: "scroll"
-      }}
-    >
-      {content}
-    </div>
+    {content}
   </div>
 }

@@ -3,13 +3,7 @@ import { editor } from "./editor"
 import { files } from "./files"
 import "./index.css"
 
-const setWindowSize = () => {
-  window.data.editor.width = window.innerWidth
-  window.data.editor.height = window.innerHeight
-  window.data.editor.reload()
-}
-
-const setUp = () => {
+export const setUp = () => {
   if(window.data) {
     return
   }
@@ -17,8 +11,8 @@ const setUp = () => {
   window.data = { config, files, editor }
 
   window.onresize = () => {
-    setWindowSize()
+    window.data.editor.width = window.innerWidth
+    window.data.editor.height = window.innerHeight
+    window.data.editor.reload()
   }
 }
-
-setUp()
