@@ -8,7 +8,9 @@ export const setUp = () => {
     return
   }
 
-  window.data = { config, files, editor }
+  const root = document.getElementById(`root`)
+
+  window.data = { config, files, editor, root }
 
   window.onresize = () => {
     window.data.editor.width = window.innerWidth

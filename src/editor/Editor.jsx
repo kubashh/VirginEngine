@@ -17,8 +17,8 @@ export const Editor = () => {
     <UI />
     <div
       style={{
-        width: width,
-        height: height,
+        width,
+        height,
         display: "grid",
         gridTemplateColumns: `${width0}px auto`,
         gridTemplateRows: "55vh auto",
@@ -47,7 +47,7 @@ export const Editor = () => {
         }}
         style={{
           width: width1,
-          height: height
+          height
         }}
         content={<Inspector />}
       />
