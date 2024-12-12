@@ -2,9 +2,10 @@ import { Files } from "./files/Files"
 import { Hierarchy } from "./hierarchy/Hierarchy"
 import { Inspector } from "./inspector/Inspector"
 import { UI } from "./UI"
-const { editor } = window.data
 
 export const Editor = () => {
+  const { editor } = window.data
+
   return <>
     <UI />
     <div

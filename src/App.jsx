@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react"
 import { Editor } from "./editor/Editor"
 import { LoadData } from "./loadData/LoadData"
-const { editor } = window.data
 
 export const App = () => {
+  const { editor } = window.data
+
   const [state, setState] = useState(0)
 
   useEffect(() => {

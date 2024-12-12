@@ -1,15 +1,14 @@
-const { config, files, scenes } = window.data
-
 const inputStyle = {
   border: 0,
   margin: "8px 16px"
 }
 
 const save = () => {
+  const { config, files } = window.data
+
   const toSave = {
     config,
-    files,
-    scenes
+    files
   }
 
   console.log(toSave)

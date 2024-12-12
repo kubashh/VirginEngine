@@ -1,5 +1,5 @@
 export const Header = ({ text }) => {
-  return <>
+  return <div>
     <div
       style={{
         paddingLeft: 8
@@ -12,5 +12,5 @@ export const Header = ({ text }) => {
         border: "1px solid #aaa"
       }}
     />
-  </>
+  </div>
 }

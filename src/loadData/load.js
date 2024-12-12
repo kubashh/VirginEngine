@@ -1,5 +1,3 @@
-const { config, editor, files, scenes } = window.data
-
 const creanObj = (obj) => {
   for(const key in obj) {
     delete obj[key]
@@ -7,6 +5,8 @@ const creanObj = (obj) => {
 }
 
 const setData = (data) => {
+  const { config, editor, files } = window.data
+
   // Config
   creanObj(config)
   for(const key in data.config) {
@@ -17,12 +17,6 @@ const setData = (data) => {
   creanObj(files)
   for(const key in data.files) {
     files[key] = data.files[key]
-  }
-
-  // Scenes
-  creanObj(scenes)
-  for(const key in data.scenes) {
-    scenes[key] = data.scenes[key]
   }
 
   editor.setUp = true

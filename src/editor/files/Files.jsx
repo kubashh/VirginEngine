@@ -1,22 +1,23 @@
-import { Header } from "../Header"
+import { EditorWindow } from "../EditorWindow"
 import { File } from "./File"
-const { editor } = window.data
 
 export const Files = () => {
-  return <div
+  const { files } = window.data
+
+  return <EditorWindow
+  text="Files"
+  position={{
+    x: 1,
+    y: 2
+  }}
+  content={<div
     style={{
-      backgroundColor: "black",
-      gridColumn: "1 / span 1",
-      gridRow: "2 / span 1",
       overflow: "scroll"
     }}
-    onClick={() => {
-      editor.selectedField = `files`
-    }}
   >
-    <Header
-      text="Files"
+    <File
+      file={files}
     />
-    <File />
-  </div>
+  </div>}
+/>
 }

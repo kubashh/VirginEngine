@@ -1,19 +1,15 @@
-import { Header } from "../Header"
-const { editor } = window.data
+import { EditorWindow } from "../EditorWindow"
 
 export const Inspector = () => {
-  return <div
-    style={{
-      backgroundColor: "black",
-      gridColumn: "2 / span 1",
-      gridRow: "1 / span 2"
+  return <EditorWindow
+    text="Inspector"
+    position={{
+      b: 2,
+      x: 2,
+      y: 1
     }}
-    onClick={() => {
-      editor.selectedField = `inspector`
-    }}
-  >
-    <Header
-      text="Inspectior"
-    />
-  </div>
+    content={<div>
+      jfsdkjfsdhfksdjk
+    </div>}
+  />
 }

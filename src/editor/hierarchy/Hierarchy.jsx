@@ -1,19 +1,14 @@
-import { Header } from "../Header"
-const { editor } = window.data
+import { EditorWindow } from "../EditorWindow"
 
 export const Hierarchy = () => {
-  return <div
-    style={{
-      backgroundColor: "black",
-      gridColumn: "1 / span 1",
-      gridRow: "1 / span 1"
+  return <EditorWindow
+    text="Hierarchy"
+    position={{
+      x: 1,
+      y: 1
     }}
-    onClick={() => {
-      editor.selectedField = `hierarchy`
-    }}
-  >
-    <Header
-      text="Hierarchy"
-    />
-  </div>
+    content={<div>
+      dafafsdkj
+    </div>}
+  />
 }

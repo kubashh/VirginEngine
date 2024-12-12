@@ -1,5 +1,4 @@
 import { load } from "./load"
-const { editor } = window.data
 
 const inputStyle = {
   display: "block",
@@ -21,6 +20,8 @@ const inputStyle = {
 }
 
 export const LoadData = () => {
+  const { editor } = window.data
+
   return (
     <div
       style={{

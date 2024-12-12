@@ -1,31 +1,29 @@
-const { files } = window.data
-
-export const File = ({ style = {}, file = files, name }) => {
-  return <div
-    style={{
-      ...style,
-      display: "flex",
-      flexDirection: "column",
-      cursor: "pointer"
-    }}
-    onClick={() => {
-      console.log(name)
-    }}
-  >
-    {file.type === `folder` ? <div
+export const File = ({ style = {}, file, name, deep = 0 }) => {
+  return <>
+    <div
       style={{
-        marginLeft: 10
+        ...style,
+        cursor: "pointer",
+        marginLeft: deep * 10
+      }}
+      onClick={() => {
+        console.log(name)
       }}
     >
+      {name}
+    </div>
+    {file.type === `folder` ? <>
       {Object.entries(file).map(([key, value]) => {
+        if(key === `type`) {
+          return
+        }
         return <File
           file={value}
           name={key}
           key={key}
+          deep={deep + 1}
         />
       })}
-    </div> : <>
-      {name}
-    </> }
-  </div>
+    </> : <></>}
+  </>
 }
