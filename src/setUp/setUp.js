@@ -8,9 +8,11 @@ export const setUp = () => {
     return
   }
 
-  const root = document.getElementById(`root`)
+  document.addEventListener(`contextmenu`, (e) => {
+    e.preventDefault()
+  })
 
-  window.data = { config, files, editor, root }
+  window.data = { config, files, editor }
 
   window.onresize = () => {
     window.data.editor.width = window.innerWidth

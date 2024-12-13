@@ -1,23 +1,4 @@
 import { useState } from "react"
-import { createPortal } from "react-dom"
-
-// Nie dziala!!!!!!!!!!!!!
-const createMenu = ({ x, y, content }) => {
-  const element = <div
-    style={{
-      display: "absolute",
-      top: x,
-      left: y,
-      width: 200,
-      height: 300,
-      backgroundColor: "#333"
-    }}
-  >
-    {`${x}, ${y}, ${content.length}`}
-  </div>
-  createPortal(element , window.data.root)
-  console.log(element)
-}
 
 export const File = ({ file, name, main, deep = 0 }) => {
   const [open, setOpen] = useState(true)
@@ -34,16 +15,14 @@ export const File = ({ file, name, main, deep = 0 }) => {
         setOpen(!open)
       }}
       onContextMenu={(e) => {
-        e.preventDefault() // prevent the default behaviour when right clicked
-        console.log("Right Click")
-
-        createMenu({  // Nie dziala
+        window.data.setContextMenu({
           x: e.pageX,
           y: e.pageY,
-          content: [3, 4, 5]
+          arr: [[`test`, () => {
+            console.log(`test`)
+          }]]
         })
       }}
-
     >
       {file.type === `folder` && <div
         style={{

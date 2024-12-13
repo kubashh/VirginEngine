@@ -1,9 +1,4 @@
-const inputStyle = {
-  border: 0,
-  margin: "8px 16px"
-}
-
-const save = () => {
+export const save = () => {
   const { config, files } = window.data
 
   const toSave = {
@@ -20,23 +15,4 @@ const save = () => {
   htmlElement.href = `data:application/json;charset=utf-8,${encodeURIComponent(jsonData)}`
   htmlElement.download = `${config.gameName}.deathengine`
   htmlElement.click()
-}
-
-export const UI = () => {
-  return <div
-    style={{
-      position: "absolute",
-      display: "flex",
-      flexDirection: "row",
-      zIndex: 1,
-      right: 0
-    }}
-  >
-    <input
-      type="button"
-      value="Save"
-      style={inputStyle}
-      onClick={save}
-    />
-  </div>
 }

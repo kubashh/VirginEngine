@@ -2,7 +2,7 @@ import { EditorWindow } from "./EditorWindow"
 import { Files } from "./files/Files"
 import { Hierarchy } from "./hierarchy/Hierarchy"
 import { Inspector } from "./inspector/Inspector"
-import { UI } from "./UI"
+import { UI } from "./ui/UI"
 
 export const Editor = () => {
   const { width, height } = window.data.editor
