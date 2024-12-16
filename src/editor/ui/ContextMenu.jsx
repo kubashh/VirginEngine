@@ -1,35 +1,29 @@
-import { useEffect, useState } from "react"
-
-// Nie dziala y height
-// TODO usunięcie context menu
-document.addEventListener(`mousedown`, ({ pageX, pageY }) => {
-  const { contextMenu } = window.data
-  if(!contextMenu) {
-    return
-  }
-
-  const { width, x, y } = contextMenu
-  if(!(x <= pageX && pageX <= x + width && y <= pageY)) {
-    window.data.setContextMenu({})
-  }
-})
+import { useEffect, useRef, useState } from "react"
 
 export const ContextMenu = () => {
   const [{ x, y, arr }, setContextMenu] = useState({})
-
-  const width = 200
+  const ref = useRef()
 
   useEffect(() => {
-    window.data.setContextMenu = (props) => {
-      window.data.contextMenu = {
-        ...props,
-        width
+    window.data.setContextMenu = setContextMenu
+
+    const handler = ({ target }) => {
+      if(ref.current) {
+        if(!ref.current.contains(target)) {
+          setContextMenu({})
+        }
       }
-      setContextMenu(props)
     }
-  })
+
+    document.addEventListener(`mousedown`, handler)
+
+    return () => {
+      document.removeEventListener(`mousedown`, handler)
+    }
+  }, [])
 
   return arr && arr.length ? <div
+    ref={ref}
     onClick={() => {
       window.data.showContextMenu = true
     }}
@@ -38,7 +32,7 @@ export const ContextMenu = () => {
       zIndex: 1,
       left: x,
       top: y,
-      width,
+      width: 200,
       backgroundColor: "#333",
       border: "3px solid #333"
     }}
@@ -47,8 +41,8 @@ export const ContextMenu = () => {
       return <div
       key={text}
         onClick={() => {
-          console.log(`test`)
-          //removeContextMenu()
+          fn()
+          setContextMenu({})
         }}
         style={{
           cursor: "pointer",

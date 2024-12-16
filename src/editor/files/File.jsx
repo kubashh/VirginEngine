@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-export const File = ({ file, name, main, deep = 0 }) => {
+export const File = ({ old, file, name, main, deep = 0 }) => {
   const [open, setOpen] = useState(true)
 
   return <>
@@ -14,12 +14,18 @@ export const File = ({ file, name, main, deep = 0 }) => {
       onClick={() => {
         setOpen(!open)
       }}
-      onContextMenu={(e) => {
+      onContextMenu={({ pageX, pageY }) => {
         window.data.setContextMenu({
-          x: e.pageX,
-          y: e.pageY,
-          arr: [[`test`, () => {
-            console.log(`test`)
+          x: pageX,
+          y: pageY,
+          arr: [[`New`, () => {
+            console.log(`New`)
+          }], [`Rename`, () => {
+            console.log(`Rename`)
+          }], [`Delete`, () => {
+            delete old[name]
+            window.data.editor.reloadFiles()
+            console.log(`Delete`)
           }]]
         })
       }}
@@ -49,6 +55,7 @@ export const File = ({ file, name, main, deep = 0 }) => {
           return null
         }
         return <File
+          old={file}
           file={value}
           name={key}
           key={key}
