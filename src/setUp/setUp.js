@@ -4,7 +4,7 @@ import { files } from "./files"
 import "./index.css"
 
 export const setUp = () => {
-  if(window.data) {
+  if(window.editor) {
     return
   }
 
@@ -12,11 +12,13 @@ export const setUp = () => {
     e.preventDefault()
   })
 
-  window.data = { config, files, editor }
+  window.config = config
+  window.files =  files
+  window.editor = editor
 
   window.onresize = () => {
-    window.data.editor.width = window.innerWidth
-    window.data.editor.height = window.innerHeight
-    window.data.editor.reload()
+    window.editor.width = window.innerWidth
+    window.editor.height = window.innerHeight
+    window.editor.reload()
   }
 }

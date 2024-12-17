@@ -3,20 +3,50 @@ import { File } from "./File"
 
 export const Files = () => {
   const [state, setState] = useState(0)
+
+  const reloadFiles = () => {
+    setState(state + 1)
+  }
+
   useEffect(() => {
-    window.data.editor.reloadFiles = () => {
-      setState(state + 1)
-    }
+    window.editor.reloadFiles = reloadFiles
   })
 
   return <div
     style={{
-      overflow: "scroll"
+      overflow: `scroll`,
+      userSelect: `none`
     }}
   >
     <File
-      file={window.data.files}
+      file={window.files}
       main={true}
     />
+    <div
+      style={{
+        cursor: `pointer`
+      }}
+      onClick={() => {
+        window.editor.setNameInput([``, (newText) => {
+          if(!window.editor.alphabet.includes(newText[0].toLowerCase())) {
+            return
+          }
+
+          for(let i = 1; i < newText.length; i++) {
+            if(!`${window.editor.alphabet}-_${window.editor.numbers}`.includes(newText[i].toLowerCase())) {
+              return
+            }
+          }
+
+          window.files[newText] = {
+            type: `folder`
+          }
+
+          reloadFiles()
+        }])
+      }}
+    >
+      + Add New Folder
+    </div>
   </div>
 }

@@ -1,35 +1,17 @@
 import { ContextMenu } from "./ContextMenu"
-import { save } from "./save"
+import { EditorOpctions } from "./EditorOpctions"
+import { NameInput } from "./NameInput"
 
 export const UI = () => {
-  const inputStyle = {
-    border: 0,
-    padding: "8px 16px",
-    width: 100,
-    height: 30
-  }
-
   return <div
     style={{
-      position: "absolute"
+      position: `absolute`,
+      left: 0,
+      top: 0
     }}
   >
-    <div
-      style={{
-        position: "absolute",
-        zIndex: 1,
-        display: "flex",
-        flexDirection: "row",
-        left: window.data.editor.width - 100
-      }}
-    >
-      <input
-        type="button"
-        value="Save"
-        style={inputStyle}
-        onClick={save}
-      />
-    </div>
+    <EditorOpctions />
     <ContextMenu />
+    <NameInput />
   </div>
 }

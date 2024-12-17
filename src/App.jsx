@@ -3,7 +3,7 @@ import { Editor } from "./editor/Editor"
 import { LoadData } from "./loadData/LoadData"
 
 export const App = () => {
-  const { editor } = window.data
+  const { editor } = window
 
   const [state, setState] = useState(0)
 
@@ -14,7 +14,7 @@ export const App = () => {
   })
 
   return <>
-    {!editor.setUp ? <LoadData /> : <></>}
+    {!editor.setUp && <LoadData />}
     <Editor />
   </>
 }

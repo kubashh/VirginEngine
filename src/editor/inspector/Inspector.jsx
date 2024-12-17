@@ -1,5 +1,11 @@
+import { useEffect, useState } from "react"
+
 export const Inspector = () => {
-  return <div>
-    jfsdkjfsdhfksdjk
-  </div>
+  const [element, setElement] = useState(<div></div>)
+
+  useEffect(() => {
+    window.editor.setInspector = setElement
+  }, [])
+
+  return element
 }

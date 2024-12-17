@@ -5,7 +5,7 @@ export const ContextMenu = () => {
   const ref = useRef()
 
   useEffect(() => {
-    window.data.setContextMenu = setContextMenu
+    window.editor.setContextMenu = setContextMenu
 
     const handler = ({ target }) => {
       if(ref.current) {
@@ -25,29 +25,33 @@ export const ContextMenu = () => {
   return arr && arr.length ? <div
     ref={ref}
     onClick={() => {
-      window.data.showContextMenu = true
+      window.showContextMenu = true
     }}
     style={{
-      position: "absolute",
+      position: `absolute`,
       zIndex: 1,
       left: x,
       top: y,
       width: 200,
-      backgroundColor: "#333",
-      border: "3px solid #333"
+      backgroundColor: `#333`,
+      border: `3px solid #333`
     }}
   >
-    {arr.map(([text, fn]) => {
+    {arr.map(([text, fn, show = true]) => {
+      if(!show) {
+        return null
+      }
+
       return <div
-      key={text}
+        key={text}
         onClick={() => {
           fn()
           setContextMenu({})
         }}
         style={{
-          cursor: "pointer",
+          cursor: `pointer`,
           "&:hover": {
-            backgroundColor: "#333"
+            backgroundColor: `#333`
           }
         }}
       >

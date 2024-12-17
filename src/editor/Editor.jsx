@@ -5,7 +5,7 @@ import { Inspector } from "./inspector/Inspector"
 import { UI } from "./ui/UI"
 
 export const Editor = () => {
-  const { width, height } = window.data.editor
+  const { width, height } = window.editor
 
   const width0 = 320
   const width1 = width - width0
@@ -19,11 +19,11 @@ export const Editor = () => {
       style={{
         width,
         height,
-        display: "grid",
+        display: `grid`,
         gridTemplateColumns: `${width0}px auto`,
-        gridTemplateRows: "55vh auto",
+        gridTemplateRows: `55vh auto`,
         gap: 1,
-        backgroundColor: "#aaa"
+        backgroundColor: `#aaa`
       }}
     >
       <EditorWindow

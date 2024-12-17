@@ -1,5 +1,5 @@
 export const save = () => {
-  const { config, files } = window.data
+  const { config, files } = window
 
   const toSave = {
     config,

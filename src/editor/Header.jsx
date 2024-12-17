@@ -9,7 +9,7 @@ export const Header = ({ text }) => {
     </div>
     <div
       style={{
-        border: "1px solid #aaa"
+        border: `1px solid #aaa`
       }}
     />
   </div>

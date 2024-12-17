@@ -1,5 +1,7 @@
 export const editor = {
   width: window.innerWidth,
   height: window.innerHeight,
-  selectedField: "none"
+  selectedField: `none`,
+  alphabet: `abcdefghijklmnoprstuwxyz`,
+  numbers: `0123456789`
 }

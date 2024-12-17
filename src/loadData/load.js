@@ -5,7 +5,7 @@ const creanObj = (obj) => {
 }
 
 const setData = (data) => {
-  const { config, editor, files } = window.data
+  const { config, editor, files } = window
 
   // Config
   creanObj(config)
@@ -28,8 +28,8 @@ export const load = () => {
   plikInput.type = `file`
   plikInput.accept = `.deathengine`
 
-  plikInput.addEventListener("change", function() {
-    const file = this.files[0]
+  plikInput.addEventListener(`change`, function() {
+    const [file] = this.files
     const reader = new FileReader()
 
     reader.onload = ({ target }) => {
