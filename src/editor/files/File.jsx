@@ -1,7 +1,11 @@
 import { useState } from "react"
+import { useHover } from "../../lib/useHover"
 
 export const File = ({ old, file, name, main, deep = 0 }) => {
   const [open, setOpen] = useState(main && true)
+  const hover = useHover({
+    color: `#555`
+  })
 
   const isFolder = file.type === `folder`
 
@@ -15,7 +19,6 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
       <div>{`Type: ${file.type}`}</div>
       <div>{`Name: ${name}`}</div>
     </div>)
-    isFolder && setOpen(!open)
   }
 
   const onContextMenu = ({ pageX, pageY }) => {
@@ -77,6 +80,7 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
 
   const onMouseDown = () => {
     window.editor.dragData = {
+      from: `files`,
       old,
       file,
       name
@@ -86,7 +90,7 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
   const onMouseUp = () => {
     const { dragData } = window.editor
 
-    if(main || !isFolder || dragData.name === name || file[dragData.name]) {
+    if(dragData.from !== `files` || !isFolder || dragData.name === name || file[dragData.name]) {
       return
     }
 
@@ -104,7 +108,6 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
         display: `flex`,
         flexDirection: `row`
       }}
-      onClick={onClick}
       onContextMenu={onContextMenu}
       onMouseDown={onMouseDown}
       onMouseUp={onMouseUp}
@@ -119,13 +122,19 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
           transform: `rotate(${open ? 90 : 0}deg)`,
           transition: `transform 150ms`
         }}
+        onClick={() => {
+          isFolder && setOpen(!open)
+        }}
       >
         {`>`}
       </div>}
       <div
+      {...hover}
         style={{
-          marginLeft: file.type !== `folder` && 24
+          marginLeft: file.type !== `folder` && 24,
+          ...hover.style
         }}
+        onClick={onClick}
       >{name}</div>
     </div>}
     {isFolder && open && <>

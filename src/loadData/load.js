@@ -1,4 +1,4 @@
-const creanObj = (obj) => {
+const cleanObj = (obj) => {
   for(const key in obj) {
     delete obj[key]
   }
@@ -8,13 +8,13 @@ const setData = (data) => {
   const { config, editor, files } = window
 
   // Config
-  creanObj(config)
+  cleanObj(config)
   for(const key in data.config) {
     config[key] = data.config[key]
   }
 
   // Files
-  creanObj(files)
+  cleanObj(files)
   for(const key in data.files) {
     files[key] = data.files[key]
   }
@@ -28,8 +28,8 @@ export const load = () => {
   plikInput.type = `file`
   plikInput.accept = `.deathengine`
 
-  plikInput.addEventListener(`change`, function() {
-    const [file] = this.files
+  plikInput.addEventListener(`change`, ({ target }) => {
+    const [file] = target.files
     const reader = new FileReader()
 
     reader.onload = ({ target }) => {

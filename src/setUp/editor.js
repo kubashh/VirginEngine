@@ -3,5 +3,6 @@ export const editor = {
   height: window.innerHeight,
   selectedField: `none`,
   alphabet: `abcdefghijklmnoprstuwxyz`,
-  numbers: `0123456789`
+  numbers: `0123456789`,
+  seletedScene: `scene1`
 }

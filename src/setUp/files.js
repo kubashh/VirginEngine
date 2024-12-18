@@ -3,7 +3,31 @@ export const files = {
   scenes: {
     type: "folder",
     scene1: {
-      type: "scene"
+      type: "scene",
+      childs: [
+        {
+          type: "gameObject",
+          name: "obj1"
+        },
+        {
+          type: "gameObject",
+          name: "obj2",
+          childs: [
+            {
+              type: "gameObject",
+              name: "obj4"
+            }
+          ]
+        },
+        {
+          type: "gameObject",
+          name: "obj3"
+        },
+        {
+          type: "gameObject",
+          name: "obj4"
+        }
+      ]
     }
   },
   engineAssets: {

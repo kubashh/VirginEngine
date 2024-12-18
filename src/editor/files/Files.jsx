@@ -12,6 +12,26 @@ export const Files = () => {
     window.editor.reloadFiles = reloadFiles
   })
 
+  const onClick = () => {
+    window.editor.setNameInput([``, (newText) => {
+      if(!window.editor.alphabet.includes(newText[0].toLowerCase())) {
+        return
+      }
+
+      for(let i = 1; i < newText.length; i++) {
+        if(!`${window.editor.alphabet}-_${window.editor.numbers}`.includes(newText[i].toLowerCase())) {
+          return
+        }
+      }
+
+      window.files[newText] = {
+        type: `folder`
+      }
+
+      reloadFiles()
+    }])
+  }
+
   return <div
     style={{
       overflow: `scroll`,
@@ -26,25 +46,7 @@ export const Files = () => {
       style={{
         cursor: `pointer`
       }}
-      onClick={() => {
-        window.editor.setNameInput([``, (newText) => {
-          if(!window.editor.alphabet.includes(newText[0].toLowerCase())) {
-            return
-          }
-
-          for(let i = 1; i < newText.length; i++) {
-            if(!`${window.editor.alphabet}-_${window.editor.numbers}`.includes(newText[i].toLowerCase())) {
-              return
-            }
-          }
-
-          window.files[newText] = {
-            type: `folder`
-          }
-
-          reloadFiles()
-        }])
-      }}
+      onClick={onClick}
     >
       + Add New Folder
     </div>
