@@ -12,6 +12,20 @@ export const Hierarchy = () => {
     window.editor.reloadHierarchy = reloadHierarchy
   })
 
+  const onClick = () => {
+    window.editor.setNameInput([``, (newText) => {
+      if(!newText) {
+        return
+      }
+
+      window.files.scenes[window.editor.seletedScene][newText] = {
+        type: `gameObject`
+      }
+
+      window.editor.reloadHierarchy()
+    }])
+  }
+
   return <div
     style={{
       overflow: `scroll`,
@@ -26,6 +40,7 @@ export const Hierarchy = () => {
       style={{
         cursor: `pointer`
       }}
+      onClick={onClick}
     >
       + Add New GameObject
     </div>

@@ -1,79 +1,79 @@
 export const files = {
-  type: "folder",
+  type: `folder`,
   scenes: {
-    type: "folder",
+    type: `folder`,
     scene1: {
-      type: "scene",
-      childs: [
-        {
-          type: "gameObject",
-          name: "obj1"
+      type: `scene`,
+      obj1: {
+        type: `gameObject`
+      },
+      obj2: {
+        type: `gameObject`,
+        obj4: {
+          type: `gameObject`
         },
-        {
-          type: "gameObject",
-          name: "obj2",
-          childs: [
-            {
-              type: "gameObject",
-              name: "obj4"
-            }
-          ]
-        },
-        {
-          type: "gameObject",
-          name: "obj3"
-        },
-        {
-          type: "gameObject",
-          name: "obj4"
+        obj10: {
+          type: `gameObject`
         }
-      ]
+      },
+      obj3: {
+        type: `gameObject`
+      },
+      obj4: {
+        type: `gameObject`
+      },
+      obj5: {
+        type: `gameObject`,
+        obj4: {
+          type: `gameObject`
+        }
+      },
     }
   },
   engineAssets: {
-    type: "folder",
+    type: `folder`,
     tempImage: {
-      type: "image",
+      type: `image`,
       value: {
-        src: "data:image/png;base64",
+        src: `data:image/png;base64`,
         width: 1,
         height: 1
       },
     }
   },
   folder1: {
-    type: "folder",
+    type: `folder`,
     object2: {
-      type: "text",
-      value: "str 2"
+      type: `text`,
+      value: `str 2`
     },
     obj3: {
-      type: "folder",
+      type: `folder`,
       obj4: {
-        type: "text",
-        value: "str 3"
+        type: `text`,
+        value: `str 3`
       },
       obj5: {
-        type: "text",
-        value: "str 4"
+        type: `text`,
+        value: `str 4`
       }
     }
   },
   folder2: {
-    type: "folder",
+    type: `folder`,
     object2: {
-      type: "text",
-      value: "str 5"
+      type: `text`,
+      value: `str 5`
     },
     obj2: {
-      type: "folder",
+      type: `folder`,
       obj4: {
-        type: "text",
-        value: "str 5"
+        type: `text`,
+        value: `str 5`
       },
       obj5: {
-        type: "text",
-        value: "str 8"
+        type: `text`,
+        value: `str 8`
       }
     }
   }

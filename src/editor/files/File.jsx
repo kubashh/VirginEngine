@@ -39,7 +39,8 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
 
           window.editor.reloadFiles()
         }])
-      }, isFolder], [`New folder`, () => {
+      }, isFolder],
+      [`New folder`, () => {
         window.editor.setNameInput([``, (newText) => {
           if(!window.editor.alphabet.includes(newText[0].toLowerCase())) {
             return
@@ -57,7 +58,8 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
 
           window.editor.reloadFiles()
         }])
-      }, isFolder], [`Rename`, () => {
+      }, isFolder],
+      [`Rename`, () => {
         window.editor.setNameInput([name, (newText) => {
           if(name === newText) {
             return
@@ -71,11 +73,12 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
             window.editor.reloadFiles()
           }
         }])
-      }], [`Delete`, () => {
+      }],
+      [`Delete`, () => {
         delete old[name]
         window.editor.reloadFiles()
-      }]]
-    })
+      }]
+    ]})
   }
 
   const onMouseDown = () => {

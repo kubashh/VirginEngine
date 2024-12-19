@@ -22,11 +22,8 @@ export const ContextMenu = () => {
     }
   }, [])
 
-  return arr && arr.length ? <div
+  return arr?.length ? <div
     ref={ref}
-    onClick={() => {
-      window.showContextMenu = true
-    }}
     style={{
       position: `absolute`,
       zIndex: 1,

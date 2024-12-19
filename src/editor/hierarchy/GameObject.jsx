@@ -1,15 +1,15 @@
 import { useState } from "react"
 import { useHover } from "../../lib/useHover"
 
-export const GameObject = ({ old, object, main, deep = 0 }) => {
+export const GameObject = ({ old, name, object, main, deep = 0 }) => {
   const [open, setOpen] = useState(main && true)
   const hover = useHover({
     color: `#555`
   })
 
-  const { name, childs } = object
+  const { type, ...childs } = object
 
-  const haveChilds = childs && childs.length > 0
+  const haveChilds = Object.keys(childs)?.length > 0
 
   const onClick = () => {
     window.editor.setInspector(<div
@@ -22,8 +22,43 @@ export const GameObject = ({ old, object, main, deep = 0 }) => {
     </div>)
   }
 
-  const onContextMenu = () => {
+  const onContextMenu = ({ pageX, pageY }) => {
+    window.editor.setContextMenu({
+      x: pageX,
+      y: pageY,
+      arr: [[`New Objext`, () => {
+        window.editor.setNameInput([``, (newText) => {
+          if(Object.keys(object).includes(newText)) {
+            return
+          }
 
+          object[newText] = {
+            type: `gameObject`
+          }
+
+          window.editor.reloadHierarchy()
+        }])
+      }],
+      [`Rename`, () => {
+        window.editor.setNameInput([name, (newText) => {
+          if(name === newText) {
+            return
+          }
+
+          if(old[newText]) {
+            console.error(`Error`)
+          } else {
+            delete old[name]
+            old[newText] = object
+            window.editor.reloadHierarchy()
+          }
+        }])
+      }],
+      [`Delete`, () => {
+        delete old[name]
+        window.editor.reloadHierarchy()
+      }]
+    ]})
   }
 
   const onMouseDown = () => {
@@ -38,32 +73,21 @@ export const GameObject = ({ old, object, main, deep = 0 }) => {
   const onMouseUp = () => {
     const { dragData } = window.editor
 
-    if(!dragData || dragData.from !== `hierarchy` || dragData.name === name) {
+    if(!dragData || dragData.name === name || dragData.file.type !== `gameObject`) {
       return
     }
 
-    if(!childs) {
-      object.childs = []
-    } else {
-      let condition = false
-  
-      for(const child of object.childs) {
-        if(child.name === dragData.name) {
-          condition = true
-          break
-        }
-      }
-  
-      if(condition) {
+    for(const key in childs) {
+      if(key === dragData.name) {
         return
       }
     }
 
-    object.childs.push(dragData.file)
-    dragData.old.childs.splice(dragData.old.childs.indexOf(dragData.file), 1)
-    if(dragData.old.childs.length === 0) {
-      delete dragData.old.childs
+    object[dragData.name] = dragData.file
+    if(dragData.from === `hierarchy`) {
+      delete dragData.old[dragData.name]
     }
+
     window.editor.dragData = {}
     window.editor.reloadHierarchy()
   }
@@ -73,10 +97,7 @@ export const GameObject = ({ old, object, main, deep = 0 }) => {
       style={{
         marginLeft: deep * 10,
         display: `flex`,
-        flexDirection: `row`,
-        "&:hover": {
-          color: `blue`
-        },
+        flexDirection: `row`
       }}
     >
       {haveChilds && <div
@@ -100,9 +121,6 @@ export const GameObject = ({ old, object, main, deep = 0 }) => {
         {...hover}
         style={{
           cursor: `pointer`,
-          hover: {
-            color: `blue`
-          },
           marginLeft: !haveChilds && 24,
           ...hover.style
         }}
@@ -113,11 +131,12 @@ export const GameObject = ({ old, object, main, deep = 0 }) => {
       >{name}</div>
     </div>}
     {haveChilds && open && <>
-      {childs.map((newObject) => {
+      {Object.entries(childs).map(([key, value]) => {
         return <GameObject
           old={object}
-          object={newObject}
-          key={newObject.name}
+          object={value}
+          key={key}
+          name={key}
           deep={deep + 1}
         />
       })}
