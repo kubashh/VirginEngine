@@ -35,18 +35,19 @@ export const ContextMenu = () => {
     }}
   >
     {arr.map(([text, fn, show = true]) => {
-      if(!show) {
-        return null
-      }
-
       return <div
         key={text}
         onClick={() => {
+          if(!show) {
+            return
+          }
+
           fn()
           setContextMenu({})
         }}
         style={{
           cursor: `pointer`,
+          color: !show && `gray`,
           "&:hover": {
             backgroundColor: `#333`
           }

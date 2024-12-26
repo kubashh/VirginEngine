@@ -7,8 +7,8 @@ const setData = (data) => {
   }
 
   // Files
-  for(const key in data.files) {
-    files[key] = data.files[key]
+  for(const key in data) {
+    files[key] = data[key]
   }
 
   editor.setUp = true
@@ -25,9 +25,9 @@ export const load = () => {
     const reader = new FileReader()
 
     reader.onload = ({ target }) => {
-      const jsonFile = target.result
+      const { result } = target
 
-      const data = JSON.parse(jsonFile)
+      const data = JSON.parse(result)
       console.log(data)
 
       setData(data)

@@ -12,20 +12,6 @@ export const Files = () => {
     window.editor.reloadFiles = reloadFiles
   })
 
-  const onClick = () => {
-    window.editor.setNameInput([``, (newText) => {
-      if(!window.editor.isValidName(newText)) {
-        return
-      }
-
-      window.files[newText] = {
-        type: `folder`
-      }
-
-      reloadFiles()
-    }])
-  }
-
   return <div
     style={{
       overflow: `scroll`,
@@ -35,14 +21,7 @@ export const Files = () => {
     <File
       file={window.files}
       main={true}
+      name="files"
     />
-    <div
-      style={{
-        cursor: `pointer`
-      }}
-      onClick={onClick}
-    >
-      + Add New Folder
-    </div>
   </div>
 }

@@ -70,11 +70,11 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
             window.editor.reloadFiles()
           }
         }])
-      }],
+      }, name !== `files`],
       [`Delete`, () => {
         delete old[name]
         window.editor.reloadFiles()
-      }]
+      }, name !== `files`]
     ]})
   }
 
@@ -101,7 +101,7 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
   }
 
   return <>
-    {!main && <div
+    {<div
       style={{
         cursor: `pointer`,
         marginLeft: deep * 10,
@@ -139,6 +139,10 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
     </div>}
     {isFolder && open && file.type !== `scene` && <>
       {Object.entries(file).filter(([key]) => key !== `type`).map(([key, value]) => {
+        if(value.type === `config`) {
+          return null
+        }
+
         return <File
           old={file}
           file={value}

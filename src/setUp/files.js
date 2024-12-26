@@ -1,5 +1,6 @@
 import { config } from "./config"
 import { defaultScene } from "./defaulfScene"
+import { assets } from "./assets"
 
 export const files = {
   type: `folder`,
@@ -7,17 +8,7 @@ export const files = {
     type: `folder`,
     defaultScene
   },
-  engineAssets: {
-    type: `folder`,
-    tempImage: {
-      type: `image`,
-      value: {
-        src: `data:image/png;base64`,
-        width: 1,
-        height: 1
-      },
-    }
-  },
+  assets,
   folder1: {
     type: `folder`,
     object2: {
