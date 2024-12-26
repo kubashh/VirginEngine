@@ -1,4 +1,3 @@
-import { config } from "./config"
 import { editor } from "./editor"
 import { files } from "./files"
 import "./index.css"
@@ -12,7 +11,6 @@ export const setUp = () => {
     e.preventDefault()
   })
 
-  window.config = config
   window.files =  files
   window.editor = editor
 

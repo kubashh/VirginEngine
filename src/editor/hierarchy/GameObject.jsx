@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { useHover } from "../../lib/useHover"
+import { Components } from "./components/Components"
 
 export const GameObject = ({ old, name, object, main, deep = 0 }) => {
   const [open, setOpen] = useState(main && true)
@@ -7,22 +8,33 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
     color: `#555`
   })
 
-  const { type, ...childs } = object
+  const childs = {}
+
+  for(const key in object) {
+    if(!window.editor.keywords.includes(key)) {
+      childs[key] = object[key]
+    }
+  }
 
   const haveChilds = Object.keys(childs)?.length > 0
 
   const onClick = () => {
-    window.editor.setInspector(<div
-      style={{
-        margin: 12
-      }}
-    >
-      <h2>GameObject</h2>
-      <div>{`Name: ${name}`}</div>
-    </div>)
+    if(main) {
+      return
+    }
+
+    window.editor.setInspector(<Components
+      old={old}
+      object={object}
+      name={name}
+    />)
   }
 
   const onContextMenu = ({ pageX, pageY }) => {
+    if(main) {
+      return
+    }
+
     window.editor.setContextMenu({
       x: pageX,
       y: pageY,
@@ -36,6 +48,7 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
             type: `gameObject`
           }
 
+          setOpen(true)
           window.editor.reloadHierarchy()
         }])
       }],
@@ -62,6 +75,10 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
   }
 
   const onMouseDown = () => {
+    if(main) {
+      return
+    }
+
     window.editor.dragData = {
       from: `hierarchy`,
       old,
@@ -93,7 +110,7 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
   }
 
   return <>
-    {!main && <div
+    {<div
       style={{
         marginLeft: deep * 10,
         display: `flex`,
@@ -112,7 +129,7 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
           transition: `transform 150ms`
         }}
         onClick={() => {
-          haveChilds && setOpen(!open)
+          !main && haveChilds && setOpen(!open)
         }}
       >
         {`>`}

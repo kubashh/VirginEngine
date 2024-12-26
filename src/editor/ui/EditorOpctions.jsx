@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { save } from "./save"
 import { build } from "../../build/build"
+import { Config } from "./Config"
 
 const CustomInput = ({ text, onClick }) => {
   return <input
@@ -67,6 +68,12 @@ export const EditorOpctions = () => {
         onClick={() => {
           window.editor.setUp = false
           window.editor.reload()
+        }}
+      />
+      <CustomInput
+        text="Config"
+        onClick={() => {
+          window.editor.setInspector(<Config />)
         }}
       />
     </div>}

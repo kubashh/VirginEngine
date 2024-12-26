@@ -22,6 +22,20 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
   }
 
   const onContextMenu = ({ pageX, pageY }) => {
+    const newAtType = (type) => {
+      window.editor.setNameInput([``, (newText) => {
+        if(!window.editor.isValidName(newText)) {
+          return
+        }
+
+        file[newText] = {
+          type
+        }
+
+        window.editor.reloadFiles()
+      }])
+    }
+
     window.editor.setContextMenu({
       x: pageX,
       y: pageY,
@@ -40,25 +54,8 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
           window.editor.reloadFiles()
         }])
       }, isFolder],
-      [`New folder`, () => {
-        window.editor.setNameInput([``, (newText) => {
-          if(!window.editor.alphabet.includes(newText[0].toLowerCase())) {
-            return
-          }
-
-          for(let i = 1; i < newText.length; i++) {
-            if(!`${window.editor.alphabet}-_${window.editor.numbers}`.includes(newText[i].toLowerCase())) {
-              return
-            }
-          }
-
-          file[newText] = {
-            type: `folder`
-          }
-
-          window.editor.reloadFiles()
-        }])
-      }, isFolder],
+      [`New folder`, () => { newAtType(`folder`) }, isFolder],
+      [`New scene`, () => { newAtType(`scene`) }, isFolder],
       [`Rename`, () => {
         window.editor.setNameInput([name, (newText) => {
           if(name === newText) {
@@ -140,7 +137,7 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
         onClick={onClick}
       >{name}</div>
     </div>}
-    {isFolder && open && <>
+    {isFolder && open && file.type !== `scene` && <>
       {Object.entries(file).filter(([key]) => key !== `type`).map(([key, value]) => {
         return <File
           old={file}

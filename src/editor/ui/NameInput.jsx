@@ -44,10 +44,19 @@ export const NameInput = () => {
       }}
       value={text}
       onChange={({ target }) => {
-        setNameInput([
-          target.value,
-          cb
-        ])
+        let { value } = target
+
+        if(`${window.editor.numbers}-`.includes(value[0])) {
+          return
+        }
+
+        for(let i = 0; i < value.length; i++) {
+          if(!window.editor.allowedNameChars.includes(value[i].toLowerCase())) {
+            return
+          }
+        }
+
+        setNameInput([value, cb])
       }}
       onKeyDown={({ key }) => {
         if(key === `Enter`) {

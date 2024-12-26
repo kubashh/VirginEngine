@@ -1,20 +1,12 @@
-const cleanObj = (obj) => {
-  for(const key in obj) {
-    delete obj[key]
-  }
-}
-
 const setData = (data) => {
-  const { config, editor, files } = window
+  const { editor, files } = window
 
-  // Config
-  cleanObj(config)
-  for(const key in data.config) {
-    config[key] = data.config[key]
+  // Clean Object
+  for(const key in files) {
+    delete files[key]
   }
 
   // Files
-  cleanObj(files)
   for(const key in data.files) {
     files[key] = data.files[key]
   }

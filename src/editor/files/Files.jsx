@@ -14,14 +14,8 @@ export const Files = () => {
 
   const onClick = () => {
     window.editor.setNameInput([``, (newText) => {
-      if(!window.editor.alphabet.includes(newText[0].toLowerCase())) {
+      if(!window.editor.isValidName(newText)) {
         return
-      }
-
-      for(let i = 1; i < newText.length; i++) {
-        if(!`${window.editor.alphabet}-_${window.editor.numbers}`.includes(newText[i].toLowerCase())) {
-          return
-        }
       }
 
       window.files[newText] = {

@@ -19,7 +19,7 @@ export const Hierarchy = () => {
       }
 
       window.files.scenes[window.editor.seletedScene][newText] = {
-        type: `gameObject`
+        ...window.editor.defaultGameObject
       }
 
       window.editor.reloadHierarchy()
@@ -35,6 +35,7 @@ export const Hierarchy = () => {
     <GameObject
       object={window.files.scenes[window.editor.seletedScene]}
       main={true}
+      name={window.editor.seletedScene}
     />
     <div
       style={{

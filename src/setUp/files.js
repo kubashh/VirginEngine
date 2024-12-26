@@ -1,34 +1,11 @@
+import { config } from "./config"
+import { defaultScene } from "./defaulfScene"
+
 export const files = {
   type: `folder`,
   scenes: {
     type: `folder`,
-    scene1: {
-      type: `scene`,
-      obj1: {
-        type: `gameObject`
-      },
-      obj2: {
-        type: `gameObject`,
-        obj4: {
-          type: `gameObject`
-        },
-        obj10: {
-          type: `gameObject`
-        }
-      },
-      obj3: {
-        type: `gameObject`
-      },
-      obj4: {
-        type: `gameObject`
-      },
-      obj5: {
-        type: `gameObject`,
-        obj4: {
-          type: `gameObject`
-        }
-      },
-    }
+    defaultScene
   },
   engineAssets: {
     type: `folder`,
@@ -76,5 +53,6 @@ export const files = {
         value: `str 8`
       }
     }
-  }
+  },
+  config
 }
