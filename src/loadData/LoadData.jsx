@@ -27,33 +27,31 @@ export const LoadData = () => {
     editor.reload()
   }
 
-  return (
+  return <div
+    style={{
+      position: `absolute`,
+      width: `100vw`,
+      height: `100vh`,
+      backgroundColor: `rgba(0, 0, 0, 0.5)`,
+      zIndex: 3
+    }}
+  >
     <div
       style={{
-        position: `absolute`,
-        width: `100vw`,
-        height: `100vh`,
-        backgroundColor: `rgba(0, 0, 0, 0.5)`,
-        zIndex: 3
+        marginTop: `35vh`
       }}
-    >
-      <div
-        style={{
-          marginTop: `35vh`
-        }}
-      />
-      <input
-        style={inputStyle}
-        type="button"
-        value="Load Project"
-        onClick={load}
-      />
-      <input
-        style={inputStyle}
-        type="button"
-        value="New project"
-        onClick={newProject}
-      />
-    </div>
-  )
+    />
+    <input
+      style={inputStyle}
+      type="button"
+      value="Load Project"
+      onClick={load}
+    />
+    <input
+      style={inputStyle}
+      type="button"
+      value="New project"
+      onClick={newProject}
+    />
+  </div>
 }

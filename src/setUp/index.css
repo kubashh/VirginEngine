@@ -11,4 +11,8 @@ body {
 
 input {
   cursor: pointer;
+  background-color: #222;
+  border: 2px solid black;
+  padding: 0px 0px 0px 1px;
+  font-size: 16;
 }

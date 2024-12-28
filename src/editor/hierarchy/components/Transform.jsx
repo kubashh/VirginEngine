@@ -1,41 +1,48 @@
-import { NumberInput } from "./NumberInput"
+import { InspectorSection } from "../../inspector/InspectorSection"
 
-export const Transform = ({ old, object, name }) => {
+export const Transform = ({ object }) => {
+  const { position, rotation, scale } = object.transform
+
   return <div>
-    Transform
-    <div>
-      Position
-      <NumberInput
-        text="x"
-        parent={object.transform.position}
-        access={`x`}
-      />
-      <NumberInput
-        text="y"
-        parent={object.transform.position}
-        access={`y`}
-      />
-    </div>
-    <div>
-      Rotation
-      <NumberInput
-        text="z"
-        parent={object.transform.rotation}
-        access={`z`}
-      />
-    </div>
-    <div>
-      Scale
-      <NumberInput
-        text="x"
-        parent={object.transform.scale}
-        access={`x`}
-      />
-      <NumberInput
-        text="y"
-        parent={object.transform.scale}
-        access={`y`}
-      />
-    </div>
+    <InspectorSection
+      text="Position"
+      childs={[
+        {
+          text: `x`,
+          parent: position,
+          access: `x`
+        },
+        {
+          text: `y`,
+          parent: position,
+          access: `y`
+        }
+      ]}
+    />
+    <InspectorSection
+      text="Rotation"
+      childs={[
+        {
+          text: `z`,
+          parent: rotation,
+          access: `z`
+        }
+      ]}
+    />
+    <InspectorSection
+      text="Scale"
+      childs={[
+        {
+          text: `x`,
+          parent: scale,
+          access: `x`
+        },
+        {
+          text: `y`,
+          parent: scale,
+          access: `y`
+        }
+      ]}
+    />
   </div>
 }

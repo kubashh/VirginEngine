@@ -1,6 +1,6 @@
-import { jsCode } from "./jsCode"
+import { jsCode } from "../js/jsCode"
 import { optymalizeHtml } from "./optymalizeHtml"
-import { optymalizeJs } from "./optymalizeJs"
+import { optymalizeJs } from "../js/optymalizeJs"
 
 export const htmlCode = () => {
   const { author, description, gameName, screenWidth, screenHeight } = window.files.config

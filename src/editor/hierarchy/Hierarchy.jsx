@@ -4,27 +4,11 @@ import { GameObject } from "./GameObject"
 export const Hierarchy = () => {
   const [state, setState] = useState(0)
 
-  const reloadHierarchy = () => {
-    setState(state + 1)
-  }
-
   useEffect(() => {
-    window.editor.reloadHierarchy = reloadHierarchy
+    window.editor.reloadHierarchy = () => {
+      setState(state + 1)
+    }
   })
-
-  const onClick = () => {
-    window.editor.setNameInput([``, (newText) => {
-      if(!newText) {
-        return
-      }
-
-      window.files.scenes[window.editor.seletedScene][newText] = {
-        ...window.editor.defaultGameObject
-      }
-
-      window.editor.reloadHierarchy()
-    }])
-  }
 
   return <div
     style={{
@@ -33,17 +17,9 @@ export const Hierarchy = () => {
     }}
   >
     <GameObject
-      object={window.files.scenes[window.editor.seletedScene]}
-      main={true}
-      name={window.editor.seletedScene}
+      object={window.files.Scenes[window.editor.selectedScene]}
+      name={window.editor.selectedScene}
+      main
     />
-    <div
-      style={{
-        cursor: `pointer`
-      }}
-      onClick={onClick}
-    >
-      + Add New GameObject
-    </div>
   </div>
 }

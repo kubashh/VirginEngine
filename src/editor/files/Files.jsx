@@ -4,12 +4,10 @@ import { File } from "./File"
 export const Files = () => {
   const [state, setState] = useState(0)
 
-  const reloadFiles = () => {
-    setState(state + 1)
-  }
-
   useEffect(() => {
-    window.editor.reloadFiles = reloadFiles
+    window.editor.reloadFiles = () => {
+      setState(state + 1)
+    }
   })
 
   return <div
@@ -20,8 +18,8 @@ export const Files = () => {
   >
     <File
       file={window.files}
-      main={true}
       name="files"
+      main
     />
   </div>
 }

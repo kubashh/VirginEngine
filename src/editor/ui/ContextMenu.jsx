@@ -34,27 +34,21 @@ export const ContextMenu = () => {
       border: `3px solid #333`
     }}
   >
-    {arr.map(([text, fn, show = true]) => {
-      return <div
-        key={text}
-        onClick={() => {
-          if(!show) {
-            return
-          }
-
-          fn()
-          setContextMenu({})
-        }}
-        style={{
-          cursor: `pointer`,
-          color: !show && `gray`,
-          "&:hover": {
-            backgroundColor: `#333`
-          }
-        }}
-      >
-        {text}
-      </div>
-    })}
-  </div> : <div></div>
+    {arr.filter(([, , show = true]) => show).map(([text, fn, show = true]) => <div
+      key={text}
+      onClick={() => {
+        fn()
+        setContextMenu({})
+      }}
+      style={{
+        cursor: `pointer`,
+        color: !show && `gray`,
+        "&:hover": {
+          backgroundColor: `#333`
+        }
+      }}
+    >
+      {text}
+    </div>)}
+  </div> : <div />
 }

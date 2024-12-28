@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react"
+import { isValidName } from "../../lib/isValidName"
 
 export const NameInput = () => {
   const [[text, cb], setNameInput] = useState([])
@@ -30,39 +31,31 @@ export const NameInput = () => {
     }
   })
 
-  return <div>
-    {cb && <input
-      type="text"
-      ref={ref}
-      autoFocus
-      style={{
-        position: `absolute`,
-        left: `50vw`,
-        top: `50vh`,
-        transform: `translate(-50%, -50%)`,
-        fontSize: 40
-      }}
-      value={text}
-      onChange={({ target }) => {
-        let { value } = target
+  return cb ? <input
+    type="text"
+    ref={ref}
+    autoFocus
+    style={{
+      position: `absolute`,
+      left: `50vw`,
+      top: `50vh`,
+      transform: `translate(-50%, -50%)`,
+      fontSize: 40
+    }}
+    value={text}
+    onChange={({ target }) => {
+      const { value } = target
 
-        if(`${window.editor.numbers}-`.includes(value[0])) {
-          return
-        }
+      if(!isValidName(value)) {
+        return
+      }
 
-        for(let i = 0; i < value.length; i++) {
-          if(!window.editor.allowedNameChars.includes(value[i].toLowerCase())) {
-            return
-          }
-        }
-
-        setNameInput([value, cb])
-      }}
-      onKeyDown={({ key }) => {
-        if(key === `Enter`) {
-          ret()
-        }
-      }}
-    />}
-  </div>
+      setNameInput([value, cb])
+    }}
+    onKeyDown={({ key }) => {
+      if(key === `Enter`) {
+        ret()
+      }
+    }}
+  /> : <div />
 }

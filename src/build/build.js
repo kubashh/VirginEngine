@@ -1,4 +1,4 @@
-import { htmlCode } from "./htmlCode"
+import { htmlCode } from "./html/htmlCode"
 
 export const build = () => {
   console.log(`Build`)

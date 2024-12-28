@@ -1,45 +1,45 @@
 import { config } from "./config"
-import { defaultScene } from "./defaulfScene"
-import { assets } from "./assets"
+import { DefaultScene } from "./DefaulfScene"
+import { Assets } from "./Assets"
 
 export const files = {
   type: `folder`,
-  scenes: {
+  Scenes: {
     type: `folder`,
-    defaultScene
+    DefaultScene
   },
-  assets,
-  folder1: {
+  Assets,
+  Folder1: {
     type: `folder`,
-    object2: {
+    Obj1: {
       type: `text`,
       value: `str 2`
     },
-    obj3: {
+    Obj2: {
       type: `folder`,
-      obj4: {
+      Obj3: {
         type: `text`,
         value: `str 3`
       },
-      obj5: {
+      Obj4: {
         type: `text`,
         value: `str 4`
       }
     }
   },
-  folder2: {
+  Folder2: {
     type: `folder`,
-    object2: {
+    Obj5: {
       type: `text`,
       value: `str 5`
     },
-    obj2: {
+    Obj6: {
       type: `folder`,
-      obj4: {
+      Obj7: {
         type: `text`,
         value: `str 5`
       },
-      obj5: {
+      Obj8: {
         type: `text`,
         value: `str 8`
       }

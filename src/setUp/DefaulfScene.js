@@ -1,4 +1,4 @@
-const DGO = () => {
+export const DGO = () => {
   return {
     type: `gameObject`,
     transform: {
@@ -17,7 +17,7 @@ const DGO = () => {
   }
 }
 
-export const defaultScene = {
+export const DefaultScene = {
   type: `scene`,
   Camera: {
     ...DGO(),
@@ -26,27 +26,27 @@ export const defaultScene = {
       height: 300
     }
   },
-  obj1: {
+  Obj1: {
     ...DGO()
   },
-  obj2: {
+  Obj2: {
     ...DGO(),
-    obj3: {
+    Obj3: {
       ...DGO()
     },
-    obj4: {
+    Obj4: {
       ...DGO()
     }
   },
-  obj5: {
+  Obj5: {
     ...DGO()
   },
-  obj6: {
+  Obj6: {
     ...DGO()
   },
-  obj7: {
+  Obj7: {
     ...DGO(),
-    obj8: {
+    Obj8: {
       ...DGO()
     }
   },

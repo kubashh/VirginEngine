@@ -24,12 +24,8 @@ export const EditorOpctions = () => {
       zIndex: 1,
       right: 0
     }}
-    onMouseEnter={() => {
-      setShow(true)
-    }}
-    onMouseLeave={() => {
-      setShow(false)
-    }}
+    onMouseEnter={() => { setShow(true) }}
+    onMouseLeave={() => { setShow(false) }}
   >
     <div
       style={{

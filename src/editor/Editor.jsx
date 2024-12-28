@@ -2,13 +2,15 @@ import { EditorWindow } from "./EditorWindow"
 import { Files } from "./files/Files"
 import { Hierarchy } from "./hierarchy/Hierarchy"
 import { Inspector } from "./inspector/Inspector"
+import { Scene } from "./scene/Scene"
 import { UI } from "./ui/UI"
 
 export const Editor = () => {
   const { width, height } = window.editor
 
-  const width0 = 320
-  const width1 = width - width0
+  const width1 = Math.floor(width * 0.15 + 50)
+  const width2 = Math.floor(width * 0.20 + 50)
+  const width0 = width - width1 - width2
 
   const height0 = Math.floor(height * 0.55)
   const height1 = height - height0
@@ -17,23 +19,38 @@ export const Editor = () => {
     <UI />
     <div
       style={{
-        width,
-        height,
         display: `grid`,
-        gridTemplateColumns: `${width0}px auto`,
+        gridTemplateColumns: `${width0}px ${width1}px auto`,
         gridTemplateRows: `55vh auto`,
         gap: 1,
-        backgroundColor: `#aaa`
+        backgroundColor: `#aaa`,
+        width,
+        height
       }}
     >
       <EditorWindow
-        text="Hierarchy"
+        text="Scene"
         position={{
+          b: 2,
           x: 1,
           y: 1
         }}
         style={{
           width: width0,
+          height
+        }}
+        content={<Scene
+          width={width0}
+        />}
+      />
+      <EditorWindow
+        text="Hierarchy"
+        position={{
+          x: 2,
+          y: 1
+        }}
+        style={{
+          width: width1,
           height: height0
         }}
         content={<Hierarchy />}
@@ -42,11 +59,11 @@ export const Editor = () => {
         text="Inspector"
         position={{
           b: 2,
-          x: 2,
+          x: 3,
           y: 1
         }}
         style={{
-          width: width1,
+          width: width2,
           height
         }}
         content={<Inspector />}
@@ -54,11 +71,11 @@ export const Editor = () => {
       <EditorWindow
         text="Files"
         position={{
-          x: 1,
+          x: 2,
           y: 2
         }}
         style={{
-          width: width0,
+          width: width1,
           height: height1
         }}
         content={<Files />}

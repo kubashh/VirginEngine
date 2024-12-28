@@ -5,7 +5,7 @@ export const config = {
   screenHeight: 900,
   fullScreen: true,
   safeUnload: false,
-  version: 0,
+  version: `0.0.0`,
   author: `Your Name or Nick`,
   description: `Write what game is`
 }

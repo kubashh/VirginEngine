@@ -2,7 +2,7 @@ import { useState } from "react"
 import { useHover } from "../../lib/useHover"
 
 export const File = ({ old, file, name, main, deep = 0 }) => {
-  const [open, setOpen] = useState(main && true)
+  const [open, setOpen] = useState(main)
   const hover = useHover({
     color: `#555`
   })
@@ -22,60 +22,45 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
   }
 
   const onContextMenu = ({ pageX, pageY }) => {
-    const newAtType = (type) => {
+    const newArrElement = (name, type) => [name, () => {
       window.editor.setNameInput([``, (newText) => {
-        if(!window.editor.isValidName(newText)) {
-          return
-        }
-
         file[newText] = {
           type
         }
 
+        setOpen(true)
         window.editor.reloadFiles()
       }])
-    }
+    }, isFolder]
 
     window.editor.setContextMenu({
       x: pageX,
       y: pageY,
-      arr: [[`New file`, () => {
-        window.editor.setNameInput([``, (newText) => {
-          const [newName, extension = `txt`, ...rest] = newText.split(`.`)
+      arr: [
+        newArrElement(`New file`, `txt`),
+        newArrElement(`New folder`, `folder`),
+        newArrElement(`New scene`, `scene`),
+        [`Rename`, () => {
+          window.editor.setNameInput([name, (newText) => {
+            if(name === newText) {
+              return
+            }
 
-          if(!newName || rest.length > 0) {
-            return
-          }
-
-          file[newName] = {
-            type: extension
-          }
-
+            if(old[newText]) {
+              console.error(`Error`)
+            } else {
+              delete old[name]
+              old[newText] = file
+              window.editor.reloadFiles()
+            }
+          }])
+        }, name !== `files`],
+        [`Delete`, () => {
+          delete old[name]
           window.editor.reloadFiles()
-        }])
-      }, isFolder],
-      [`New folder`, () => { newAtType(`folder`) }, isFolder],
-      [`New scene`, () => { newAtType(`scene`) }, isFolder],
-      [`Rename`, () => {
-        window.editor.setNameInput([name, (newText) => {
-          if(name === newText) {
-            return
-          }
-
-          if(old[newText]) {
-            console.error(`Error`)
-          } else {
-            delete old[name]
-            old[newText] = file
-            window.editor.reloadFiles()
-          }
-        }])
-      }, name !== `files`],
-      [`Delete`, () => {
-        delete old[name]
-        window.editor.reloadFiles()
-      }, name !== `files`]
-    ]})
+        }, name !== `files`]
+      ]
+    })
   }
 
   const onMouseDown = () => {
@@ -88,14 +73,20 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
   }
 
   const onMouseUp = () => {
+    if(!isFolder) {
+      return
+    }
+
     const { dragData } = window.editor
 
-    if(dragData.from !== `files` || !isFolder || dragData.name === name || file[dragData.name]) {
+    if(!dragData || dragData.from !== `files` || dragData.name === name || file[dragData.name]) {
       return
     }
 
     file[dragData.name] = dragData.file
-    delete dragData.old[dragData.name]
+    if(dragData.old) {
+      delete dragData.old[dragData.name]
+    }
     window.editor.dragData = {}
     window.editor.reloadFiles()
   }
@@ -129,7 +120,7 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
         {`>`}
       </div>}
       <div
-      {...hover}
+        {...hover}
         style={{
           marginLeft: file.type !== `folder` && 24,
           ...hover.style
@@ -137,20 +128,15 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
         onClick={onClick}
       >{name}</div>
     </div>}
-    {isFolder && open && file.type !== `scene` && <>
-      {Object.entries(file).filter(([key]) => key !== `type`).map(([key, value]) => {
-        if(value.type === `config`) {
-          return null
-        }
-
-        return <File
-          old={file}
-          file={value}
-          name={key}
-          key={key}
-          deep={deep + 1}
-        />
-      })}
-    </>}
+    {isFolder && open && file.type !== `scene` && Object.entries(file)
+      .filter(([key, { type }]) => key !== `type` && type !== `config`)
+      .map(([key, value]) => <File
+        old={file}
+        file={value}
+        name={key}
+        key={key}
+        deep={deep + 1}
+      />
+    )}
   </>
 }

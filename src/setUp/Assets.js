@@ -1,6 +1,6 @@
-export const assets = {
+export const Assets = {
   type: `folder`,
-  tempImage: {
+  TempImage: {
     type: `image`,
     value: {
       src: `data:image/png;base64`,
