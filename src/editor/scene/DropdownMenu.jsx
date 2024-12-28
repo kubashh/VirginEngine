@@ -13,7 +13,8 @@ export const DropdownMenu = ({ currentText, setAspectRatio, left }) => {
       flexDirection: `column`,
       width: 80,
       position: `absolute`,
-      left: left - 80
+      left: left - 86,
+      top: 0
     }}
     onMouseEnter={() => { setShow(true) }}
     onMouseLeave={() => { setShow(false) }}
