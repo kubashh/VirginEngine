@@ -1,7 +1,9 @@
+//import { readFileSync } from "fs"
 import { useState } from "react"
 import { save } from "./save"
 import { build } from "../../build/build"
 import { Config } from "./Config"
+
 
 const CustomInput = ({ text, onClick }) => {
   return <input
@@ -70,6 +72,12 @@ export const EditorOpctions = () => {
         text="Config"
         onClick={() => {
           window.editor.setInspector(<Config />)
+        }}
+      />
+      <CustomInput
+        text="test"
+        onClick={() => {
+          //console.log(readFileSync("./mytext.txt").toString('utf-8'))
         }}
       />
     </div>}

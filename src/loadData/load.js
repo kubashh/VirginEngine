@@ -1,5 +1,12 @@
 const setData = (data) => {
-  const { editor, files } = window
+  console.log(data)
+
+  const { config, editor, files } = window
+
+  // Clean Config
+  for(const key in config) {
+    delete files[key]
+  }
 
   // Clean Object
   for(const key in files) {
@@ -7,9 +14,12 @@ const setData = (data) => {
   }
 
   // Files
-  for(const key in data) {
-    files[key] = data[key]
+  for(const key in data.files) {
+    files[key] = data.files[key]
   }
+
+  // Config
+  window.config = data.config
 
   editor.setUp = true
   editor.reload()
@@ -24,13 +34,8 @@ export const load = () => {
     const [file] = target.files
     const reader = new FileReader()
 
-    reader.onload = ({ target }) => {
-      const { result } = target
-
-      const data = JSON.parse(result)
-      console.log(data)
-
-      setData(data)
+    reader.onload = ({ target: { result } }) => {
+      setData(JSON.parse(result))
     }
 
     reader.readAsText(file)

@@ -3,12 +3,12 @@ import { InspectorSection } from "../inspector/InspectorSection"
 export const Config = () => {
   return <InspectorSection
     text="Config"
-    childs={Object.entries(window.files.config)
+    childs={Object.entries(window.config)
       .filter(([key]) => key !== `type`)
       .map(([key]) => {
         return {
           text: key,
-          parent: window.files.config,
+          parent: window.config,
           access: key
         }
       })

@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { useHover } from "../../lib/useHover"
+import { isFirstUpperCase } from "../../lib/isFirstUpperCase"
 
 export const File = ({ old, file, name, main, deep = 0 }) => {
   const [open, setOpen] = useState(main)
@@ -129,7 +130,7 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
       >{name}</div>
     </div>}
     {isFolder && open && file.type !== `scene` && Object.entries(file)
-      .filter(([key, { type }]) => key !== `type` && type !== `config`)
+      .filter(([key]) => isFirstUpperCase(key))
       .map(([key, value]) => <File
         old={file}
         file={value}

@@ -6,7 +6,7 @@ export const NameInput = () => {
   const ref = useRef()
 
   const ret = () => {
-    if(text !== ``) {
+    if(isValidName(text)) {
       cb(text)
     }
     setNameInput([])
@@ -43,10 +43,12 @@ export const NameInput = () => {
       fontSize: 40
     }}
     value={text}
-    onChange={({ target }) => {
-      const { value } = target
+    onChange={({ target: { value } }) => {
+      if(value.length > 0 && value[0] !== value[0].toUpperCase()) {
+        value = `${value[0].toUpperCase()}${value.slice(1)}`
+      }
 
-      if(!isValidName(value)) {
+      if(value.length !== 0 && !isValidName(value)) {
         return
       }
 

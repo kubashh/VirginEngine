@@ -1,4 +1,3 @@
-import { config } from "./config"
 import { DefaultScene } from "./DefaulfScene"
 import { Assets } from "./Assets"
 
@@ -44,6 +43,5 @@ export const files = {
         value: `str 8`
       }
     }
-  },
-  config
+  }
 }

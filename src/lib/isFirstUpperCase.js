@@ -1,5 +1,3 @@
 export const isFirstUpperCase = (text) => {
-  const alphabet = `abcdefghijklmnoprqstuwxyz`.toUpperCase()
-
-  return typeof text === `string` && text.length > 0 && alphabet.includes(text[0])
+  return typeof text === `string` && text.length > 0 && `ABCDEFGHIJKLMNOPRQSTUWXYZ`.includes(text[0])
 }

@@ -8,7 +8,7 @@ export const build = () => {
   const htmlElement = document.createElement(`a`)
   // Ustawienie typu i kodowania
   htmlElement.href = `data:text/html;charset=utf-8,${htmlText}`
-  htmlElement.download = `${window.files.config.gameName}.html`
+  htmlElement.download = `${window.config.gameName}.html`
   htmlElement.click()
 
   console.log(htmlText)

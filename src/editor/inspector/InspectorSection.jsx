@@ -4,8 +4,7 @@ const BoolInput = ({ parent, access, refresh }) => {
   return {
     type: `checkbox`,
     value: parent[access],
-    onChange: ({ target }) => {
-      const { checked } = target
+    onChange: ({ target: { checked } }) => {
       parent[access] = checked
       refresh()
     }
@@ -18,9 +17,7 @@ const NumberInput = ({ parent, access }) => {
   return {
     type: `text`,
     value: currentNumber,
-    onChange: ({ target }) => {
-      const { value } = target
-
+    onChange: ({ target: { value } }) => {
       for(const char of value) {
         if(!`${window.editor.numbers}.`.includes(char)) {
           return
@@ -46,8 +43,7 @@ const StringInput = ({ parent, access, refresh }) => {
   return {
     type: `text`,
     value: parent[access],
-    onChange: ({ target }) => {
-      const { value } = target
+    onChange: ({ target: { value } }) => {
       parent[access] = value
       refresh()
     }

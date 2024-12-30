@@ -1,13 +1,15 @@
 export const save = () => {
-  const { files } = window
+  const { config, files } = window
 
-  const jsonData = JSON.stringify(files)
-  console.log(files)
+  const newData = { config, files }
+  console.log(newData)
+
+  const jsonData = JSON.stringify(newData)
   console.log(jsonData)
 
   const htmlElement = document.createElement(`a`)
   // Ustawienie typu i kodowania
   htmlElement.href = `data:application/json;charset=utf-8,${encodeURIComponent(jsonData)}`
-  htmlElement.download = `${files.config.gameName}.deathengine`
+  htmlElement.download = `${config.gameName}.deathengine`
   htmlElement.click()
 }
