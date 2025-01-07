@@ -1,13 +1,11 @@
 import { useState } from "react"
 import { useHover } from "../../lib/useHover"
-import { Components } from "./components/Components"
+import { setComponents } from "./components/setComponents"
 import { DGO } from "../../setUp/DefaulfScene"
 
 export const GameObject = ({ old, name, object, main, deep = 0 }) => {
   const [open, setOpen] = useState(main)
-  const hover = useHover({
-    color: `#555`
-  })
+  const hover = useHover({ color: `#555` })
 
   const childs = {}
 
@@ -24,11 +22,11 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
       return
     }
 
-    window.editor.setInspector(<Components
-      old={old}
-      object={object}
-      name={name}
-    />)
+    setComponents({
+      old,
+      object,
+      name
+    })
   }
 
   const onContextMenu = ({ pageX, pageY }) => {

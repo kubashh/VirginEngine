@@ -1,12 +1,11 @@
 import { useState } from "react"
 import { useHover } from "../../lib/useHover"
 import { isFirstUpperCase } from "../../lib/isFirstUpperCase"
+import { openScene } from "../../lib/openScene"
 
 export const File = ({ old, file, name, main, deep = 0 }) => {
   const [open, setOpen] = useState(main)
-  const hover = useHover({
-    color: `#555`
-  })
+  const hover = useHover({ color: `#555` })
 
   const isFolder = file.type === `folder`
 
@@ -80,7 +79,7 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
 
     const { dragData } = window.editor
 
-    if(!dragData || dragData.from !== `files` || dragData.name === name || file[dragData.name]) {
+    if(dragData?.from !== `files` || dragData.name === name || file[dragData.name]) {
       return
     }
 
@@ -93,7 +92,7 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
   }
 
   return <>
-    {<div
+    <div
       style={{
         cursor: `pointer`,
         marginLeft: deep * 10,
@@ -103,6 +102,11 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
       onContextMenu={onContextMenu}
       onMouseDown={onMouseDown}
       onMouseUp={onMouseUp}
+      onDoubleClick={() => {
+        if(file.type === `scene`) {
+          openScene(name)
+        }
+      }}
     >
       {isFolder && <div
         style={{
@@ -128,7 +132,7 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
         }}
         onClick={onClick}
       >{name}</div>
-    </div>}
+    </div>
     {isFolder && open && file.type !== `scene` && Object.entries(file)
       .filter(([key]) => isFirstUpperCase(key))
       .map(([key, value]) => <File

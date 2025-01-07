@@ -1,3 +1,4 @@
+import { openScene } from "../lib/openScene"
 import { config } from "./config"
 import { editor } from "./editor"
 import { files } from "./files"
@@ -15,6 +16,8 @@ export const setUp = () => {
   window.config = config
   window.files =  files
   window.editor = editor
+
+  openScene(Object.keys(window.files.Scenes)[1])
 
   window.onresize = () => {
     window.editor.width = window.innerWidth

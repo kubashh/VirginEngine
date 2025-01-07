@@ -7,6 +7,7 @@ export const Hierarchy = () => {
   useEffect(() => {
     window.editor.reloadHierarchy = () => {
       setState(state + 1)
+      window.editor.setInspector(<div />)
     }
   })
 

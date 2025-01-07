@@ -1,16 +1,16 @@
 import { Transform } from "./Transform"
 
-export const Components = (props) => {
-  return <div>
+export const setComponents = (props) => {
+  window.editor.setInspector(<div>
     <div>
       <h2
         style={{
           marginLeft: 12
         }}
       >
-        {`${props.name} (GameObject)`}
+        {props.name}
       </h2>
     </div>
     <Transform {...props} />
-  </div>
+  </div>)
 }

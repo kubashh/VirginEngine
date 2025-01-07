@@ -3,7 +3,7 @@ export const editor = {
   height: window.innerHeight,
   selectedField: `none`,
   numbers: `0123456789`,
-  selectedScene: `DefaultScene`,
+  selectedScene: ``,
   keywords: [
     `type`,
     `transform`,
