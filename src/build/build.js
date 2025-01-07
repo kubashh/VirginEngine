@@ -1,17 +1,21 @@
 import { htmlCode } from "./html/htmlCode"
+import { jsCode } from "./js/jsCode"
+import { optymalizeJs } from "./js/optymalizeJs"
 
 export const build = () => {
-  console.log(`Build`)
+  console.log(`Building...`)
 
-  const htmlText = htmlCode()
+  const js = optymalizeJs(jsCode())
+  const htmlText = htmlCode(js)
 
-  const htmlElement = document.createElement(`a`)
+  console.log(js)
+
+  /*const htmlElement = document.createElement(`a`)
   // Ustawienie typu i kodowania
   htmlElement.href = `data:text/html;charset=utf-8,${htmlText}`
   htmlElement.download = `${window.config.gameName}.html`
-  htmlElement.click()
+  htmlElement.click()*/
 
-  console.log(htmlText)
   const myWindow = window.open()
   myWindow.document.write(htmlText)
 }

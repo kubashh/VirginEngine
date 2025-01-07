@@ -1,9 +1,7 @@
-import { jsCode } from "../js/jsCode"
 import { optymalizeHtml } from "./optymalizeHtml"
-import { optymalizeJs } from "../js/optymalizeJs"
 
-export const htmlCode = () => {
-  const { author, description, gameName, screenWidth, screenHeight } = window.files.config
+export const htmlCode = (js) => {
+  const { author, description, gameName, screenWidth, screenHeight } = window.config
 
   const html0 = optymalizeHtml(`
     <!DOCTYPE html>
@@ -38,7 +36,6 @@ export const htmlCode = () => {
 
       <script>
   `)
-  const js = optymalizeJs(jsCode())
   const html1 = optymalizeHtml(`
       </script>
     </body>

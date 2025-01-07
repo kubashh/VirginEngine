@@ -1,21 +1,14 @@
-const importFile = async (file) => {
-  return await fetch(file.default).then(r => r.text())
-}
+import { getFilesAndScene } from "./fn/getFilesAndScene"
 
-const test = await importFile(await import("./lib/test.txt"))
+const importFile = async (file) => await fetch(file.default).then(r => r.text())
 
-console.log(test)
-
-const getFilesString = () => {
-  const { config, ...files } = window.files
-  return JSON.stringify(files)
-}
+const canvasText = await importFile(await import("./lib/canvas.j"))
+const startUpdateRender = await importFile(await import("./lib/startUpdateRender.j"))
 
 export const jsCode = () => {
   return `
-    const canvas = document.body.children[0]
-    const ctx = canvas.getContext("2d")
-    console.log(canvas)
-    const files = JSON.parse(${getFilesString()})
+    ${canvasText}
+    ${getFilesAndScene()}
+    ${startUpdateRender}
   `
 }

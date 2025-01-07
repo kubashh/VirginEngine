@@ -1,8 +1,0 @@
-const a = 10
-const b = false
-const c = () => {
-  return {
-    a: a,
-    b: [b]
-  }
-}
