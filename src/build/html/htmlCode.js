@@ -1,7 +1,7 @@
 import { optymalizeHtml } from "./optymalizeHtml"
 
 export const htmlCode = (js) => {
-  const { author, description, gameName, screenWidth, screenHeight } = window.config
+  const { author, description, gameName } = window.config
 
   const html0 = optymalizeHtml(`
     <!DOCTYPE html>
@@ -32,7 +32,7 @@ export const htmlCode = (js) => {
       </style>
     </head>
     <body>
-      <canvas width="${screenWidth}" height="${screenHeight}"></canvas>
+      <canvas></canvas>
 
       <script>
   `)

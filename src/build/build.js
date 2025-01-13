@@ -1,11 +1,10 @@
 import { htmlCode } from "./html/htmlCode"
 import { jsCode } from "./js/jsCode"
-import { optymalizeJs } from "./js/optymalizeJs"
 
 export const build = () => {
   console.log(`Building...`)
 
-  const js = optymalizeJs(jsCode())
+  const js = jsCode()
   const htmlText = htmlCode(js)
 
   console.log(js)

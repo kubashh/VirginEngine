@@ -1,14 +1,11 @@
+import { joinFiles } from "./fn/joinAndImport"
+import { optymalizeJs } from "./fn/optymalizeJs"
 import { getFilesAndScene } from "./fn/getFilesAndScene"
+import { functions } from "./lib/functions"
+import { values } from "./lib/values"
 
-const importFile = async (file) => await fetch(file.default).then(r => r.text())
-
-const canvasText = await importFile(await import("./lib/canvas.j"))
-const startUpdateRender = await importFile(await import("./lib/startUpdateRender.j"))
-
-export const jsCode = () => {
-  return `
-    ${canvasText}
-    ${getFilesAndScene()}
-    ${startUpdateRender}
-  `
-}
+export const jsCode = () => optymalizeJs(joinFiles(
+  getFilesAndScene(),
+  values,
+  functions
+))

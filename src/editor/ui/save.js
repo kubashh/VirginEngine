@@ -1,3 +1,5 @@
+import { downloadFile } from "../../lib/downloadFile"
+
 export const save = () => {
   const { config, files } = window
 
@@ -7,9 +9,5 @@ export const save = () => {
   const jsonData = JSON.stringify(newData)
   console.log(jsonData)
 
-  const htmlElement = document.createElement(`a`)
-  // Ustawienie typu i kodowania
-  htmlElement.href = `data:application/json;charset=utf-8,${encodeURIComponent(jsonData)}`
-  htmlElement.download = `${config.gameName}.deathengine`
-  htmlElement.click()
+  downloadFile(`${config.gameName}.deathengine`, jsonData)
 }
