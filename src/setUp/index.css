@@ -10,9 +10,42 @@ body {
 }
 
 input {
-  cursor: pointer;
   background-color: #222;
   border: 2px solid black;
-  padding: 0px 0px 0px 1px;
-  font-size: 16;
+  padding: 0px 0px 0px 4px;
+}
+
+input[type=button] {
+  cursor: pointer;
+}
+
+label {
+  cursor: pointer;
+  position: relative;
+}
+
+label:before {
+  border-radius: 3px;
+  content: "";
+  display: inline-block;
+
+  height: calc(100% - 2px);
+  aspect-ratio: 1;
+
+  margin: 2px;
+  position: absolute;
+  right: 0;
+  background-color: #333;
+}
+
+input[type=checkbox] {
+  display: none;
+}
+
+input[type=checkbox]:checked + label:before {
+  content: "\2713";
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+  font-size: 14px;
+  color: white;
+  text-align: center;
 }

@@ -7,5 +7,6 @@ export const config = {
   safeUnload: false,
   version: `0.0.0`,
   author: `Your Name or Nick`,
-  description: `Write what game is`
+  description: `Write what game is`,
+  pathToMainScene: `Scenes.DefaultScene`
 }

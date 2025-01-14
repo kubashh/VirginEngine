@@ -1,8 +1,6 @@
 export const getFilesAndScene = () => {
-  const { Scenes, ...files } = window.files
   return `
-    const files = JSON.parse('${JSON.stringify(files)}')
-    const Scenes = JSON.parse('${JSON.stringify(Scenes)}')
-    let selectedScene = Scenes.defaultScene
+    const files = JSON.parse('${JSON.stringify(window.files)}')
+    let selectedScene = files.${window.config.pathToMainScene}
   `
 }

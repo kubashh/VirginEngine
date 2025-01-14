@@ -1,4 +1,3 @@
-//import { readFileSync } from "fs"
 import { useState } from "react"
 import { save } from "./save"
 import { build } from "../../build/build"
@@ -26,12 +25,13 @@ export const EditorOpctions = () => {
       zIndex: 1,
       right: 0
     }}
-    onMouseEnter={() => { setShow(true) }}
-    onMouseLeave={() => { setShow(false) }}
+    onMouseEnter={() => setShow(true)}
+    onMouseLeave={() => setShow(false)}
   >
     <div
       style={{
         position: `absolute`,
+        cursor: `pointer`,
         right: 0,
         width: 25,
         height: 25,
@@ -72,12 +72,6 @@ export const EditorOpctions = () => {
         text="Config"
         onClick={() => {
           window.editor.setInspector(<Config />)
-        }}
-      />
-      <CustomInput
-        text="test"
-        onClick={() => {
-          //console.log(readFileSync("./mytext.txt").toString('utf-8'))
         }}
       />
     </div>}
