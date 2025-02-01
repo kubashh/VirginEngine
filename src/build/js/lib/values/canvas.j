@@ -10,5 +10,3 @@ const setWidthHeightCanvas = () => {
 
 window.addEventListener(`resize`, setWidthHeightCanvas)
 setWidthHeightCanvas()
-
-console.log(canvas)

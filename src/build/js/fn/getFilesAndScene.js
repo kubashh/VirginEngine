@@ -1,6 +1,6 @@
-export const getFilesAndScene = () => {
-  return `
-    const files = JSON.parse('${JSON.stringify(window.files)}')
-    let selectedScene = files.${window.config.pathToMainScene}
-  `
-}
+import { objectToString } from "./objectToString"
+
+export const getFilesAndScene = () => `
+  const files = ${objectToString(window.files)}
+  let selectedScene = files.${window.config.pathToMainScene}
+`

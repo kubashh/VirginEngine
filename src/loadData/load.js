@@ -1,6 +1,4 @@
 const setData = (data) => {
-  console.log(data)
-
   const { config, editor, files } = window
 
   // Clean Config

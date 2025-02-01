@@ -11,11 +11,13 @@ const setGameTime = (newTime) => {
 }
 
 let lastTime = now()
+
+let frames = 0
 const run = async () => {
   start()
+  requestAnimationFrame(render)
 
   let timer = now()
-  let frames = 0
   let updates = 0
   let delta = 0
   while(true) {
@@ -30,8 +32,6 @@ const run = async () => {
       updates++
       delta--
     }
-    render()
-    frames++
 
     if(now() - timer > 1000) {
       timer += 1000
