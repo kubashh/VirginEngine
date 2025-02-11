@@ -7,4 +7,21 @@ const isFirstUpperCase = (text) => `ABCDEFGHIJKLMNOPRQSTUWXYZ`.includes(text[0])
 
 const deepCopy = (data) => JSON.parse(JSON.stringify(data))
 
-const loadScene = (scene) => currentScene = deepCopy(scene)
+const classes = {
+  "transform": Transform
+}
+
+const loadScene = (scene) => {
+  const setUpScene = (element) => {
+    for(const key in element) {
+      if(isFirstUpperCase(key)) {
+        setUpScene(element[key])
+      } else if(classes[key]) {
+        element[key] = new classes[key](element[key])
+      }
+    }
+  }
+
+  currentScene = deepCopy(scene)
+  setUpScene(currentScene)
+}

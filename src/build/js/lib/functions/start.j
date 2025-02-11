@@ -11,5 +11,5 @@ const setObjects = (object) => {
 }
 
 const start = () => {
-  setObjects(selectedScene)
+  setObjects(currentScene)
 }

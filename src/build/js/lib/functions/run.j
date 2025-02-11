@@ -1,12 +1,12 @@
 let gameTime = 1
 
-let ms = 1000 / 60 / gameTime
+let ms = 1000 / (60 * gameTime)
 let updatesLegit = 0
 let framesLegit = 0
 
 const setGameTime = (newTime) => {
   gameTime = newTime
-  ms = 1000 / 60 / gameTime
+  ms = 1000 / (60 * gameTime)
   lastTime = now()
 }
 

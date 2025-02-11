@@ -9,5 +9,8 @@ export const jsCode = () => optymalizeJs(joinFiles(
   getFilesAndScene(),
   components,
   values,
-  functions
+  functions,
+  `
+    document.body.children[1].remove()
+  `
 ))
