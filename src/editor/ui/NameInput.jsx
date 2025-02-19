@@ -2,12 +2,12 @@ import { useEffect, useRef, useState } from "react"
 import { isValidName } from "../../lib/isValidName"
 
 export const NameInput = () => {
-  const [[text, cb], setNameInput] = useState([])
+  const [[text, cb, loverCase], setNameInput] = useState([])
   const ref = useRef()
 
   const ret = () => {
     if(isValidName(text)) {
-      cb(text)
+      cb(loverCase ? `${text[0].toLowerCase()}${text.slice(1)}` : text)
     }
     setNameInput([])
   }
@@ -52,7 +52,7 @@ export const NameInput = () => {
         return
       }
 
-      setNameInput([value, cb])
+      setNameInput([value, cb, loverCase])
     }}
     onKeyDown={({ key }) => {
       if(key === `Enter`) {

@@ -2,6 +2,7 @@ import { useState } from "react"
 import { useHover } from "../../lib/useHover"
 import { setComponents } from "./components/setComponents"
 import { DGO } from "../../setUp/DefaulfScene"
+import { isFirstUpperCase } from "../../lib/isFirstUpperCase"
 
 export const GameObject = ({ old, name, object, main, deep = 0 }) => {
   const [open, setOpen] = useState(main)
@@ -10,7 +11,7 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
   const childs = {}
 
   for(const key in object) {
-    if(!window.editor.keywords.includes(key)) {
+    if(!window.editor.keywords.includes(key) && isFirstUpperCase(key)) {
       childs[key] = object[key]
     }
   }
@@ -57,7 +58,7 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
           }
 
           if(old[newText]) {
-            console.error(`Error`)
+            console.log(`Error`)
             return
           }
 
@@ -65,7 +66,7 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
           old[newText] = object
           window.editor.reloadHierarchy()
         }])
-      }],
+      }, !main],
       [`Delete`, () => {
         delete old[name]
         window.editor.reloadHierarchy()
@@ -123,9 +124,7 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
           transform: `rotate(${open ? 90 : 0}deg)`,
           transition: `transform 150ms`
         }}
-        onClick={() => {
-          haveChilds && setOpen(!open)
-        }}
+        onClick={() => haveChilds && setOpen(!open)}
       >
         {`>`}
       </div>}

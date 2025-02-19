@@ -1,6 +1,6 @@
 import { TypeInput } from "./TypeInput"
 
-export const InspectorSection = ({ text, childs }) => {
+export const InspectorSection = ({ text, childs, element }) => {
   return <div
     style={{
       paddingBottom: 8,
@@ -22,5 +22,6 @@ export const InspectorSection = ({ text, childs }) => {
       key={props.text}
       {...props}
     />)}
+    {element}
   </div>
 }

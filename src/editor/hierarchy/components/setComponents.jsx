@@ -1,3 +1,4 @@
+import { Script } from "./Script"
 import { Transform } from "./Transform"
 
 export const setComponents = (props) => {
@@ -12,5 +13,6 @@ export const setComponents = (props) => {
       </h2>
     </div>
     <Transform {...props} />
+    <Script {...props} />
   </div>)
 }

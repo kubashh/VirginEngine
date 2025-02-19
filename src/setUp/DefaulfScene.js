@@ -28,23 +28,5 @@ export const DefaultScene = {
   },
   Obj1: {
     ...DGO()
-  },
-  Obj2: {
-    ...DGO(),
-    Obj3: {
-      ...DGO()
-    },
-    Obj4: {
-      ...DGO()
-    }
-  },
-  Obj5: {
-    ...DGO()
-  },
-  Obj6: {
-    ...DGO(),
-    Obj7: {
-      ...DGO()
-    }
-  },
+  }
 }

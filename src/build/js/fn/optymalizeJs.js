@@ -6,7 +6,7 @@ export const optymalizeJs = (text) => text
   .filter(line => line !== ``) // Remove empty lines
   //.map(line => line.replace(/\s*([({[])\s*/g, `$1`)) // Remove spaces before brackets
   .join(`\n`) // Join lines
-  .replace(/\s{2,}/g, ` `) // Replace multiple spaces with a single space
+  //.replace(/\s{2,}/g, ` `) // Replace multiple spaces with a single space
 
 //console.log(optymalizeJs(`
 //  const a = "34"

@@ -1,20 +1,19 @@
 import { htmlCode } from "./html/htmlCode"
 import { jsCode } from "./js/jsCode"
 
+const getHtmlCode = () => htmlCode(jsCode())
+
 export const build = () => {
   console.log(`Building...`)
 
-  const js = jsCode()
-  const htmlText = htmlCode(js)
-
-  console.log(js)
-
-  /*const htmlElement = document.createElement(`a`)
+  const htmlElement = document.createElement(`a`)
   // Ustawienie typu i kodowania
-  htmlElement.href = `data:text/html;charset=utf-8,${htmlText}`
+  htmlElement.href = `data:text/html;charset=utf-8,${encodeURIComponent(getHtmlCode())}`
   htmlElement.download = `${window.config.gameName}.html`
-  htmlElement.click()*/
+  htmlElement.click()
+}
 
+export const test = () => {
   const myWindow = window.open()
-  myWindow.document.write(htmlText)
+  myWindow.document.write(getHtmlCode())
 }

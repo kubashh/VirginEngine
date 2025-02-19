@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { save } from "./save"
-import { build } from "../../build/build"
+import { test, build } from "../../build/build"
 import { Config } from "./Config"
 
 
@@ -56,6 +56,10 @@ export const EditorOpctions = () => {
       <CustomInput
         text="Save"
         onClick={save}
+      />
+      <CustomInput
+        text="Test"
+        onClick={test}
       />
       <CustomInput
         text="Build"
