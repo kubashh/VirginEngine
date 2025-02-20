@@ -13,7 +13,6 @@ export const filesToString = (data, name, type) => {
     }, `{`).slice(0, -1)}}`
   }
 
-  // TO DO if is not string
   if(type === `gameObject` && isCustomProp(name)) {
     return data
   }
