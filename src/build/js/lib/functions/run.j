@@ -1,8 +1,10 @@
 let gameTime = 1
 
-let ms = 1000 / (60 * gameTime)
+let ms = 100
 let updatesLegit = 0
 let framesLegit = 0
+
+let lastTime = now()
 
 const setGameTime = (newTime) => {
   gameTime = newTime
@@ -10,7 +12,7 @@ const setGameTime = (newTime) => {
   lastTime = now()
 }
 
-let lastTime = now()
+setGameTime(1)
 
 let frames = 0
 const run = async () => {

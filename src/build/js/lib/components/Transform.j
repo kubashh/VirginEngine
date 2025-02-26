@@ -5,12 +5,17 @@ class Transform {
   scaleX = 1
   scaleY = 1
 
-  constructor({ position, rotation, scale }) {
-    this.positionX = position.x
-    this.positionY = position.y
-    this.rotationZ = rotation.z
-    this.scaleX = scale.x
-    this.scaleY = scale.y
+  constructor(props) {
+    if(props) {
+      const { position, rotation, scale } = props
+      this.positionX = position.x
+      this.positionY = position.y
+      this.rotationZ = rotation.z
+      this.scaleX = scale.x
+      this.scaleY = scale.y
+    } else {
+      this.readOnly = true
+    }
   }
 
   get position() {
@@ -20,8 +25,10 @@ class Transform {
     }
   }
   set position({ x, y }) {
-    this.positionX = x
-    this.positionY = y
+    if(!this.readOnly) {
+      this.positionX = x
+      this.positionY = y
+    }
   }
 
   get rotation() {
@@ -30,7 +37,9 @@ class Transform {
     }
   }
   set rotation({ z }) {
-    this.rotationZ = z
+    if(!this.readOnly) {
+      this.rotationZ = z
+    }
   }
 
   get scale() {
@@ -40,7 +49,9 @@ class Transform {
     }
   }
   set scale({ x, y }) {
-    this.scaleX = x
-    this.scaleY = y
+    if(!this.readOnly) {
+      this.scaleX = x
+      this.scaleY = y
+    }
   }
 }

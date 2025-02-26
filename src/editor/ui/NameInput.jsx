@@ -17,10 +17,8 @@ export const NameInput = () => {
     window.editor.setNameInput = setNameInput
   
     const handler = ({ target }) => {
-      if(ref.current) {
-        if(!ref.current.contains(target)) {
-          ret()
-        }
+      if(ref.current && !ref.current.contains(target)) {
+        ret()
       }
     }
 
