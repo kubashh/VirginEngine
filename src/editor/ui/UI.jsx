@@ -3,9 +3,11 @@ import { EditorOpctions } from "./EditorOpctions"
 import { NameInput } from "./NameInput"
 
 export const UI = () => {
-  return <>
-    <EditorOpctions />
-    <ContextMenu />
-    <NameInput />
-  </>
+  return (
+    <>
+      <EditorOpctions />
+      <ContextMenu />
+      <NameInput />
+    </>
+  )
 }

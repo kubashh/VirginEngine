@@ -28,15 +28,15 @@ const NumberInput = ({ parent, access }) => {
     value: currentNumber,
     onChange: ({ target: { value } }) => {
       let dot = false
-      for(const char of value) {
+      for (const char of value) {
         // Is includes allow chars
-        if(!`${window.editor.numbers}.`.includes(char)) {
+        if (!`${window.editor.numbers}.`.includes(char)) {
           return
         }
 
         // Double dot check
-        if(char === `.`) {
-          if(dot) {
+        if (char === `.`) {
+          if (dot) {
             return
           }
           dot = true
@@ -45,7 +45,7 @@ const NumberInput = ({ parent, access }) => {
 
       let newNumber = Number(value) || 0
       let set = true
-      if(value[value.length - 1] === `.`) {
+      if (value[value.length - 1] === `.`) {
         set = false
       } else {
         parent[access] = newNumber
@@ -83,36 +83,32 @@ export const TypeInput = (props) => {
 
   let myInput = StringInput(props)
 
-  if(type === `boolean`) {
+  if (type === `boolean`) {
     myInput = BoolInput(props)
-  } else if(type === `number`) {
+  } else if (type === `number`) {
     myInput = NumberInput(props)
   }
 
   const { label } = myInput
 
-  if(label) {
+  if (label) {
     delete myInput.label
   }
 
   const id = Math.random().toString(10).slice(2)
 
-  return <div
-    style={{
-      padding: 0,
-      margin: 2,
-      display: `flex`,
-      justifyContent: `space-between`
-    }}
-  >
-    <div>{convertText(props.text)}</div>
-    <input
-      id={id}
-      {...myInput}
-    />
-    {label && <label
-      htmlFor={id}
-      {...label}
-    ></label>}
-  </div>
+  return (
+    <div
+      style={{
+        padding: 0,
+        margin: 2,
+        display: `flex`,
+        justifyContent: `space-between`
+      }}
+    >
+      <div>{convertText(props.text)}</div>
+      <input id={id} {...myInput} />
+      {label && <label htmlFor={id} {...label}></label>}
+    </div>
+  )
 }

@@ -4,12 +4,5 @@ export const editor = {
   selectedField: `none`,
   numbers: `0123456789`,
   selectedScene: ``,
-  keywords: [
-    `type`,
-    `transform`,
-    `position`,
-    `rotation`,
-    `scale`,
-    `camera`
-  ]
+  keywords: [`type`, `transform`, `position`, `rotation`, `scale`, `camera`]
 }

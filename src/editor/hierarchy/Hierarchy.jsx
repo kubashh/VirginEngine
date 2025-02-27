@@ -11,16 +11,18 @@ export const Hierarchy = () => {
     }
   })
 
-  return <div
-    style={{
-      overflow: `scroll`,
-      userSelect: `none`
-    }}
-  >
-    <GameObject
-      object={window.files.Scenes[window.editor.selectedScene]}
-      name={window.editor.selectedScene}
-      main
-    />
-  </div>
+  return (
+    <div
+      style={{
+        overflow: `scroll`,
+        userSelect: `none`
+      }}
+    >
+      <GameObject
+        object={window.files.Scenes[window.editor.selectedScene]}
+        name={window.editor.selectedScene}
+        main
+      />
+    </div>
+  )
 }

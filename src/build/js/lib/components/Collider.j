@@ -1,2 +1,1 @@
-class Collider {
-}
+class Collider {}

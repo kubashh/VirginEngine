@@ -1,2 +1,1 @@
-class Sprite {
-}
+class Sprite {}

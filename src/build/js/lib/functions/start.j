@@ -1,9 +1,9 @@
 const setObjects = (object) => {
-  if(object.transform) {
+  if (object.transform) {
     object.transform = new Transform(object.transform)
   }
-  for(const key in object) {
-    if(isFirstUpperCase(key)) {
+  for (const key in object) {
+    if (isFirstUpperCase(key)) {
       object[key].start?.()
       setObjects(object[key])
     }

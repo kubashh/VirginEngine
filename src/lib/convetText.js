@@ -3,8 +3,8 @@ export const convertText = (text) => {
 
   let newText = text[0].toUpperCase()
 
-  for(const char of text.slice(1)) {
-    if(char === char.toUpperCase()) {
+  for (const char of text.slice(1)) {
+    if (char === char.toUpperCase()) {
       newText += ` `
     }
 

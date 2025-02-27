@@ -6,12 +6,12 @@ import "./index.css"
 
 const setUpData = () => {
   window.config = config
-  window.files =  files
+  window.files = files
   window.editor = editor
 }
 
 export const setUp = () => {
-  if(window.editor) {
+  if (window.editor) {
     return
   }
 

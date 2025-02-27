@@ -13,8 +13,10 @@ export const App = () => {
     }
   })
 
-  return <>
-    {!editor.setUp && <LoadData />}
-    <Editor />
-  </>
+  return (
+    <>
+      {!editor.setUp && <LoadData />}
+      <Editor />
+    </>
+  )
 }

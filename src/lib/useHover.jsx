@@ -6,5 +6,5 @@ export const useHover = (styleOnHover, styleOnNotHover = {}) => {
   const onMouseEnter = () => setStyle(styleOnHover)
   const onMouseLeave = () => setStyle(styleOnNotHover)
 
-  return {style, onMouseEnter, onMouseLeave}
+  return { style, onMouseEnter, onMouseLeave }
 }

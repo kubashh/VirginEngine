@@ -22,20 +22,20 @@ const run = async () => {
   let timer = now()
   let updates = 0
   let delta = 0
-  while(true) {
+  while (true) {
     const nowTime = now()
     delta += (nowTime - lastTime) / ms
-    if(delta > 60) {
+    if (delta > 60) {
       delta = 60
     }
     lastTime = nowTime
-    while(delta >= 1) {
+    while (delta >= 1) {
       update()
       updates++
       delta--
     }
 
-    if(now() - timer > 1000) {
+    if (now() - timer > 1000) {
       timer += 1000
       updatesLegit = updates
       framesLegit = frames

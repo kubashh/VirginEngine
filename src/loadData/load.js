@@ -2,17 +2,17 @@ const setData = (data) => {
   const { config, editor, files } = window
 
   // Clean Config
-  for(const key in config) {
+  for (const key in config) {
     delete files[key]
   }
 
   // Clean Object
-  for(const key in files) {
+  for (const key in files) {
     delete files[key]
   }
 
   // Files
-  for(const key in data.files) {
+  for (const key in data.files) {
     files[key] = data.files[key]
   }
 
