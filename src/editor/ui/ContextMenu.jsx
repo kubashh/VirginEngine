@@ -56,7 +56,5 @@ export const ContextMenu = () => {
           </div>
         ))}
     </div>
-  ) : (
-    <div />
-  )
+  ) : null
 }

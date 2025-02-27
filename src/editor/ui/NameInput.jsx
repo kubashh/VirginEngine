@@ -59,7 +59,5 @@ export const NameInput = () => {
         }
       }}
     />
-  ) : (
-    <div />
-  )
+  ) : null
 }

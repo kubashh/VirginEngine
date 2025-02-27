@@ -171,19 +171,17 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
           </div>
         </div>
       }
-      {haveChilds && open && (
-        <>
-          {Object.entries(childs).map(([key, value]) => (
-            <GameObject
-              old={object}
-              object={value}
-              key={key}
-              name={key}
-              deep={deep + 1}
-            />
-          ))}
-        </>
-      )}
+      {haveChilds &&
+        open &&
+        Object.entries(childs).map(([key, value]) => (
+          <GameObject
+            old={object}
+            object={value}
+            key={key}
+            name={key}
+            deep={deep + 1}
+          />
+        ))}
     </>
   )
 }

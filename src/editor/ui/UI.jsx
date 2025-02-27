@@ -1,4 +1,5 @@
 import { ContextMenu } from "./ContextMenu"
+import { DragData } from "./DragData"
 import { EditorOpctions } from "./EditorOpctions"
 import { NameInput } from "./NameInput"
 
@@ -8,6 +9,7 @@ export const UI = () => {
       <EditorOpctions />
       <ContextMenu />
       <NameInput />
+      <DragData />
     </>
   )
 }
