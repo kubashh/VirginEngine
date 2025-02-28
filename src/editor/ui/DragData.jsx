@@ -1,45 +1,51 @@
 import { useEffect, useState } from "react"
 
 export const DragData = () => {
-  return
-  const [[label, data], setDragData] = useState([``, {}])
   const [mouse, setMouse] = useState({})
+  const data = window.editor.dragData
 
-  //console.log(label, data)
+  const handleMouseMove = ({ clientX, clientY }) =>
+    setMouse({ left: clientX + 3, top: clientY + 3 })
+
+  const setDragData = (newData, event) => {
+    window.editor.dragData = newData
+    handleMouseMove(event || { clientX: 0, clientY: 0 })
+  }
 
   window.editor.setDragData = setDragData
-  window.editor.dragData = data
 
   useEffect(() => {
-    if (!label) {
+    if (!data) {
       return
     }
-
-    const handleMouseMove = ({ clientX, clientY }) =>
-      setMouse({ left: clientX + 3, top: clientY + 3 })
 
     window.addEventListener(`mousemove`, handleMouseMove)
 
     return () => window.removeEventListener(`mousemove`, handleMouseMove)
   })
 
-  /*useEffect(() => {
-    if (!label) {
+  useEffect(() => {
+    if (!data) {
       return
     }
 
-    const handleMouseUp = () => {
-      setDragData([])
-      window.editor.dragCb(data)
-      window.editor.dragData = {}
-    }
+    const handleMouseUp = () => setDragData()
 
     window.addEventListener(`mouseup`, handleMouseUp)
 
     return () => window.removeEventListener(`mouseup`, handleMouseUp)
-  })*/
+  })
 
-  return label ? (
-    <div style={{ position: `absolute`, ...mouse }}>{label}</div>
+  return data ? (
+    <div
+      style={{
+        position: `absolute`,
+        zIndex: 5,
+        backgroundColor: `rgba(0, 0, 0, 0.5)`,
+        ...mouse
+      }}
+    >
+      {data.name}
+    </div>
   ) : null
 }

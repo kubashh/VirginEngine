@@ -8,12 +8,13 @@ import { components } from "./lib/components"
 export const jsCode = () =>
   optymalizeJs(
     joinFiles(
-      getFilesAndScene(),
       components,
       values,
       functions,
+      getFilesAndScene(),
       `
-    document.body.children[1].remove()
-  `
+        run()
+        document.body.children[1].remove()
+      `
     )
   )

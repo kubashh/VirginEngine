@@ -83,14 +83,17 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
     })
   }
 
-  const onMouseDown = () => {
-    window.editor.dragData = {
-      from: `files`,
-      old,
-      file,
-      name
-    }
-  }
+  const onMouseDown = (event) =>
+    !main &&
+    window.editor.setDragData(
+      {
+        from: `files`,
+        old,
+        file,
+        name
+      },
+      event
+    )
 
   const onMouseUp = () => {
     if (!isFolder) {
@@ -111,9 +114,57 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
     if (dragData.old) {
       delete dragData.old[dragData.name]
     }
-    window.editor.dragData = {}
+
     window.editor.reloadFiles()
   }
+
+  const arrow = isFolder && (
+    <div
+      style={{
+        width: 24,
+        height: 24,
+        textAlign: `center`,
+        justifySelf: `center`,
+        borderRadius: 12,
+        transform: `rotate(${open ? 90 : 0}deg)`,
+        transition: `transform 150ms`
+      }}
+      onClick={() => isFolder && setOpen(!open)}
+    >
+      {`>`}
+    </div>
+  )
+
+  const element = (
+    <div
+      {...hover}
+      style={{
+        marginLeft: file.type !== `folder` && 24,
+        ...hover.style
+      }}
+      onClick={onClick}
+      onContextMenu={onContextMenu}
+      onMouseDown={onMouseDown}
+      onMouseUp={onMouseUp}
+      onDoubleClick={() => {
+        if (file.type === `scene`) {
+          openScene(name)
+        }
+      }}
+    >
+      {name}
+    </div>
+  )
+
+  const childsElement =
+    isFolder &&
+    open &&
+    file.type !== `scene` &&
+    Object.entries(file)
+      .filter(([key]) => isFirstUpperCase(key))
+      .map(([key, value]) => (
+        <File old={file} file={value} name={key} key={key} deep={deep + 1} />
+      ))
 
   return (
     <>
@@ -124,58 +175,11 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
           display: `flex`,
           flexDirection: `row`
         }}
-        onContextMenu={onContextMenu}
-        onMouseDown={onMouseDown}
-        onMouseUp={onMouseUp}
-        onDoubleClick={() => {
-          if (file.type === `scene`) {
-            openScene(name)
-          }
-        }}
       >
-        {isFolder && (
-          <div
-            style={{
-              width: 24,
-              height: 24,
-              textAlign: `center`,
-              justifySelf: `center`,
-              borderRadius: 12,
-              transform: `rotate(${open ? 90 : 0}deg)`,
-              transition: `transform 150ms`
-            }}
-            onClick={() => {
-              isFolder && setOpen(!open)
-            }}
-          >
-            {`>`}
-          </div>
-        )}
-        <div
-          {...hover}
-          style={{
-            marginLeft: file.type !== `folder` && 24,
-            ...hover.style
-          }}
-          onClick={onClick}
-        >
-          {name}
-        </div>
+        {arrow}
+        {element}
       </div>
-      {isFolder &&
-        open &&
-        file.type !== `scene` &&
-        Object.entries(file)
-          .filter(([key]) => isFirstUpperCase(key))
-          .map(([key, value]) => (
-            <File
-              old={file}
-              file={value}
-              name={key}
-              key={key}
-              deep={deep + 1}
-            />
-          ))}
+      {childsElement}
     </>
   )
 }

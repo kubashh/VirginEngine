@@ -93,12 +93,17 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
     })
   }
 
-  const onMouseDown = () => {
-    window.editor.dragData = !main && {
-      from: `hierarchy`,
-      old,
-      file: object,
-      name
+  const onMouseDown = (event) => {
+    if (!main) {
+      window.editor.setDragData(
+        {
+          from: `hierarchy`,
+          old,
+          file: object,
+          name
+        },
+        event
+      )
     }
   }
 
@@ -124,64 +129,75 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
       delete dragData.old[dragData.name]
     }
 
-    window.editor.dragData = {}
     window.editor.reloadHierarchy()
   }
 
+  const arrow = haveChilds && (
+    <div
+      style={{
+        cursor: `pointer`,
+        width: 24,
+        height: 24,
+        textAlign: `center`,
+        justifySelf: `center`,
+        borderRadius: 12,
+        transform: `rotate(${open ? 90 : 0}deg)`,
+        transition: `transform 150ms`
+      }}
+      onClick={() => setOpen(!open)}
+    >
+      {`>`}
+    </div>
+  )
+
+  const element = (
+    <div
+      {...hover}
+      style={{
+        cursor: `pointer`,
+        marginLeft: !haveChilds && 24,
+        ...hover.style
+      }}
+      onClick={onClick}
+      onContextMenu={onContextMenu}
+      onMouseDown={onMouseDown}
+      onMouseUp={onMouseUp}
+      onMouseEnter={() =>
+        (window.editor.dragFn = () => {
+          console.log(`works!!! ${name}`)
+        })
+      }
+    >
+      {name}
+    </div>
+  )
+
+  const childsElement =
+    haveChilds &&
+    open &&
+    Object.entries(childs).map(([key, value]) => (
+      <GameObject
+        old={object}
+        object={value}
+        key={key}
+        name={key}
+        deep={deep + 1}
+      />
+    ))
+
   return (
     <>
-      {
-        <div
-          style={{
-            marginLeft: deep * 10,
-            display: `flex`,
-            flexDirection: `row`
-          }}
-        >
-          {haveChilds && (
-            <div
-              style={{
-                cursor: `pointer`,
-                width: 24,
-                height: 24,
-                textAlign: `center`,
-                justifySelf: `center`,
-                borderRadius: 12,
-                transform: `rotate(${open ? 90 : 0}deg)`,
-                transition: `transform 150ms`
-              }}
-              onClick={() => haveChilds && setOpen(!open)}
-            >
-              {`>`}
-            </div>
-          )}
-          <div
-            {...hover}
-            style={{
-              cursor: `pointer`,
-              marginLeft: !haveChilds && 24,
-              ...hover.style
-            }}
-            onClick={onClick}
-            onContextMenu={onContextMenu}
-            onMouseDown={onMouseDown}
-            onMouseUp={onMouseUp}
-          >
-            {name}
-          </div>
-        </div>
-      }
-      {haveChilds &&
-        open &&
-        Object.entries(childs).map(([key, value]) => (
-          <GameObject
-            old={object}
-            object={value}
-            key={key}
-            name={key}
-            deep={deep + 1}
-          />
-        ))}
+      <div
+        style={{
+          marginLeft: deep * 10,
+          display: `flex`,
+          flexDirection: `row`
+        }}
+      >
+        {arrow}
+        {element}
+      </div>
+      {childsElement}
     </>
   )
 }
