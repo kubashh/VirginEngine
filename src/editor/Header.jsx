@@ -1,18 +1,10 @@
-export const Header = ({ text }) => {
+export const Header = ({ text, elements }) => {
   return (
-    <div>
-      <div
-        style={{
-          paddingLeft: 8
-        }}
-      >
+    <>
+      <div style={{ paddingLeft: 8, borderBottom: `2px solid #aaa` }}>
         {text}
       </div>
-      <div
-        style={{
-          border: `1px solid #aaa`
-        }}
-      />
-    </div>
+      {elements?.map((element) => element)}
+    </>
   )
 }

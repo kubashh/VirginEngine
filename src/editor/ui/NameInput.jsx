@@ -36,8 +36,7 @@ export const NameInput = () => {
       autoFocus
       style={{
         position: `absolute`,
-        left: `50vw`,
-        top: `50vh`,
+        inset: `50vh auto auto 50vw`,
         transform: `translate(-50%, -50%)`,
         fontSize: 40
       }}

@@ -11,11 +11,7 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
 
   const onClick = () => {
     window.editor.setInspector(
-      <div
-        style={{
-          margin: 12
-        }}
-      >
+      <div style={{ margin: 12 }}>
         <h2>File</h2>
         <div>{`Type: ${file.type}`}</div>
         <div>{`Name: ${name}`}</div>

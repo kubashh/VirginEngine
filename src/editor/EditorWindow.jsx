@@ -1,6 +1,6 @@
 import { Header } from "./Header"
 
-export const EditorWindow = ({ style, text, content, position }) => {
+export const EditorWindow = ({ style, text, content, position, elements }) => {
   return (
     <div
       style={{
@@ -16,7 +16,7 @@ export const EditorWindow = ({ style, text, content, position }) => {
         window.editor.selectedField = text
       }}
     >
-      <Header text={text} />
+      <Header text={text} elements={elements} />
       {content}
     </div>
   )

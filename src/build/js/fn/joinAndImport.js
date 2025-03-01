@@ -1,10 +1,7 @@
-export const importFile = async (file) =>
+const importFile = async (file) =>
   await fetch(file.default).then((r) => r.text())
 
-export const joinFiles = (...files) =>
-  files.reduce((old, current) => `${old}\n${current}`)
-
-/*const getImports = async (imports) => {
+const getImports = async (imports) => {
   const files = []
   for (const imp of imports) {
     files.push(await importFile(imp))
@@ -12,5 +9,8 @@ export const joinFiles = (...files) =>
   return files
 }
 
+export const joinFiles = (...files) =>
+  files.reduce((old, current) => `${old}\n${current}`)
+
 export const importJoinFiles = async (...imports) =>
-joinFiles(...(await getImports(imports)))*/
+  joinFiles(...(await getImports(imports)))

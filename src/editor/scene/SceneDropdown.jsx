@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-export const DropdownMenu = ({ currentText, setAspectRatio, left }) => {
+export const SceneDropdown = ({ currentText, setAspectRatio, left }) => {
   const [show, setShow] = useState(false)
 
   const opctions = [`16 / 9`, `9 / 16`]
@@ -14,15 +14,11 @@ export const DropdownMenu = ({ currentText, setAspectRatio, left }) => {
         flexDirection: `column`,
         width: 80,
         position: `absolute`,
-        left: left - 86,
-        top: 0
+        top: 0,
+        left: left - 86
       }}
-      onMouseEnter={() => {
-        setShow(true)
-      }}
-      onMouseLeave={() => {
-        setShow(false)
-      }}
+      onMouseEnter={() => setShow(true)}
+      onMouseLeave={() => setShow(false)}
     >
       <input type="button" value={currentText} />
       {show &&

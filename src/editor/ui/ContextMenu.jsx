@@ -28,8 +28,7 @@ export const ContextMenu = () => {
       style={{
         position: `absolute`,
         zIndex: 1,
-        left: x,
-        top: y,
+        inset: `${y}px auto auto ${x}px`,
         width: 200,
         backgroundColor: `#333`,
         border: `3px solid #333`
@@ -37,7 +36,7 @@ export const ContextMenu = () => {
     >
       {arr
         .filter(([, , show = true]) => show)
-        .map(([text, fn, show = true]) => (
+        .map(([text, fn]) => (
           <div
             key={text}
             onClick={() => {
@@ -46,7 +45,6 @@ export const ContextMenu = () => {
             }}
             style={{
               cursor: `pointer`,
-              color: !show && `gray`,
               "&:hover": {
                 backgroundColor: `#333`
               }

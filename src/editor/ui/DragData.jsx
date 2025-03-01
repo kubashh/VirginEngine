@@ -8,7 +8,8 @@ export const DragData = () => {
     setMouse({ left: clientX + 3, top: clientY + 3 })
 
   const setDragData = (newData, event) => {
-    window.editor.dragData = newData
+    window.editor.dragData = event?.button === 0 ? newData : undefined
+
     handleMouseMove(event || { clientX: 0, clientY: 0 })
   }
 

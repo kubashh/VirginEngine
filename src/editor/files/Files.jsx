@@ -11,12 +11,7 @@ export const Files = () => {
   })
 
   return (
-    <div
-      style={{
-        overflow: `scroll`,
-        userSelect: `none`
-      }}
-    >
+    <div style={{ overflow: `scroll`, userSelect: `none` }}>
       <File file={window.files} name="files" main />
     </div>
   )

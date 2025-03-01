@@ -47,8 +47,7 @@ export const EditorOpctions = () => {
         <div
           style={{
             position: `absolute`,
-            right: 0,
-            top: 30,
+            inset: `30px 0 auto auto`,
             display: `grid`,
             gap: 4,
             backgroundColor: `#555`,
