@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { InspectorSection } from "../../inspector/InspectorSection"
-import { isCustomProp } from "../../../lib/isCustomProp"
+import { isCustomProp } from "../../../lib/utils"
 
 const TextElement = ({ object, access }) => {
   const [text, setText] = useState(object[access])
@@ -52,9 +52,7 @@ export const Script = ({ object }) => {
                 ``,
                 (text) => {
                   for (const key of Object.keys(object)) {
-                    if (key === text) {
-                      return
-                    }
+                    if (key === text) return
                   }
 
                   object[text] = `0`

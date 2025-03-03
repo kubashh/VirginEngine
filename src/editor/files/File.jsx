@@ -1,11 +1,14 @@
 import { useState } from "react"
-import { useHover } from "../../lib/useHover"
-import { isFirstUpperCase } from "../../lib/isFirstUpperCase"
-import { openScene } from "../../lib/openScene"
+import { useHover } from "../../lib/hooks"
+import { isFirstUpperCase } from "../../lib/utils"
+import { openScene } from "../../lib/utils"
 
 export const File = ({ old, file, name, main, deep = 0 }) => {
   const [open, setOpen] = useState(main)
-  const hover = useHover({ color: `#555` })
+  const hover = useHover(
+    { marginLeft: file.type !== `folder` && 24 },
+    { color: `#555` }
+  )
 
   const isFolder = file.type === `folder`
 
@@ -92,9 +95,7 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
     )
 
   const onMouseUp = () => {
-    if (!isFolder) {
-      return
-    }
+    if (!isFolder) return
 
     const { dragData } = window.editor
 
@@ -102,9 +103,8 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
       dragData?.from !== `files` ||
       dragData.name === name ||
       file[dragData.name]
-    ) {
+    )
       return
-    }
 
     file[dragData.name] = dragData.file
     if (dragData.old) {
@@ -134,10 +134,6 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
   const element = (
     <div
       {...hover}
-      style={{
-        marginLeft: file.type !== `folder` && 24,
-        ...hover.style
-      }}
       onClick={onClick}
       onContextMenu={onContextMenu}
       onMouseDown={onMouseDown}

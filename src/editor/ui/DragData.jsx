@@ -16,9 +16,7 @@ export const DragData = () => {
   window.editor.setDragData = setDragData
 
   useEffect(() => {
-    if (!data) {
-      return
-    }
+    if (!data) return
 
     window.addEventListener(`mousemove`, handleMouseMove)
 
@@ -26,9 +24,7 @@ export const DragData = () => {
   })
 
   useEffect(() => {
-    if (!data) {
-      return
-    }
+    if (!data) return
 
     const handleMouseUp = () => setDragData()
 

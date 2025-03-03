@@ -1,4 +1,4 @@
-import { isCustomProp } from "../../../lib/isCustomProp"
+import { isCustomProp } from "../../../lib/utils"
 
 export const filesToString = (data, name, type) => {
   if (Array.isArray(data)) {
@@ -17,9 +17,7 @@ export const filesToString = (data, name, type) => {
       .slice(0, -1)}}`
   }
 
-  if (type === `gameObject` && isCustomProp(name)) {
-    return data
-  }
-
-  return JSON.stringify(data)
+  return type === `gameObject` && isCustomProp(name)
+    ? data
+    : JSON.stringify(data)
 }

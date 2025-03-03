@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react"
-import { isValidName } from "../../lib/isValidName"
+import { isValidName } from "../../lib/utils"
 
 export const NameInput = () => {
   const [[text, cb, loverCase], setNameInput] = useState([])
@@ -46,9 +46,7 @@ export const NameInput = () => {
           value = `${value[0].toUpperCase()}${value.slice(1)}`
         }
 
-        if (value.length !== 0 && !isValidName(value)) {
-          return
-        }
+        if (value.length !== 0 && !isValidName(value)) return
 
         setNameInput([value, cb, loverCase])
       }}

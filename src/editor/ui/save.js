@@ -1,4 +1,4 @@
-import { downloadFile } from "../../lib/downloadFile"
+import { downloadFile } from "../../lib/utils"
 
 export const save = () => {
   const { config, files } = window

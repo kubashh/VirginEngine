@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { convertText } from "../../lib/convetText"
+import { addSpaceBeforeUpper } from "../../lib/utils"
 
 const BoolInput = ({ parent, access, refresh }) => {
   return {
@@ -36,9 +36,8 @@ const NumberInput = ({ parent, access }) => {
 
         // Double dot check
         if (char === `.`) {
-          if (dot) {
-            return
-          }
+          if (dot) return
+
           dot = true
         }
       }
@@ -106,7 +105,7 @@ export const TypeInput = (props) => {
         justifyContent: `space-between`
       }}
     >
-      <div>{convertText(props.text)}</div>
+      <div>{addSpaceBeforeUpper(props.text)}</div>
       <input id={id} {...myInput} />
       {label && <label htmlFor={id} {...label}></label>}
     </div>

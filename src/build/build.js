@@ -1,5 +1,5 @@
 import { htmlCode } from "./html/htmlCode"
-import { downloadFile } from "../lib/downloadFile"
+import { downloadFile } from "../lib/utils"
 
 export const build = () => {
   console.log(`Building...`)

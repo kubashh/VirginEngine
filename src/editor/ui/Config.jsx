@@ -6,13 +6,11 @@ export const Config = () => {
       text="Config"
       childs={Object.keys(window.config)
         .filter((key) => key !== `type`)
-        .map((key) => {
-          return {
-            text: key,
-            parent: window.config,
-            access: key
-          }
-        })}
+        .map((key) => ({
+          text: key,
+          parent: window.config,
+          access: key
+        }))}
     />
   )
 }

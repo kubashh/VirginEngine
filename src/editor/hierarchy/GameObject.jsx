@@ -1,12 +1,10 @@
 import { useState } from "react"
-import { useHover } from "../../lib/useHover"
+import { useHover } from "../../lib/hooks"
 import { setComponents } from "./components/setComponents"
-import { DGO } from "../../setUp/DefaulfScene"
-import { isFirstUpperCase } from "../../lib/isFirstUpperCase"
+import { defaultGameObject, isFirstUpperCase } from "../../lib/utils"
 
 export const GameObject = ({ old, name, object, main, deep = 0 }) => {
   const [open, setOpen] = useState(main)
-  const hover = useHover({ color: `#555` })
 
   const childs = {}
 
@@ -18,10 +16,16 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
 
   const haveChilds = Object.keys(childs)?.length > 0
 
+  const hover = useHover(
+    {
+      cursor: `pointer`,
+      marginLeft: !haveChilds && 24
+    },
+    { color: `#555` }
+  )
+
   const onClick = () => {
-    if (main) {
-      return
-    }
+    if (main) return
 
     setComponents({
       old,
@@ -41,11 +45,9 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
             window.editor.setNameInput([
               ``,
               (newText) => {
-                if (Object.keys(object).includes(newText)) {
-                  return
-                }
+                if (Object.keys(object).includes(newText)) return
 
-                object[newText] = DGO()
+                object[newText] = defaultGameObject()
 
                 setOpen(true)
                 window.editor.reloadHierarchy()
@@ -59,19 +61,14 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
             window.editor.setNameInput([
               name,
               (newText) => {
-                if (name === newText) {
-                  return
-                }
+                if (name === newText) return
 
                 if (main) {
                   old = window.files.scenes
                   window.editor.selectedScene = newText
                 }
 
-                if (old[newText]) {
-                  console.log(`Error`)
-                  return
-                }
+                if (old[newText]) return
 
                 delete old[name]
                 old[newText] = object
@@ -93,19 +90,17 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
     })
   }
 
-  const onMouseDown = (event) => {
-    if (!main) {
-      window.editor.setDragData(
-        {
-          from: `hierarchy`,
-          old,
-          file: object,
-          name
-        },
-        event
-      )
-    }
-  }
+  const onMouseDown = (event) =>
+    !main &&
+    window.editor.setDragData(
+      {
+        from: `hierarchy`,
+        old,
+        file: object,
+        name
+      },
+      event
+    )
 
   const onMouseUp = () => {
     const { dragData } = window.editor
@@ -114,14 +109,11 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
       !dragData ||
       dragData.name === name ||
       dragData.file.type !== `gameObject`
-    ) {
+    )
       return
-    }
 
     for (const key in childs) {
-      if (key === dragData.name) {
-        return
-      }
+      if (key === dragData.name) return
     }
 
     object[dragData.name] = dragData.file
@@ -153,20 +145,10 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
   const element = (
     <div
       {...hover}
-      style={{
-        cursor: `pointer`,
-        marginLeft: !haveChilds && 24,
-        ...hover.style
-      }}
       onClick={onClick}
       onContextMenu={onContextMenu}
       onMouseDown={onMouseDown}
       onMouseUp={onMouseUp}
-      onMouseEnter={() =>
-        (window.editor.dragFn = () => {
-          console.log(`works!!! ${name}`)
-        })
-      }
     >
       {name}
     </div>
