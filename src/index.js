@@ -5,15 +5,19 @@ import { editor, files } from "./lib/consts"
 import { openScene } from "./lib/utils"
 import "./index.css"
 
-document.oncontextmenu = (event) => event.preventDefault()
+const setUp = () => {
+  document.oncontextmenu = (event) => event.preventDefault()
 
-window.onresize = () => {
-  editor.width = window.innerWidth
-  editor.height = window.innerHeight
-  editor.reload()
+  window.onresize = () => {
+    editor.width = window.innerWidth
+    editor.height = window.innerHeight
+    editor.reload()
+  }
+
+  openScene(Object.keys(files.Scenes)[1])
 }
 
-openScene(Object.keys(files.Scenes)[1])
+setUp()
 
 const root = createRoot(document.getElementById(`root`))
 root.render(
