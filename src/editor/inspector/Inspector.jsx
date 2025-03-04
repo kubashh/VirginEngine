@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react"
+import { editor } from "../../lib/consts"
 
 export const Inspector = () => {
   const [element, setElement] = useState(null)
 
-  useEffect(() => {
-    window.editor.setInspector = setElement
-  }, [])
+  useEffect(() => (editor.setInspector = setElement), [])
 
   return element
 }

@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { InspectorSection } from "../../inspector/InspectorSection"
 import { isCustomProp } from "../../../lib/utils"
+import { editor } from "../../../lib/consts"
 
 const TextElement = ({ object, access }) => {
   const [text, setText] = useState(object[access])
@@ -48,7 +49,7 @@ export const Script = ({ object }) => {
               fontSize: 16
             }}
             onClick={() =>
-              window.editor.setNameInput([
+              editor.setNameInput([
                 ``,
                 (text) => {
                   for (const key of Object.keys(object)) {

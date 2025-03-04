@@ -1,3 +1,4 @@
+import { editor } from "../lib/consts"
 import { EditorWindow } from "./EditorWindow"
 import { Files } from "./files/Files"
 import { Hierarchy } from "./hierarchy/Hierarchy"
@@ -6,7 +7,7 @@ import { Scene } from "./scene/Scene"
 import { UI } from "./ui/UI"
 
 export const Editor = () => {
-  const { width, height } = window.editor
+  const { width, height } = editor
 
   const width1 = Math.floor(width * 0.15 + 50)
   const width2 = Math.floor(width * 0.2 + 50)

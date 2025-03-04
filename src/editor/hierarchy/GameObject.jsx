@@ -1,28 +1,34 @@
 import { useState } from "react"
 import { useHover } from "../../lib/hooks"
 import { setComponents } from "./components/setComponents"
-import { defaultGameObject, isFirstUpperCase } from "../../lib/utils"
+import {
+  defaultGameObject,
+  includesKeywords,
+  isFirstUpperCase
+} from "../../lib/utils"
+import { editor, files } from "../../lib/consts"
+import { Arrow } from "../../lib/components"
+
+const getChilds = (obj) => {
+  const childs = {}
+
+  for (const key in obj) {
+    if (!includesKeywords(key) && isFirstUpperCase(key)) {
+      childs[key] = obj[key]
+    }
+  }
+
+  return childs
+}
 
 export const GameObject = ({ old, name, object, main, deep = 0 }) => {
   const [open, setOpen] = useState(main)
 
-  const childs = {}
-
-  for (const key in object) {
-    if (!window.editor.keywords.includes(key) && isFirstUpperCase(key)) {
-      childs[key] = object[key]
-    }
-  }
+  const childs = getChilds(object)
 
   const haveChilds = Object.keys(childs)?.length > 0
 
-  const hover = useHover(
-    {
-      cursor: `pointer`,
-      marginLeft: !haveChilds && 24
-    },
-    { color: `#555` }
-  )
+  const hover = useHover({ color: `#555` })
 
   const onClick = () => {
     if (main) return
@@ -35,14 +41,14 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
   }
 
   const onContextMenu = ({ pageX, pageY }) => {
-    window.editor.setContextMenu({
+    editor.setContextMenu({
       x: pageX,
       y: pageY,
       arr: [
         [
           `New Object`,
           () => {
-            window.editor.setNameInput([
+            editor.setNameInput([
               ``,
               (newText) => {
                 if (Object.keys(object).includes(newText)) return
@@ -50,7 +56,7 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
                 object[newText] = defaultGameObject()
 
                 setOpen(true)
-                window.editor.reloadHierarchy()
+                editor.reloadHierarchy()
               }
             ])
           }
@@ -58,21 +64,21 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
         [
           `Rename`,
           () => {
-            window.editor.setNameInput([
+            editor.setNameInput([
               name,
               (newText) => {
                 if (name === newText) return
 
                 if (main) {
-                  old = window.files.scenes
-                  window.editor.selectedScene = newText
+                  old = files.Scenes
+                  editor.selectedScene = newText
                 }
 
                 if (old[newText]) return
 
                 delete old[name]
                 old[newText] = object
-                window.editor.reloadHierarchy()
+                editor.reloadHierarchy()
               }
             ])
           },
@@ -82,7 +88,7 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
           `Delete`,
           () => {
             delete old[name]
-            window.editor.reloadHierarchy()
+            editor.reloadHierarchy()
           },
           !main
         ]
@@ -92,7 +98,7 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
 
   const onMouseDown = (event) =>
     !main &&
-    window.editor.setDragData(
+    editor.setDragData(
       {
         from: `hierarchy`,
         old,
@@ -103,7 +109,7 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
     )
 
   const onMouseUp = () => {
-    const { dragData } = window.editor
+    const { dragData } = editor
 
     if (
       !dragData ||
@@ -121,26 +127,8 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
       delete dragData.old[dragData.name]
     }
 
-    window.editor.reloadHierarchy()
+    editor.reloadHierarchy()
   }
-
-  const arrow = haveChilds && (
-    <div
-      style={{
-        cursor: `pointer`,
-        width: 24,
-        height: 24,
-        textAlign: `center`,
-        justifySelf: `center`,
-        borderRadius: 12,
-        transform: `rotate(${open ? 90 : 0}deg)`,
-        transition: `transform 150ms`
-      }}
-      onClick={() => setOpen(!open)}
-    >
-      {`>`}
-    </div>
-  )
 
   const element = (
     <div
@@ -176,7 +164,7 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
           flexDirection: `row`
         }}
       >
-        {arrow}
+        {Arrow(open, setOpen, haveChilds)}
         {element}
       </div>
       {childsElement}

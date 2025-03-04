@@ -1,13 +1,8 @@
+import { config, files } from "../../lib/consts"
 import { downloadFile } from "../../lib/utils"
 
-export const save = () => {
-  const { config, files } = window
-
-  const newData = { config, files }
-  console.log(newData)
-
-  const jsonData = JSON.stringify(newData)
-  console.log(jsonData)
-
-  downloadFile(`${config.gameName}.deathengine`, jsonData)
-}
+export const save = () =>
+  downloadFile(
+    `${config.gameName}.deathengine`,
+    JSON.stringify({ config, files })
+  )

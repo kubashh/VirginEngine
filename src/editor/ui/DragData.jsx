@@ -1,19 +1,20 @@
 import { useEffect, useState } from "react"
+import { editor } from "../../lib/consts"
 
 export const DragData = () => {
   const [mouse, setMouse] = useState({})
-  const data = window.editor.dragData
+  const data = editor.dragData
 
   const handleMouseMove = ({ clientX, clientY }) =>
     setMouse({ left: clientX + 3, top: clientY + 3 })
 
   const setDragData = (newData, event) => {
-    window.editor.dragData = event?.button === 0 ? newData : undefined
+    editor.dragData = event?.button === 0 ? newData : undefined
 
     handleMouseMove(event || { clientX: 0, clientY: 0 })
   }
 
-  window.editor.setDragData = setDragData
+  editor.setDragData = setDragData
 
   useEffect(() => {
     if (!data) return

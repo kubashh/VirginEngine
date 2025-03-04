@@ -1,16 +1,13 @@
 import { useEffect, useState } from "react"
 import { Editor } from "./editor/Editor"
 import { LoadData } from "./loadData/LoadData"
+import { editor } from "./lib/consts"
 
 export const App = () => {
-  const { editor } = window
-
-  const [state, setState] = useState(0)
+  const [, setState] = useState(0)
 
   useEffect(() => {
-    editor.reload = () => {
-      setState(state + 1)
-    }
+    editor.reload = () => setState((prev) => prev + 1)
   })
 
   return (

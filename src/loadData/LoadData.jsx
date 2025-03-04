@@ -1,8 +1,10 @@
+import { editor } from "../lib/consts"
 import { useHover } from "../lib/hooks"
 import { load } from "./load"
 
 const LoadDataButton = ({ text, onClick, style }) => {
   const hover = useHover(
+    { backgroundColor: `#444` },
     {
       display: `block`,
       backgroundColor: `black`,
@@ -18,35 +20,40 @@ const LoadDataButton = ({ text, onClick, style }) => {
       textAlign: `center`,
       transitionDuration: `200ms`,
       ...style
-    },
-    { backgroundColor: `#444` }
+    }
   )
-
-  return <input {...hover} type="button" value={text} onClick={onClick} />
-}
-
-export const LoadData = () => {
-  const newProject = () => {
-    window.editor.setUp = true
-    window.editor.reload()
-  }
 
   return (
-    <div
-      style={{
-        position: `absolute`,
-        width: `100vw`,
-        height: `100vh`,
-        backgroundColor: `rgba(0, 0, 0, 0.5)`,
-        zIndex: 3
-      }}
-    >
-      <LoadDataButton
-        text="Load Project"
-        onClick={load}
-        style={{ marginTop: `35vh` }}
-      />
-      <LoadDataButton text="New project" onClick={newProject} />
-    </div>
+    <input
+      className="hoverGray"
+      {...hover}
+      type="button"
+      value={text}
+      onClick={onClick}
+    />
   )
 }
+
+const newProject = () => {
+  editor.setUp = true
+  editor.reload()
+}
+
+export const LoadData = () => (
+  <div
+    style={{
+      position: `absolute`,
+      width: `100vw`,
+      height: `100vh`,
+      backgroundColor: `rgba(0, 0, 0, 0.5)`,
+      zIndex: 3
+    }}
+  >
+    <LoadDataButton
+      text="Load Project"
+      onClick={load}
+      style={{ marginTop: `35vh` }}
+    />
+    <LoadDataButton text="New project" onClick={newProject} />
+  </div>
+)

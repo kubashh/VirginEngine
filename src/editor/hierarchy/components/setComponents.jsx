@@ -1,8 +1,9 @@
+import { editor } from "../../../lib/consts"
 import { Script } from "./Script"
 import { Transform } from "./Transform"
 
 export const setComponents = (props) => {
-  window.editor.setInspector(
+  editor.setInspector(
     <div>
       <div>
         <h2 style={{ marginLeft: 12 }}>{props.name}</h2>

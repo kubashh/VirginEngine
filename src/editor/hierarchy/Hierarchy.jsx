@@ -1,26 +1,22 @@
 import { useEffect, useState } from "react"
 import { GameObject } from "./GameObject"
+import { editor, files } from "../../lib/consts"
 
 export const Hierarchy = () => {
-  const [state, setState] = useState(0)
+  const [, setState] = useState(0)
 
   useEffect(() => {
-    window.editor.reloadHierarchy = () => {
-      setState(state + 1)
-      window.editor.setInspector(<div />)
+    editor.reloadHierarchy = () => {
+      editor.setInspector()
+      setState((prev) => prev + 1)
     }
   })
 
   return (
-    <div
-      style={{
-        overflow: `scroll`,
-        userSelect: `none`
-      }}
-    >
+    <div style={{ overflow: `scroll`, userSelect: `none` }}>
       <GameObject
-        object={window.files.Scenes[window.editor.selectedScene]}
-        name={window.editor.selectedScene}
+        object={files.Scenes[editor.selectedScene]}
+        name={editor.selectedScene}
         main
       />
     </div>

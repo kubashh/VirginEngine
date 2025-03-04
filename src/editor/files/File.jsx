@@ -2,18 +2,17 @@ import { useState } from "react"
 import { useHover } from "../../lib/hooks"
 import { isFirstUpperCase } from "../../lib/utils"
 import { openScene } from "../../lib/utils"
+import { editor } from "../../lib/consts"
+import { Arrow } from "../../lib/components"
 
 export const File = ({ old, file, name, main, deep = 0 }) => {
   const [open, setOpen] = useState(main)
-  const hover = useHover(
-    { marginLeft: file.type !== `folder` && 24 },
-    { color: `#555` }
-  )
+  const hover = useHover({ color: `#555` })
 
   const isFolder = file.type === `folder`
 
   const onClick = () => {
-    window.editor.setInspector(
+    editor.setInspector(
       <div style={{ margin: 12 }}>
         <h2>File</h2>
         <div>{`Type: ${file.type}`}</div>
@@ -26,7 +25,7 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
     const newArrElement = (name, type) => [
       name,
       () => {
-        window.editor.setNameInput([
+        editor.setNameInput([
           ``,
           (newText) => {
             file[newText] = {
@@ -34,14 +33,14 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
             }
 
             setOpen(true)
-            window.editor.reloadFiles()
+            editor.reloadFiles()
           }
         ])
       },
       isFolder
     ]
 
-    window.editor.setContextMenu({
+    editor.setContextMenu({
       x: pageX,
       y: pageY,
       arr: [
@@ -51,7 +50,7 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
         [
           `Rename`,
           () => {
-            window.editor.setNameInput([
+            editor.setNameInput([
               name,
               (newText) => {
                 if (name === newText) {
@@ -63,7 +62,7 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
                 } else {
                   delete old[name]
                   old[newText] = file
-                  window.editor.reloadFiles()
+                  editor.reloadFiles()
                 }
               }
             ])
@@ -74,7 +73,7 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
           `Delete`,
           () => {
             delete old[name]
-            window.editor.reloadFiles()
+            editor.reloadFiles()
           },
           name !== `files`
         ]
@@ -83,21 +82,12 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
   }
 
   const onMouseDown = (event) =>
-    !main &&
-    window.editor.setDragData(
-      {
-        from: `files`,
-        old,
-        file,
-        name
-      },
-      event
-    )
+    !main && editor.setDragData({ from: `files`, old, file, name }, event)
 
   const onMouseUp = () => {
     if (!isFolder) return
 
-    const { dragData } = window.editor
+    const { dragData } = editor
 
     if (
       dragData?.from !== `files` ||
@@ -111,25 +101,8 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
       delete dragData.old[dragData.name]
     }
 
-    window.editor.reloadFiles()
+    editor.reloadFiles()
   }
-
-  const arrow = isFolder && (
-    <div
-      style={{
-        width: 24,
-        height: 24,
-        textAlign: `center`,
-        justifySelf: `center`,
-        borderRadius: 12,
-        transform: `rotate(${open ? 90 : 0}deg)`,
-        transition: `transform 150ms`
-      }}
-      onClick={() => isFolder && setOpen(!open)}
-    >
-      {`>`}
-    </div>
-  )
 
   const element = (
     <div
@@ -152,23 +125,23 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
     isFolder &&
     open &&
     file.type !== `scene` &&
-    Object.entries(file)
-      .filter(([key]) => isFirstUpperCase(key))
-      .map(([key, value]) => (
-        <File old={file} file={value} name={key} key={key} deep={deep + 1} />
-      ))
+    Object.entries(file).map(
+      ([key, value]) =>
+        isFirstUpperCase(key) && (
+          <File old={file} file={value} name={key} key={key} deep={deep + 1} />
+        )
+    )
 
   return (
     <>
       <div
         style={{
-          cursor: `pointer`,
           marginLeft: deep * 10,
           display: `flex`,
           flexDirection: `row`
         }}
       >
-        {arrow}
+        {Arrow(open, setOpen, isFolder)}
         {element}
       </div>
       {childsElement}

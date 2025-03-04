@@ -1,12 +1,12 @@
-import { allowedNameChars, alphabet, keyWords } from "./consts"
+import { allowedNameChars, alphabet, editor, keywords } from "./consts"
 
-export const downloadFile = (name, text, encode = false) => {
-  const htmlElement = document.createElement(`a`)
-  // Ustawienie typu i kodowania encodeURIComponent(jsonData)
-  htmlElement.href = `data:text;charset=utf-8,${encode ? encodeURIComponent(text) : text}`
-  htmlElement.download = name
-  htmlElement.click()
-}
+export const downloadFile = (name, text, encode = false) =>
+  createElement({
+    name: `a`,
+    href: `data:text;charset=utf-8,${encode ? encodeURIComponent(text) : text}`,
+    download: name,
+    click: true
+  })
 
 export const isFirstUpperCase = (text) =>
   typeof text === `string` && alphabet.toUpperCase().includes(text[0])
@@ -30,15 +30,15 @@ export const addSpaceBeforeUpper = (text) =>
       text[0].toUpperCase()
     )
 
-const includesKeywords = (text) => keyWords.includes(text)
+export const includesKeywords = (text) => keywords.includes(text)
 
 export const isCustomProp = (text) =>
   !isFirstUpperCase(text) && !includesKeywords(text)
 
 export const openScene = (sceneName) => {
-  window.editor.selectedScene = sceneName
+  editor.selectedScene = sceneName
 
-  window.editor.reloadHierarchy?.()
+  editor.reloadHierarchy?.()
 }
 
 export const defaultGameObject = () => ({
@@ -57,3 +57,11 @@ export const defaultGameObject = () => ({
     }
   }
 })
+
+export const createElement = ({ name, click, ...props }) => {
+  const element = document.createElement(name)
+  for (const key in props) {
+    element[key] = props[key]
+  }
+  click && element.click()
+}

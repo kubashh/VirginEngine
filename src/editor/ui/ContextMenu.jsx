@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from "react"
+import { editor } from "../../lib/consts"
 
 export const ContextMenu = () => {
   const [{ x, y, arr }, setContextMenu] = useState({})
   const ref = useRef()
 
   useEffect(() => {
-    window.editor.setContextMenu = setContextMenu
+    editor.setContextMenu = setContextMenu
 
     const handler = ({ target }) => {
       if (ref.current) {

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 import { isValidName } from "../../lib/utils"
+import { editor } from "../../lib/consts"
 
 export const NameInput = () => {
   const [[text, cb, loverCase], setNameInput] = useState([])
@@ -14,7 +15,7 @@ export const NameInput = () => {
 
   // eslint-disable-next-line
   useEffect(() => {
-    window.editor.setNameInput = setNameInput
+    editor.setNameInput = setNameInput
 
     const handler = ({ target }) => {
       if (ref.current && !ref.current.contains(target)) {

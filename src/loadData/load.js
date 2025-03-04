@@ -1,43 +1,38 @@
+import { config, editor, files } from "../lib/consts"
+import { createElement } from "../lib/utils"
+
+const clearAssign = (old, obj) => {
+  for (const key in old) {
+    delete old[key]
+  }
+
+  for (const key in obj) {
+    old[key] = obj[key]
+  }
+}
+
 const setData = (data) => {
-  const { config, editor, files } = window
-
-  // Clean Config
-  for (const key in config) {
-    delete files[key]
-  }
-
-  // Clean Object
-  for (const key in files) {
-    delete files[key]
-  }
-
-  // Files
-  for (const key in data.files) {
-    files[key] = data.files[key]
-  }
-
-  // Config
-  window.config = data.config
+  clearAssign(config, data.config)
+  clearAssign(files, data.files)
 
   editor.setUp = true
   editor.reload()
 }
 
-export const load = () => {
-  const plikInput = document.createElement(`input`)
-  plikInput.type = `file`
-  plikInput.accept = `.deathengine`
+export const load = () =>
+  createElement({
+    name: `input`,
+    type: `file`,
+    accept: `.deathengine`,
+    onchange: ({ target }) => {
+      const [file] = target.files
+      const reader = new FileReader()
 
-  plikInput.addEventListener(`change`, ({ target }) => {
-    const [file] = target.files
-    const reader = new FileReader()
+      reader.onload = ({ target }) => {
+        setData(JSON.parse(target.result))
+      }
 
-    reader.onload = ({ target: { result } }) => {
-      setData(JSON.parse(result))
-    }
-
-    reader.readAsText(file)
+      reader.readAsText(file)
+    },
+    click: true
   })
-
-  plikInput.click()
-}

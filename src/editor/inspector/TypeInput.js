@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { addSpaceBeforeUpper } from "../../lib/utils"
+import { numbers } from "../../lib/consts"
 
 const BoolInput = ({ parent, access, refresh }) => {
   return {
@@ -30,7 +31,7 @@ const NumberInput = ({ parent, access }) => {
       let dot = false
       for (const char of value) {
         // Is includes allow chars
-        if (!`${window.editor.numbers}.`.includes(char)) {
+        if (!`${numbers}.`.includes(char)) {
           return
         }
 

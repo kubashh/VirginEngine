@@ -1,3 +1,4 @@
+import { editor } from "../lib/consts"
 import { Header } from "./Header"
 
 export const EditorWindow = ({ style, text, content, position, elements }) => {
@@ -12,9 +13,7 @@ export const EditorWindow = ({ style, text, content, position, elements }) => {
         overflow: `scroll`,
         ...style
       }}
-      onClick={() => {
-        window.editor.selectedField = text
-      }}
+      onClick={() => (editor.selectedField = text)}
     >
       <Header text={text} elements={elements} />
       {content}
