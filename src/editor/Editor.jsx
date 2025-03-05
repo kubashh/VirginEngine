@@ -22,7 +22,7 @@ export const Editor = () => {
       <div
         style={{
           display: `grid`,
-          gridTemplateColumns: `${width0}px ${width1}px auto`,
+          gridTemplateColumns: `65fr 15fr auto`,
           gridTemplateRows: `55vh auto`,
           gap: 1,
           backgroundColor: `#aaa`,

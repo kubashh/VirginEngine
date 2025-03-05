@@ -3,7 +3,7 @@ import { isValidName } from "../../lib/utils"
 import { editor } from "../../lib/consts"
 
 export const NameInput = () => {
-  const [[text, cb, loverCase], setNameInput] = useState([])
+  const [[cb, text = ``, loverCase], setNameInput] = useState([])
   const ref = useRef()
 
   const ret = () => {
@@ -13,22 +13,19 @@ export const NameInput = () => {
     setNameInput([])
   }
 
-  // eslint-disable-next-line
   useEffect(() => {
     editor.setNameInput = setNameInput
 
-    const handler = ({ target }) => {
-      if (ref.current && !ref.current.contains(target)) {
-        ret()
-      }
-    }
+    const handler = ({ target }) =>
+      ref.current && !ref.current.contains(target) && ret()
 
     document.addEventListener(`mousedown`, handler)
 
     return () => {
       document.removeEventListener(`mousedown`, handler)
     }
-  })
+    // eslint-disable-next-line
+  }, [text === ``])
 
   return cb ? (
     <input
@@ -49,7 +46,7 @@ export const NameInput = () => {
 
         if (value.length !== 0 && !isValidName(value)) return
 
-        setNameInput([value, cb, loverCase])
+        setNameInput([cb, value, loverCase])
       }}
       onKeyDown={({ key }) => {
         if (key === `Enter`) {

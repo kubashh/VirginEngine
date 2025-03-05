@@ -50,7 +50,6 @@ export const Script = ({ object }) => {
             }}
             onClick={() =>
               editor.setNameInput([
-                ``,
                 (text) => {
                   for (const key of Object.keys(object)) {
                     if (key === text) return
@@ -59,6 +58,7 @@ export const Script = ({ object }) => {
                   object[text] = `0`
                   refresh()
                 },
+                ``,
                 true
               ])
             }

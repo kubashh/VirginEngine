@@ -1,7 +1,5 @@
-import { joinFiles } from "./fn/joinAndImport"
-import { optymalizeJs } from "./fn/optymalizeJs"
-import { getFilesAndScene } from "./fn/getFilesAndScene"
-import { staticFiles } from "./lib/staticFiles"
+import { getFilesAndScene, joinFiles, optymalizeJs } from "../fn"
+import { staticFiles } from "./staticFiles"
 
 export const jsCode = () =>
   optymalizeJs(
@@ -10,7 +8,7 @@ export const jsCode = () =>
       getFilesAndScene(),
       `
         run()
-        document.body.children[1].remove()
+        //document.body.children[1].remove()
       `
     )
   )

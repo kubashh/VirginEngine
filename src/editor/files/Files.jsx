@@ -1,15 +1,11 @@
-import { useEffect, useState } from "react"
 import { File } from "./File"
 import { editor, files } from "../../lib/consts"
+import { useRefresh } from "../../lib/hooks"
 
 export const Files = () => {
-  const [state, setState] = useState(0)
+  const refresh = useRefresh()
 
-  useEffect(() => {
-    editor.reloadFiles = () => {
-      setState(state + 1)
-    }
-  })
+  editor.reloadFiles = refresh
 
   return (
     <div style={{ overflow: `scroll`, userSelect: `none` }}>

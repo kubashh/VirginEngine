@@ -1,14 +1,12 @@
-import { useEffect, useState } from "react"
 import { Editor } from "./editor/Editor"
 import { LoadData } from "./loadData/LoadData"
 import { editor } from "./lib/consts"
+import { useRefresh } from "./lib/hooks"
 
 export const App = () => {
-  const [, setState] = useState(0)
+  const refresh = useRefresh()
 
-  useEffect(() => {
-    editor.reload = () => setState((prev) => prev + 1)
-  })
+  editor.reload = refresh
 
   return (
     <>

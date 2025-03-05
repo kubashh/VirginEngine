@@ -1,20 +1,19 @@
+import { config } from "../../lib/consts"
 import { jsCode } from "../js/jsCode"
 import { optymalizeHtml } from "./optymalizeHtml"
 
 export const htmlCode = () => {
-  const { author, description, gameName } = window.config
-
   const html0 = optymalizeHtml(`
     <!DOCTYPE html>
     <html lang="en">
     <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta name="author" content="${author}">
-      <meta name="description" content="${description}">
-      <meta name="keywords" content="${gameName}, ${author}">
+      <meta name="author" content="${config.author}">
+      <meta name="description" content="${config.description}">
+      <meta name="keywords" content="${config.gameName}, ${config.author}">
 
-      <title>${gameName}</title>
+      <title>${config.gameName}</title>
 
       <style>
         html, body {

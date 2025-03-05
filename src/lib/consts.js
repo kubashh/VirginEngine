@@ -23,7 +23,7 @@ export const config = {
   version: `0.0.0`,
   author: `Your Name or Nick`,
   description: `Write what game is`,
-  pathToMainScene: `Scenes.DefaultScene`
+  pathToMainScene: `files.Scenes.DefaultScene`
 }
 
 export const editor = {

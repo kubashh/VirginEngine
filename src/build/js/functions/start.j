@@ -10,6 +10,4 @@ const setObjects = (object) => {
   }
 }
 
-const start = () => {
-  loadScene(currentScene)
-}
+const start = () => {}

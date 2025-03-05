@@ -1,10 +1,11 @@
 class GameObject {
-  constructor({ parent, transform, ...rest }) {
+  constructor({ parent, transform, sprite, ...rest }) {
     if (parent) {
       this.parent = parent
     }
 
     this.transform = new Transform(transform)
+    if (sprite) this.sprite = new Sprite(sprite)
 
     for (const key in rest) {
       if (isFirstUpperCase(key)) {

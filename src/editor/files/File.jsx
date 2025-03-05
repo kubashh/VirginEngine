@@ -1,12 +1,10 @@
-import { useState } from "react"
-import { useHover } from "../../lib/hooks"
+import { useArrow, useHover } from "../../lib/hooks"
 import { isFirstUpperCase } from "../../lib/utils"
 import { openScene } from "../../lib/utils"
 import { editor } from "../../lib/consts"
-import { Arrow } from "../../lib/components"
 
 export const File = ({ old, file, name, main, deep = 0 }) => {
-  const [open, setOpen] = useState(main)
+  const [arrow, open, setOpen] = useArrow(main)
   const hover = useHover({ color: `#555` })
 
   const isFolder = file.type === `folder`
@@ -23,10 +21,8 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
 
   const onContextMenu = ({ pageX, pageY }) => {
     const newArrElement = (name, type) => [
-      name,
       () => {
         editor.setNameInput([
-          ``,
           (newText) => {
             file[newText] = {
               type
@@ -37,6 +33,7 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
           }
         ])
       },
+      name,
       isFolder
     ]
 
@@ -51,7 +48,6 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
           `Rename`,
           () => {
             editor.setNameInput([
-              name,
               (newText) => {
                 if (name === newText) {
                   return
@@ -64,7 +60,8 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
                   old[newText] = file
                   editor.reloadFiles()
                 }
-              }
+              },
+              name
             ])
           },
           name !== `files`
@@ -141,7 +138,7 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
           flexDirection: `row`
         }}
       >
-        {Arrow(open, setOpen, isFolder)}
+        {arrow}
         {element}
       </div>
       {childsElement}

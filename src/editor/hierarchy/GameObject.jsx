@@ -1,5 +1,4 @@
-import { useState } from "react"
-import { useHover } from "../../lib/hooks"
+import { useArrow, useHover } from "../../lib/hooks"
 import { setComponents } from "./components/setComponents"
 import {
   defaultGameObject,
@@ -7,7 +6,6 @@ import {
   isFirstUpperCase
 } from "../../lib/utils"
 import { editor, files } from "../../lib/consts"
-import { Arrow } from "../../lib/components"
 
 const getChilds = (obj) => {
   const childs = {}
@@ -22,12 +20,10 @@ const getChilds = (obj) => {
 }
 
 export const GameObject = ({ old, name, object, main, deep = 0 }) => {
-  const [open, setOpen] = useState(main)
-
   const childs = getChilds(object)
-
   const haveChilds = Object.keys(childs)?.length > 0
 
+  const [arrow, open, setOpen] = useArrow(main, haveChilds)
   const hover = useHover({ color: `#555` })
 
   const onClick = () => {
@@ -49,7 +45,6 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
           `New Object`,
           () => {
             editor.setNameInput([
-              ``,
               (newText) => {
                 if (Object.keys(object).includes(newText)) return
 
@@ -65,7 +60,6 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
           `Rename`,
           () => {
             editor.setNameInput([
-              name,
               (newText) => {
                 if (name === newText) return
 
@@ -79,7 +73,8 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
                 delete old[name]
                 old[newText] = object
                 editor.reloadHierarchy()
-              }
+              },
+              name
             ])
           },
           !main
@@ -164,7 +159,7 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
           flexDirection: `row`
         }}
       >
-        {Arrow(open, setOpen, haveChilds)}
+        {arrow}
         {element}
       </div>
       {childsElement}

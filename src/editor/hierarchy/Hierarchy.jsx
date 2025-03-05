@@ -1,16 +1,14 @@
-import { useEffect, useState } from "react"
 import { GameObject } from "./GameObject"
 import { editor, files } from "../../lib/consts"
+import { useRefresh } from "../../lib/hooks"
 
 export const Hierarchy = () => {
-  const [, setState] = useState(0)
+  const refresh = useRefresh()
 
-  useEffect(() => {
-    editor.reloadHierarchy = () => {
-      editor.setInspector()
-      setState((prev) => prev + 1)
-    }
-  })
+  editor.reloadHierarchy = () => {
+    editor.setInspector()
+    refresh()
+  }
 
   return (
     <div style={{ overflow: `scroll`, userSelect: `none` }}>
