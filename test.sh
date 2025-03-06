@@ -1,3 +1,0 @@
-clear
-
-npm start
