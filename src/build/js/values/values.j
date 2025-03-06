@@ -11,6 +11,8 @@ const setWidthHeightCanvas = () => {
 window.addEventListener(`resize`, setWidthHeightCanvas)
 setWidthHeightCanvas()
 
+let currentScene = {}
+
 let events = {}
 
 window.addEventListener(`mousedown`, () => (events.mouseHover = true))
@@ -20,4 +22,12 @@ window.addEventListener(`click`, () => (events.click = true))
 
 window.addEventListener(`keydown`, ({ key }) => (events[key] = true))
 
-let currentScene = {}
+window.addEventListener(`contextmenu`, (e) => {
+  e.preventDefault()
+
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen()
+  } else if (document.exitFullscreen) {
+    document.exitFullscreen()
+  }
+})

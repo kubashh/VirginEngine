@@ -3,7 +3,6 @@ import { editor } from "../../lib/consts"
 
 export const DragData = () => {
   const [mouse, setMouse] = useState({})
-  const data = editor.dragData
 
   const handleMouseMove = ({ clientX, clientY }) =>
     setMouse({ left: clientX + 3, top: clientY + 3 })
@@ -17,7 +16,7 @@ export const DragData = () => {
   editor.setDragData = setDragData
 
   useEffect(() => {
-    if (!data) return
+    if (!editor.dragData) return
 
     window.addEventListener(`mousemove`, handleMouseMove)
 
@@ -25,7 +24,7 @@ export const DragData = () => {
   })
 
   useEffect(() => {
-    if (!data) return
+    if (!editor.dragData) return
 
     const handleMouseUp = () => setDragData()
 
@@ -34,7 +33,7 @@ export const DragData = () => {
     return () => window.removeEventListener(`mouseup`, handleMouseUp)
   })
 
-  return data ? (
+  return editor.dragData ? (
     <div
       style={{
         position: `absolute`,
@@ -42,8 +41,7 @@ export const DragData = () => {
         backgroundColor: `rgba(0, 0, 0, 0.5)`,
         ...mouse
       }}
-    >
-      {data.name}
-    </div>
+      children={editor.dragData.name}
+    />
   ) : null
 }

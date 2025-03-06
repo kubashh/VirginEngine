@@ -9,10 +9,7 @@ const CustomInput = ({ text, onClick }) => {
     <input
       type="button"
       value={text}
-      style={{
-        border: 0,
-        height: 30
-      }}
+      style={{ border: 0, height: 30 }}
       onClick={onClick}
     />
   )
@@ -23,11 +20,7 @@ export const EditorOpctions = () => {
 
   return (
     <div
-      style={{
-        position: `absolute`,
-        zIndex: 1,
-        right: 0
-      }}
+      style={{ position: `absolute`, zIndex: 1, right: 0 }}
       onMouseEnter={() => setShow(true)}
       onMouseLeave={() => setShow(false)}
     >
@@ -41,9 +34,8 @@ export const EditorOpctions = () => {
           border: `3px solid #333`,
           textAlign: `center`
         }}
-      >
-        O
-      </div>
+        children="0"
+      />
       {show && (
         <div
           style={{
@@ -68,9 +60,7 @@ export const EditorOpctions = () => {
           />
           <CustomInput
             text="Config"
-            onClick={() => {
-              editor.setInspector(<Config />)
-            }}
+            onClick={() => editor.setInspector(<Config />)}
           />
         </div>
       )}

@@ -24,7 +24,7 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
   const haveChilds = Object.keys(childs)?.length > 0
 
   const [arrow, open, setOpen] = useArrow(main, haveChilds)
-  const hover = useHover({ color: `#555` })
+  const [isHover, hover] = useHover()
 
   const onClick = () => {
     if (main) return
@@ -37,58 +37,56 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
   }
 
   const onContextMenu = ({ pageX, pageY }) => {
-    editor.setContextMenu({
-      x: pageX,
-      y: pageY,
-      arr: [
-        [
-          `New Object`,
-          () => {
-            editor.setNameInput([
-              (newText) => {
-                if (Object.keys(object).includes(newText)) return
+    editor.setContextMenu([
+      pageX,
+      pageY,
+      [
+        () => {
+          editor.setNameInput([
+            (newText) => {
+              if (Object.keys(object).includes(newText)) return
 
-                object[newText] = defaultGameObject()
+              object[newText] = defaultGameObject()
 
-                setOpen(true)
-                editor.reloadHierarchy()
+              setOpen(true)
+              editor.reloadHierarchy()
+            }
+          ])
+        },
+        `New Object`
+      ],
+      [
+        () => {
+          editor.setNameInput([
+            (newText) => {
+              if (name === newText) return
+
+              if (main) {
+                old = files.Scenes
+                editor.selectedScene = newText
               }
-            ])
-          }
-        ],
-        [
-          `Rename`,
-          () => {
-            editor.setNameInput([
-              (newText) => {
-                if (name === newText) return
 
-                if (main) {
-                  old = files.Scenes
-                  editor.selectedScene = newText
-                }
+              if (old[newText]) return
 
-                if (old[newText]) return
-
-                delete old[name]
-                old[newText] = object
-                editor.reloadHierarchy()
-              },
-              name
-            ])
-          },
-          !main
-        ],
-        [
-          `Delete`,
-          () => {
-            delete old[name]
-            editor.reloadHierarchy()
-          },
-          !main
-        ]
+              delete old[name]
+              old[newText] = object
+              editor.reloadHierarchy()
+            },
+            name
+          ])
+        },
+        `Rename`,
+        !main
+      ],
+      [
+        () => {
+          delete old[name]
+          editor.reloadHierarchy()
+        },
+        `Delete`,
+        !main
       ]
-    })
+    ])
   }
 
   const onMouseDown = (event) =>
@@ -128,6 +126,7 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
   const element = (
     <div
       {...hover}
+      style={{ color: !isHover ? `white` : `#555` }}
       onClick={onClick}
       onContextMenu={onContextMenu}
       onMouseDown={onMouseDown}

@@ -1,17 +1,12 @@
 import { useState } from "react"
 
-export const useHover = (styleOnHover, defaultStyle) => {
-  const [style, setStyle] = useState(defaultStyle)
+export const useHover = () => {
+  const [isHover, setIsHover] = useState(false)
 
-  const onMouseEnter = () =>
-    setStyle({
-      cursor: `pointer`,
-      ...defaultStyle,
-      ...styleOnHover
-    })
-  const onMouseLeave = () => setStyle({ ...defaultStyle })
+  const onMouseEnter = () => setIsHover(true)
+  const onMouseLeave = () => setIsHover(false)
 
-  return { style, onMouseEnter, onMouseLeave }
+  return [isHover, { onMouseEnter, onMouseLeave }]
 }
 
 export const useArrow = (main, haveChilds = true) => {
@@ -31,9 +26,8 @@ export const useArrow = (main, haveChilds = true) => {
           transition: `transform 150ms`
         }}
         onClick={() => setOpen((prev) => !prev)}
-      >
-        {`>`}
-      </div>
+        children={`>`}
+      />
     ) : (
       <div style={{ marginLeft: 24 }} />
     ),

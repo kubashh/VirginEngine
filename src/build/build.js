@@ -1,4 +1,4 @@
-import { htmlCode } from "./html/htmlCode"
+import { htmlCode } from "./htmlCode"
 import { downloadFile } from "../lib/utils"
 import { config } from "../lib/consts"
 

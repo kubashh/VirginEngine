@@ -49,3 +49,13 @@ input[type="checkbox"]:checked + label:before {
   color: white;
   text-align: center;
 }
+
+#root {
+  display: grid;
+  grid-template-columns: 65fr 15fr auto;
+  grid-template-rows: 55vh auto;
+  gap: 1px;
+  background-color: #aaa;
+  width: 100vw;
+  height: 100vh;
+}

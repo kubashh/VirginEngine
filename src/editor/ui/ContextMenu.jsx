@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import { editor } from "../../lib/consts"
 
 export const ContextMenu = () => {
-  const [{ x, y, arr }, setContextMenu] = useState({})
+  const [[x, y, ...arr], setContextMenu] = useState([])
   const ref = useRef()
 
   useEffect(() => {
@@ -11,7 +11,7 @@ export const ContextMenu = () => {
     const handler = ({ target }) => {
       if (ref.current) {
         if (!ref.current.contains(target)) {
-          setContextMenu({})
+          setContextMenu([])
         }
       }
     }
@@ -35,25 +35,25 @@ export const ContextMenu = () => {
         border: `3px solid #333`
       }}
     >
-      {arr
-        .filter(([, , show = true]) => show)
-        .map(([text, fn]) => (
+      {arr.map(([fn, text, show = true]) =>
+        show ? (
           <div
             key={text}
             onClick={() => {
               fn()
-              setContextMenu({})
+              setContextMenu([])
             }}
             style={{
               cursor: `pointer`,
+              // Do nothing
               "&:hover": {
-                backgroundColor: `#333`
+                backgroundColor: `red`
               }
             }}
-          >
-            {text}
-          </div>
-        ))}
+            children={text}
+          />
+        ) : null
+      )}
     </div>
   ) : null
 }

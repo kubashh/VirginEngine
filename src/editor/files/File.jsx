@@ -4,8 +4,8 @@ import { openScene } from "../../lib/utils"
 import { editor } from "../../lib/consts"
 
 export const File = ({ old, file, name, main, deep = 0 }) => {
-  const [arrow, open, setOpen] = useArrow(main)
-  const hover = useHover({ color: `#555` })
+  const [arrow, open, setOpen] = useArrow(main, file.type === `folder`)
+  const [isHover, hover] = useHover()
 
   const isFolder = file.type === `folder`
 
@@ -37,45 +37,43 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
       isFolder
     ]
 
-    editor.setContextMenu({
-      x: pageX,
-      y: pageY,
-      arr: [
-        newArrElement(`New file`, `txt`),
-        newArrElement(`New folder`, `folder`),
-        newArrElement(`New scene`, `scene`),
-        [
-          `Rename`,
-          () => {
-            editor.setNameInput([
-              (newText) => {
-                if (name === newText) {
-                  return
-                }
+    editor.setContextMenu([
+      pageX,
+      pageY,
+      newArrElement(`New file`, `txt`),
+      newArrElement(`New folder`, `folder`),
+      newArrElement(`New scene`, `scene`),
+      [
+        () => {
+          editor.setNameInput([
+            (newText) => {
+              if (name === newText) {
+                return
+              }
 
-                if (old[newText]) {
-                  console.error(`Error`)
-                } else {
-                  delete old[name]
-                  old[newText] = file
-                  editor.reloadFiles()
-                }
-              },
-              name
-            ])
-          },
-          name !== `files`
-        ],
-        [
-          `Delete`,
-          () => {
-            delete old[name]
-            editor.reloadFiles()
-          },
-          name !== `files`
-        ]
+              if (old[newText]) {
+                console.error(`Error`)
+              } else {
+                delete old[name]
+                old[newText] = file
+                editor.reloadFiles()
+              }
+            },
+            name
+          ])
+        },
+        `Rename`,
+        name !== `files`
+      ],
+      [
+        () => {
+          delete old[name]
+          editor.reloadFiles()
+        },
+        `Delete`,
+        name !== `files`
       ]
-    })
+    ])
   }
 
   const onMouseDown = (event) =>
@@ -104,6 +102,7 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
   const element = (
     <div
       {...hover}
+      style={{ color: !isHover ? `white` : `#555` }}
       onClick={onClick}
       onContextMenu={onContextMenu}
       onMouseDown={onMouseDown}
@@ -132,11 +131,7 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
   return (
     <>
       <div
-        style={{
-          marginLeft: deep * 10,
-          display: `flex`,
-          flexDirection: `row`
-        }}
+        style={{ marginLeft: deep * 10, display: `flex`, flexDirection: `row` }}
       >
         {arrow}
         {element}

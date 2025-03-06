@@ -3,7 +3,7 @@ import { isValidName } from "../../lib/utils"
 import { editor } from "../../lib/consts"
 
 export const NameInput = () => {
-  const [[cb, text = ``, loverCase], setNameInput] = useState([])
+  const [[cb, text = ``, loverCase = false], setNameInput] = useState([])
   const ref = useRef()
 
   const ret = () => {
@@ -21,9 +21,8 @@ export const NameInput = () => {
 
     document.addEventListener(`mousedown`, handler)
 
-    return () => {
-      document.removeEventListener(`mousedown`, handler)
-    }
+    return () => document.removeEventListener(`mousedown`, handler)
+
     // eslint-disable-next-line
   }, [text === ``])
 
@@ -48,11 +47,7 @@ export const NameInput = () => {
 
         setNameInput([cb, value, loverCase])
       }}
-      onKeyDown={({ key }) => {
-        if (key === `Enter`) {
-          ret()
-        }
-      }}
+      onKeyDown={({ key }) => key === `Enter` && ret()}
     />
   ) : null
 }
