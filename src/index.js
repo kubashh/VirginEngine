@@ -19,7 +19,7 @@ const setUp = () => {
 
 setUp()
 
-const root = createRoot(document.getElementById(`root`))
+const root = createRoot(document.getElementsByTagName(`main`)[0])
 root.render(
   <StrictMode>
     <App />

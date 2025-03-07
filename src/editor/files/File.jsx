@@ -1,13 +1,13 @@
-import { useArrow, useHover } from "../../lib/hooks"
+import { useArrow } from "../../lib/hooks"
 import { isFirstUpperCase } from "../../lib/utils"
 import { openScene } from "../../lib/utils"
 import { editor } from "../../lib/consts"
+import { FileElement } from "../../lib/components"
 
 export const File = ({ old, file, name, main, deep = 0 }) => {
-  const [arrow, open, setOpen] = useArrow(main, file.type === `folder`)
-  const [isHover, hover] = useHover()
-
   const isFolder = file.type === `folder`
+
+  const [arrow, open, setOpen] = useArrow(main, isFolder)
 
   const onClick = () => {
     editor.setInspector(
@@ -21,18 +21,15 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
 
   const onContextMenu = ({ pageX, pageY }) => {
     const newArrElement = (name, type) => [
-      () => {
+      () =>
         editor.setNameInput([
           (newText) => {
-            file[newText] = {
-              type
-            }
+            file[newText] = { type }
 
             setOpen(true)
             editor.reloadFiles()
           }
-        ])
-      },
+        ]),
       name,
       isFolder
     ]
@@ -44,12 +41,10 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
       newArrElement(`New folder`, `folder`),
       newArrElement(`New scene`, `scene`),
       [
-        () => {
+        () =>
           editor.setNameInput([
             (newText) => {
-              if (name === newText) {
-                return
-              }
+              if (name === newText) return
 
               if (old[newText]) {
                 console.error(`Error`)
@@ -60,8 +55,7 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
               }
             },
             name
-          ])
-        },
+          ]),
         `Rename`,
         name !== `files`
       ],
@@ -99,23 +93,11 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
     editor.reloadFiles()
   }
 
-  const element = (
-    <div
-      {...hover}
-      style={{ color: !isHover ? `white` : `#555` }}
-      onClick={onClick}
-      onContextMenu={onContextMenu}
-      onMouseDown={onMouseDown}
-      onMouseUp={onMouseUp}
-      onDoubleClick={() => {
-        if (file.type === `scene`) {
-          openScene(name)
-        }
-      }}
-    >
-      {name}
-    </div>
-  )
+  const onDoubleClick = () => {
+    if (file.type === `scene`) {
+      openScene(name)
+    }
+  }
 
   const childsElement =
     isFolder &&
@@ -128,15 +110,15 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
         )
     )
 
-  return (
-    <>
-      <div
-        style={{ marginLeft: deep * 10, display: `flex`, flexDirection: `row` }}
-      >
-        {arrow}
-        {element}
-      </div>
-      {childsElement}
-    </>
-  )
+  return FileElement({
+    deep,
+    name,
+    arrow,
+    childsElement,
+    onClick,
+    onContextMenu,
+    onMouseDown,
+    onMouseUp,
+    onDoubleClick
+  })
 }

@@ -1,7 +1,7 @@
-import { useState } from "react"
+import { useHover } from "../../lib/hooks"
 
-export const SceneDropdown = ({ currentText, setAspectRatio, left }) => {
-  const [show, setShow] = useState(false)
+export const SceneDropdown = ({ currentText, setAspectRatio }) => {
+  const [isHover, hover] = useHover()
 
   const opctions = [`16 / 9`, `9 / 16`]
 
@@ -15,21 +15,18 @@ export const SceneDropdown = ({ currentText, setAspectRatio, left }) => {
         width: 80,
         position: `absolute`,
         top: 0,
-        left: left - 86
+        left: `calc(55vw - 186px)`
       }}
-      onMouseEnter={() => setShow(true)}
-      onMouseLeave={() => setShow(false)}
+      {...hover}
     >
       <input type="button" value={currentText} />
-      {show &&
+      {isHover &&
         opctions.map((value) => (
           <input
             type="button"
             key={value}
             value={value}
-            onClick={() => {
-              setAspectRatio(value)
-            }}
+            onClick={() => setAspectRatio(value)}
           />
         ))}
     </div>

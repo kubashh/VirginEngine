@@ -1,8 +1,21 @@
-import { useState } from "react"
-import { save } from "./save"
 import { test, build } from "../../build/build"
 import { Config } from "./Config"
-import { editor } from "../../lib/consts"
+import { config, editor, files } from "../../lib/consts"
+import { useHover } from "../../lib/hooks"
+import { downloadFile } from "../../lib/utils"
+
+const load = () => {
+  editor.setUp = false
+  editor.reload()
+}
+
+export const save = () =>
+  downloadFile(
+    `${config.gameName}.deathengine`,
+    JSON.stringify({ config, files })
+  )
+
+const onConfig = () => editor.setInspector(<Config />)
 
 const CustomInput = ({ text, onClick }) => {
   return (
@@ -16,14 +29,10 @@ const CustomInput = ({ text, onClick }) => {
 }
 
 export const EditorOpctions = () => {
-  const [show, setShow] = useState(false)
+  const [isHover, hover] = useHover()
 
   return (
-    <div
-      style={{ position: `absolute`, zIndex: 1, right: 0 }}
-      onMouseEnter={() => setShow(true)}
-      onMouseLeave={() => setShow(false)}
-    >
+    <div style={{ position: `absolute`, zIndex: 1, right: 0 }} {...hover}>
       <div
         style={{
           position: `absolute`,
@@ -34,9 +43,9 @@ export const EditorOpctions = () => {
           border: `3px solid #333`,
           textAlign: `center`
         }}
-        children="0"
+        children="S"
       />
-      {show && (
+      {isHover && (
         <div
           style={{
             position: `absolute`,
@@ -51,17 +60,8 @@ export const EditorOpctions = () => {
           <CustomInput text="Save" onClick={save} />
           <CustomInput text="Test" onClick={test} />
           <CustomInput text="Build" onClick={build} />
-          <CustomInput
-            text="Load"
-            onClick={() => {
-              editor.setUp = false
-              editor.reload()
-            }}
-          />
-          <CustomInput
-            text="Config"
-            onClick={() => editor.setInspector(<Config />)}
-          />
+          <CustomInput text="Load" onClick={load} />
+          <CustomInput text="Config" onClick={onConfig} />
         </div>
       )}
     </div>

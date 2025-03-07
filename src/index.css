@@ -1,3 +1,9 @@
+:root {
+  --hierarchy-width: calc(15vw + 50px);
+  --inspector-width: calc(30vw + 50px);
+  --hierarchy-height: 55vh;
+}
+
 body {
   margin: 0;
   font-family: sans-serif;
@@ -9,6 +15,7 @@ body {
   background-color: black;
 }
 
+/* Input */
 input {
   background-color: #222;
   border: 2px solid black;
@@ -50,12 +57,59 @@ input[type="checkbox"]:checked + label:before {
   text-align: center;
 }
 
-#root {
+/* Main */
+main {
   display: grid;
   grid-template-columns: 65fr 15fr auto;
   grid-template-rows: 55vh auto;
   gap: 1px;
   background-color: #aaa;
   width: 100vw;
+  height: 100vh;
+}
+
+/* Header */
+.header {
+  border-bottom: 2px solid #aaa;
+}
+
+.header * {
+  padding-left: 8px;
+}
+
+/* Editor */
+.scene,
+.hierarchy,
+.files,
+.inspector {
+  display: grid;
+  grid-template-rows: 24px auto;
+}
+
+.scene {
+  grid-column: 1 / span 1;
+  grid-row: 1 / span 2;
+  width: calc(100vw - var(--hierarchy-width) - var(--inspector-width));
+  height: 100vh;
+}
+
+.hierarchy {
+  grid-column: 2 / span 1;
+  grid-row: 1 / span 1;
+  width: var(--hierarchy-width);
+  height: var(--hierarchy-height);
+}
+
+.files {
+  grid-column: 2 / span 1;
+  grid-row: 2 / span 1;
+  width: var(--hierarchy-width);
+  height: calc(100vh - var(--hierarchy-height));
+}
+
+.inspector {
+  grid-column: 3 / span 1;
+  grid-row: 1 / span 2;
+  width: var(--inspector-width);
   height: 100vh;
 }

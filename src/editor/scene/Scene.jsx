@@ -1,22 +1,24 @@
 import { useState } from "react"
 import { SceneDropdown } from "./SceneDropdown"
+import { Header } from "../../lib/components"
 
-export const Scene = ({ width }) => {
+export const Scene = () => {
   const [aspectRatio, setAspectRatio] = useState(`16 / 9`)
 
   return (
-    <div style={{ backgroundColor: `#111` }}>
-      <SceneDropdown
-        currentText={aspectRatio}
-        setAspectRatio={setAspectRatio}
-        left={width}
+    <>
+      <Header
+        text="Scene"
+        elements={
+          <SceneDropdown
+            currentText={aspectRatio}
+            setAspectRatio={setAspectRatio}
+          />
+        }
       />
-      <canvas
-        style={{
-          width: `100%`,
-          aspectRatio
-        }}
-      />
-    </div>
+      <div style={{ backgroundColor: `#111` }}>
+        <canvas style={{ width: `100%`, aspectRatio }} />
+      </div>
+    </>
   )
 }

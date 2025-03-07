@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { addSpaceBeforeUpper } from "../../lib/utils"
 import { numbers } from "../../lib/consts"
+import { useRefresh } from "../../lib/hooks"
 
 const BoolInput = ({ parent, access, refresh }) => {
   return {
@@ -68,16 +69,9 @@ const StringInput = ({ parent, access, refresh }) => {
 }
 
 export const TypeInput = (props) => {
-  const [state, setState] = useState(0)
+  const refresh = useRefresh(0)
 
-  const refresh = () => {
-    setState(state + 1)
-  }
-
-  props = {
-    refresh,
-    ...props
-  }
+  props = { refresh, ...props }
 
   const type = typeof props.parent[props.access]
 

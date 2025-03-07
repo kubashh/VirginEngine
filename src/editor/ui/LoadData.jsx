@@ -1,6 +1,6 @@
 import { createElement } from "react"
-import { editor, config, files } from "../lib/consts"
-import { useHover } from "../lib/hooks"
+import { editor, config, files } from "../../lib/consts"
+import { useHover } from "../../lib/hooks"
 
 const clearAssign = (old, obj) => {
   for (const key in old) {
@@ -41,7 +41,6 @@ const LoadDataButton = ({ text, onClick, style }) => {
 
   return (
     <input
-      className="hoverGray"
       style={{
         display: `block`,
         backgroundColor: !isHover ? `black` : `#555`,

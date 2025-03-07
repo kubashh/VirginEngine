@@ -1,4 +1,4 @@
-import { useArrow, useHover } from "../../lib/hooks"
+import { useArrow } from "../../lib/hooks"
 import { setComponents } from "./components/setComponents"
 import {
   defaultGameObject,
@@ -6,6 +6,7 @@ import {
   isFirstUpperCase
 } from "../../lib/utils"
 import { editor, files } from "../../lib/consts"
+import { FileElement } from "../../lib/components"
 
 const getChilds = (obj) => {
   const childs = {}
@@ -24,7 +25,6 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
   const haveChilds = Object.keys(childs)?.length > 0
 
   const [arrow, open, setOpen] = useArrow(main, haveChilds)
-  const [isHover, hover] = useHover()
 
   const onClick = () => {
     if (main) return
@@ -123,19 +123,6 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
     editor.reloadHierarchy()
   }
 
-  const element = (
-    <div
-      {...hover}
-      style={{ color: !isHover ? `white` : `#555` }}
-      onClick={onClick}
-      onContextMenu={onContextMenu}
-      onMouseDown={onMouseDown}
-      onMouseUp={onMouseUp}
-    >
-      {name}
-    </div>
-  )
-
   const childsElement =
     haveChilds &&
     open &&
@@ -149,19 +136,14 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
       />
     ))
 
-  return (
-    <>
-      <div
-        style={{
-          marginLeft: deep * 10,
-          display: `flex`,
-          flexDirection: `row`
-        }}
-      >
-        {arrow}
-        {element}
-      </div>
-      {childsElement}
-    </>
-  )
+  return FileElement({
+    deep,
+    name,
+    arrow,
+    childsElement,
+    onClick,
+    onContextMenu,
+    onMouseDown,
+    onMouseUp
+  })
 }
