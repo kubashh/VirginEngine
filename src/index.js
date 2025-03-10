@@ -19,12 +19,6 @@ const openMainScene = () => {
 const setUp = () => {
   document.oncontextmenu = (event) => event.preventDefault()
 
-  window.onresize = () => {
-    editor.width = window.innerWidth
-    editor.height = window.innerHeight
-    editor.reloadApp()
-  }
-
   openMainScene()
 }
 

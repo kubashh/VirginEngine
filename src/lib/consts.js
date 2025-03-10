@@ -25,8 +25,6 @@ export const config = {
 }
 
 export const editor = {
-  width: window.innerWidth,
-  height: window.innerHeight,
   selectedScene: null,
   selectedSceneName: ``,
   reloadApp: null,
