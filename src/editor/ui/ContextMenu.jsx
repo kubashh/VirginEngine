@@ -8,19 +8,12 @@ export const ContextMenu = () => {
   useEffect(() => {
     editor.setContextMenu = setContextMenu
 
-    const handler = ({ target }) => {
-      if (ref.current) {
-        if (!ref.current.contains(target)) {
-          setContextMenu([])
-        }
-      }
-    }
+    const handler = ({ target }) =>
+      ref.current && !ref.current.contains(target) && setContextMenu([])
 
     document.addEventListener(`mousedown`, handler)
 
-    return () => {
-      document.removeEventListener(`mousedown`, handler)
-    }
+    return () => document.removeEventListener(`mousedown`, handler)
   }, [])
 
   return arr?.length ? (
@@ -43,13 +36,7 @@ export const ContextMenu = () => {
               fn()
               setContextMenu([])
             }}
-            style={{
-              cursor: `pointer`,
-              // Do nothing
-              "&:hover": {
-                backgroundColor: `red`
-              }
-            }}
+            style={{ cursor: `pointer` }}
             children={text}
           />
         ) : null

@@ -93,11 +93,7 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
     editor.reloadFiles()
   }
 
-  const onDoubleClick = () => {
-    if (file.type === `scene`) {
-      openScene(name)
-    }
-  }
+  const onDoubleClick = () => file.type === `scene` && openScene(file, name)
 
   const childsElement =
     isFolder &&

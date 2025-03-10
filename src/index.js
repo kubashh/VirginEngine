@@ -1,9 +1,20 @@
 import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"
 import { App } from "./App"
-import { editor, files } from "./lib/consts"
+import { config, editor, files } from "./lib/consts"
 import { openScene } from "./lib/utils"
 import "./index.css"
+
+const openMainScene = () => {
+  let scene = files
+  let lastKey = ``
+  for (const key of config.pathToMainScene.split(`.`).slice(1)) {
+    scene = scene[key]
+    lastKey = key
+  }
+
+  openScene(scene, lastKey)
+}
 
 const setUp = () => {
   document.oncontextmenu = (event) => event.preventDefault()
@@ -11,10 +22,10 @@ const setUp = () => {
   window.onresize = () => {
     editor.width = window.innerWidth
     editor.height = window.innerHeight
-    editor.reload()
+    editor.reloadApp()
   }
 
-  openScene(Object.keys(files.Scenes)[1])
+  openMainScene()
 }
 
 setUp()

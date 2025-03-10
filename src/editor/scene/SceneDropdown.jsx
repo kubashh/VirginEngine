@@ -1,9 +1,9 @@
 import { useHover } from "../../lib/hooks"
 
+const opctions = [`16 / 9`, `9 / 16`]
+
 export const SceneDropdown = ({ currentText, setAspectRatio }) => {
   const [isHover, hover] = useHover()
-
-  const opctions = [`16 / 9`, `9 / 16`]
 
   return (
     <div

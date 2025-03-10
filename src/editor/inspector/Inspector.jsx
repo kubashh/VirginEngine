@@ -1,16 +1,18 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { editor } from "../../lib/consts"
 import { Header } from "../../lib/components"
 
-export const Inspector = () => {
+const InspectorComponent = () => {
   const [element, setElement] = useState()
 
-  useEffect(() => (editor.setInspector = setElement), [])
+  editor.setInspector = setElement
 
-  return (
-    <>
-      <Header text="Inspenctor" />
-      {element}
-    </>
-  )
+  return element
 }
+
+export const Inspector = () => (
+  <div className="inspector">
+    <Header text="Inspenctor" />
+    <InspectorComponent />
+  </div>
+)

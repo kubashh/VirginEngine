@@ -3,24 +3,20 @@ import { addSpaceBeforeUpper } from "../../lib/utils"
 import { numbers } from "../../lib/consts"
 import { useRefresh } from "../../lib/hooks"
 
-const BoolInput = ({ parent, access, refresh }) => {
-  return {
-    type: `checkbox`,
-    checked: parent[access],
-    style: {
-      accentColor: `green`,
-      backgroundColor: `black`,
-      background: `black`
-    },
-    onChange: ({ target: { checked } }) => {
-      parent[access] = checked
-      refresh()
-    },
-    label: {
-      style: {}
-    }
-  }
-}
+const BoolInput = ({ parent, access, refresh }) => ({
+  type: `checkbox`,
+  checked: parent[access],
+  style: {
+    accentColor: `green`,
+    backgroundColor: `black`,
+    background: `black`
+  },
+  onChange: ({ target: { checked } }) => {
+    parent[access] = checked
+    refresh()
+  },
+  label: { style: {} }
+})
 
 const NumberInput = ({ parent, access }) => {
   const [currentNumber, setCurrentNumber] = useState(parent[access])
@@ -102,7 +98,7 @@ export const TypeInput = (props) => {
     >
       <div>{addSpaceBeforeUpper(props.text)}</div>
       <input id={id} {...myInput} />
-      {label && <label htmlFor={id} {...label}></label>}
+      {label ? <label htmlFor={id} {...label}></label> : null}
     </div>
   )
 }

@@ -18,7 +18,6 @@ const load = () =>
     type: `file`,
     accept: `.deathengine`,
     onchange: ({ target }) => {
-      const [file] = target.files
       const reader = new FileReader()
 
       reader.onload = ({ target }) => {
@@ -28,10 +27,10 @@ const load = () =>
         clearAssign(files, data.files)
 
         editor.setUp = true
-        editor.reload()
+        editor.reloadApp()
       }
 
-      reader.readAsText(file)
+      reader.readAsText(target.files[0])
     },
     click: true
   })
@@ -67,7 +66,7 @@ const LoadDataButton = ({ text, onClick, style }) => {
 
 const newProject = () => {
   editor.setUp = true
-  editor.reload()
+  editor.reloadApp()
 }
 
 export const LoadData = () =>

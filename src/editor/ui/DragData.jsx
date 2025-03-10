@@ -15,22 +15,18 @@ export const DragData = () => {
 
   editor.setDragData = setDragData
 
+  const handleMouseUp = () => setDragData()
+
   useEffect(() => {
     if (!editor.dragData) return
 
     window.addEventListener(`mousemove`, handleMouseMove)
-
-    return () => window.removeEventListener(`mousemove`, handleMouseMove)
-  })
-
-  useEffect(() => {
-    if (!editor.dragData) return
-
-    const handleMouseUp = () => setDragData()
-
     window.addEventListener(`mouseup`, handleMouseUp)
 
-    return () => window.removeEventListener(`mouseup`, handleMouseUp)
+    return () => {
+      window.removeEventListener(`mousemove`, handleMouseMove)
+      window.removeEventListener(`mouseup`, handleMouseUp)
+    }
   })
 
   return editor.dragData ? (

@@ -9,7 +9,7 @@ export const downloadFile = (name, text, encode = false) =>
   })
 
 export const isFirstUpperCase = (text) =>
-  typeof text === `string` && alphabet.toUpperCase().includes(text[0])
+  alphabet.toUpperCase().includes(text[0])
 
 export const isValidName = (name) => {
   if (!isFirstUpperCase(name)) return false
@@ -35,8 +35,9 @@ export const includesKeywords = (text) => keywords.includes(text)
 export const isCustomProp = (text) =>
   !isFirstUpperCase(text) && !includesKeywords(text)
 
-export const openScene = (sceneName) => {
-  editor.selectedScene = sceneName
+export const openScene = (scene, sceneName) => {
+  editor.selectedScene = scene
+  editor.selectedSceneName = sceneName
 
   editor.reloadHierarchy?.()
 }
@@ -44,17 +45,9 @@ export const openScene = (sceneName) => {
 export const defaultGameObject = () => ({
   type: `gameObject`,
   transform: {
-    position: {
-      x: 0,
-      y: 0
-    },
-    rotation: {
-      z: 0
-    },
-    scale: {
-      x: 1,
-      y: 1
-    }
+    position: { x: 0, y: 0 },
+    rotation: { z: 0 },
+    scale: { x: 1, y: 1 }
   }
 })
 

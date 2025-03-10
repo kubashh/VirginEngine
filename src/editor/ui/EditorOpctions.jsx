@@ -6,7 +6,7 @@ import { downloadFile } from "../../lib/utils"
 
 const load = () => {
   editor.setUp = false
-  editor.reload()
+  editor.reloadApp()
 }
 
 export const save = () =>
@@ -17,16 +17,14 @@ export const save = () =>
 
 const onConfig = () => editor.setInspector(<Config />)
 
-const CustomInput = ({ text, onClick }) => {
-  return (
-    <input
-      type="button"
-      value={text}
-      style={{ border: 0, height: 30 }}
-      onClick={onClick}
-    />
-  )
-}
+const CustomInput = ({ text, onClick }) => (
+  <input
+    type="button"
+    value={text}
+    style={{ border: 0, height: 30 }}
+    onClick={onClick}
+  />
+)
 
 export const EditorOpctions = () => {
   const [isHover, hover] = useHover()
@@ -45,7 +43,7 @@ export const EditorOpctions = () => {
         }}
         children="S"
       />
-      {isHover && (
+      {isHover ? (
         <div
           style={{
             position: `absolute`,
@@ -63,7 +61,7 @@ export const EditorOpctions = () => {
           <CustomInput text="Load" onClick={load} />
           <CustomInput text="Config" onClick={onConfig} />
         </div>
-      )}
+      ) : null}
     </div>
   )
 }

@@ -1,4 +1,3 @@
-import { editor } from "./consts"
 import { useHover } from "./hooks"
 
 export const FileElement = ({
@@ -45,14 +44,5 @@ export const Header = ({ text, elements }) => (
   <div className="header">
     <div children={text} />
     {elements}
-  </div>
-)
-
-export const EditorWindow = ({ text, content }) => (
-  <div
-    className={text.toLowerCase()}
-    onClick={() => (editor.selectedField = text)}
-  >
-    {content}
   </div>
 )

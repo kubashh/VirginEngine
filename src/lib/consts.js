@@ -14,23 +14,25 @@ export const keywords = [
 ]
 
 export const config = {
-  type: `config`,
   gameName: `Name of Game`,
-  screenWidth: 1600,
-  screenHeight: 900,
-  fullScreen: true,
-  safeUnload: false,
   version: `0.0.0`,
   author: `Your Name or Nick`,
   description: `Write what game is`,
+  fullScreen: false,
+  screenWidth: 1600,
+  screenHeight: 900,
   pathToMainScene: `files.Scenes.DefaultScene`
 }
 
 export const editor = {
   width: window.innerWidth,
   height: window.innerHeight,
-  selectedField: `none`,
-  selectedScene: ``
+  selectedScene: null,
+  selectedSceneName: ``,
+  reloadApp: null,
+  reloadHierarchy: null,
+  reloadFiles: null,
+  setInspector: null
 }
 
 export const files = {
@@ -43,10 +45,7 @@ export const files = {
       type: `scene`,
       Camera: {
         ...defaultGameObject(),
-        camera: {
-          width: 400,
-          height: 300
-        }
+        camera: { width: 400, height: 300 }
       },
       Obj1: {
         ...defaultGameObject(),
@@ -71,16 +70,10 @@ export const files = {
   // Other Files
   Folder1: {
     type: `folder`,
-    Obj1: {
-      type: `text`,
-      value: `str 2`
-    },
+    Obj1: { type: `text`, value: `str 2` },
     Obj2: {
       type: `folder`,
-      Obj3: {
-        type: `text`,
-        value: `str 3`
-      }
+      Obj3: { type: `text`, value: `str 3` }
     }
   }
 }

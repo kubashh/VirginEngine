@@ -3,15 +3,19 @@ import { editor, files } from "../../lib/consts"
 import { useRefresh } from "../../lib/hooks"
 import { Header } from "../../lib/components"
 
-export const Files = () => {
+const FilesComponent = () => {
   editor.reloadFiles = useRefresh()
 
   return (
-    <>
-      <Header text="Files" />
-      <div style={{ overflow: `scroll`, userSelect: `none` }}>
-        <File file={files} name="files" main />
-      </div>
-    </>
+    <div style={{ overflow: `scroll`, userSelect: `none` }}>
+      <File file={files} name="files" main />
+    </div>
   )
 }
+
+export const Files = () => (
+  <div className="files">
+    <Header text="Files" />
+    <FilesComponent />
+  </div>
+)
