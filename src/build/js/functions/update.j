@@ -1,6 +1,16 @@
-const update = () => {
-  // Call evry object from currentScene .update() if exists
+const callUpdate = (obj) => {
+  obj.update?.()
 
-  // Clear events, but not mouseHover
-  events = { mouseHover: events.mouseHover }
+  for (const child of obj.getChilds()) {
+    callUpdate(child)
+  }
+}
+
+const update = () => {
+  callUpdate(currentScene)
+
+  // Clear events, not eventsHover
+  for (const key in events) {
+    delete events[key]
+  }
 }

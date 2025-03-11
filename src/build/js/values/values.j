@@ -1,33 +1,34 @@
 const canvas = document.body.children[0]
 const ctx = canvas.getContext(`2d`)
 
-const setWidthHeightCanvas = () => {
-  width = window.innerWidth
-  height = window.innerHeight
-  canvas.width = width
-  canvas.height = height
+const onresize = () => {
+  canvas.width = window.innerWidth
+  canvas.height = window.innerHeight
 }
 
-window.addEventListener(`resize`, setWidthHeightCanvas)
-setWidthHeightCanvas()
+window.addEventListener(`resize`, onresize)
+onresize()
 
 let currentScene = {}
 
-let events = {}
+const events = {}
+const eventsHover = {}
 
-window.addEventListener(`mousedown`, () => (events.mouseHover = true))
-window.addEventListener(`mouseup`, () => (events.mouseHover = false))
+window.addEventListener(`mousedown`, () => (eventsHover.click = true))
+window.addEventListener(`mouseup`, () => delete eventsHover.click)
 
 window.addEventListener(`click`, () => (events.click = true))
 
-window.addEventListener(`keydown`, ({ key }) => (events[key] = true))
+window.addEventListener(
+  `keydown`,
+  ({ key }) => (events[key] = eventsHover[key] = true)
+)
+window.addEventListener(`keyup`, ({ key }) => delete eventsHover[key])
 
 window.addEventListener(`contextmenu`, (e) => {
   e.preventDefault()
 
-  if (!document.fullscreenElement) {
-    document.documentElement.requestFullscreen()
-  } else if (document.exitFullscreen) {
-    document.exitFullscreen()
-  }
+  !document.fullscreenElement
+    ? document.documentElement.requestFullscreen()
+    : document.exitFullscreen()
 })

@@ -1,1 +1,3 @@
-class Physics {}
+class Physics {
+  constructor() {}
+}

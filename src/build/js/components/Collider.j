@@ -1,1 +1,3 @@
-class Collider {}
+class Collider {
+  constructor() {}
+}

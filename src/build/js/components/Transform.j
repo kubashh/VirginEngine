@@ -1,12 +1,16 @@
 class Transform {
+  gameObject = null
+
   positionX = 0
   positionY = 0
   rotationZ = 0
   scaleX = 1
   scaleY = 1
 
-  constructor(props) {
+  constructor(props, gameObject) {
     if (props) {
+      this.gameObject = gameObject
+
       const { position, rotation, scale } = props
       this.positionX = position.x
       this.positionY = position.y
@@ -28,6 +32,11 @@ class Transform {
     if (!this.readOnly) {
       this.positionX = x
       this.positionY = y
+
+      // TODO !!!!!!!!!!!
+      for (const child of this.gameObject.getChilds()) {
+        //child.transform.set(local + this)
+      }
     }
   }
 

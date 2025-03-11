@@ -1,1 +1,3 @@
-class Animation {}
+class Animation {
+  constructor() {}
+}
