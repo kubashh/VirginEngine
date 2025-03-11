@@ -17,14 +17,19 @@ export const save = () =>
 
 const onConfig = () => editor.setInspector(<Config />)
 
-const CustomInput = ({ text, onClick }) => (
-  <input
-    type="button"
-    value={text}
-    style={{ border: 0, height: 30 }}
-    onClick={onClick}
-  />
-)
+const CustomInput = ({ text, onClick }) => {
+  const [isHover, hover] = useHover()
+
+  return (
+    <input
+      {...hover}
+      type="button"
+      value={text}
+      style={{ border: 0, height: 30, backgroundColor: isHover ? `gray` : `` }}
+      onClick={onClick}
+    />
+  )
+}
 
 export const EditorOpctions = () => {
   const [isHover, hover] = useHover()

@@ -1,6 +1,7 @@
 import { useState } from "react"
-import { SceneDropdown } from "./SceneDropdown"
-import { Header } from "../../lib/components"
+import { Dropdown, Header } from "../../lib/components"
+
+export const opctions = [`16 / 9`, `9 / 16`]
 
 const SceneComponent = ({ aspectRatio }) => (
   <div style={{ backgroundColor: `#111` }}>
@@ -9,18 +10,16 @@ const SceneComponent = ({ aspectRatio }) => (
 )
 
 export const Scene = () => {
-  const [aspectRatio, setAspectRatio] = useState(`16 / 9`)
+  const [aspectRatio, setAspectRatio] = useState(opctions[0])
 
   return (
     <div className="scene">
       <Header
         text="Scene"
-        elements={
-          <SceneDropdown
-            currentText={aspectRatio}
-            setAspectRatio={setAspectRatio}
-          />
-        }
+        elements={Dropdown(
+          aspectRatio,
+          opctions.map((value) => [value, () => setAspectRatio(value)])
+        )}
       />
       <SceneComponent aspectRatio={aspectRatio} />
     </div>

@@ -1,7 +1,14 @@
 :root {
-  --hierarchy-width: calc(15vw + 50px);
-  --inspector-width: calc(30vw + 50px);
-  --hierarchy-height: 55vh;
+  --width2: calc(15vw + 50px);
+  --width3: calc(30vw + 60px);
+  --width1: calc(100vw - var(--width2) - var(--width3) - 2px);
+  --height1: 55vh;
+  --height2: calc(100vh - var(--height1) - 1px);
+}
+
+* {
+  color: white;
+  background-color: black;
 }
 
 body {
@@ -10,16 +17,11 @@ body {
   overflow: hidden;
 }
 
-* {
-  color: white;
-  background-color: black;
-}
-
 /* Input */
 input {
   background-color: #222;
   border: 2px solid black;
-  padding: 0px 0px 0px 4px;
+  padding: 0 0 0 4px;
 }
 
 input[type="button"] {
@@ -60,21 +62,18 @@ input[type="checkbox"]:checked + label:before {
 /* Main */
 main {
   display: grid;
-  grid-template-columns: 65fr 15fr auto;
-  grid-template-rows: 55vh auto;
-  gap: 1px;
-  background-color: #aaa;
+  grid-template-areas:
+    "a b d"
+    "a c d";
   width: 100vw;
   height: 100vh;
 }
 
 /* Header */
 .header {
+  display: flex;
   border-bottom: 2px solid #aaa;
-}
-
-.header * {
-  padding-left: 8px;
+  padding: 0 8px;
 }
 
 /* Editor */
@@ -87,29 +86,29 @@ main {
 }
 
 .scene {
-  grid-column: 1 / span 1;
-  grid-row: 1 / span 2;
-  width: calc(100vw - var(--hierarchy-width) - var(--inspector-width));
+  grid-area: a;
+  width: var(--width1);
   height: 100vh;
+  border-right: 1px #aaa solid;
 }
 
 .hierarchy {
-  grid-column: 2 / span 1;
-  grid-row: 1 / span 1;
-  width: var(--hierarchy-width);
-  height: var(--hierarchy-height);
+  grid-area: b;
+  width: var(--width2);
+  height: var(--height1);
+  border-right: 1px #aaa solid;
 }
 
 .files {
-  grid-column: 2 / span 1;
-  grid-row: 2 / span 1;
-  width: var(--hierarchy-width);
-  height: calc(100vh - var(--hierarchy-height));
+  grid-area: c;
+  width: var(--width2);
+  height: var(--height2);
+  border-top: 1px #aaa solid;
+  border-right: 1px #aaa solid;
 }
 
 .inspector {
-  grid-column: 3 / span 1;
-  grid-row: 1 / span 2;
-  width: var(--inspector-width);
+  grid-area: d;
+  width: var(--width3);
   height: 100vh;
 }
