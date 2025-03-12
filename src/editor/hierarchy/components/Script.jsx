@@ -2,6 +2,8 @@ import { useState } from "react"
 import { InspectorSection } from "../../inspector/InspectorSection"
 import { isCustomProp } from "../../../lib/utils"
 import { editor } from "../../../lib/consts"
+import { AddComponent } from "./AddComponent"
+import { useRefresh } from "../../../lib/hooks"
 
 const TextElement = ({ object, access }) => {
   const [text, setText] = useState(object[access])
@@ -21,33 +23,23 @@ const TextElement = ({ object, access }) => {
   )
 }
 
+// TODO remove button on evry script element, script element as InspectorSection
 export const Script = ({ object }) => {
-  const [state, setState] = useState(0)
-
-  const refresh = () => setState(state + 1)
+  const refresh = useRefresh()
 
   return (
     <InspectorSection
       text="Sctipt"
+      object={object}
       element={
-        <div>
+        <>
           {Object.keys(object)
             .filter((key) => isCustomProp(key))
             .map((key) => (
-              <TextElement
-                object={object}
-                key={key}
-                access={key}
-                refresh={refresh}
-              />
+              <TextElement object={object} key={key} access={key} />
             ))}
-          <input
-            type="button"
-            value={`+ Add script`}
-            style={{
-              padding: `6px 12px`,
-              fontSize: 16
-            }}
+          <AddComponent
+            text="Add Script"
             onClick={() =>
               editor.setNameInput([
                 (text) => {
@@ -63,7 +55,7 @@ export const Script = ({ object }) => {
               ])
             }
           />
-        </div>
+        </>
       }
     />
   )

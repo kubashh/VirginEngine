@@ -1,5 +1,6 @@
 import { editor } from "../../../lib/consts"
 import { Script } from "./Script"
+import { Text } from "./Text"
 import { Transform } from "./Transform"
 
 export const setComponents = (props) => {
@@ -10,6 +11,7 @@ export const setComponents = (props) => {
       </div>
       <Transform {...props} />
       <Script {...props} />
+      <Text {...props} />
     </>
   )
 }

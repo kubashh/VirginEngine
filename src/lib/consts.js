@@ -10,6 +10,7 @@ export const keywords = [
   `position`,
   `rotation`,
   `scale`,
+  `text`,
   `camera`
 ]
 

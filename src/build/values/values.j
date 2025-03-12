@@ -1,3 +1,4 @@
+// Canvas
 const canvas = document.body.children[0]
 const ctx = canvas.getContext(`2d`)
 
@@ -9,8 +10,10 @@ const onresize = () => {
 window.addEventListener(`resize`, onresize)
 onresize()
 
+// Scene
 let scene = {}
 
+// Events
 const events = {}
 const eventsHover = {}
 
@@ -32,3 +35,23 @@ window.addEventListener(`contextmenu`, (e) => {
     ? document.documentElement.requestFullscreen()
     : document.exitFullscreen()
 })
+
+// GameTime
+const GameTime = {
+  ms: 1,
+  value: 1,
+  lastTime: now(),
+
+  get: () => {
+    return GameTime.value
+  },
+
+  set: (newTime) => {
+    GameTime.value = newTime
+    GameTime.ms = 1000 / (60 * GameTime.value)
+    GameTime.lastTime = now()
+  }
+}
+
+// Log
+const Log = { updates: 0, frames: 0, framesTemp: 0 }

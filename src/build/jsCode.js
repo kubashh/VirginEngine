@@ -16,9 +16,6 @@ const importJoinFiles = async (...imports) =>
   joinFiles(...(await getImports(imports)))
 
 const staticFiles = await importJoinFiles(
-  // Values
-  await import("./values/values.j"),
-
   // Components
   await import("./components/GameObject.j"),
   await import("./components/Transform.j"),
@@ -26,13 +23,15 @@ const staticFiles = await importJoinFiles(
   await import("./components/Physics.j"),
   await import("./components/Sprite.j"),
   await import("./components/Animation.j"),
+  await import("./components/Text.j"),
 
   // Functions
   await import("./functions/basicFunctions.j"),
-  await import("./functions/start.j"),
-  await import("./functions/update.j"),
-  await import("./functions/render.j"),
-  await import("./functions/run.j")
+  await import("./functions/runStart.j"),
+  await import("./functions/updateRender.j"),
+
+  // Values
+  await import("./values/values.j")
 )
 
 const dynamicData = () => `

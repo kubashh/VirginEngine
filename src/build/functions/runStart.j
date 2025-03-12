@@ -1,28 +1,6 @@
-let updatesLegit = 0
-let framesLegit = 0
-
-const GameTime = {
-  ms: 100,
-  value: 1,
-  lastTime: now(),
-
-  get: () => {
-    return GameTime.value
-  },
-
-  set: (newTime) => {
-    GameTime.value = newTime
-    GameTime.ms = 1000 / (60 * GameTime.value)
-    GameTime.lastTime = now()
-  }
-}
-
-// TODO as LOG object const Log = { updates: 0, frames: 0 }
-
-GameTime.set(1)
-
-let frames = 0
+// Run
 const run = async () => {
+  GameTime.set(1)
   requestAnimationFrame(render)
 
   let timer = now()
@@ -43,12 +21,31 @@ const run = async () => {
 
     if (now() - timer > 1000) {
       timer += 1000
-      updatesLegit = updates
-      framesLegit = frames
+      Log.updates = updates
+      Log.frames = Log.framesTemp
       updates = 0
-      frames = 0
+      Log.framesTemp = 0
     }
 
     await wait0()
   }
+}
+
+// Start
+const callStart = (obj) => {
+  obj.start?.()
+  for (const child of obj.childs) {
+    callStart(child)
+  }
+}
+
+const start = () => {
+  for (const key in events) {
+    delete events[key]
+  }
+  for (const key in eventsHover) {
+    delete eventsHover[key]
+  }
+
+  callStart(scene)
 }
