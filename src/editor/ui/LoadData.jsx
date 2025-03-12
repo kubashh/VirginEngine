@@ -46,12 +46,8 @@ const LoadDataButton = ({ text, onClick, style }) => {
         padding: `20px 50px`,
         border: `4px solid white`,
         margin: `60px auto`,
-        textDecoration: `none`,
-        color: `white`,
         fontSize: 60,
         width: 500,
-        cursor: `pointer`,
-        whiteSpace: `nowrap`,
         textAlign: `center`,
         transitionDuration: `200ms`,
         ...style
@@ -83,7 +79,7 @@ export const LoadData = () =>
       <LoadDataButton
         text="Load Project"
         onClick={load}
-        style={{ marginTop: `35vh` }}
+        style={{ marginTop: `calc(40vh - 100px)` }}
       />
       <LoadDataButton text="New project" onClick={newProject} />
     </div>

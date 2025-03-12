@@ -1,5 +1,5 @@
 import { config } from "../lib/consts"
-import { jsCode } from "./js/jsCode"
+import { jsCode } from "./jsCode"
 
 const optymalizeHtml = (text) => {
   let newText = ``
@@ -50,7 +50,7 @@ export const htmlCode = () =>
   <body>
     <canvas></canvas>
     <script>
-     `)}${jsCode()}${optymalizeHtml(`
+      `)}${jsCode()}${optymalizeHtml(`
     </script>
   </body>
 </html>

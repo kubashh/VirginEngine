@@ -1,4 +1,3 @@
-import { config, files } from "../lib/consts"
 import { isCustomProp } from "../lib/utils"
 
 export const optymalizeJs = (text) =>
@@ -36,8 +35,3 @@ export const filesToString = (data, name, type) => {
     ? data
     : JSON.stringify(data)
 }
-
-export const getFilesAndScene = () => `
-  const files = ${filesToString(files)}
-  currentScene = loadScene(${config.pathToMainScene})
-`

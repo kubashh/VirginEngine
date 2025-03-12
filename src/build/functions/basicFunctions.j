@@ -27,7 +27,8 @@ const deepCopy = (data) => {
   return data
 }
 
-const loadScene = (scene) => {
-  currentScene = new GameObject(deepCopy(scene))
+const loadScene = (newScene) => {
+  console.log(`START`)
+  scene = new GameObject(deepCopy(newScene))
   start()
 }

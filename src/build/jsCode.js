@@ -1,5 +1,5 @@
-import { config } from "../../lib/consts"
-import { getFilesAndScene, joinFiles, optymalizeJs } from "../fn"
+import { config, files } from "../lib/consts"
+import { filesToString, joinFiles, optymalizeJs } from "./fn"
 
 const importFile = async (file) =>
   await fetch(file.default).then((r) => r.text())
@@ -35,15 +35,11 @@ const staticFiles = await importJoinFiles(
   await import("./functions/run.j")
 )
 
-export const jsCode = () =>
-  optymalizeJs(
-    joinFiles(
-      staticFiles,
-      getFilesAndScene(),
-      `
-        loadScene(${config.pathToMainScene})
-        run()
-        //document.body.children[1].remove()
-      `
-    )
-  )
+const dynamicData = () => `
+  const files = ${filesToString(files)}
+  currentScene = loadScene(${config.pathToMainScene})
+  run()
+  //document.body.children[1].remove()
+`
+
+export const jsCode = () => optymalizeJs(joinFiles(staticFiles, dynamicData()))

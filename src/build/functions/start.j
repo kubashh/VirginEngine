@@ -12,13 +12,11 @@ const setObjects = (object) => {
 
 const callStart = (obj) => {
   obj.start?.()
-  for (const key in obj) {
-    if (isFirstUpperCase(key)) {
-      callStart(obj[key])
-    }
+  for (const child of obj.childs) {
+    callStart(child)
   }
 }
 
 const start = () => {
-  callStart(currentScene)
+  callStart(scene)
 }

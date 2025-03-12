@@ -17,7 +17,7 @@ class GameObject {
     }
   }
 
-  getChilds() {
+  get childs() {
     const childs = []
     for (const key in this) {
       if (isFirstUpperCase(key)) {
@@ -28,7 +28,7 @@ class GameObject {
   }
 
   destroy() {
-    for (const child of this.getChilds()) {
+    for (const child of this.childs) {
       child.destroy()
     }
 

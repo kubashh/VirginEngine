@@ -32,7 +32,7 @@ class Transform {
       return
     }
 
-    for (const child of this.gameObject.getChilds()) {
+    for (const child of this.gameObject.childs) {
       child.transform.position = {
         x: child.transform.positionX - this.positionX + x,
         y: child.transform.positionY - this.positionY + y
@@ -60,7 +60,7 @@ class Transform {
       z -= 360
     }
 
-    for (const child of this.gameObject.getChilds()) {
+    for (const child of this.gameObject.childs) {
       let newRot = child.transform.rotationZ - this.rotationZ + z
       if (newRot < 0) {
         newRot += 360
@@ -83,7 +83,7 @@ class Transform {
       return
     }
 
-    for (const child of this.gameObject.getChilds()) {
+    for (const child of this.gameObject.childs) {
       child.transform.scale = {
         x: (child.transform.scaleX / this.scaleX) * x,
         y: (child.transform.scaleY / this.scaleY) * y

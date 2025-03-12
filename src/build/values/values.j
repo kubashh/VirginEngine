@@ -9,7 +9,7 @@ const onresize = () => {
 window.addEventListener(`resize`, onresize)
 onresize()
 
-let currentScene = {}
+let scene = {}
 
 const events = {}
 const eventsHover = {}
