@@ -22,45 +22,75 @@ class Transform {
     }
   }
 
+  // Position
   get position() {
-    return {
-      x: this.positionX,
-      y: this.positionY
-    }
+    return { x: this.positionX, y: this.positionY }
   }
   set position({ x, y }) {
-    if (!this.readOnly) {
-      this.positionX = x
-      this.positionY = y
+    if (this.readOnly) {
+      alert(`PROGRAMMER, you can't chage "readOnly" position`)
+      return
+    }
 
-      // TODO !!!!!!!!!!!
-      for (const child of this.gameObject.getChilds()) {
-        //child.transform.set(local + this)
+    for (const child of this.gameObject.getChilds()) {
+      child.transform.position = {
+        x: child.transform.positionX - this.positionX + x,
+        y: child.transform.positionY - this.positionY + y
       }
     }
+
+    this.positionX = x
+    this.positionY = y
   }
 
+  // Rotation
   get rotation() {
-    return {
-      z: this.rotationZ
-    }
+    return { z: this.rotationZ }
   }
   set rotation({ z }) {
-    if (!this.readOnly) {
-      this.rotationZ = z
+    if (this.readOnly) {
+      alert(`PROGRAMMER, you can't chage "readOnly" rotation`)
+      return
     }
+
+    while (z < 0) {
+      z += 360
+    }
+    while (z > 360) {
+      z -= 360
+    }
+
+    for (const child of this.gameObject.getChilds()) {
+      let newRot = child.transform.rotationZ - this.rotationZ + z
+      if (newRot < 0) {
+        newRot += 360
+      } else if (newRot > 360) {
+        newRot -= 360
+      }
+      child.transform.rotation = { z: newRot }
+    }
+
+    this.rotationZ = z
   }
 
+  // Scale
   get scale() {
-    return {
-      x: this.scaleX,
-      y: this.scaleY
-    }
+    return { x: this.scaleX, y: this.scaleY }
   }
   set scale({ x, y }) {
-    if (!this.readOnly) {
-      this.scaleX = x
-      this.scaleY = y
+    if (this.readOnly) {
+      alert(`PROGRAMMER, you can't chage "readOnly" scale`)
+      return
     }
+
+    for (const child of this.gameObject.getChilds()) {
+      child.transform.scale = {
+        x: (child.transform.scaleX / this.scaleX) * x,
+        y: (child.transform.scaleY / this.scaleY) * y
+      }
+    }
+
+    this.scaleX = x
+    this.scaleY = y
   }
 }

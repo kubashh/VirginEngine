@@ -1,13 +1,11 @@
 class GameObject {
   constructor({ parent, transform, sprite, ...rest }) {
-    //const dc = (obj) => JSON.parse(JSON.stringify(obj))
-
     if (parent) {
       this.parent = parent
     }
 
-    this.transform = new Transform(transform)
-    //if (sprite) this.sprite = new Sprite(dc(sprite))
+    this.transform = new Transform(transform, this)
+    //if (sprite) this.sprite = new Sprite(sprite)
 
     for (const key in rest) {
       if (isFirstUpperCase(key)) {
@@ -29,9 +27,9 @@ class GameObject {
     return childs
   }
 
-  delete() {
+  destroy() {
     for (const child of this.getChilds()) {
-      child.delete()
+      child.destroy()
     }
 
     for (const key in this.parent) {

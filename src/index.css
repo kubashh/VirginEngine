@@ -72,7 +72,7 @@ main {
 /* Header */
 .header {
   display: flex;
-  border-bottom: 2px solid #aaa;
+  border-bottom: 1px solid #aaa;
   padding: 0 8px;
 }
 

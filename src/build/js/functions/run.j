@@ -1,22 +1,28 @@
-let gameTime = 1
-
-let ms = 100
 let updatesLegit = 0
 let framesLegit = 0
 
-let lastTime = now()
+const GameTime = {
+  ms: 100,
+  value: 1,
+  lastTime: now(),
 
-const setGameTime = (newTime) => {
-  gameTime = newTime
-  ms = 1000 / (60 * gameTime)
-  lastTime = now()
+  get: () => {
+    return GameTime.value
+  },
+
+  set: (newTime) => {
+    GameTime.value = newTime
+    GameTime.ms = 1000 / (60 * GameTime.value)
+    GameTime.lastTime = now()
+  }
 }
 
-setGameTime(1)
+// TODO as LOG object const Log = { updates: 0, frames: 0 }
+
+GameTime.set(1)
 
 let frames = 0
 const run = async () => {
-  start()
   requestAnimationFrame(render)
 
   let timer = now()
@@ -24,11 +30,11 @@ const run = async () => {
   let delta = 0
   while (true) {
     const nowTime = now()
-    delta += (nowTime - lastTime) / ms
+    delta += (nowTime - GameTime.lastTime) / GameTime.ms
     if (delta > 60) {
       delta = 60
     }
-    lastTime = nowTime
+    GameTime.lastTime = nowTime
     while (delta >= 1) {
       update()
       updates++

@@ -1,11 +1,13 @@
 import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"
 import { App } from "./App"
-import { config, editor, files } from "./lib/consts"
+import { config, files } from "./lib/consts"
 import { openScene } from "./lib/utils"
 import "./index.css"
 
-const openMainScene = () => {
+const setUp = () => {
+  document.oncontextmenu = (event) => event.preventDefault()
+
   let scene = files
   let lastKey = ``
   for (const key of config.pathToMainScene.split(`.`).slice(1)) {
@@ -14,12 +16,6 @@ const openMainScene = () => {
   }
 
   openScene(scene, lastKey)
-}
-
-const setUp = () => {
-  document.oncontextmenu = (event) => event.preventDefault()
-
-  openMainScene()
 }
 
 setUp()
