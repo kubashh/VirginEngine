@@ -3,7 +3,7 @@ import { addSpaceBeforeUpper } from "../../lib/utils"
 import { numbers } from "../../lib/consts"
 import { useRefresh } from "../../lib/hooks"
 
-export const inputPropsBool = ({ object, access, refresh }) => ({
+const inputPropsBool = ({ object, access, refresh }) => ({
   type: `checkbox`,
   checked: object[access],
   style: {

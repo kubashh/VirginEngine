@@ -4,7 +4,6 @@ import { capitalize, isCustomProp, isOccupied } from "../../../lib/utils"
 import { editor } from "../../../lib/consts"
 import { useRefresh } from "../../../lib/hooks"
 import { AddComponent } from "./componentsLib"
-import { inputPropsBool } from "../../inspector/TypeInput"
 
 // Types
 const scriptTypes = {
