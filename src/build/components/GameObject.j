@@ -25,9 +25,7 @@ class GameObject {
   get childs() {
     const childs = []
     for (const key in this) {
-      if (isChildKey(key)) {
-        childs.push(this[key])
-      }
+      if (isChildKey(key)) childs.push(this[key])
     }
     return childs
   }
@@ -38,9 +36,7 @@ class GameObject {
 
   static destroy(obj) {
     // TO DO complite delete, do not delete objects and arrays, !!! DO NOT DELETE functions !!!
-    for (const child of obj.childs) {
-      GameObject.destroy(child)
-    }
+    for (const child of obj.childs) GameObject.destroy(child)
 
     const { parent } = obj
     let parentKey = ``
@@ -51,10 +47,7 @@ class GameObject {
       }
     }
 
-    for (const key in obj) {
-      delete obj[key]
-    }
-
+    for (const key in obj) delete obj[key]
     delete parent[parentKey]
   }
 }

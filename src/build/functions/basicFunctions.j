@@ -9,9 +9,7 @@ const isChildKey = (text) => `ABCDEFGHIJKLMNOPRQSTUWXYZ`.includes(text[0])
 
 // Deep copy
 const deepCopy = (data) => {
-  if (typeof data === `function`) {
-    return data
-  }
+  if (typeof data === `function`) return data
 
   if (Array.isArray(data)) {
     return data.reduce((old, val) => [...old, deepCopy(val)], [])

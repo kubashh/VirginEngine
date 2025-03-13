@@ -1,30 +1,20 @@
 // Update
 const callUpdate = (obj) => {
-  for (const u of obj.toUpdate) {
-    u()
-  }
-  for (const child of obj.childs) {
-    callUpdate(child)
-  }
+  for (const f of obj.toUpdate) f()
+  for (const child of obj.childs) callUpdate(child)
 }
 
 const update = () => {
   callUpdate(scene)
 
   // Clear events, not eventsHover
-  for (const key in events) {
-    delete events[key]
-  }
+  for (const key in events) delete events[key]
 }
 
 // Render
 const callRender = (obj) => {
-  for (const u of obj.toRender) {
-    u()
-  }
-  for (const child of obj.childs) {
-    callRender(child)
-  }
+  for (const f of obj.toRender) f()
+  for (const child of obj.childs) callRender(child)
 }
 
 const render = () => {

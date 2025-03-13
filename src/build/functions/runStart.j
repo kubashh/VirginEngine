@@ -32,23 +32,11 @@ const run = async () => {
 }
 
 // Start
-const callStart = (obj) => {
-  obj.start?.()
-  for (const child of obj.childs) {
-    callStart(child)
-  }
-}
-
 const start = () => {
-  for (const key in events) {
-    delete events[key]
-  }
-  for (const key in eventsHover) {
-    delete eventsHover[key]
-  }
+  // Delete events
+  for (const key in events) delete events[key]
+  for (const key in eventsHover) delete eventsHover[key]
 
-  for (const f of toStart) {
-    f()
-  }
+  for (const f of toStart) f()
   toStart.length = 0
 }
