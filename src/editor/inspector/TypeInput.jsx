@@ -3,23 +3,23 @@ import { addSpaceBeforeUpper } from "../../lib/utils"
 import { numbers } from "../../lib/consts"
 import { useRefresh } from "../../lib/hooks"
 
-const BoolInput = ({ parent, access, refresh }) => ({
+export const inputPropsBool = ({ object, access, refresh }) => ({
   type: `checkbox`,
-  checked: parent[access],
+  checked: object[access],
   style: {
     accentColor: `green`,
     backgroundColor: `black`,
     background: `black`
   },
   onChange: ({ target: { checked } }) => {
-    parent[access] = checked
+    object[access] = checked
     refresh()
   },
   label: { style: {} }
 })
 
-const NumberInput = ({ parent, access }) => {
-  const [currentNumber, setCurrentNumber] = useState(parent[access])
+const NumberInput = ({ object, access }) => {
+  const [currentNumber, setCurrentNumber] = useState(object[access])
 
   return {
     type: `text`,
@@ -45,7 +45,7 @@ const NumberInput = ({ parent, access }) => {
       if (value[value.length - 1] === `.`) {
         set = false
       } else {
-        parent[access] = newNumber
+        object[access] = newNumber
       }
 
       setCurrentNumber(set ? newNumber : value)
@@ -53,30 +53,33 @@ const NumberInput = ({ parent, access }) => {
   }
 }
 
-const StringInput = ({ parent, access, refresh }) => {
+const StringInput = ({ object, access, refresh }) => {
   return {
     type: `text`,
-    value: parent[access],
+    value: object[access],
     onChange: ({ target: { value } }) => {
-      parent[access] = value
+      object[access] = value
       refresh()
     }
   }
 }
 
 export const TypeInput = (props) => {
-  const refresh = useRefresh(0)
+  const refresh = useRefresh()
 
   props = { refresh, ...props }
 
-  const type = typeof props.parent[props.access]
+  let myInput
 
-  let myInput = StringInput(props)
-
-  if (type === `boolean`) {
-    myInput = BoolInput(props)
-  } else if (type === `number`) {
-    myInput = NumberInput(props)
+  switch (typeof props.object[props.access]) {
+    case `boolean`:
+      myInput = inputPropsBool(props)
+      break
+    case `number`:
+      myInput = NumberInput(props)
+      break
+    default:
+      myInput = StringInput(props)
   }
 
   const { label } = myInput

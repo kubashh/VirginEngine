@@ -10,7 +10,7 @@ import { ContextMenu } from "./editor/ui/ContextMenu"
 import { NameInput } from "./editor/ui/NameInput"
 import { DragData } from "./editor/ui/DragData"
 
-export const App = () => {
+const Dynamic = () => {
   editor.reloadApp = useRefresh()
 
   return (
@@ -23,10 +23,23 @@ export const App = () => {
 
       {/* UI */}
       <LoadData />
-      <EditorOpctions />
-      <ContextMenu />
-      <NameInput />
-      <DragData />
     </>
   )
 }
+
+const Static = () => (
+  <>
+    {/* UI */}
+    <EditorOpctions />
+    <ContextMenu />
+    <NameInput />
+    <DragData />
+  </>
+)
+
+export const App = () => (
+  <>
+    <Static />
+    <Dynamic />
+  </>
+)

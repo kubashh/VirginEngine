@@ -2,11 +2,13 @@ class GameObject {
   toUpdate = []
   toRender = []
 
-  constructor({ parent, transform, sprite, update, render, ...rest }) {
+  constructor({ parent, transform, sprite, start, update, render, ...rest }) {
     if (parent) this.parent = parent
 
     this.transform = new Transform(transform, this)
     //if (sprite) this.sprite = new Sprite(sprite)
+
+    if (start) toStart.push(start.bind(this))
     if (update) this.toUpdate.push(update.bind(this))
     if (render) this.toRender.push(render.bind(this))
 

@@ -58,3 +58,12 @@ export const createElement = ({ name, click, ...props }) => {
   }
   click && element.click()
 }
+
+export const capitalize = (text) => `${text[0].toUpperCase()}${text.slice(1)}`
+
+export const isOccupied = (obj, name) => {
+  for (const key in obj) {
+    if (key === name) return true
+  }
+  return false
+}

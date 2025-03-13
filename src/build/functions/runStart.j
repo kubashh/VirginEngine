@@ -47,5 +47,8 @@ const start = () => {
     delete eventsHover[key]
   }
 
-  callStart(scene)
+  for (const f of toStart) {
+    f()
+  }
+  toStart.length = 0
 }

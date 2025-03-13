@@ -1,6 +1,6 @@
 import { useRefresh } from "../../../lib/hooks"
 import { InspectorSection } from "../../inspector/InspectorSection"
-import { AddComponent } from "./AddComponent"
+import { AddComponent } from "./componentsLib"
 
 export const Text = ({ object }) => {
   const refresh = useRefresh()
@@ -8,9 +8,11 @@ export const Text = ({ object }) => {
   return object.text ? (
     <InspectorSection
       text="Text"
-      object={object}
-      access="text"
-      childs={[{ text: `x`, parent: object.text, access: `value` }]}
+      remove={() => {
+        delete object.text
+        refresh()
+      }}
+      childs={[{ text: `x`, object: object.text, access: `value` }]}
     />
   ) : (
     <AddComponent

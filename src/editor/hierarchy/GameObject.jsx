@@ -1,5 +1,5 @@
 import { useArrow } from "../../lib/hooks"
-import { setComponents } from "./components/setComponents"
+import { setComponents } from "./components/componentsLib"
 import {
   defaultGameObject,
   includesKeywords,
@@ -42,8 +42,8 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
       pageY,
       [
         () => {
-          editor.setNameInput([
-            (newText) => {
+          editor.setNameInput({
+            cb: (newText) => {
               if (Object.keys(object).includes(newText)) return
 
               object[newText] = defaultGameObject()
@@ -51,14 +51,14 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
               setOpen(true)
               editor.reloadHierarchy()
             }
-          ])
+          })
         },
         `New Object`
       ],
       [
         () => {
-          editor.setNameInput([
-            (newText) => {
+          editor.setNameInput({
+            cb: (newText) => {
               if (name === newText) return
 
               if (main) {
@@ -72,8 +72,8 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
               old[newText] = object
               editor.reloadHierarchy()
             },
-            name
-          ])
+            text: name
+          })
         },
         `Rename`,
         !main
@@ -91,15 +91,7 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
 
   const onMouseDown = (event) =>
     !main &&
-    editor.setDragData(
-      {
-        from: `hierarchy`,
-        old,
-        file: object,
-        name
-      },
-      event
-    )
+    editor.setDragData({ from: `hierarchy`, old, file: object, name }, event)
 
   const onMouseUp = () => {
     const { dragData } = editor

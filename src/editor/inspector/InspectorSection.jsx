@@ -1,6 +1,6 @@
 import { TypeInput } from "./TypeInput"
 
-export const InspectorSection = ({ text, object, access, childs, element }) => (
+export const InspectorSection = ({ text, remove, childs, element }) => (
   <div
     style={{
       paddingBottom: 8,
@@ -18,7 +18,7 @@ export const InspectorSection = ({ text, object, access, childs, element }) => (
         }}
         children={text}
       />
-      {object ? (
+      {remove ? (
         <input
           type="button"
           value="Remove"
@@ -29,7 +29,7 @@ export const InspectorSection = ({ text, object, access, childs, element }) => (
             margin: `auto 12px auto auto`,
             backgroundColor: `black`
           }}
-          onClick={() => delete object[access]}
+          onClick={remove}
         />
       ) : null}
     </div>

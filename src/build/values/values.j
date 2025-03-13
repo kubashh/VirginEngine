@@ -40,7 +40,7 @@ window.addEventListener(`contextmenu`, (e) => {
 const GameTime = {
   ms: 1,
   value: 1,
-  lastTime: now(),
+  lastTime: 0,
 
   get: () => {
     return GameTime.value
@@ -55,3 +55,6 @@ const GameTime = {
 
 // Log
 const Log = { updates: 0, frames: 0, framesTemp: 0 }
+
+// To start
+const toStart = []

@@ -22,14 +22,14 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
   const onContextMenu = ({ pageX, pageY }) => {
     const newArrElement = (name, type) => [
       () =>
-        editor.setNameInput([
-          (newText) => {
+        editor.setNameInput({
+          cb: (newText) => {
             file[newText] = { type }
 
             setOpen(true)
             editor.reloadFiles()
           }
-        ]),
+        }),
       name,
       isFolder
     ]
@@ -42,8 +42,8 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
       newArrElement(`New scene`, `scene`),
       [
         () =>
-          editor.setNameInput([
-            (newText) => {
+          editor.setNameInput({
+            cb: (newText) => {
               if (name === newText) return
 
               if (old[newText]) {
@@ -54,8 +54,8 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
                 editor.reloadFiles()
               }
             },
-            name
-          ]),
+            text: name
+          }),
         `Rename`,
         name !== `files`
       ],
