@@ -11,7 +11,8 @@ class Transform {
     if (props) {
       this.gameObject = gameObject
 
-      const { position, rotation, scale } = props
+      const { position, rotation, scale, rect } = props
+      if (rect) this.rect = rect
       this.positionX = position.x
       this.positionY = position.y
       this.rotationZ = rotation.z

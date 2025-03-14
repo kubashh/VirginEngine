@@ -2,11 +2,13 @@ import { useState } from "react"
 
 export const useHover = () => {
   const [isHover, setIsHover] = useState(false)
-
-  const onMouseEnter = () => setIsHover(true)
-  const onMouseLeave = () => setIsHover(false)
-
-  return [isHover, { onMouseEnter, onMouseLeave }]
+  return [
+    isHover,
+    {
+      onMouseEnter: () => setIsHover(true),
+      onMouseLeave: () => setIsHover(false)
+    }
+  ]
 }
 
 export const useArrow = (main, haveChilds = true) => {
@@ -38,6 +40,10 @@ export const useArrow = (main, haveChilds = true) => {
 
 export const useRefresh = () => {
   const [, setState] = useState(false)
-
   return () => setState((prev) => !prev)
+}
+
+export const useConst = (value) => {
+  const [state] = useState(value)
+  return state
 }

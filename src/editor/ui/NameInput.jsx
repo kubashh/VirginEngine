@@ -1,16 +1,16 @@
 import { useEffect, useRef, useState } from "react"
-import { isValidName } from "../../lib/utils"
+import { capitalize, isValidName } from "../../lib/utils"
 import { editor } from "../../lib/consts"
 
 export const NameInput = () => {
-  const [{ cb, text = ``, lowerCase = false }, setNameInput] = useState({})
   const ref = useRef()
+  const [[cb, text = ``, lowerCase = false], setNameInput] = useState([])
 
   const ret = () => {
     if (isValidName(text)) {
       cb(lowerCase ? `${text[0].toLowerCase()}${text.slice(1)}` : text)
     }
-    setNameInput({})
+    setNameInput([])
   }
 
   editor.setNameInput = setNameInput
@@ -22,9 +22,7 @@ export const NameInput = () => {
     document.addEventListener(`mousedown`, handler)
 
     return () => document.removeEventListener(`mousedown`, handler)
-
-    // eslint-disable-next-line
-  }, [text])
+  })
 
   return cb ? (
     <input
@@ -40,12 +38,12 @@ export const NameInput = () => {
       value={text}
       onChange={({ target: { value } }) => {
         if (value.length > 0 && value[0] !== value[0].toUpperCase()) {
-          value = `${value[0].toUpperCase()}${value.slice(1)}`
+          value = capitalize(value)
         }
 
         if (value.length !== 0 && !isValidName(value)) return
 
-        setNameInput((prev) => ({ ...prev, text: value }))
+        setNameInput((prev) => [prev[0], value, prev[2]])
       }}
       onKeyDown={({ key }) => key === `Enter` && ret()}
     />

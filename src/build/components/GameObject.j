@@ -2,13 +2,26 @@ class GameObject {
   toUpdate = []
   toRender = []
 
-  constructor({ parent, transform, sprite, start, update, render, ...rest }) {
+  constructor({
+    parent,
+    transform,
+    sprite,
+    text,
+    start,
+    update,
+    render,
+    ...rest
+  }) {
+    gameObjects.push(this)
+
     if (parent) this.parent = parent
 
     this.transform = new Transform(transform, this)
+    if (text) this.text = new Text(text, this)
     //if (sprite) this.sprite = new Sprite(sprite)
 
-    if (start) toStart.push(start.bind(this))
+    start?.bind(this)()
+
     if (update) this.toUpdate.push(update.bind(this))
     if (render) this.toRender.push(render.bind(this))
 
@@ -48,6 +61,7 @@ class GameObject {
     }
 
     for (const key in obj) delete obj[key]
+    gameObjects.splice(gameObjects.indexOf(obj))
     delete parent[parentKey]
   }
 }

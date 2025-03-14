@@ -28,14 +28,11 @@ const NumberInput = ({ object, access }) => {
       let dot = false
       for (const char of value) {
         // Is includes allow chars
-        if (!`${numbers}.`.includes(char)) {
-          return
-        }
+        if (!`${numbers}.`.includes(char)) return
 
         // Double dot check
         if (char === `.`) {
           if (dot) return
-
           dot = true
         }
       }
@@ -70,7 +67,6 @@ export const TypeInput = (props) => {
   props = { refresh, ...props }
 
   let myInput
-
   switch (typeof props.object[props.access]) {
     case `boolean`:
       myInput = inputPropsBool(props)
@@ -99,7 +95,7 @@ export const TypeInput = (props) => {
         justifyContent: `space-between`
       }}
     >
-      <div>{addSpaceBeforeUpper(props.text)}</div>
+      <div>{addSpaceBeforeUpper(props.access)}</div>
       <input id={id} {...myInput} />
       {label ? <label htmlFor={id} {...label}></label> : null}
     </div>

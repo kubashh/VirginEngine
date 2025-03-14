@@ -56,5 +56,5 @@ const GameTime = {
 // Log
 const Log = { updates: 0, frames: 0, framesTemp: 0 }
 
-// To start
-const toStart = []
+// Arrays
+const gameObjects = []

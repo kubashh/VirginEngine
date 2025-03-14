@@ -12,7 +12,7 @@ export const Text = ({ object }) => {
         delete object.text
         refresh()
       }}
-      childs={[{ text: `x`, object: object.text, access: `value` }]}
+      childs={[{ object: object.text, access: `value` }]}
     />
   ) : (
     <AddComponent

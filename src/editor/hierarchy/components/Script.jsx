@@ -2,7 +2,7 @@ import { useState } from "react"
 import { InspectorSection } from "../../inspector/InspectorSection"
 import { capitalize, isCustomProp, isOccupied } from "../../../lib/utils"
 import { editor } from "../../../lib/consts"
-import { useRefresh } from "../../../lib/hooks"
+import { useConst, useRefresh } from "../../../lib/hooks"
 import { AddComponent } from "./componentsLib"
 
 // Types
@@ -22,7 +22,7 @@ const getType = (text) => {
   if (text === Number(text).toString()) return `number`
   if (text[0] === `[`) return `array`
   if (text[0] === `{`) return `object`
-  if (text.includes(`function(`)) return `function`
+  if (text.indexOf(`function`) === 0) return `function`
   return null
 }
 
@@ -39,28 +39,28 @@ const typeToEditor = (text) => {
 }
 
 const typeFromEditor = (text, type) => {
-  if ([`string`, `array`, `object`, `function`].includes(type)) {
-    return `${scriptTypes[type][1]}${text}${scriptTypes[type][2]}`
-  }
-  return text
+  if (![`string`, `array`, `object`, `function`].includes(type)) return text
+  return `${scriptTypes[type][1]}${text}${scriptTypes[type][2]}`
 }
 
 // Inputs
-const InputDefault = ({ object, access }) => {
-  const type = getType(object[access])
+const handleOnChange =
+  (object, access, setText, type) =>
+  ({ target: { value } }) => {
+    value = typeFromEditor(value, type)
 
+    object[access] = value
+    setText(value)
+  }
+
+const InputDefault = ({ object, access, type }) => {
   const [text, setText] = useState(object[access])
 
   return (
     <textarea
       style={{ width: `90%` }}
       value={typeToEditor(text)}
-      onChange={({ target: { value } }) => {
-        value = typeFromEditor(value, type)
-
-        object[access] = value
-        setText(value)
-      }}
+      onChange={handleOnChange(object, access, setText, type)}
     />
   )
 }
@@ -79,15 +79,29 @@ const InputDefault = ({ object, access }) => {
   )
 }*/
 
-const TextElement = ({ object, access, refresh }) => {
-  const type = getType(object[access])
+const InputNumberString = ({ object, access, type }) => {
+  const [text, setText] = useState(object[access])
 
-  const props = { object, access }
+  return (
+    <input
+      type="text"
+      value={typeToEditor(text)}
+      onChange={handleOnChange(object, access, setText, type)}
+    />
+  )
+}
+
+const TextElement = ({ object, access, refresh }) => {
+  const type = useConst(getType(object[access]))
+
+  const props = { object, access, type }
   let inp
   switch (type) {
-    //case `bool`:
-    //  inp = InputBool(props)
-    //  break
+    case `bool`:
+    case `number`:
+    case `string`:
+      inp = InputNumberString(props)
+      break
     default:
       inp = InputDefault(props)
   }
@@ -111,16 +125,16 @@ const AddScript = ({ object, value, refresh }) => (
     text={capitalize(value)}
     style={{ display: `inline` }}
     onClick={() =>
-      editor.setNameInput({
-        cb: (text) => {
+      editor.setNameInput([
+        (text) => {
           if (isOccupied(object, text)) return
 
           object[text] = scriptTypes[value][0]
           refresh()
         },
-        text: ``,
-        lowerCase: true
-      })
+        ``,
+        true
+      ])
     }
   />
 )

@@ -49,7 +49,7 @@ export const files = {
       },
       Obj1: {
         ...defaultGameObject(),
-        start: `function() { console.log("this ", this) }`
+        start: `function() { console.log("Start") }`
       }
     }
   },

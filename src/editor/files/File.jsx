@@ -4,9 +4,9 @@ import { openScene } from "../../lib/utils"
 import { editor } from "../../lib/consts"
 import { FileElement } from "../../lib/components"
 
-export const File = ({ old, file, name, main, deep = 0 }) => {
+export const File = ({ old, file, name, main, deep = 0, path = `files` }) => {
+  if (!main) path += `.${name}`
   const isFolder = file.type === `folder`
-
   const [arrow, open, setOpen] = useArrow(main, isFolder)
 
   const onClick = () => {
@@ -22,14 +22,14 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
   const onContextMenu = ({ pageX, pageY }) => {
     const newArrElement = (name, type) => [
       () =>
-        editor.setNameInput({
-          cb: (newText) => {
+        editor.setNameInput([
+          (newText) => {
             file[newText] = { type }
 
             setOpen(true)
             editor.reloadFiles()
           }
-        }),
+        ]),
       name,
       isFolder
     ]
@@ -42,30 +42,27 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
       newArrElement(`New scene`, `scene`),
       [
         () =>
-          editor.setNameInput({
-            cb: (newText) => {
+          editor.setNameInput([
+            (newText) => {
               if (name === newText) return
 
-              if (old[newText]) {
-                console.error(`Error`)
-              } else {
-                delete old[name]
-                old[newText] = file
-                editor.reloadFiles()
-              }
+              delete old[name]
+              old[newText] = file
+              editor.reloadFiles()
             },
-            text: name
-          }),
+            name
+          ]),
         `Rename`,
-        name !== `files`
+        !main
       ],
+      [() => navigator.clipboard.writeText(path), `Copy path`],
       [
         () => {
           delete old[name]
           editor.reloadFiles()
         },
         `Delete`,
-        name !== `files`
+        !main
       ]
     ])
   }
@@ -102,7 +99,14 @@ export const File = ({ old, file, name, main, deep = 0 }) => {
     Object.entries(file).map(
       ([key, value]) =>
         isFirstUpperCase(key) && (
-          <File old={file} file={value} name={key} key={key} deep={deep + 1} />
+          <File
+            old={file}
+            file={value}
+            name={key}
+            key={key}
+            deep={deep + 1}
+            path={path}
+          />
         )
     )
 

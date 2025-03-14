@@ -26,15 +26,7 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
 
   const [arrow, open, setOpen] = useArrow(main, haveChilds)
 
-  const onClick = () => {
-    if (main) return
-
-    setComponents({
-      old,
-      object,
-      name
-    })
-  }
+  const onClick = () => !main && setComponents({ old, object, name })
 
   const onContextMenu = ({ pageX, pageY }) => {
     editor.setContextMenu([
@@ -42,8 +34,8 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
       pageY,
       [
         () => {
-          editor.setNameInput({
-            cb: (newText) => {
+          editor.setNameInput([
+            (newText) => {
               if (Object.keys(object).includes(newText)) return
 
               object[newText] = defaultGameObject()
@@ -51,14 +43,14 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
               setOpen(true)
               editor.reloadHierarchy()
             }
-          })
+          ])
         },
         `New Object`
       ],
       [
         () => {
-          editor.setNameInput({
-            cb: (newText) => {
+          editor.setNameInput([
+            (newText) => {
               if (name === newText) return
 
               if (main) {
@@ -72,8 +64,8 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
               old[newText] = object
               editor.reloadHierarchy()
             },
-            text: name
-          })
+            name
+          ])
         },
         `Rename`,
         !main

@@ -34,7 +34,7 @@ export const InspectorSection = ({ text, remove, childs, element }) => (
       ) : null}
     </div>
     {childs?.map((props) => (
-      <TypeInput key={props.text} {...props} />
+      <TypeInput key={props.access} {...props} />
     ))}
     {element}
   </div>
