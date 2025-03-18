@@ -52,7 +52,7 @@ const update = () => {
 const render = () => {
   // clear
   ctx.fillStyle = `black`
-  ctx.fillRect(0, 0, canvas.width, canvas.height)
+  ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height)
 
   // all objects .render()
   for (const obj of gameObjects) {
@@ -61,6 +61,8 @@ const render = () => {
 
   ctx.fillStyle = `white`
   ctx.font = `22px serif`
+  ctx.textAlign = `left`
+  ctx.textBaseline = `bottom`
 
   ctx.fillText(`Update ${Log.updates}`, 10, 30)
   ctx.fillText(`Render ${Log.frames}`, 10, 60)

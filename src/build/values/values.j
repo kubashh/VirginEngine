@@ -1,10 +1,9 @@
 // Canvas
-const canvas = document.body.children[0]
-const ctx = canvas.getContext(`2d`)
+const ctx = document.body.children[0].getContext(`2d`)
 
 const onresize = () => {
-  canvas.width = window.innerWidth
-  canvas.height = window.innerHeight
+  ctx.canvas.width = window.innerWidth
+  ctx.canvas.height = window.innerHeight
 }
 
 window.addEventListener(`resize`, onresize)

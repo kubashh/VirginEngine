@@ -20,11 +20,6 @@ class GameObject {
     if (text) this.text = new Text(text, this)
     //if (sprite) this.sprite = new Sprite(sprite)
 
-    start?.bind(this)()
-
-    if (update) this.toUpdate.push(update.bind(this))
-    if (render) this.toRender.push(render.bind(this))
-
     for (const key in rest) {
       if (isChildKey(key)) {
         this[key] = new GameObject({ ...rest[key], parent: this })
@@ -33,6 +28,11 @@ class GameObject {
           typeof rest[key] === `function` ? rest[key].bind(this) : rest[key]
       }
     }
+
+    if (update) this.toUpdate.push(update.bind(this))
+    if (render) this.toRender.push(render.bind(this))
+
+    start?.bind(this)()
   }
 
   get childs() {
