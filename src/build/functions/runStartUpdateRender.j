@@ -59,13 +59,17 @@ const render = () => {
     for (const f of obj.toRender) f()
   }
 
-  ctx.fillStyle = `white`
-  ctx.font = `22px serif`
-  ctx.textAlign = `left`
-  ctx.textBaseline = `bottom`
+  const props = {
+    x: 10,
+    y: 30,
+    fillStyle: `white`,
+    font: `22px serif`,
+    textAlign: `start`,
+    textBaseline: `bottom`
+  }
 
-  ctx.fillText(`Update ${Log.updates}`, 10, 30)
-  ctx.fillText(`Render ${Log.frames}`, 10, 60)
+  draw({ text: `Update ${Log.updates}`, ...props })
+  draw({ text: `Render ${Log.frames}`, ...props, y: 60 })
 
   // recall render
   Log.framesTemp++

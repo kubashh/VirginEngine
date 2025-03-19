@@ -1,4 +1,11 @@
-import { allowedNameChars, alphabet, editor, keywords } from "./consts"
+import {
+  allowedNameChars,
+  alphabet,
+  config,
+  editor,
+  files,
+  keywords
+} from "./consts"
 
 export const downloadFile = (name, text, encode = false) =>
   createElement({
@@ -40,6 +47,17 @@ export const openScene = (scene, sceneName) => {
   editor.selectedSceneName = sceneName
 
   editor.reloadHierarchy?.()
+}
+
+export const openMainScene = () => {
+  editor.setUp = true
+  let scene = files
+  let key
+  for (key of config.pathToMainScene.split(`.`).slice(1)) {
+    scene = scene[key]
+  }
+
+  openScene(scene, key)
 }
 
 export const defaultGameObject = () => ({

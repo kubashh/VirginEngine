@@ -33,3 +33,14 @@ const loadScene = (newScene) => {
   scene = new GameObject(deepCopy(newScene))
   start()
 }
+
+// Set and draw on ctx (canvas)
+const draw = ({ text, x, y, ...props }) => {
+  ctx.save()
+  for (const key in props) {
+    ctx[key] = props[key]
+  }
+
+  if (text) ctx.fillText(text, x, y)
+  ctx.restore()
+}

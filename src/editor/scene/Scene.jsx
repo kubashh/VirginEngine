@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Dropdown, Header } from "../../lib/components"
 
-export const opctions = [`16 / 9`, `9 / 16`]
+const opctions = [`16 / 9`, `9 / 16`]
 
 const SceneComponent = ({ aspectRatio }) => (
   <div style={{ backgroundColor: `#111` }}>

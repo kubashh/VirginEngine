@@ -1,10 +1,13 @@
 class Text {
   value = ``
+  rect = undefined
+  transform = undefined
 
-  constructor({ value }, gameObject) {
-    gameObject.toRender.push(this.render.bind(this))
+  constructor({ value }, gameObject, rect) {
     this.transform = gameObject.transform
     this.value = value
+    this.rect = rect || { x: 0, y: 0 }
+    gameObject.toRender.push(this.render.bind(this))
   }
 
   set text(newText) {
@@ -12,15 +15,17 @@ class Text {
   }
 
   render() {
-    ctx.fillStyle = `white`
-    ctx.font = `22px serif`
-    ctx.textAlign = `left`
-    ctx.textBaseline = `top`
-
-    ctx.fillText(
-      `Text yoooo`,
-      this.transform.position.x,
-      this.transform.position.y
-    )
+    draw({
+      text: this.value,
+      x: this.transform.position.x,
+      y: this.transform.position.y,
+      fillStyle: `white`,
+      font: `${this.transform.scale.y}px serif`,
+      textBaseline: Text.textBaseline[this.rect.x],
+      textAlign: Text.textAlign[this.rect.y]
+    })
   }
+
+  static textBaseline = [`top`, `middle`, `bottom`]
+  static textAlign = [`left`, `center`, `right`]
 }

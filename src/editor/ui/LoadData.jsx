@@ -1,6 +1,6 @@
-import { createElement } from "react"
 import { editor, config, files } from "../../lib/consts"
 import { useHover } from "../../lib/hooks"
+import { createElement, openMainScene } from "../../lib/utils"
 
 const clearAssign = (old, obj) => {
   for (const key in old) {
@@ -12,7 +12,7 @@ const clearAssign = (old, obj) => {
   }
 }
 
-const load = () =>
+const load = () => {
   createElement({
     name: `input`,
     type: `file`,
@@ -26,7 +26,7 @@ const load = () =>
         clearAssign(config, data.config)
         clearAssign(files, data.files)
 
-        editor.setUp = true
+        openMainScene()
         editor.reloadApp()
       }
 
@@ -34,6 +34,12 @@ const load = () =>
     },
     click: true
   })
+}
+
+const newProject = () => {
+  openMainScene()
+  editor.reloadApp()
+}
 
 const LoadDataButton = ({ text, onClick, style }) => {
   const [isHover, hover] = useHover()
@@ -58,11 +64,6 @@ const LoadDataButton = ({ text, onClick, style }) => {
       onClick={onClick}
     />
   )
-}
-
-const newProject = () => {
-  editor.setUp = true
-  editor.reloadApp()
 }
 
 export const LoadData = () =>

@@ -5,6 +5,7 @@ class GameObject {
   constructor({
     parent,
     transform,
+    rect,
     sprite,
     text,
     start,
@@ -17,7 +18,7 @@ class GameObject {
     if (parent) this.parent = parent
 
     this.transform = new Transform(transform, this)
-    if (text) this.text = new Text(text, this)
+    if (text) this.text = new Text(text, this, rect)
     //if (sprite) this.sprite = new Sprite(sprite)
 
     for (const key in rest) {
