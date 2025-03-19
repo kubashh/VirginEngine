@@ -1,10 +1,7 @@
-import { useRefresh } from "../../../lib/hooks"
 import { InspectorSection } from "../../inspector/InspectorSection"
 import { AddComponent } from "./componentsLib"
 
-export const Text = ({ object }) => {
-  const refresh = useRefresh()
-
+export const Text = ({ object, refresh }) => {
   return object.text ? (
     <InspectorSection
       text="Text"

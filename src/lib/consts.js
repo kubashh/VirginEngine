@@ -11,6 +11,7 @@ export const keywords = [
   `rotation`,
   `scale`,
   `text`,
+  `rect`,
   `camera`
 ]
 
@@ -19,7 +20,7 @@ export const config = {
   version: `0.0.0`,
   author: `Your Name or Nick`,
   description: `Write what game is`,
-  fullScreen: false,
+  //fullScreen: false,
   screenWidth: 1600,
   screenHeight: 900,
   pathToMainScene: `files.Scenes.DefaultScene`

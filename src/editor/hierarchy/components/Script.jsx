@@ -2,7 +2,7 @@ import { useState } from "react"
 import { InspectorSection } from "../../inspector/InspectorSection"
 import { capitalize, isCustomProp, isOccupied } from "../../../lib/utils"
 import { editor } from "../../../lib/consts"
-import { useConst, useRefresh } from "../../../lib/hooks"
+import { useConst } from "../../../lib/hooks"
 import { AddComponent } from "./componentsLib"
 
 // Types
@@ -139,29 +139,15 @@ const AddScript = ({ object, value, refresh }) => (
   />
 )
 
-export const Script = ({ object }) => {
-  const refresh = useRefresh()
-
-  return (
-    <>
-      {Object.keys(object)
-        .filter((key) => isCustomProp(key))
-        .map((key) => (
-          <TextElement
-            object={object}
-            key={key}
-            access={key}
-            refresh={refresh}
-          />
-        ))}
-      {Object.keys(scriptTypes).map((value) => (
-        <AddScript
-          value={value}
-          key={value}
-          object={object}
-          refresh={refresh}
-        />
+export const Script = ({ object, refresh }) => (
+  <>
+    {Object.keys(object)
+      .filter((key) => isCustomProp(key))
+      .map((key) => (
+        <TextElement object={object} key={key} access={key} refresh={refresh} />
       ))}
-    </>
-  )
-}
+    {Object.keys(scriptTypes).map((value) => (
+      <AddScript value={value} key={value} object={object} refresh={refresh} />
+    ))}
+  </>
+)

@@ -11,8 +11,8 @@ const inputPropsBool = ({ object, access, refresh }) => ({
     backgroundColor: `black`,
     background: `black`
   },
-  onChange: ({ target: { checked } }) => {
-    object[access] = checked
+  onChange: ({ target }) => {
+    object[access] = target.checked
     refresh()
   },
   label: { style: {} }
@@ -50,16 +50,14 @@ const NumberInput = ({ object, access }) => {
   }
 }
 
-const StringInput = ({ object, access, refresh }) => {
-  return {
-    type: `text`,
-    value: object[access],
-    onChange: ({ target: { value } }) => {
-      object[access] = value
-      refresh()
-    }
+const StringInput = ({ object, access, refresh }) => ({
+  type: `text`,
+  value: object[access],
+  onChange: ({ target: { value } }) => {
+    object[access] = value
+    refresh()
   }
-}
+})
 
 export const TypeInput = (props) => {
   const refresh = useRefresh()
