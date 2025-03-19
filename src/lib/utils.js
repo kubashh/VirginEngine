@@ -19,7 +19,8 @@ export const isFirstUpperCase = (text) =>
   alphabet.toUpperCase().includes(text[0])
 
 export const isValidName = (name) => {
-  if (!isFirstUpperCase(name)) return false
+  if (typeof name !== `string` || name.length === 0 || !isFirstUpperCase(name))
+    return false
 
   for (let i = 1; i < name.length; i++) {
     if (!allowedNameChars.includes(name[i].toLowerCase())) return false
@@ -77,7 +78,12 @@ export const createElement = ({ name, click, ...props }) => {
   click && element.click()
 }
 
-export const capitalize = (text) => `${text[0].toUpperCase()}${text.slice(1)}`
+export const capitalize = (text) =>
+  typeof text !== `string` ||
+  text.length === 0 ||
+  text[0] === text[0].toUpperCase()
+    ? text
+    : `${text[0].toUpperCase()}${text.slice(1)}`
 
 export const isOccupied = (obj, name) => {
   for (const key in obj) {
@@ -85,3 +91,37 @@ export const isOccupied = (obj, name) => {
   }
   return false
 }
+
+// LoadFile
+const clearAssign = (old, obj) => {
+  for (const key in old) {
+    delete old[key]
+  }
+
+  for (const key in obj) {
+    old[key] = obj[key]
+  }
+}
+
+export const loadFile = () =>
+  createElement({
+    name: `input`,
+    type: `file`,
+    accept: `.deathengine`,
+    onchange: ({ target }) => {
+      const reader = new FileReader()
+
+      reader.onload = ({ target }) => {
+        const data = JSON.parse(target.result)
+
+        clearAssign(config, data.config)
+        clearAssign(files, data.files)
+
+        openMainScene()
+        editor.reloadApp()
+      }
+
+      reader.readAsText(target.files[0])
+    },
+    click: true
+  })

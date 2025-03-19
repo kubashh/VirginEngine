@@ -36,12 +36,10 @@ export const NameInput = () => {
         fontSize: 40
       }}
       value={text}
-      onChange={({ target: { value } }) => {
-        if (value.length > 0 && value[0] !== value[0].toUpperCase()) {
-          value = capitalize(value)
-        }
+      onChange={({ target }) => {
+        let value = capitalize(target.value)
 
-        if (value.length !== 0 && !isValidName(value)) return
+        if (!isValidName(value)) return
 
         setNameInput((prev) => [prev[0], value, prev[2]])
       }}

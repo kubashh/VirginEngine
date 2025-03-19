@@ -1,40 +1,6 @@
-import { editor, config, files } from "../../lib/consts"
+import { editor } from "../../lib/consts"
 import { useHover } from "../../lib/hooks"
-import { createElement, openMainScene } from "../../lib/utils"
-
-const clearAssign = (old, obj) => {
-  for (const key in old) {
-    delete old[key]
-  }
-
-  for (const key in obj) {
-    old[key] = obj[key]
-  }
-}
-
-const load = () => {
-  createElement({
-    name: `input`,
-    type: `file`,
-    accept: `.deathengine`,
-    onchange: ({ target }) => {
-      const reader = new FileReader()
-
-      reader.onload = ({ target }) => {
-        const data = JSON.parse(target.result)
-
-        clearAssign(config, data.config)
-        clearAssign(files, data.files)
-
-        openMainScene()
-        editor.reloadApp()
-      }
-
-      reader.readAsText(target.files[0])
-    },
-    click: true
-  })
-}
+import { loadFile, openMainScene } from "../../lib/utils"
 
 const newProject = () => {
   openMainScene()
@@ -79,7 +45,7 @@ export const LoadData = () =>
     >
       <LoadDataButton
         text="Load Project"
-        onClick={load}
+        onClick={loadFile}
         style={{ marginTop: `calc(40vh - 100px)` }}
       />
       <LoadDataButton text="New project" onClick={newProject} />

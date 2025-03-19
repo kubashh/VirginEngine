@@ -2,12 +2,7 @@ import { test, build } from "../../build/build"
 import { Config } from "./Config"
 import { config, editor, files } from "../../lib/consts"
 import { useHover } from "../../lib/hooks"
-import { downloadFile } from "../../lib/utils"
-
-const load = () => {
-  editor.setUp = false
-  editor.reloadApp()
-}
+import { downloadFile, loadFile } from "../../lib/utils"
 
 export const save = () =>
   downloadFile(
@@ -63,7 +58,7 @@ export const EditorOpctions = () => {
           <CustomInput text="Save" onClick={save} />
           <CustomInput text="Test" onClick={test} />
           <CustomInput text="Build" onClick={build} />
-          <CustomInput text="Load" onClick={load} />
+          <CustomInput text="Load" onClick={loadFile} />
           <CustomInput text="Config" onClick={onConfig} />
         </div>
       ) : null}

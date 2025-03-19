@@ -4,8 +4,14 @@ import { Dropdown, Header } from "../../lib/components"
 const opctions = [`16 / 9`, `9 / 16`]
 
 const SceneComponent = ({ aspectRatio }) => (
-  <div style={{ backgroundColor: `#111` }}>
-    <canvas style={{ width: `100%`, aspectRatio }} />
+  <div style={{ overflow: `scroll` }}>
+    <canvas
+      style={{
+        width: `calc(100% - 4px)`,
+        border: `2px solid #222`,
+        aspectRatio
+      }}
+    />
   </div>
 )
 
