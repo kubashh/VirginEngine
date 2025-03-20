@@ -61,12 +61,12 @@ export const openMainScene = () => {
   openScene(scene, key)
 }
 
-export const defaultGameObject = () => ({
+export const defaultGameObject = (props) => ({
   type: `gameObject`,
   transform: {
-    position: { x: 0, y: 0 },
-    rotation: { z: 0 },
-    scale: { x: 1, y: 1 }
+    position: props?.position || { x: 0, y: 0 },
+    rotation: props?.rotation || { z: 0 },
+    scale: props?.scale || { x: 1, y: 1 }
   }
 })
 

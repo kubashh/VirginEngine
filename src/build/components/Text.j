@@ -6,7 +6,8 @@ class Text {
   constructor({ value }, gameObject, rect) {
     this.transform = gameObject.transform
     this.value = value
-    this.rect = rect || { x: 0, y: 0 }
+    this.textBaseline = Text.textBaseline[rect.x]
+    this.textAlign = Text.textAlign[rect.y]
     gameObject.toRender.push(this.render.bind(this))
   }
 
@@ -17,12 +18,11 @@ class Text {
   render() {
     draw({
       text: this.value,
-      x: this.transform.position.x,
-      y: this.transform.position.y,
+      ...this.transform.position,
       fillStyle: `white`,
       font: `${this.transform.scale.y}px serif`,
-      textBaseline: Text.textBaseline[this.rect.x],
-      textAlign: Text.textAlign[this.rect.y]
+      textBaseline: this.textBaseline,
+      textAlign: this.textAlign
     })
   }
 

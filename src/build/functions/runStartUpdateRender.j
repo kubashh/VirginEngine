@@ -9,9 +9,8 @@ const run = async () => {
   while (true) {
     const nowTime = now()
     delta += (nowTime - GameTime.lastTime) / GameTime.ms
-    if (delta > 60) {
-      delta = 60
-    }
+    if (delta > 60) delta = 60
+
     GameTime.lastTime = nowTime
     while (delta >= 1) {
       update()
@@ -60,16 +59,16 @@ const render = () => {
   }
 
   const props = {
-    x: 10,
-    y: 30,
+    x: 8,
+    y: 8,
     fillStyle: `white`,
     font: `22px serif`,
-    textAlign: `start`,
-    textBaseline: `bottom`
+    textAlign: `left`,
+    textBaseline: `top`
   }
 
   draw({ text: `Update ${Log.updates}`, ...props })
-  draw({ text: `Render ${Log.frames}`, ...props, y: 60 })
+  draw({ text: `Render ${Log.frames}`, ...props, y: 38 })
 
   // recall render
   Log.framesTemp++

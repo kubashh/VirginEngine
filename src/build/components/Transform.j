@@ -13,11 +13,9 @@ class Transform {
 
       const { position, rotation, scale, rect } = props
       if (rect) this.rect = rect
-      this.positionX = position.x
-      this.positionY = position.y
-      this.rotationZ = rotation.z
-      this.scaleX = scale.x
-      this.scaleY = scale.y
+      this.position = position
+      this.rotation = rotation
+      this.scale = scale
     } else {
       this.readOnly = true
     }

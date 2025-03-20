@@ -144,10 +144,10 @@ export const Script = ({ object, refresh }) => (
     {Object.keys(object)
       .filter((key) => isCustomProp(key))
       .map((key) => (
-        <TextElement object={object} key={key} access={key} refresh={refresh} />
+        <TextElement key={key} object={object} access={key} refresh={refresh} />
       ))}
     {Object.keys(scriptTypes).map((value) => (
-      <AddScript value={value} key={value} object={object} refresh={refresh} />
+      <AddScript key={value} value={value} object={object} refresh={refresh} />
     ))}
   </>
 )

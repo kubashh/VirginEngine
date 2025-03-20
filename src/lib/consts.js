@@ -21,8 +21,8 @@ export const config = {
   author: `Your Name or Nick`,
   description: `Write what game is`,
   //fullScreen: false,
-  screenWidth: 1600,
-  screenHeight: 900,
+  //screenWidth: 1600,
+  //screenHeight: 900,
   pathToMainScene: `files.Scenes.DefaultScene`
 }
 
@@ -44,9 +44,20 @@ export const files = {
     // Default Scene
     DefaultScene: {
       type: `scene`,
-      Camera: {
-        ...defaultGameObject(),
-        camera: { width: 400, height: 300 }
+      //camera: {
+      //  ...defaultGameObject(),
+      //  camera: { width: 400, height: 300 }
+      //},
+      Update: {
+        ...defaultGameObject({
+          position: { x: 0, y: 200 },
+          scale: { x: 130, y: 30 }
+        }),
+        rect: { x: 0, y: 0 },
+        text: { value: `update` },
+        render: `function () {
+          this.text.text = "Update ".concat(Log.updates)
+        }`
       },
       Obj1: {
         ...defaultGameObject(),
@@ -65,16 +76,6 @@ export const files = {
         width: 1,
         height: 1
       }
-    }
-  },
-
-  // Other Files
-  Folder1: {
-    type: `folder`,
-    Obj1: { type: `text`, value: `str 2` },
-    Obj2: {
-      type: `folder`,
-      Obj3: { type: `text`, value: `str 3` }
     }
   }
 }

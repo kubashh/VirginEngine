@@ -1,25 +1,15 @@
 import { config } from "../lib/consts"
 import { jsCode } from "./jsCode"
 
-const optymalizeHtml = (text) => {
-  let newText = ``
-
-  let lastChar = ` `
-
-  for (const char of text) {
-    if (
-      !(
-        ((lastChar === `>` || lastChar === ` `) && char === ` `) ||
-        char === `\n`
-      )
-    ) {
-      newText += char
-      lastChar = char
-    }
-  }
-
-  return newText
-}
+const optymalizeHtml = (text) =>
+  text
+    .replace(/\n/g, ` `)
+    .replace(/\s{2,}/g, ` `)
+    .replace(/> /g, `>`)
+    .replace(/ </g, `<`)
+    .replace(/; /g, `;`)
+    .replace(/ {/g, `{`)
+    .replace(/{ /g, `{`)
 
 export const htmlCode = () =>
   `${optymalizeHtml(`
@@ -27,10 +17,10 @@ export const htmlCode = () =>
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <meta name="author" content="${config.author}">
     <meta name="description" content="${config.description}">
-    <meta name="keywords" content="${config.gameName}, ${config.author}">
+    <meta name="keywords" content="${config.gameName},${config.author}">
 
     <title>${config.gameName}</title>
 

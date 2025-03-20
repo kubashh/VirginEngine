@@ -1,23 +1,8 @@
 import { InspectorSection } from "../../inspector/InspectorSection"
-import { AddComponent } from "./componentsLib"
 
-export const Text = ({ object, refresh }) => {
-  return object.text ? (
-    <InspectorSection
-      text="Text"
-      remove={() => {
-        delete object.text
-        refresh()
-      }}
-      childs={[{ object: object.text, access: `value` }]}
-    />
-  ) : (
-    <AddComponent
-      text="Text"
-      onClick={() => {
-        object.text = { value: `` }
-        refresh()
-      }}
-    />
-  )
-}
+export const Text = ({ object, ...props }) => (
+  <InspectorSection
+    {...props}
+    childs={[{ object: object.text, access: `value` }]}
+  />
+)
