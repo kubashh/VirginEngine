@@ -11,9 +11,6 @@
   --c2: hsl(0 0% 65%);
   --c1s: hsl(0 0% 65%);
   --c2s: hsl(0 0% 42.25%);
-
-  /* Background Color */
-  --bc: hsl(0 0% 35%);
 }
 
 * {
@@ -186,13 +183,6 @@ main {
   display: block;
 }
 
-.hoverBg {
-  background-color: black;
-}
-.hoverBg:hover {
-  background-color: var(--bc);
-}
-
 /* Common props */
 .pointer {
   cursor: pointer;
@@ -221,4 +211,8 @@ main {
 }
 .block {
   display: block;
+}
+.fullwh {
+  width: 100vw;
+  height: 100vh;
 }

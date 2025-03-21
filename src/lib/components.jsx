@@ -32,27 +32,17 @@ export const FileElement = ({
   )
 }
 
-export const Header = ({ text, children }) => (
-  <div
-    className="flex"
-    style={{ borderBottom: `1px solid #aaa`, padding: `0 8px` }}
-  >
-    <h3 children={text} />
-    <div className="flex" style={{ marginLeft: `auto` }} children={children} />
-  </div>
-)
-
-export const Dropdown = ({ text, rest, style }) => {
+const Dropdown = ({ text, rest, style }) => {
   return (
     <div
       className="hoverShow flexColumn"
       style={{ zIndex: 1, width: 80, ...style }}
     >
-      <input type="button" value={text} />
+      <input type="button" className="hover" value={text} />
       {rest.map(([label, onClick]) => (
         <input
           type="button"
-          className="content"
+          className="content hover"
           style={{ width: 150 }}
           key={label}
           value={label}
@@ -62,6 +52,36 @@ export const Dropdown = ({ text, rest, style }) => {
     </div>
   )
 }
+
+const CustomButton = ({ text, onClick }) => (
+  <input
+    type="button"
+    className="hover"
+    style={{ margin: `auto 12px`, backgroundColor: `black`, fontSize: 14 }}
+    value={text}
+    onClick={onClick}
+  />
+)
+
+export const Header = ({ text, ...rest }) => (
+  <div
+    className="flex"
+    style={{ borderBottom: `1px solid #aaa`, padding: `0 8px` }}
+  >
+    <h3 children={text} />
+    <div
+      className="flex"
+      style={{ marginLeft: `auto` }}
+      children={Object.entries(rest).map(([key, value]) =>
+        !Array.isArray(value) ? (
+          <CustomButton key={key} text={key} onClick={value} />
+        ) : (
+          <Dropdown key={key} text={key} rest={value} />
+        )
+      )}
+    />
+  </div>
+)
 
 /*const Dropdown = ({ text, children }) => {
   return (

@@ -16,7 +16,7 @@ const CustomInput = ({ text, onClick }) => (
   <input
     type="button"
     value={text}
-    className="hoverBg"
+    className="hover"
     style={{ border: 0, height: 30 }}
     onClick={onClick}
   />
@@ -24,7 +24,7 @@ const CustomInput = ({ text, onClick }) => (
 
 const EditorOpctionsButton = () => (
   <div
-    className="pointer absolute textAlign"
+    className="pointer absolute textAlign hover"
     style={{
       right: 0,
       width: 25,

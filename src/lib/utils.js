@@ -7,12 +7,19 @@ import {
   keywords
 } from "./consts"
 
+const createElement = ({ name, ...props }) => {
+  const element = document.createElement(name)
+  for (const key in props) {
+    element[key] = props[key]
+  }
+  element.click()
+}
+
 export const downloadFile = (name, text, encode = false) =>
   createElement({
     name: `a`,
     href: `data:text;charset=utf-8,${encode ? encodeURIComponent(text) : text}`,
-    download: name,
-    click: true
+    download: name
   })
 
 export const isFirstUpperCase = (text) =>
@@ -70,14 +77,6 @@ export const defaultGameObject = (props) => ({
   }
 })
 
-export const createElement = ({ name, click, ...props }) => {
-  const element = document.createElement(name)
-  for (const key in props) {
-    element[key] = props[key]
-  }
-  click && element.click()
-}
-
 export const capitalize = (text) =>
   typeof text !== `string` ||
   text.length === 0 ||
@@ -122,6 +121,5 @@ export const loadFile = () =>
       }
 
       reader.readAsText(target.files[0])
-    },
-    click: true
+    }
   })

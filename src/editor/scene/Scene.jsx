@@ -1,12 +1,32 @@
 import { useState } from "react"
-import { Dropdown, Header } from "../../lib/components"
+import { Header } from "../../lib/components"
 import { editor } from "../../lib/consts"
-import { htmlCode } from "../../build/htmlCode"
+import { test } from "../../build/build"
+
+const defaultCode = `
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+    <title>Hello</title>
+  </head>
+  <body style="
+    background-color:black;
+    color: gray;
+    user-select:none;
+    display:flex;
+    justify-content:center;">
+
+    <h1 style="margin-top:35vh">Empty</h1>
+  </body>
+</html>`
 
 const opctions = [`16 / 9`, `9 / 16`]
 
 const SceneComponent = ({ aspectRatio }) => {
-  const [code, setCode] = useState(``)
+  const [code, setCode] = useState()
   editor.setScene = setCode
 
   return (
@@ -18,24 +38,11 @@ const SceneComponent = ({ aspectRatio }) => {
           border: `2px solid #222`,
           aspectRatio
         }}
-        srcDoc={code}
+        srcDoc={code || defaultCode}
       />
     </div>
   )
 }
-
-// TODO upgrade CustomButton
-const CustomButton = ({ text, onClick }) => (
-  <input
-    type="button"
-    style={{
-      margin: `auto 12px`,
-      backgroundColor: `black`
-    }}
-    value={text}
-    onClick={onClick}
-  />
-)
 
 export const Scene = () => {
   const [aspectRatio, setAspectRatio] = useState(opctions[0])
@@ -44,22 +51,14 @@ export const Scene = () => {
     <div id="scene">
       <Header
         text="Scene"
-        children={
-          <>
-            <CustomButton
-              text="Start"
-              onClick={() => editor.setScene(htmlCode())}
-            />
-            <CustomButton text="Stop" onClick={() => editor.setScene(``)} />
-            <Dropdown
-              text={aspectRatio}
-              rest={opctions.map((value) => [
-                value,
-                () => setAspectRatio(value)
-              ])}
-            />
-          </>
-        }
+        Start={test}
+        Stop={() => editor.setScene(``)}
+        {...{
+          [aspectRatio]: opctions.map((value) => [
+            value,
+            () => setAspectRatio(value)
+          ])
+        }}
       />
       <SceneComponent aspectRatio={aspectRatio} />
     </div>

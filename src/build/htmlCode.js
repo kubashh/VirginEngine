@@ -10,6 +10,8 @@ const optymalizeHtml = (text) =>
     .replace(/; /g, `;`)
     .replace(/ {/g, `{`)
     .replace(/{ /g, `{`)
+    .replace(/ "/g, `"`)
+    .replace(/" /g, `"`)
 
 export const htmlCode = () =>
   `${optymalizeHtml(`
@@ -24,20 +26,17 @@ export const htmlCode = () =>
 
     <title>${config.gameName}</title>
 
-    <style>
-      body {
-        background-color:black;
-        margin:0;
-        border:0;
-        padding:0;
-        user-select:none;
-        width:100vw;
-        height:100vh;
-        overflow:hidden;
-      }
-    </style>
   </head>
-  <body>
+  <body style="
+    background-color:black;
+    margin:0;
+    border:0;
+    padding:0;
+    user-select:none;
+    width:100vw;
+    height:100vh;
+    overflow:hidden;">
+
     <canvas></canvas>
     <script>
       `)}${jsCode()}${optymalizeHtml(`
