@@ -42,7 +42,7 @@ export const Header = ({ text, children }) => (
   </div>
 )
 
-export const Dropdown = (text, rest, style) => {
+export const Dropdown = ({ text, rest, style }) => {
   return (
     <div
       className="hoverShow flexColumn"
