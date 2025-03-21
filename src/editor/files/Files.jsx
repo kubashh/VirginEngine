@@ -7,14 +7,14 @@ const FilesComponent = () => {
   editor.reloadFiles = useRefresh()
 
   return (
-    <div style={{ overflow: `scroll`, userSelect: `none` }}>
+    <div className="scroll">
       <File file={files} name="files" main />
     </div>
   )
 }
 
 export const Files = () => (
-  <div className="files">
+  <div id="files">
     <Header text="Files" />
     <FilesComponent />
   </div>

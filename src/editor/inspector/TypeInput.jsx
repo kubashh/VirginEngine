@@ -86,12 +86,8 @@ export const TypeInput = (props) => {
 
   return (
     <div
-      style={{
-        padding: 0,
-        margin: 2,
-        display: `flex`,
-        justifyContent: `space-between`
-      }}
+      className="flex"
+      style={{ margin: 2, justifyContent: `space-between` }}
     >
       <div>{addSpaceBeforeUpper(props.access)}</div>
       <input id={id} {...myInput} />

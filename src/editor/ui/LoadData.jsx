@@ -1,5 +1,4 @@
 import { editor } from "../../lib/consts"
-import { useHover } from "../../lib/hooks"
 import { loadFile, openMainScene } from "../../lib/utils"
 
 const newProject = () => {
@@ -8,23 +7,17 @@ const newProject = () => {
 }
 
 const LoadDataButton = ({ text, onClick, style }) => {
-  const [isHover, hover] = useHover()
-
   return (
     <input
+      className="hoverBg transition block textAlign"
       style={{
-        display: `block`,
-        backgroundColor: !isHover ? `black` : `#555`,
         padding: `20px 50px`,
         border: `4px solid white`,
         margin: `60px auto`,
         fontSize: 60,
         width: 500,
-        textAlign: `center`,
-        transitionDuration: `200ms`,
         ...style
       }}
-      {...hover}
       type="button"
       value={text}
       onClick={onClick}
@@ -35,8 +28,8 @@ const LoadDataButton = ({ text, onClick, style }) => {
 export const LoadData = () =>
   !editor.setUp ? (
     <div
+      className="absolute"
       style={{
-        position: `absolute`,
         width: `100vw`,
         height: `100vh`,
         backgroundColor: `rgba(0, 0, 0, 0.5)`,

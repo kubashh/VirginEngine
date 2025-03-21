@@ -108,7 +108,6 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
   }
 
   const childsElement =
-    haveChilds &&
     open &&
     Object.entries(childs).map(([key, value]) => (
       <GameObject

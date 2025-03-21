@@ -31,12 +31,8 @@ export const DragData = () => {
 
   return editor.dragData ? (
     <div
-      style={{
-        position: `absolute`,
-        zIndex: 5,
-        backgroundColor: `rgba(0, 0, 0, 0.5)`,
-        ...mouse
-      }}
+      className="absolute"
+      style={{ zIndex: 5, backgroundColor: `rgba(0, 0, 0, 0.5)`, ...mouse }}
       children={editor.dragData.name}
     />
   ) : null

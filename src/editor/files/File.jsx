@@ -12,9 +12,9 @@ export const File = ({ old, file, name, main, deep = 0, path = `files` }) => {
   const onClick = () => {
     editor.setInspector(
       <div style={{ margin: 12 }}>
-        <h2>File</h2>
-        <div>{`Type: ${file.type}`}</div>
-        <div>{`Name: ${name}`}</div>
+        <h1 children="File" />
+        <h3 children={`Type: ${file.type}`} />
+        <h3 children={`Name: ${name}`} />
       </div>
     )
   }
@@ -93,7 +93,6 @@ export const File = ({ old, file, name, main, deep = 0, path = `files` }) => {
   const onDoubleClick = () => file.type === `scene` && openScene(file, name)
 
   const childsElement =
-    isFolder &&
     open &&
     file.type !== `scene` &&
     Object.entries(file).map(

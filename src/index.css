@@ -1,20 +1,55 @@
 :root {
+  /* Width, Haight */
   --width2: calc(15vw + 50px);
   --width3: calc(30vw + 60px);
   --width1: calc(100vw - var(--width2) - var(--width3) - 2px);
   --height1: 55vh;
   --height2: calc(100vh - var(--height1) - 1px);
+
+  /* Color */
+  --c1: hsl(0 0% 100%);
+  --c2: hsl(0 0% 65%);
+  --c1s: hsl(0 0% 65%);
+  --c2s: hsl(0 0% 42.25%);
+
+  /* Background Color */
+  --bc: hsl(0 0% 35%);
 }
 
 * {
+  margin: 0;
+  border: 0;
+  padding: 0;
   color: white;
   background-color: black;
 }
 
 body {
-  margin: 0;
   font-family: sans-serif;
   overflow: hidden;
+}
+
+/* Headers */
+h1 {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+h2 {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+h3 {
+  font-size: 1rem;
+  font-weight: bold;
+}
+h4 {
+  font-size: 0.875rem;
+  font-weight: normal;
+}
+h5 {
+  font-size: 0.875rem;
+  font-weight: normal;
+  color: var(--c2);
 }
 
 /* Input */
@@ -69,46 +104,121 @@ main {
   height: 100vh;
 }
 
-/* Header */
-.header {
-  display: flex;
-  border-bottom: 1px solid #aaa;
-  padding: 0 8px;
-}
-
 /* Editor */
-.scene,
-.hierarchy,
-.files,
-.inspector {
+#scene,
+#hierarchy,
+#files,
+#inspector {
   display: grid;
   grid-template-rows: 24px auto;
 }
 
-.scene {
+#scene {
   grid-area: a;
   width: var(--width1);
   height: 100vh;
   border-right: 1px #aaa solid;
 }
 
-.hierarchy {
+#hierarchy {
   grid-area: b;
   width: var(--width2);
   height: var(--height1);
   border-right: 1px #aaa solid;
+  user-select: none;
 }
 
-.files {
+#files {
   grid-area: c;
   width: var(--width2);
   height: var(--height2);
   border-top: 1px #aaa solid;
   border-right: 1px #aaa solid;
+  user-select: none;
 }
 
-.inspector {
+#inspector {
   grid-area: d;
   width: var(--width3);
   height: 100vh;
+}
+
+/* Dropdown */
+.dropdown {
+  position: absolute;
+  inset: 0 auto auto 0;
+  cursor: pointer;
+}
+
+.dropdown * {
+  padding: 8px 8px;
+}
+
+.dropdown button:hover {
+  background-color: #222;
+}
+
+.dropdown .content > {
+  padding: 8px 12px;
+  background-color: #222;
+}
+
+.dropdown .content > :hover {
+  background-color: #333;
+}
+
+/* Hover */
+.hover:hover {
+  color: var(--c1s);
+}
+.hover2:hover {
+  color: var(--c2s);
+}
+
+.hover:hover {
+  color: var(--c1s);
+}
+
+.hoverShow .content {
+  display: none;
+}
+.hoverShow:hover .content {
+  display: block;
+}
+
+.hoverBg {
+  background-color: black;
+}
+.hoverBg:hover {
+  background-color: var(--bc);
+}
+
+/* Common props */
+.pointer {
+  cursor: pointer;
+}
+.absolute {
+  position: absolute;
+}
+.scroll {
+  overflow: scroll;
+}
+.flex {
+  display: flex;
+}
+.transition {
+  transition-duration: 200ms;
+}
+.textAlign {
+  text-align: center;
+}
+.justifySelf {
+  justify-self: center;
+}
+.flexColumn {
+  display: flex;
+  flex-direction: column;
+}
+.block {
+  display: block;
 }

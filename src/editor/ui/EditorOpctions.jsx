@@ -12,30 +12,24 @@ export const save = () =>
 
 const onConfig = () => editor.setInspector(<Config />)
 
-const CustomInput = ({ text, onClick }) => {
-  const [isHover, hover] = useHover()
-
-  return (
-    <input
-      {...hover}
-      type="button"
-      value={text}
-      style={{ border: 0, height: 30, backgroundColor: isHover ? `gray` : `` }}
-      onClick={onClick}
-    />
-  )
-}
+const CustomInput = ({ text, onClick }) => (
+  <input
+    type="button"
+    value={text}
+    className="hoverBg"
+    style={{ border: 0, height: 30 }}
+    onClick={onClick}
+  />
+)
 
 const EditorOpctionsButton = () => (
   <div
+    className="pointer absolute textAlign"
     style={{
-      position: `absolute`,
-      cursor: `pointer`,
       right: 0,
       width: 25,
       height: 25,
-      border: `3px solid #333`,
-      textAlign: `center`
+      border: `3px solid #333`
     }}
     children="S"
   />
@@ -43,8 +37,8 @@ const EditorOpctionsButton = () => (
 
 const EditorOpctionsOnHover = () => (
   <div
+    className="absolute"
     style={{
-      position: `absolute`,
       inset: `30px 0 auto auto`,
       display: `grid`,
       gap: 4,
@@ -53,6 +47,7 @@ const EditorOpctionsOnHover = () => (
       width: 150
     }}
   >
+    {console.log(`lkjd`)}
     <CustomInput text="Save" onClick={save} />
     <CustomInput text="Test" onClick={test} />
     <CustomInput text="Build" onClick={build} />
@@ -65,9 +60,11 @@ export const EditorOpctions = () => {
   const [isHover, hover] = useHover()
 
   return (
-    <div style={{ position: `absolute`, zIndex: 1, right: 0 }} {...hover}>
-      <EditorOpctionsButton />
-      {isHover ? <EditorOpctionsOnHover /> : null}
+    <div className="absolute" style={{ zIndex: 1, right: 0 }} {...hover}>
+      <div>
+        <EditorOpctionsButton />
+        {isHover ? <EditorOpctionsOnHover /> : null}
+      </div>
     </div>
   )
 }

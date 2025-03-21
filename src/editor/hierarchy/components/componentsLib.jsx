@@ -17,11 +17,11 @@ export const AddComponent = ({ text, onClick, style }) => (
   <input
     type="button"
     value={`+ ${text}`}
+    className="block"
     style={{
       margin: `12px 0 0 24px`,
       padding: `6px 12px`,
       fontSize: 16,
-      display: `block`,
       ...style
     }}
     onClick={onClick}
@@ -66,8 +66,8 @@ const Components = (props) => {
     <>
       <h2 style={{ marginLeft: 12 }}>{props.name}</h2>
       <Transform {...props} />
-      <Component {...props} name={`text`} Comp={Text} />
-      <Component {...props} name={`rect`} Comp={Rect} />
+      <Component {...props} name="text" Comp={Text} />
+      <Component {...props} name="rect" Comp={Rect} />
       <Script {...props} />
     </>
   )

@@ -11,8 +11,8 @@ const InspectorComponent = () => {
 }
 
 export const Inspector = () => (
-  <div className="inspector">
+  <div id="inspector">
     <Header text="Inspenctor" />
-    <div style={{ overflow: `scroll` }} children={<InspectorComponent />} />
+    <div className="scroll" children={<InspectorComponent />} />
   </div>
 )

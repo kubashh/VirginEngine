@@ -29,8 +29,8 @@ export const NameInput = () => {
       type="text"
       ref={ref}
       autoFocus
+      className="absolute"
       style={{
-        position: `absolute`,
         inset: `50vh auto auto 50vw`,
         transform: `translate(-50%, -50%)`,
         fontSize: 40

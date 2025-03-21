@@ -12,7 +12,7 @@ const HierarchyComponent = () => {
   }
 
   return (
-    <div style={{ overflow: `scroll`, userSelect: `none` }}>
+    <div className="scroll">
       <GameObject
         object={editor.selectedScene}
         name={editor.selectedSceneName}
@@ -23,7 +23,7 @@ const HierarchyComponent = () => {
 }
 
 export const Hierarchy = () => (
-  <div className="hierarchy">
+  <div id="hierarchy">
     <Header text="Hierarchy" />
     <HierarchyComponent />
   </div>

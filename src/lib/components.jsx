@@ -1,5 +1,3 @@
-import { useHover } from "./hooks"
-
 export const FileElement = ({
   deep,
   arrow,
@@ -11,27 +9,21 @@ export const FileElement = ({
   name,
   childsElement
 }) => {
-  const [isHover, hover] = useHover()
-
   const element = (
     <div
-      {...hover}
-      style={{ cursor: `pointer`, color: !isHover ? `white` : `#555` }}
+      className="hover pointer"
       onClick={onClick}
       onContextMenu={onContextMenu}
       onMouseDown={onMouseDown}
       onMouseUp={onMouseUp}
       onDoubleClick={onDoubleClick}
-    >
-      {name}
-    </div>
+      children={name}
+    />
   )
 
   return (
     <>
-      <div
-        style={{ marginLeft: deep * 10, display: `flex`, flexDirection: `row` }}
-      >
+      <div className="flex" style={{ marginLeft: deep * 10 }}>
         {arrow}
         {element}
       </div>
@@ -40,36 +32,54 @@ export const FileElement = ({
   )
 }
 
-export const Header = ({ text, elements }) => (
-  <div className="header">
-    <div children={text} />
-    <div
-      style={{ display: `flex`, margin: `0 0 0 auto` }}
-      children={elements}
-    />
+export const Header = ({ text, children }) => (
+  <div
+    className="flex"
+    style={{ borderBottom: `1px solid #aaa`, padding: `0 8px` }}
+  >
+    <h3 children={text} />
+    <div className="flex" style={{ marginLeft: `auto` }} children={children} />
   </div>
 )
 
-export const Dropdown = (text, rest) => {
-  const [isHover, hover] = useHover()
-
+export const Dropdown = (text, rest, style) => {
   return (
     <div
-      style={{ zIndex: 1, display: `flex`, flexDirection: `column`, width: 80 }}
-      {...hover}
+      className="hoverShow flexColumn"
+      style={{ zIndex: 1, width: 80, ...style }}
     >
       <input type="button" value={text} />
-      {isHover
-        ? rest.map(([label, onClick]) => (
-            <input
-              type="button"
-              style={{ width: 150 }}
-              key={label}
-              value={label}
-              onClick={onClick}
-            />
-          ))
-        : null}
+      {rest.map(([label, onClick]) => (
+        <input
+          type="button"
+          className="content"
+          style={{ width: 150 }}
+          key={label}
+          value={label}
+          onClick={onClick}
+        />
+      ))}
     </div>
   )
 }
+
+/*const Dropdown = ({ text, children }) => {
+  return (
+    <>
+      <div className="dropdown">
+        <button>{text}</button>
+        <div className="content" children={children} />
+      </div>
+    </>
+  )
+}
+
+const TestDropDown = () => {
+  return (
+    <Dropdown text="Click">
+      <div>content 1</div>
+      <div>content 2</div>
+      <div>content 3</div>
+    </Dropdown>
+  )
+}*/

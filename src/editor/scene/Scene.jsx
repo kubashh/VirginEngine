@@ -4,7 +4,7 @@ import { Dropdown, Header } from "../../lib/components"
 const opctions = [`16 / 9`, `9 / 16`]
 
 const SceneComponent = ({ aspectRatio }) => (
-  <div style={{ overflow: `scroll` }}>
+  <div className="scroll">
     <canvas
       style={{
         width: `calc(100% - 4px)`,
@@ -19,10 +19,10 @@ export const Scene = () => {
   const [aspectRatio, setAspectRatio] = useState(opctions[0])
 
   return (
-    <div className="scene">
+    <div id="scene">
       <Header
         text="Scene"
-        elements={Dropdown(
+        children={Dropdown(
           aspectRatio,
           opctions.map((value) => [value, () => setAspectRatio(value)])
         )}

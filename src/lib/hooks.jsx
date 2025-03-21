@@ -17,15 +17,12 @@ export const useArrow = (main, haveChilds = true) => {
   return [
     haveChilds ? (
       <div
+        className="pointer transition textAlign justifySelf"
         style={{
-          cursor: `pointer`,
           width: 24,
           height: 24,
-          textAlign: `center`,
-          justifySelf: `center`,
           borderRadius: 12,
-          transform: `rotate(${open ? 90 : 0}deg)`,
-          transition: `transform 150ms`
+          transform: `rotate(${open ? 90 : 0}deg)`
         }}
         onClick={() => setOpen((prev) => !prev)}
         children={`>`}
@@ -44,6 +41,5 @@ export const useRefresh = () => {
 }
 
 export const useConst = (value) => {
-  const [state] = useState(value)
-  return state
+  return useState(value)[0]
 }

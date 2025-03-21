@@ -19,8 +19,8 @@ export const ContextMenu = () => {
   return arr?.length ? (
     <div
       ref={ref}
+      className="absolute"
       style={{
-        position: `absolute`,
         zIndex: 1,
         inset: `${y}px auto auto ${x}px`,
         width: 200,
@@ -36,7 +36,7 @@ export const ContextMenu = () => {
               fn()
               setContextMenu([])
             }}
-            style={{ cursor: `pointer` }}
+            className="pointer"
             children={text}
           />
         ) : null
