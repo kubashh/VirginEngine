@@ -24,6 +24,7 @@ const SceneComponent = ({ aspectRatio }) => {
   )
 }
 
+// TODO upgrade CustomButton
 const CustomButton = ({ text, onClick }) => (
   <input
     type="button"
