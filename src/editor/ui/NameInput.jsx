@@ -28,7 +28,6 @@ export const NameInput = () => {
     <input
       type="text"
       ref={ref}
-      autoFocus
       className="absolute"
       style={{
         inset: `50vh auto auto 50vw`,
@@ -44,6 +43,7 @@ export const NameInput = () => {
         setNameInput((prev) => [prev[0], value, prev[2]])
       }}
       onKeyDown={({ key }) => key === `Enter` && ret()}
+      autoFocus
     />
   ) : null
 }

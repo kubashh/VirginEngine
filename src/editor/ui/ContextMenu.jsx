@@ -19,7 +19,7 @@ export const ContextMenu = () => {
   return arr?.length ? (
     <div
       ref={ref}
-      className="absolute zIndex1"
+      className="absolute zIndex"
       style={{
         inset: `${y}px auto auto ${x}px`,
         width: 200,

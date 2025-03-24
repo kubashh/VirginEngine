@@ -27,9 +27,9 @@ const LoadDataButton = ({ text, onClick, style }) => (
 export const LoadData = () => {
   editor.reloadLoadData = useRefresh()
 
-  return (
+  return !editor.setUp ? (
     <div
-      className={`absolute fullwh zIndex2 ${!editor.setUp ? `block` : `none`}`}
+      className="absolute fullwh zIndex"
       style={{ backgroundColor: `rgba(0, 0, 0, 0.5)` }}
     >
       <LoadDataButton
@@ -39,5 +39,5 @@ export const LoadData = () => {
       />
       <LoadDataButton text="New project" onClick={newProject} />
     </div>
-  )
+  ) : null
 }

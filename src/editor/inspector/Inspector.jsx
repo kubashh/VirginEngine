@@ -1,32 +1,7 @@
 import { useState } from "react"
-import { config, editor, files } from "../../lib/consts"
+import { editor } from "../../lib/consts"
 import { Header } from "../../lib/components"
-import { Config } from "../ui/Config"
-import { build, test } from "../../build/build"
-import { downloadFile, loadFile } from "../../lib/utils"
-
-const save = () =>
-  downloadFile(
-    `${config.gameName}.deathengine`,
-    JSON.stringify({ config, files })
-  )
-
-window.addEventListener(`keydown`, (e) => {
-  if (e.ctrlKey && e.key === `s`) {
-    e.preventDefault()
-    save()
-  }
-})
-
-const onConfig = () => editor.setInspector(<Config />)
-
-const editorOpctions = {
-  Test: test,
-  Save: save,
-  Build: build,
-  Load: loadFile,
-  Config: onConfig
-}
+import { editorOpctions } from "./editorOptions"
 
 const InspectorComponent = () => {
   const [element, setElement] = useState()

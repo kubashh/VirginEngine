@@ -8,25 +8,19 @@ export const FileElement = ({
   onDoubleClick,
   name,
   childsElement
-}) => {
-  const element = (
-    <div
-      className="hover pointer"
-      {...{ onClick, onContextMenu, onMouseDown, onMouseUp, onDoubleClick }}
-      children={name}
-    />
-  )
-
-  return (
-    <>
-      <div className="flex" style={{ marginLeft: deep * 10 }}>
-        {arrow}
-        {element}
-      </div>
-      {childsElement}
-    </>
-  )
-}
+}) => (
+  <>
+    <div className="flex" style={{ marginLeft: deep * 10 }}>
+      {arrow}
+      <div
+        className="hover pointer"
+        {...{ onClick, onContextMenu, onMouseDown, onMouseUp, onDoubleClick }}
+        children={name}
+      />
+    </div>
+    {childsElement}
+  </>
+)
 
 export const Header = ({ text, ...rest }) => (
   <div
@@ -44,7 +38,7 @@ export const Header = ({ text, ...rest }) => (
           style={{
             margin: `auto 8px`,
             backgroundColor: `black`,
-            fontSize: 14
+            fontSize: 16
           }}
           key={key}
           value={key}

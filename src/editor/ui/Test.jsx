@@ -3,18 +3,18 @@ import { editor } from "../../lib/consts"
 import { Header } from "../../lib/components"
 import { test } from "../../build/build"
 
-const defaultCode = `
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>Hello</title>
-  </head>
-  <body style="background-color:black; color: gray; user-select:none; display:flex; justify-content:center;">
-    <h1 style="margin-top:35vh">Empty</h1>
-  </body>
-</html>`
+// const defaultCode = `
+// <!DOCTYPE html>
+// <html lang="en">
+//   <head>
+//     <meta charset="UTF-8">
+//     <meta name="viewport" content="width=device-width,initial-scale=1.0">
+//     <title>Hello</title>
+//   </head>
+//   <body style="background-color:black; color: gray; user-select:none; display:flex; justify-content:center;">
+//     <h1 style="margin-top:35vh">Empty</h1>
+//   </body>
+// </html>`
 
 const opctions = [`16 / 9`, `1 / 1`, `9 / 16`]
 
@@ -23,10 +23,10 @@ export const Test = () => {
   const [code, setCode] = useState()
   editor.setScene = setCode
 
-  return (
-    <div className={`fullwh zIndex2 ${code ? `absolute` : `none`}`}>
+  return code ? (
+    <div className="absolute fullwh zIndex">
       <Header
-        text="Text"
+        text="Test"
         {...opctions.reduce(
           (old, value) => ({ ...old, [value]: () => setAspectRatio(value) }),
           {}
@@ -53,9 +53,9 @@ export const Test = () => {
             borderLeft: `1px solid gray`,
             aspectRatio
           }}
-          srcDoc={code || defaultCode}
+          srcDoc={code}
         />
       </div>
     </div>
-  )
+  ) : null
 }
