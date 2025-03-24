@@ -189,6 +189,10 @@ main {
 .flex {
   display: flex;
 }
+.wrap {
+  display: flex;
+  flex-wrap: wrap;
+}
 .transition {
   transition: all 0.2s;
 }
@@ -198,15 +202,8 @@ main {
 .justifySelf {
   justify-self: center;
 }
-.flexColumn {
-  display: flex;
-  flex-direction: column;
-}
 .block {
   display: block;
-}
-.none {
-  display: none;
 }
 .fullwh {
   width: 100vw;

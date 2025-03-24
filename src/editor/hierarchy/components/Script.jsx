@@ -17,8 +17,8 @@ const scriptTypes = {
 
 // Types functions
 const getType = (text) => {
+  if ([`false`, `true`].includes(text)) return `bool`
   if (text[0] === `"`) return `string`
-  if (text === `false` || text === `true`) return `bool`
   if (text === Number(text).toString()) return `number`
   if (text[0] === `[`) return `array`
   if (text[0] === `{`) return `object`
@@ -58,7 +58,7 @@ const InputDefault = ({ object, access, type }) => {
 
   return (
     <textarea
-      style={{ width: `90%` }}
+      style={{ width: `calc(100% - 12px)`, resize: `none` }}
       value={typeToEditor(text)}
       onChange={handleOnChange(object, access, setText, type)}
     />
@@ -146,8 +146,15 @@ export const Script = ({ object, refresh }) => (
       .map((key) => (
         <TextElement key={key} object={object} access={key} refresh={refresh} />
       ))}
-    {Object.keys(scriptTypes).map((value) => (
-      <AddScript key={value} value={value} object={object} refresh={refresh} />
-    ))}
+    <div className="wrap" style={{ marginBottom: 16 }}>
+      {Object.keys(scriptTypes).map((value) => (
+        <AddScript
+          key={value}
+          value={value}
+          object={object}
+          refresh={refresh}
+        />
+      ))}
+    </div>
   </>
 )

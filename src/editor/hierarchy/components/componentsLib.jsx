@@ -9,11 +9,11 @@ import { Transform } from "./Transform"
 const deepCopy = (obj) => JSON.parse(JSON.stringify(obj))
 
 const components = {
-  text: [{ value: `` }, [`rect`], []],
-  rect: [{ x: 0, y: 0 }, [], [`text`]]
+  text: [Text, { value: `` }, [`rect`], []],
+  rect: [Rect, { x: 0, y: 0 }, [], [`text`]]
 }
 
-export const AddComponent = ({ text, onClick, style }) => (
+export const AddComponent = ({ text, onClick }) => (
   <input
     type="button"
     value={`+ ${text}`}
@@ -21,21 +21,22 @@ export const AddComponent = ({ text, onClick, style }) => (
     style={{
       margin: `12px 0 0 24px`,
       padding: `6px 12px`,
-      fontSize: 16,
-      ...style
+      fontSize: 16
     }}
     onClick={onClick}
   />
 )
 
-const Component = ({ name, Comp, refresh, readOnly, ...props }) => {
+const Component = ({ name, refresh, readOnly, ...props }) => {
   const remove = () => {
-    for (const key of components[name][2]) {
+    for (const key of components[name][3]) {
       delete props.object[key]
     }
     delete props.object[name]
     refresh()
   }
+
+  const Comp = components[name][0]
 
   return props.object[name] ? (
     <Comp key={name} text={capitalize(name)} {...{ ...props, remove }} />
@@ -45,10 +46,10 @@ const Component = ({ name, Comp, refresh, readOnly, ...props }) => {
       onClick={() => {
         if (readOnly) return
 
-        props.object[name] = deepCopy(components[name][0])
-        for (const key of components[name][1]) {
+        props.object[name] = deepCopy(components[name][1])
+        for (const key of components[name][2]) {
           if (!props.object[key])
-            props.object[key] = deepCopy(components[key][0])
+            props.object[key] = deepCopy(components[key][1])
         }
 
         refresh()
@@ -65,8 +66,8 @@ const Components = (props) => {
     <>
       <h2 style={{ marginLeft: 12 }}>{props.name}</h2>
       <Transform {...props} />
-      <Component {...props} name="text" Comp={Text} />
-      <Component {...props} name="rect" Comp={Rect} />
+      <Component {...props} name="text" />
+      <Component {...props} name="rect" />
       <Script {...props} />
     </>
   )
