@@ -1,97 +1,54 @@
-import { useState } from "react"
-import { addSpaceBeforeUpper } from "../../lib/utils"
-import { numbers } from "../../lib/consts"
 import { useRefresh } from "../../lib/hooks"
-
-const inputPropsBool = ({ object, access, refresh }) => ({
-  type: `checkbox`,
-  checked: object[access],
-  style: {
-    accentColor: `green`,
-    backgroundColor: `black`,
-    background: `black`
-  },
-  onChange: ({ target }) => {
-    object[access] = target.checked
-    refresh()
-  },
-  label: { style: {} }
-})
-
-const NumberInput = ({ object, access }) => {
-  const [currentNumber, setCurrentNumber] = useState(object[access])
-
-  return {
-    type: `text`,
-    value: currentNumber,
-    onChange: ({ target: { value } }) => {
-      let dot = false
-      for (const char of value) {
-        // Is includes allow chars
-        if (!`${numbers}.`.includes(char)) return
-
-        // Double dot check
-        if (char === `.`) {
-          if (dot) return
-          dot = true
-        }
-      }
-
-      let newNumber = Number(value) || 0
-      let set = true
-      if (value[value.length - 1] === `.`) {
-        set = false
-      } else {
-        object[access] = newNumber
-      }
-
-      setCurrentNumber(set ? newNumber : value)
-    }
-  }
-}
-
-const StringInput = ({ object, access, refresh }) => ({
-  type: `text`,
-  value: object[access],
-  onChange: ({ target: { value } }) => {
-    object[access] = value
-    refresh()
-  }
-})
+import { addSpaceBeforeUpper, getType } from "../../lib/utils"
+import { BoolInput } from "./typeInput/BoolInput"
+import { NumberInput } from "./typeInput/NumberInput"
+import { StringInput } from "./typeInput/StringInput"
 
 export const TypeInput = (props) => {
   const refresh = useRefresh()
+  props = { ...props, refresh }
 
-  props = { refresh, ...props }
-
-  let myInput
-  switch (typeof props.object[props.access]) {
-    case `boolean`:
-      myInput = inputPropsBool(props)
+  let element
+  const type = getType(props.object[props.access])
+  switch (type) {
+    case "bool":
+      element = <BoolInput {...props} />
       break
-    case `number`:
-      myInput = NumberInput(props)
+    case "number":
+      element = <NumberInput {...props} />
+      break
+    case "string":
+      element = <StringInput {...props} />
+      break
+    case "array":
+      element = null
+      break
+    case "object":
+      element = null
+      break
+    case "function":
+      element = null
       break
     default:
-      myInput = StringInput(props)
+      console.error(`Type Error!`)
+      break
   }
-
-  const { label } = myInput
-
-  if (label) {
-    delete myInput.label
-  }
-
-  const id = Math.random().toString(10).slice(2)
 
   return (
     <div
-      className="flex"
-      style={{ margin: 2, justifyContent: `space-between` }}
+      style={{
+        display: `grid`,
+        gridTemplateColumns: `auto 1fr`,
+        gap: 12,
+        width: `calc(100% - 12px)`
+      }}
     >
-      <div>{addSpaceBeforeUpper(props.access)}</div>
-      <input id={id} {...myInput} />
-      {label ? <label htmlFor={id} {...label}></label> : null}
+      <div className="flex" style={{ gap: 12 }}>
+        <h4>{addSpaceBeforeUpper(props.access)}</h4>
+        <h4 style={{ color: `green` }}>: {type}</h4>
+        <h4>=</h4>
+      </div>
+      <div>{element}</div>
     </div>
   )
 }
