@@ -1,5 +1,5 @@
 import { GameObject } from "./GameObject"
-import { editor } from "../../lib/consts"
+import { editor, files } from "../../lib/consts"
 import { useRefresh } from "../../lib/hooks"
 import { Header } from "../../lib/components"
 
@@ -15,6 +15,7 @@ const HierarchyComponent = () => {
     <div className="scroll">
       <GameObject
         object={editor.selectedScene}
+        old={files.Scenes}
         name={editor.selectedSceneName}
         main
       />

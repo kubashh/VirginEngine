@@ -5,7 +5,7 @@ import {
   includesKeywords,
   isFirstUpperCase
 } from "../../lib/utils"
-import { editor, files } from "../../lib/consts"
+import { editor } from "../../lib/consts"
 import { FileElement } from "../../lib/components"
 
 const getChilds = (obj) => {
@@ -51,14 +51,7 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
         () => {
           editor.setNameInput([
             (newText) => {
-              if (name === newText) return
-
-              if (main) {
-                old = files.Scenes
-                editor.selectedScene = newText
-              }
-
-              if (old[newText]) return
+              if (name === newText || old[newText]) return
 
               delete old[name]
               old[newText] = object
