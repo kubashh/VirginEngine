@@ -1,7 +1,7 @@
 {
-  "name": "deathengine",
+  "name": "virginengine",
   "version": "0.1.0",
-  "homepage": "https://kubashh.github.io/deathengine",
+  "homepage": "https://kubashh.github.io/virginengine",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
