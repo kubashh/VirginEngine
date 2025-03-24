@@ -59,7 +59,6 @@ const Component = ({ name, Comp, refresh, readOnly, ...props }) => {
 
 const Components = (props) => {
   const refresh = useRefresh()
-
   props = { ...props, refresh }
 
   return (

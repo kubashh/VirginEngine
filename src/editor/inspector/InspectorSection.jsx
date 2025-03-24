@@ -10,7 +10,11 @@ export const InspectorSection = ({ text, remove, childs, element }) => (
   >
     <div className="flex">
       <h1
-        style={{ marginBottom: 5, borderLeft: `2px solid black` }}
+        style={{
+          marginBottom: 6,
+          borderLeft: `5px solid #333`,
+          paddingLeft: 6
+        }}
         children={text}
       />
       {remove ? (
@@ -19,9 +23,8 @@ export const InspectorSection = ({ text, remove, childs, element }) => (
           value="Remove"
           style={{
             marginBottom: 5,
-            borderLeft: `2px solid black`,
             fontSize: 16,
-            margin: `auto 12px auto auto`,
+            margin: `auto 16px auto auto`,
             backgroundColor: `black`
           }}
           onClick={remove}

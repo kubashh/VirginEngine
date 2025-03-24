@@ -1,4 +1,5 @@
 import { editor } from "../../lib/consts"
+import { useRefresh } from "../../lib/hooks"
 import { loadFile, openMainScene } from "../../lib/utils"
 
 const newProject = () => {
@@ -23,11 +24,13 @@ const LoadDataButton = ({ text, onClick, style }) => (
   />
 )
 
-export const LoadData = () =>
-  !editor.setUp ? (
+export const LoadData = () => {
+  editor.reloadLoadData = useRefresh()
+
+  return (
     <div
-      className="absolute fullwh"
-      style={{ backgroundColor: `rgba(0, 0, 0, 0.5)`, zIndex: 3 }}
+      className={`absolute fullwh zIndex2 ${!editor.setUp ? `block` : `none`}`}
+      style={{ backgroundColor: `rgba(0, 0, 0, 0.5)` }}
     >
       <LoadDataButton
         text="Load Project"
@@ -36,4 +39,5 @@ export const LoadData = () =>
       />
       <LoadDataButton text="New project" onClick={newProject} />
     </div>
-  ) : null
+  )
+}

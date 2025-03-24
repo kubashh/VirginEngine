@@ -5,41 +5,42 @@ import { Hierarchy } from "./editor/hierarchy/Hierarchy"
 import { Inspector } from "./editor/inspector/Inspector"
 import { Files } from "./editor/files/Files"
 import { LoadData } from "./editor/ui/LoadData"
-import { EditorOpctions } from "./editor/ui/EditorOpctions"
 import { ContextMenu } from "./editor/ui/ContextMenu"
 import { NameInput } from "./editor/ui/NameInput"
 import { DragData } from "./editor/ui/DragData"
+import { createPortal } from "react-dom"
+import { Test } from "./editor/ui/Test"
 
 const Dynamic = () => {
-  editor.reloadApp = useRefresh()
+  const reload = useRefresh()
+  editor.reloadApp = () => {
+    editor.reloadLoadData()
+    reload()
+  }
 
   return (
     <>
-      {/* Editor */}
       <Scene />
       <Hierarchy />
       <Files />
       <Inspector />
-
-      {/* UI */}
-      <LoadData />
     </>
   )
 }
 
 const Static = () => (
   <>
-    {/* UI */}
-    <EditorOpctions />
+    <LoadData />
     <ContextMenu />
     <NameInput />
     <DragData />
+    <Test />
   </>
 )
 
 export const App = () => (
   <>
-    <Static />
+    {createPortal(<Static />, document.getElementsByTagName(`header`)[0])}
     <Dynamic />
   </>
 )

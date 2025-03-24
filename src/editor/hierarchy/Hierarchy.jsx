@@ -23,8 +23,8 @@ const HierarchyComponent = () => {
 }
 
 export const Hierarchy = () => (
-  <div id="hierarchy">
+  <section id="hierarchy">
     <Header text="Hierarchy" />
     <HierarchyComponent />
-  </div>
+  </section>
 )

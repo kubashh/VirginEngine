@@ -19,9 +19,8 @@ export const ContextMenu = () => {
   return arr?.length ? (
     <div
       ref={ref}
-      className="absolute"
+      className="absolute zIndex1"
       style={{
-        zIndex: 1,
         inset: `${y}px auto auto ${x}px`,
         width: 200,
         backgroundColor: `#333`,

@@ -1,23 +1,12 @@
 import { useState } from "react"
 
-export const useHover = () => {
-  const [isHover, setIsHover] = useState(false)
-  return [
-    isHover,
-    {
-      onMouseEnter: () => setIsHover(true),
-      onMouseLeave: () => setIsHover(false)
-    }
-  ]
-}
-
-export const useArrow = (main, haveChilds = true) => {
+export const useArrow = (main = false, haveChilds = true) => {
   const [open, setOpen] = useState(main)
 
   return [
     haveChilds ? (
       <div
-        className="pointer transition textAlign justifySelf"
+        className="pointer hover transition textAlign justifySelf"
         style={{
           width: 24,
           height: 24,
@@ -25,7 +14,7 @@ export const useArrow = (main, haveChilds = true) => {
           transform: `rotate(${open ? 90 : 0}deg)`
         }}
         onClick={() => setOpen((prev) => !prev)}
-        children={`>`}
+        children=">"
       />
     ) : (
       <div style={{ marginLeft: 24 }} />

@@ -6,14 +6,14 @@ export const NameInput = () => {
   const ref = useRef()
   const [[cb, text = ``, lowerCase = false], setNameInput] = useState([])
 
+  editor.setNameInput = setNameInput
+
   const ret = () => {
     if (isValidName(text)) {
       cb(lowerCase ? `${text[0].toLowerCase()}${text.slice(1)}` : text)
     }
     setNameInput([])
   }
-
-  editor.setNameInput = setNameInput
 
   useEffect(() => {
     const handler = ({ target }) =>

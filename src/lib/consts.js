@@ -32,6 +32,7 @@ export const editor = {
   reloadApp: undefined,
   reloadHierarchy: undefined,
   reloadFiles: undefined,
+  reloadLoadData: undefined,
   setInspector: undefined,
   setDragData: undefined,
   setScene: undefined
