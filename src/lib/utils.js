@@ -106,7 +106,7 @@ export const loadFile = () =>
   createElement({
     name: `input`,
     type: `file`,
-    accept: `.deathengine`,
+    accept: `.virginengine`,
     onchange: ({ target }) => {
       const reader = new FileReader()
 

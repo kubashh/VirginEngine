@@ -5,7 +5,7 @@ import { InspectorSection } from "./InspectorSection"
 
 const save = () =>
   downloadFile(
-    `${config.gameName}.deathengine`,
+    `${config.gameName}.virginengine`,
     JSON.stringify({ config, files })
   )
 
