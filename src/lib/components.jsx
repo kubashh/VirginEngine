@@ -23,28 +23,16 @@ export const FileElement = ({
 )
 
 export const Header = ({ text, ...rest }) => (
-  <div
-    className="flex"
-    style={{ borderBottom: `1px solid #aaa`, padding: `0 8px` }}
-  >
+  <div className="Header">
     <h3 children={text} />
-    <div
-      className="flex"
-      style={{ marginLeft: `auto` }}
-      children={Object.entries(rest).map(([key, value]) => (
-        <input
-          type="button"
-          className="hover"
-          style={{
-            margin: `auto 8px`,
-            backgroundColor: `black`,
-            fontSize: 16
-          }}
-          key={key}
-          value={key}
-          onClick={value}
-        />
-      ))}
-    />
+    {Object.entries(rest).map(([key, value]) => (
+      <input
+        type="button"
+        className="hover"
+        key={key}
+        value={key}
+        onClick={value}
+      />
+    ))}
   </div>
 )

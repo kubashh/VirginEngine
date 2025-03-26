@@ -35,17 +35,10 @@ export const TypeInput = (props) => {
   }
 
   return (
-    <div
-      style={{
-        display: `grid`,
-        gridTemplateColumns: `auto 1fr`,
-        gap: 12,
-        width: `calc(100% - 12px)`
-      }}
-    >
-      <div className="flex" style={{ gap: 12 }}>
+    <div className="TypeInput">
+      <div>
         <h4>{addSpaceBeforeUpper(props.access)}</h4>
-        <h4 style={{ color: `green` }}>: {type}</h4>
+        <h4>: {type}</h4>
         <h4>=</h4>
       </div>
       <div>{element}</div>

@@ -12,7 +12,7 @@ const HierarchyComponent = () => {
   }
 
   return (
-    <div className="scroll">
+    <div>
       <GameObject
         object={editor.selectedScene}
         old={files.Scenes}

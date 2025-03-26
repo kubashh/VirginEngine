@@ -28,12 +28,7 @@ export const NameInput = () => {
     <input
       type="text"
       ref={ref}
-      className="absolute"
-      style={{
-        inset: `50vh auto auto 50vw`,
-        transform: `translate(-50%, -50%)`,
-        fontSize: 40
-      }}
+      className="NameInput"
       value={text}
       onChange={({ target }) => {
         let value = capitalize(target.value)

@@ -120,6 +120,12 @@ main {
   grid-template-rows: 24px auto;
 }
 
+#hierarchy :last-child,
+#files :last-child,
+#inspector :last-child {
+  overflow: scroll;
+}
+
 #scene {
   grid-area: a;
   width: var(--width1);
@@ -189,12 +195,6 @@ main {
 .pointer {
   cursor: pointer;
 }
-.absolute {
-  position: absolute;
-}
-.scroll {
-  overflow: scroll;
-}
 .flex {
   display: flex;
 }
@@ -220,4 +220,128 @@ main {
 }
 .zIndex {
   z-index: 1;
+}
+
+/*
+  Components
+*/
+/* Header */
+.Header {
+  display: flex;
+  border-bottom: 1px solid #aaa;
+  padding: 0 8px;
+}
+.Header :first-child {
+  margin-right: auto;
+}
+.Header :not(:first-child) {
+  margin: auto 8px;
+  background-color: black;
+  font-size: 16px;
+}
+
+/*
+  UI
+*/
+/* ContextMenu */
+.ContextMenu {
+  position: absolute;
+  z-index: 1;
+  width: 200px;
+  background-color: #333;
+  border: 3px solid #333;
+}
+.ContextMenu * {
+  cursor: pointer;
+}
+
+/* DragData */
+.DragData {
+  position: absolute;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* LoadData */
+.LoadData {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.LoadData * {
+  padding: 20px 50px;
+  border: 4px solid gray;
+  margin: 30px auto;
+  font-size: 54px;
+  width: 500px;
+}
+
+/* NameInput */
+.NameInput {
+  position: absolute;
+  inset: 50vh auto auto 50vw;
+  transform: translate(-50%, -50%);
+  font-size: 40px;
+}
+
+/* Test */
+.Test {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+}
+.Test :last-child {
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  background-color: #111;
+}
+.Test :last-child iframe {
+  border-right: 1px solid gray;
+  border-left: 1px solid gray;
+}
+
+/*
+  Inspector
+*/
+/* InspectorSection */
+.InspectorSection {
+  padding-bottom: 8px;
+  border-bottom: 2px #111 solid;
+  margin: 16px 0 0 12px;
+}
+.InspectorSection :first-child {
+  display: flex;
+}
+.InspectorSection :first-child h1 {
+  margin-bottom: 6px;
+  border-left: 5px solid #333;
+  padding-left: 6px;
+}
+.InspectorSection .InspectorSectionRemove {
+  margin-bottom: 5px;
+  font-size: 16px;
+  margin: auto 16px auto auto;
+  background-color: black;
+}
+
+/* TypeInput */
+.TypeInput {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px;
+  width: calc(100% - 12px);
+}
+.TypeInput :first-child {
+  display: flex;
+  gap: 12px;
+}
+.TypeInput :first-child :nth-child(2) {
+  color: green;
 }

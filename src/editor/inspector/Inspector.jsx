@@ -13,6 +13,6 @@ const InspectorComponent = () => {
 export const Inspector = () => (
   <section id="inspector">
     <Header text="Inspenctor" {...editorOpctions} />
-    <div className="scroll" children={<InspectorComponent />} />
+    <div children={<InspectorComponent />} />
   </section>
 )

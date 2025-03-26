@@ -7,7 +7,7 @@ const FilesComponent = () => {
   editor.reloadFiles = useRefresh()
 
   return (
-    <div className="scroll">
+    <div>
       <File file={files} name="files" main />
     </div>
   )

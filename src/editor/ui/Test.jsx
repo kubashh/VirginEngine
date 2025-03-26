@@ -24,7 +24,7 @@ export const Test = () => {
   editor.setScene = setCode
 
   return code ? (
-    <div className="absolute fullwh zIndex">
+    <div className="Test">
       <Header
         text="Test"
         {...opctions.reduce(
@@ -37,22 +37,10 @@ export const Test = () => {
           setCode()
         }}
       />
-      <div
-        className="flex"
-        style={{
-          height: `100%`,
-          justifyContent: `center`,
-          backgroundColor: `#111`
-        }}
-      >
+      <div>
         <iframe
           title="scene"
-          style={{
-            height: `min(100%, 100vw * ${aspectRatio})`,
-            border: `1px solid gray`,
-            borderLeft: `1px solid gray`,
-            aspectRatio
-          }}
+          style={{ height: `min(100%, 100vw * ${aspectRatio})`, aspectRatio }}
           srcDoc={code}
         />
       </div>

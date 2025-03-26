@@ -19,13 +19,8 @@ export const ContextMenu = () => {
   return arr?.length ? (
     <div
       ref={ref}
-      className="absolute zIndex"
-      style={{
-        inset: `${y}px auto auto ${x}px`,
-        width: 200,
-        backgroundColor: `#333`,
-        border: `3px solid #333`
-      }}
+      className="ContextMenu"
+      style={{ inset: `${y}px auto auto ${x}px` }}
     >
       {arr.map(([fn, text, show = true]) =>
         show ? (
@@ -35,7 +30,6 @@ export const ContextMenu = () => {
               fn()
               setContextMenu([])
             }}
-            className="pointer"
             children={text}
           />
         ) : null
