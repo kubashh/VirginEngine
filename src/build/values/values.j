@@ -48,7 +48,7 @@ const GameTime = {
   set: (newTime) => {
     GameTime.value = newTime
     GameTime.ms = 1000 / (60 * GameTime.value)
-    GameTime.lastTime = now()
+    GameTime.lastTime = performance.now()
   }
 }
 

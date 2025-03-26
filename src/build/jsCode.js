@@ -69,7 +69,7 @@ const staticFiles = await importJoinFiles(
 
   // Functions
   await import("./functions/basicFunctions.j"),
-  await import("./functions/runStartUpdateRender.j")
+  await import("./functions/runUpdateRender.j")
 )
 
 const dynamicData = () => `

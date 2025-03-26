@@ -3,22 +3,23 @@ const run = async () => {
   GameTime.set(1)
   requestAnimationFrame(render)
 
-  let timer = now()
+  let timer = performance.now()
   let updates = 0
   let delta = 0
   while (true) {
-    const nowTime = now()
-    delta += (nowTime - GameTime.lastTime) / GameTime.ms
+    const now = performance.now()
+    delta += (now - GameTime.lastTime) / GameTime.ms
     if (delta > 60) delta = 60
 
-    GameTime.lastTime = nowTime
+    GameTime.lastTime = now
     while (delta >= 1) {
       update()
       updates++
       delta--
     }
 
-    if (now() - timer > 1000) {
+    // Log Staff
+    if (now - timer > 1000) {
       timer += 1000
       Log.updates = updates
       Log.frames = Log.framesTemp
@@ -28,13 +29,6 @@ const run = async () => {
 
     await wait0()
   }
-}
-
-// Start
-const start = () => {
-  // Delete events
-  for (const key in events) delete events[key]
-  for (const key in eventsHover) delete eventsHover[key]
 }
 
 // Update

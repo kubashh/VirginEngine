@@ -2,8 +2,6 @@
 const wait = async (time) => await new Promise((r) => setTimeout(r, time))
 const wait0 = async () => new Promise((r) => setTimeout(r))
 
-const now = () => window.performance.now()
-
 // Is child
 const isChildKey = (text) => `ABCDEFGHIJKLMNOPRQSTUWXYZ`.includes(text[0])
 
@@ -30,8 +28,15 @@ const deepCopy = (data) => {
 
 // Load scene
 const loadScene = (newScene) => {
+  // Clear gameObject array
+  gameObjects.length = 0
+
+  // Load Scene
   scene = new GameObject(deepCopy(newScene))
-  start()
+
+  // Start (Delete events)
+  for (const key in events) delete events[key]
+  for (const key in eventsHover) delete eventsHover[key]
 }
 
 // Set and draw on ctx (canvas)
