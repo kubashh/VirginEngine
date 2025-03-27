@@ -8,12 +8,7 @@ const newProject = () => {
 }
 
 const LoadDataButton = ({ text, onClick }) => (
-  <input
-    className="hover transition"
-    type="button"
-    value={text}
-    onClick={onClick}
-  />
+  <input className="hover" type="button" value={text} onClick={onClick} />
 )
 
 export const LoadData = () => {

@@ -173,13 +173,9 @@ main {
 }
 
 /* Hover */
-.hover:hover {
-  color: var(--c1s);
+.hover {
+  transition: color 0.2s;
 }
-.hover2:hover {
-  color: var(--c2s);
-}
-
 .hover:hover {
   color: var(--c1s);
 }
@@ -202,24 +198,11 @@ main {
   display: flex;
   flex-wrap: wrap;
 }
-.transition {
-  transition: all 0.2s;
-}
 .textAlign {
   text-align: center;
 }
 .justifySelf {
   justify-self: center;
-}
-.block {
-  display: block;
-}
-.fullwh {
-  width: 100vw;
-  height: 100vh;
-}
-.zIndex {
-  z-index: 1;
 }
 
 /*

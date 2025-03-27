@@ -6,7 +6,7 @@ export const useArrow = (main = false, haveChilds = true) => {
   return [
     haveChilds ? (
       <div
-        className="pointer hover transition textAlign justifySelf"
+        className="pointer hover textAlign justifySelf"
         style={{
           width: 24,
           height: 24,
@@ -27,8 +27,4 @@ export const useArrow = (main = false, haveChilds = true) => {
 export const useRefresh = () => {
   const [, setState] = useState(false)
   return () => setState((prev) => !prev)
-}
-
-export const useConst = (value) => {
-  return useState(value)[0]
 }
