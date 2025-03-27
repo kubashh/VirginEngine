@@ -6,18 +6,13 @@ export const useArrow = (main = false, haveChilds = true) => {
   return [
     haveChilds ? (
       <div
-        className="pointer hover textAlign justifySelf"
-        style={{
-          width: 24,
-          height: 24,
-          borderRadius: 12,
-          transform: `rotate(${open ? 90 : 0}deg)`
-        }}
+        className="hover"
+        style={{ transform: `rotate(${open ? 90 : 0}deg)` }}
         onClick={() => setOpen((prev) => !prev)}
         children=">"
       />
     ) : (
-      <div style={{ marginLeft: 24 }} />
+      <div />
     ),
     open,
     setOpen

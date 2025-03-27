@@ -12,7 +12,7 @@ import { TypeInput } from "../../inspector/TypeInput"
 
 // Types
 const scriptTypes = {
-  bool: false,
+  boolean: false,
   number: 0,
   string: `""`,
   array: `[]`,
@@ -50,7 +50,6 @@ const TextElement = ({ object, access, refresh }) => (
 const AddScript = ({ object, value, refresh }) => (
   <AddComponent
     text={capitalize(value)}
-    style={{ display: `inline` }}
     onClick={() =>
       editor.setNameInput([
         (text) => {
@@ -74,7 +73,7 @@ export const Script = ({ object, refresh }) => {
       {Object.keys(object)
         .filter((key) => isCustomProp(key))
         .map((key) =>
-          [`bool`, `number`, `string`].includes(getType(object[key])) ? (
+          [`boolean`, `number`, `string`].includes(getType(object[key])) ? (
             <InspectorSection
               key={key}
               text={key}
@@ -93,7 +92,7 @@ export const Script = ({ object, refresh }) => {
             />
           )
         )}
-      <div className="wrap" style={{ marginBottom: 16 }}>
+      <div className="AddScriptContainer">
         {Object.keys(scriptTypes).map((value) => (
           <AddScript
             key={value}

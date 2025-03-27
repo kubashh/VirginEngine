@@ -126,10 +126,10 @@ export const loadFile = () =>
 
 // Type
 export const getType = (data) => {
-  if (typeof data === `boolean`) return `bool`
+  if (typeof data === `boolean`) return `boolean`
   if (typeof data === `number`) return `number`
-  if (data[0] === `[`) return `array`
-  if (data[0] === `{`) return `object`
+  if (Array.isArray(data) || data[0] === `[`) return `array`
+  if (typeof data === `object` || data[0] === `{`) return `object`
   if (data.indexOf(`function`) === 0) return `function`
   if ([`"`, `'`, "`"].includes(data[0])) return `string`
   return `string`

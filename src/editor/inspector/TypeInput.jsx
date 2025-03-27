@@ -1,6 +1,6 @@
 import { useRefresh } from "../../lib/hooks"
 import { addSpaceBeforeUpper, getType } from "../../lib/utils"
-import { BoolInput } from "./typeInput/BoolInput"
+import { BooleanInput } from "./typeInput/BooleanInput"
 import { NumberInput } from "./typeInput/NumberInput"
 import { StringInput } from "./typeInput/StringInput"
 
@@ -11,8 +11,8 @@ export const TypeInput = (props) => {
   let element
   const type = getType(props.object[props.access])
   switch (type) {
-    case "bool":
-      element = <BoolInput {...props} />
+    case "boolean":
+      element = <BooleanInput {...props} />
       break
     case "number":
       element = <NumberInput {...props} />

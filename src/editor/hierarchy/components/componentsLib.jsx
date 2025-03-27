@@ -58,13 +58,13 @@ const Component = ({ name, refresh, readOnly, ...props }) => {
   )
 }
 
-const Components = (props) => {
+const Components = ({ name, ...props }) => {
   const refresh = useRefresh()
   props = { ...props, refresh }
 
   return (
     <>
-      <h2 style={{ marginLeft: 12 }}>{props.name}</h2>
+      <h2 style={{ marginLeft: 12 }}>{name}</h2>
       <Transform {...props} />
       <Component {...props} name="text" />
       <Component {...props} name="rect" />

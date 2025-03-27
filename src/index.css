@@ -74,33 +74,6 @@ input[type="button"] {
   cursor: pointer;
 }
 
-label {
-  cursor: pointer;
-  position: relative;
-}
-
-label:before {
-  border-radius: 3px;
-  content: "";
-  display: inline-block;
-
-  height: calc(100% - 2px);
-  aspect-ratio: 1;
-
-  margin: 2px;
-  position: absolute;
-  right: 0;
-  background-color: #333;
-}
-
-input[type="checkbox"]:checked + label:before {
-  content: "\2713";
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
-  font-size: 14px;
-  color: white;
-  text-align: center;
-}
-
 /* Main */
 main {
   display: grid;
@@ -175,6 +148,7 @@ main {
 /* Hover */
 .hover {
   transition: color 0.2s;
+  cursor: pointer;
 }
 .hover:hover {
   color: var(--c1s);
@@ -188,9 +162,6 @@ main {
 }
 
 /* Common props */
-.pointer {
-  cursor: pointer;
-}
 .flex {
   display: flex;
 }
@@ -327,4 +298,37 @@ main {
 }
 .TypeInput :first-child :nth-child(2) {
   color: green;
+}
+
+/*
+  FileElement
+*/
+.FileElement {
+  display: flex;
+}
+.FileElement :first-child {
+  text-align: center;
+  justify-self: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+/*
+  Hierarchy
+*/
+/* Script */
+.AddScriptContainer {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+/* Inputs */
+/* BooleanInput */
+.BooleanInput {
+  cursor: pointer;
+  accent-color: green;
+  /* !!! to do y center */
 }

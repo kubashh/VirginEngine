@@ -10,10 +10,10 @@ export const FileElement = ({
   childsElement
 }) => (
   <>
-    <div className="flex" style={{ marginLeft: deep * 10 }}>
+    <div className="FileElement" style={{ marginLeft: deep * 10 }}>
       {arrow}
       <div
-        className="hover pointer"
+        className="hover"
         {...{ onClick, onContextMenu, onMouseDown, onMouseUp, onDoubleClick }}
         children={name}
       />
