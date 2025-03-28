@@ -1,0 +1,29 @@
+/* Header */
+.Header {
+  display: flex;
+  border-bottom: 1px solid #aaa;
+  padding: 0 8px;
+}
+.Header :first-child {
+  margin-right: auto;
+}
+.Header :not(:first-child) {
+  margin: auto 8px;
+  background-color: black;
+  font-size: 16px;
+}
+
+/*
+  FileElement
+*/
+.FileElement {
+  display: flex;
+}
+.FileElement :first-child {
+  text-align: center;
+  justify-self: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  transition: all 0.2s;
+}

@@ -66,7 +66,7 @@ const AddScript = ({ object, value, refresh }) => (
 )
 
 export const Script = ({ object, refresh }) => {
-  console.log(object)
+  //console.log(object)
 
   return (
     <>

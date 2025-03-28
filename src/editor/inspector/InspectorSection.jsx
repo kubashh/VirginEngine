@@ -8,7 +8,7 @@ export const InspectorSection = ({ text, remove, childs, element }) => (
         <input
           type="button"
           value="Remove"
-          className="InspectorSectionRemove"
+          className="InspectorSectionRemove hover"
           onClick={remove}
         />
       ) : null}

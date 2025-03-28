@@ -1,0 +1,20 @@
+/* Hover */
+.hover {
+  transition: color 0.2s;
+  cursor: pointer;
+}
+.hover:hover {
+  color: var(--c2);
+}
+
+/* Common props */
+.wrap {
+  display: flex;
+  flex-wrap: wrap;
+}
+.textAlign {
+  text-align: center;
+}
+.justifySelf {
+  justify-self: center;
+}

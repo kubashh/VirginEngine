@@ -6,10 +6,11 @@ export const StringInput = ({ object, access }) => {
   return (
     <input
       type="text"
+      className="inputText"
       style={{ width: `100%` }}
       value={object[access]}
-      onChange={({ target: { value } }) => {
-        object[access] = value
+      onChange={({ target }) => {
+        object[access] = target.value
         refresh()
       }}
     />

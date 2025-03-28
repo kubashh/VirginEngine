@@ -1,28 +1,40 @@
 import { editor } from "../../../lib/consts"
 import { useRefresh } from "../../../lib/hooks"
 import { capitalize } from "../../../lib/utils"
-import { Rect } from "./Rect"
+import { InspectorSection } from "../../inspector/InspectorSection"
 import { Script } from "./Script"
-import { Text } from "./Text"
 import { Transform } from "./Transform"
 
-const deepCopy = (obj) => JSON.parse(JSON.stringify(obj))
+const text = [[[`value`]], { value: `` }, [`rect`], []]
+
+// textBaseline = [`top`, `middle`, `bottom`]
+// textAlign = [`left`, `center`, `right`]
+const rect = [[[`x`], [`y`]], { x: 0, y: 0 }, [], [`text`]]
 
 const components = {
-  text: [Text, { value: `` }, [`rect`], []],
-  rect: [Rect, { x: 0, y: 0 }, [], [`text`]]
+  text,
+  rect
 }
+
+const toChilds = (object, name, arr) =>
+  arr.reduce(
+    (prev, e) => [
+      ...prev,
+      {
+        object: e.slice(0, -1).reduce((prev, key) => prev[key], object[name]),
+        access: e.at(-1)
+      }
+    ],
+    []
+  )
+
+const deepCopy = (obj) => JSON.parse(JSON.stringify(obj))
 
 export const AddComponent = ({ text, onClick }) => (
   <input
     type="button"
     value={`+ ${text}`}
-    className="block"
-    style={{
-      margin: `12px 0 0 24px`,
-      padding: `6px 12px`,
-      fontSize: 16
-    }}
+    className="AddCoponent hover"
     onClick={onClick}
   />
 )
@@ -36,10 +48,13 @@ const Component = ({ name, refresh, readOnly, ...props }) => {
     refresh()
   }
 
-  const Comp = components[name][0]
-
   return props.object[name] ? (
-    <Comp key={name} text={capitalize(name)} {...{ ...props, remove }} />
+    <InspectorSection
+      key={name}
+      text={capitalize(name)}
+      childs={toChilds(props.object, name, components[name][0])}
+      {...{ ...props, remove: !readOnly && remove }}
+    />
   ) : (
     <AddComponent
       text={capitalize(name)}
@@ -66,14 +81,14 @@ const Components = ({ name, ...props }) => {
     <>
       <h2 style={{ marginLeft: 12 }}>{name}</h2>
       <Transform {...props} />
-      <Component {...props} name="text" />
-      <Component {...props} name="rect" />
+      {Object.keys(components).map((key) => (
+        <Component {...props} key={key} name={key} />
+      ))}
       <Script {...props} />
     </>
   )
 }
 
 export const setComponents = (props) => {
-  editor.setInspector()
-  setTimeout(() => editor.setInspector(<Components {...props} />))
+  editor.setInspector(<Components {...props} />)
 }

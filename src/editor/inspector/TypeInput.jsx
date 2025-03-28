@@ -9,7 +9,7 @@ export const TypeInput = (props) => {
   props = { ...props, refresh }
 
   let element
-  const type = getType(props.object[props.access])
+  const type = props.type || getType(props.object[props.access])
   switch (type) {
     case "boolean":
       element = <BooleanInput {...props} />
@@ -28,6 +28,9 @@ export const TypeInput = (props) => {
       break
     case "function":
       element = null
+      break
+    case `enum`:
+      console.log(`ENUM`)
       break
     default:
       console.error(`Type Error!`)
