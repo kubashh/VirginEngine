@@ -19,12 +19,13 @@ export const ContextMenu = () => {
   return arr?.length ? (
     <div
       ref={ref}
-      className="ContextMenu"
+      className="zAbsolute w200 bgc333 p3"
       style={{ inset: `${y}px auto auto ${x}px` }}
     >
       {arr.map(([fn, text, show = true]) =>
         show ? (
           <div
+            className="hover"
             key={text}
             onClick={() => {
               fn()

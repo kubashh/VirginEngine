@@ -38,13 +38,13 @@ export const TypeInput = (props) => {
   }
 
   return (
-    <div className="TypeInput">
-      <div>
+    <div className="TypeInput grid gap12 w100p-24 gridTC_auto1fr">
+      <div className="flex gap12">
         <h4>{addSpaceBeforeUpper(props.access)}</h4>
-        <h4>: {type}</h4>
+        <h4 className="c3">: {type}</h4>
         <h4>=</h4>
       </div>
-      <div>{element}</div>
+      {element}
     </div>
   )
 }

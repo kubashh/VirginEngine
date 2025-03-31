@@ -11,7 +11,7 @@ const InspectorComponent = () => {
 }
 
 export const Inspector = () => (
-  <section id="inspector">
+  <section className="inspector">
     <Header text="Inspenctor" {...editorOpctions} />
     <div children={<InspectorComponent />} />
   </section>

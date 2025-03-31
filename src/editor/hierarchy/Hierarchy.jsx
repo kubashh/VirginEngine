@@ -24,7 +24,7 @@ const HierarchyComponent = () => {
 }
 
 export const Hierarchy = () => (
-  <section id="hierarchy">
+  <section className="hierarchy">
     <Header text="Hierarchy" />
     <HierarchyComponent />
   </section>

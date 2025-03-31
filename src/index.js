@@ -1,7 +1,7 @@
 import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"
 import { App } from "./App"
-import "./css/index.css"
+import "./index.css"
 
 document.oncontextmenu = (event) => event.preventDefault()
 

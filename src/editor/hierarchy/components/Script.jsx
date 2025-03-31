@@ -92,7 +92,7 @@ export const Script = ({ object, refresh }) => {
             />
           )
         )}
-      <div className="AddScriptContainer">
+      <div className="wrap mb16">
         {Object.keys(scriptTypes).map((value) => (
           <AddScript
             key={value}

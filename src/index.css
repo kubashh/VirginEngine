@@ -1,0 +1,293 @@
+:root {
+  /* Width, Haight */
+  --width2: calc(15vw + 50px);
+  --width3: calc(30vw + 60px);
+  --width1: calc(100vw - var(--width2) - var(--width3) - 2px);
+  --height1: 55vh;
+  --height2: calc(100vh - var(--height1) - 1px);
+
+  /* Color */
+  --c1: hsl(0, 0%, 100%);
+  --c2: hsl(0, 0%, 65%);
+  --c2s: hsl(0, 0%, 42.25%);
+  --c3: hsl(126, 100%, 35%);
+  --c3s: hsl(126, 100%, 21%); /* #00690A */
+}
+
+* {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: white;
+  background-color: black;
+  transition: all 0.2s;
+  animation: intro 0.5s;
+}
+
+body {
+  font-family: sans-serif;
+  overflow: hidden;
+}
+
+/* Headers */
+h1 {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+h2 {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+h3 {
+  font-size: 1rem;
+  font-weight: bold;
+}
+h4 {
+  font-size: 1rem;
+  font-weight: normal;
+}
+h5 {
+  font-size: 0.875rem;
+  font-weight: normal;
+  color: var(--c2);
+}
+
+/* Input */
+.inputText {
+  height: 100%;
+  padding-top: 1px;
+  border-bottom: 1px solid var(--c2);
+}
+
+.checkbox {
+  cursor: pointer;
+  accent-color: var(--c3);
+  height: 100%;
+}
+
+header > {
+  z-index: 1;
+}
+
+/* Main */
+main {
+  display: grid;
+  grid-template-areas:
+    "a b d"
+    "a c d";
+  width: 100vw;
+  height: 100vh;
+}
+
+/* Editor */
+.scene,
+.hierarchy,
+.files,
+.inspector {
+  display: grid;
+  grid-template-rows: 24px auto;
+}
+
+.hierarchy > :last-child,
+.files > :last-child,
+.inspector > :last-child {
+  overflow: scroll;
+}
+
+.scene {
+  grid-area: a;
+  width: var(--width1);
+  height: 100vh;
+  border-right: 1px #aaa solid;
+}
+
+.hierarchy {
+  grid-area: b;
+  width: var(--width2);
+  height: var(--height1);
+  border-right: 1px #aaa solid;
+  user-select: none;
+}
+
+.files {
+  grid-area: c;
+  width: var(--width2);
+  height: var(--height2);
+  border-top: 1px #aaa solid;
+  border-right: 1px #aaa solid;
+  user-select: none;
+}
+
+.inspector {
+  grid-area: d;
+  width: var(--width3);
+  height: 100vh;
+}
+
+@keyframes intro {
+  0% {
+    opacity: 0;
+    transform: translateX(-10px) scale(0.9);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0px) scale(1);
+  }
+}
+
+/* Hover */
+.hover {
+  transition: color 0.2s;
+  cursor: pointer;
+}
+.hover:hover {
+  color: var(--c2);
+}
+
+/* Common props */
+.zAbsolute {
+  position: absolute;
+  z-index: 1;
+}
+.grid {
+  display: grid;
+}
+.gridTC_auto1fr {
+  grid-template-columns: auto 1fr;
+}
+.gap12 {
+  gap: 12px;
+}
+.flex {
+  display: flex;
+}
+.column {
+  display: flex;
+  flex-direction: column;
+}
+.wrap {
+  display: flex;
+  flex-wrap: wrap;
+}
+.textAlign {
+  text-align: center;
+}
+.justifySelf {
+  justify-self: center;
+}
+.justifyContent {
+  justify-content: center;
+}
+.fontSize16 {
+  font-size: 16px;
+}
+
+/* width, height */
+.whFull {
+  width: 100vw;
+  height: 100vh;
+}
+.w100p-24 {
+  width: calc(100% - 12px);
+}
+.w200 {
+  width: 200px;
+}
+.w24 {
+  width: 24px;
+}
+.h100p {
+  height: 100%;
+}
+.h24 {
+  height: 24px;
+}
+/* margin */
+.m_auto {
+  margin: auto;
+}
+.mt_auto {
+  margin-top: auto;
+}
+.mt16 {
+  margin-top: 16px;
+}
+.mr_auto {
+  margin-right: auto;
+}
+.mr16 {
+  margin-right: 16px;
+}
+.mr8 {
+  margin-right: 8px;
+}
+.mb_auto {
+  margin-bottom: auto;
+}
+.mb16 {
+  margin-bottom: 16px;
+}
+.mb6 {
+  margin-bottom: 6px;
+}
+.ml12 {
+  margin-left: 12px;
+}
+.ml8 {
+  margin-left: 8px;
+}
+/* border */
+.b_c2 {
+  border: 4px solid var(--c2);
+}
+.bb1_aaa {
+  border-bottom: 1px solid #aaa;
+}
+.bb2_111 {
+  border-bottom: 2px solid #111;
+}
+.bl4_333 {
+  border-left: 4px solid #333;
+}
+/* padding */
+.p3 {
+  padding: 3px;
+}
+.p20_50 {
+  padding: 20px 50px;
+}
+.pr8 {
+  padding-right: 8px;
+}
+.pb8 {
+  padding-bottom: 8px;
+}
+.pl8 {
+  padding-left: 8px;
+}
+.pl6 {
+  padding-left: 6px;
+}
+/* color */
+.c3 {
+  color: var(--c3);
+}
+/* background color */
+.bgc333 {
+  background-color: #333;
+}
+.bgc111 {
+  background-color: #111;
+}
+.bgc000_50p {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.borderRadius {
+  border-radius: 50%;
+}
+.transition {
+  transition: all 0.2s;
+}

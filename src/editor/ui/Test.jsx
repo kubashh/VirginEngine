@@ -3,19 +3,6 @@ import { editor } from "../../lib/consts"
 import { Header } from "../../lib/components"
 import { test } from "../../build/build"
 
-// const defaultCode = `
-// <!DOCTYPE html>
-// <html lang="en">
-//   <head>
-//     <meta charset="UTF-8">
-//     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-//     <title>Hello</title>
-//   </head>
-//   <body style="background-color:black; color: gray; user-select:none; display:flex; justify-content:center;">
-//     <h1 style="margin-top:35vh">Empty</h1>
-//   </body>
-// </html>`
-
 const opctions = [`16 / 9`, `1 / 1`, `9 / 16`]
 
 export const Test = () => {
@@ -24,7 +11,7 @@ export const Test = () => {
   editor.setScene = setCode
 
   return code ? (
-    <div className="Test">
+    <div className="zAbsolute whFull">
       <Header
         text="Test"
         {...opctions.reduce(
@@ -37,10 +24,15 @@ export const Test = () => {
           setCode()
         }}
       />
-      <div>
+      <div className="flex justifyContent bgc111 h100p">
         <iframe
           title="scene"
-          style={{ height: `min(100%, 100vw * ${aspectRatio})`, aspectRatio }}
+          style={{
+            borderRight: `1px solid var(--c2)`,
+            borderLeft: `1px solid var(--c2)`,
+            height: `min(100%, 100vw * ${aspectRatio})`,
+            aspectRatio
+          }}
           srcDoc={code}
         />
       </div>

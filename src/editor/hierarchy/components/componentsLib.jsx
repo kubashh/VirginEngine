@@ -34,7 +34,8 @@ export const AddComponent = ({ text, onClick }) => (
   <input
     type="button"
     value={`+ ${text}`}
-    className="AddCoponent hover"
+    className="fontSize16 hover"
+    style={{ margin: `12px 0 0 24px`, padding: `6px 12px` }}
     onClick={onClick}
   />
 )

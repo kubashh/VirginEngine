@@ -10,7 +10,7 @@ export const FileElement = ({
   childsElement
 }) => (
   <>
-    <div className="FileElement" style={{ marginLeft: deep * 10 }}>
+    <div className="flex" style={{ marginLeft: deep * 10 }}>
       {arrow}
       <div
         className="hover"
@@ -23,12 +23,12 @@ export const FileElement = ({
 )
 
 export const Header = ({ text, ...rest }) => (
-  <div className="Header">
-    <h3 children={text} />
+  <div className="flex bb1_aaa pr8 pl8">
+    <h3 className="mr_auto" children={text} />
     {Object.entries(rest).map(([key, value]) => (
       <input
         type="button"
-        className="hover"
+        className="mt_auto mr8 mb_auto ml8 hover"
         key={key}
         value={key}
         onClick={value}

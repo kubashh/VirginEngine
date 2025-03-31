@@ -6,13 +6,13 @@ export const useArrow = (main = false, haveChilds = true) => {
   return [
     haveChilds ? (
       <div
-        className="hover"
+        className="textAlign justifySelf w24 h24 borderRadius transition hover"
         style={{ transform: `rotate(${open ? 90 : 0}deg)` }}
         onClick={() => setOpen((prev) => !prev)}
         children=">"
       />
     ) : (
-      <div />
+      <div className="w24 h24" />
     ),
     open,
     setOpen

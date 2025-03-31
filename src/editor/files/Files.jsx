@@ -14,7 +14,7 @@ const FilesComponent = () => {
 }
 
 export const Files = () => (
-  <section id="files">
+  <section className="files">
     <Header text="Files" />
     <FilesComponent />
   </section>

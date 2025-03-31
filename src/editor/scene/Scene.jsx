@@ -4,7 +4,7 @@ const SceneContent = () => <div>Docs</div>
 
 export const Scene = () => {
   return (
-    <section id="scene">
+    <section className="scene">
       <Header text="Scene" />
       <SceneContent />
     </section>

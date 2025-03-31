@@ -30,6 +30,10 @@ export const DragData = () => {
   })
 
   return editor.dragData ? (
-    <div className="DragData" style={mouse} children={editor.dragData.name} />
+    <div
+      className="zAbsolute bgc000_50p"
+      style={mouse}
+      children={editor.dragData.name}
+    />
   ) : null
 }
