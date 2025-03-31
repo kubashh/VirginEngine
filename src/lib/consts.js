@@ -29,13 +29,10 @@ export const config = {
 export const editor = {
   selectedScene: undefined,
   selectedSceneName: ``,
-  reloadApp: undefined,
-  reloadHierarchy: undefined,
-  reloadFiles: undefined,
-  reloadLoadData: undefined,
-  setInspector: undefined,
-  setDragData: undefined,
-  setScene: undefined
+  reloadHierarchy: () => {},
+  reloadFiles: () => {},
+  setInspector: () => {},
+  setDragData: () => {}
 }
 
 export const files = {

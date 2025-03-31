@@ -102,7 +102,7 @@ const clearAssign = (old, obj) => {
   }
 }
 
-export const loadFile = () =>
+export const loadFile = (refresh) =>
   createElement({
     name: `input`,
     type: `file`,
@@ -117,7 +117,7 @@ export const loadFile = () =>
         clearAssign(files, data.files)
 
         openMainScene()
-        editor.reloadApp()
+        if (typeof refresh === `function`) refresh?.()
       }
 
       reader.readAsText(target.files[0])

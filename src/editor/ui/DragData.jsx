@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { editor } from "../../lib/consts"
 
-export const DragData = () => {
+const useDragData = () => {
   const [mouse, setMouse] = useState({})
 
   const handleMouseMove = ({ clientX, clientY }) =>
@@ -15,25 +15,25 @@ export const DragData = () => {
 
   editor.setDragData = setDragData
 
-  const handleMouseUp = () => setDragData()
-
   useEffect(() => {
     if (!editor.dragData) return
 
     window.addEventListener(`mousemove`, handleMouseMove)
-    window.addEventListener(`mouseup`, handleMouseUp)
+    window.addEventListener(`mouseup`, setDragData)
 
     return () => {
       window.removeEventListener(`mousemove`, handleMouseMove)
-      window.removeEventListener(`mouseup`, handleMouseUp)
+      window.removeEventListener(`mouseup`, setDragData)
     }
   })
 
-  return editor.dragData ? (
-    <div
-      className="zAbsolute bgc000_50p"
-      style={mouse}
-      children={editor.dragData.name}
-    />
+  return [editor.dragData?.name, mouse]
+}
+
+export const DragData = () => {
+  const [name, mouse] = useDragData()
+
+  return name ? (
+    <div className="zAbsolute bgc000_50p" style={mouse} children={name} />
   ) : null
 }

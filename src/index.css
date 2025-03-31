@@ -91,7 +91,7 @@ textarea:focus,
 }
 
 /* Editor */
-.scene,
+.docs,
 .hierarchy,
 .files,
 .inspector {
@@ -99,13 +99,14 @@ textarea:focus,
   grid-template-rows: 24px auto;
 }
 
+.docs > :last-child,
 .hierarchy > :last-child,
 .files > :last-child,
 .inspector > :last-child {
   overflow: scroll;
 }
 
-.scene {
+.docs {
   grid-area: a;
   width: var(--width1);
   height: 100vh;
@@ -138,17 +139,17 @@ textarea:focus,
 @keyframes intro {
   0% {
     opacity: 0;
-    transform: translateX(-10px) scale(0.9);
+    transform: translateX(-15%);
   }
 
   100% {
     opacity: 1;
-    transform: translateX(0px) scale(1);
+    transform: translateX(0px);
   }
 }
 
 .fadeIn {
-  animation: intro 0.5s;
+  animation: intro 0.25s;
 }
 
 .transition {

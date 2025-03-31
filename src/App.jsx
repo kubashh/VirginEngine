@@ -1,6 +1,4 @@
-import { editor } from "./lib/consts"
-import { useRefresh } from "./lib/hooks"
-import { Scene } from "./editor/scene/Scene"
+import { Docs } from "./editor/docs/Docs"
 import { Hierarchy } from "./editor/hierarchy/Hierarchy"
 import { Inspector } from "./editor/inspector/Inspector"
 import { Files } from "./editor/files/Files"
@@ -11,24 +9,7 @@ import { DragData } from "./editor/ui/DragData"
 import { createPortal } from "react-dom"
 import { Test } from "./editor/ui/Test"
 
-const Dynamic = () => {
-  const reload = useRefresh()
-  editor.reloadApp = () => {
-    editor.reloadLoadData()
-    reload()
-  }
-
-  return (
-    <>
-      <Scene />
-      <Hierarchy />
-      <Files />
-      <Inspector />
-    </>
-  )
-}
-
-const Static = () => (
+const StaticUI = () => (
   <>
     <LoadData />
     <ContextMenu />
@@ -40,7 +21,11 @@ const Static = () => (
 
 export const App = () => (
   <>
-    {createPortal(<Static />, document.getElementsByTagName(`header`)[0])}
-    <Dynamic />
+    {createPortal(<StaticUI />, document.getElementsByTagName(`header`)[0])}
+
+    <Docs />
+    <Hierarchy />
+    <Files />
+    <Inspector />
   </>
 )
