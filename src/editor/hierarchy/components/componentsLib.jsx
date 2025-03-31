@@ -34,8 +34,7 @@ export const AddComponent = ({ text, onClick }) => (
   <input
     type="button"
     value={`+ ${text}`}
-    className="fontSize16 hover"
-    style={{ margin: `12px 0 0 24px`, padding: `6px 12px` }}
+    className="fontSize16 mt12 mb24 p6_12 hover"
     onClick={onClick}
   />
 )
@@ -80,7 +79,7 @@ const Components = ({ name, ...props }) => {
 
   return (
     <div key={JSON.stringify(props)}>
-      <h2 style={{ marginLeft: 12 }}>{name}</h2>
+      <h2 className="ml12">{name}</h2>
       <Transform {...props} />
       {Object.keys(components).map((key) => (
         <Component {...props} key={key} name={key} />

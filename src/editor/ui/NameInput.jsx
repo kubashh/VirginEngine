@@ -44,12 +44,7 @@ export const NameInput = () => {
     <input
       type="text"
       ref={ref}
-      className="zAbsolute"
-      style={{
-        inset: `50vh auto auto 50vw`,
-        transform: `translate(-50%, -50%)`,
-        fontSize: 40
-      }}
+      className="zAbsolute fontSize36 translateCenter"
       {...props}
       autoFocus
     />

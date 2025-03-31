@@ -27,13 +27,13 @@ const useDragData = () => {
     }
   })
 
-  return [editor.dragData?.name, mouse]
+  return { children: editor.dragData?.name, style: mouse }
 }
 
 export const DragData = () => {
-  const [name, mouse] = useDragData()
+  const props = useDragData()
 
-  return name ? (
-    <div className="zAbsolute bgc000_50p" style={mouse} children={name} />
+  return props.children ? (
+    <div className="zAbsolute bgc000_50p" {...props} />
   ) : null
 }

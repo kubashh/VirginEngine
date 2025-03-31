@@ -6,8 +6,7 @@ export const StringInput = ({ object, access }) => {
   return (
     <input
       type="text"
-      className="inputText"
-      style={{ width: `100%` }}
+      className="inputText w100p"
       value={object[access]}
       onChange={({ target }) => {
         object[access] = target.value

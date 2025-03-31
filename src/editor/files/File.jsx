@@ -11,7 +11,7 @@ export const File = ({ old, file, name, main, deep = 0, path = `files` }) => {
 
   const onClick = () => {
     editor.setInspector(
-      <div style={{ margin: 12 }}>
+      <div className="m12">
         <h1 children="File" />
         <h3 children={`Type: ${file.type}`} />
         <h3 children={`Name: ${name}`} />

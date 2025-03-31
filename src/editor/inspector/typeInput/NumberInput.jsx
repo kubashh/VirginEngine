@@ -7,8 +7,7 @@ export const NumberInput = ({ object, access }) => {
   return (
     <input
       type="text"
-      className="inputText"
-      style={{ width: `100%` }}
+      className="inputText w100p"
       value={currentNumber}
       onChange={({ target: { value } }) => {
         let dot = false

@@ -27,12 +27,8 @@ export const Test = () => {
       <div className="flex justifyContent bgc111 h100p">
         <iframe
           title="scene"
-          style={{
-            borderRight: `1px solid var(--c2)`,
-            borderLeft: `1px solid var(--c2)`,
-            height: `min(100%, 100vw * ${aspectRatio})`,
-            aspectRatio
-          }}
+          className="brl1_c2"
+          style={{ height: `min(100%, 100vw * ${aspectRatio})`, aspectRatio }}
           srcDoc={code}
         />
       </div>
