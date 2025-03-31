@@ -11,9 +11,17 @@ const text = [[[`value`]], { value: `` }, [`rect`], []]
 // textAlign = [`left`, `center`, `right`]
 const rect = [[[`x`], [`y`]], { x: 0, y: 0 }, [], [`text`]]
 
+const sprite = [
+  [[`color`], [`imagePath`]],
+  { color: ``, imagePath: `` },
+  [],
+  []
+]
+
 const components = {
   text,
-  rect
+  rect,
+  sprite
 }
 
 const toChilds = (object, name, arr) =>

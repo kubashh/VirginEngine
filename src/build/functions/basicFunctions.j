@@ -40,12 +40,24 @@ const loadScene = (newScene) => {
 }
 
 // Set and draw on ctx (canvas)
-const draw = ({ text, x, y, ...props }) => {
+const draw = ({ text, color, x, y, w, h, ...props }) => {
   ctx.save()
   for (const key in props) {
     ctx[key] = props[key]
   }
 
   if (text) ctx.fillText(text, x, y)
+  if (color) {
+    ctx.fillStyle = color
+    ctx.fillRect(x, y, w, h)
+  }
   ctx.restore()
+}
+
+const drawBoxMiddle = (x, y, w, h, color) => {
+  if (color) {
+    ctx.fillStyle = color
+  }
+
+  ctx.fillRect(x, y, w, h)
 }

@@ -16,6 +16,10 @@ class Transform {
       this.position = position
       this.rotation = rotation
       this.scale = scale
+
+      gameObject.position = position
+      gameObject.rotation = rotation
+      gameObject.scale = scale
     } else {
       this.readOnly = true
     }

@@ -6,20 +6,18 @@ class GameObject {
     parent,
     transform,
     rect,
-    sprite,
     text,
+    sprite,
     start,
     update,
     render,
     ...rest
   }) {
-    gameObjects.push(this)
-
     if (parent) this.parent = parent
 
     this.transform = new Transform(transform, this)
     if (text) this.text = new Text(text, this, rect)
-    //if (sprite) this.sprite = new Sprite(sprite)
+    if (sprite) this.sprite = new Sprite(sprite, this)
 
     for (const key in rest) {
       if (isChildKey(key)) {
@@ -34,6 +32,8 @@ class GameObject {
     if (render) this.toRender.push(render.bind(this))
 
     start?.bind(this)()
+
+    gameObjects.push(this)
   }
 
   get childs() {

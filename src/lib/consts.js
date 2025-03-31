@@ -12,6 +12,7 @@ export const keywords = [
   `scale`,
   `text`,
   `rect`,
+  `sprite`,
   `camera`
 ]
 
