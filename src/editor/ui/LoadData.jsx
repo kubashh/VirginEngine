@@ -21,7 +21,7 @@ export const LoadData = () => {
   editor.reloadLoadData = useRefresh()
 
   return !editor.setUp ? (
-    <div className="zAbsolute whFull bgc000_50p column justifyContent">
+    <div className="zAbsolute whFull bgc000_50p column justifyContent fadeIn">
       <LoadDataButton text="Load Project" onClick={loadFile} />
       <LoadDataButton text="New project" onClick={newProject} />
     </div>

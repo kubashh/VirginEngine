@@ -79,14 +79,14 @@ const Components = ({ name, ...props }) => {
   props = { ...props, refresh }
 
   return (
-    <>
+    <div key={JSON.stringify(props)}>
       <h2 style={{ marginLeft: 12 }}>{name}</h2>
       <Transform {...props} />
       {Object.keys(components).map((key) => (
         <Component {...props} key={key} name={key} />
       ))}
       <Script {...props} />
-    </>
+    </div>
   )
 }
 

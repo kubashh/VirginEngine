@@ -21,8 +21,6 @@
   box-sizing: border-box;
   color: white;
   background-color: black;
-  transition: all 0.2s;
-  animation: intro 0.5s;
 }
 
 body {
@@ -135,6 +133,14 @@ main {
     opacity: 1;
     transform: translateX(0px) scale(1);
   }
+}
+
+.fadeIn {
+  animation: intro 0.5s;
+}
+
+.transition {
+  transition: all 0.2s;
 }
 
 /* Hover */
@@ -287,7 +293,4 @@ main {
 
 .borderRadius {
   border-radius: 50%;
-}
-.transition {
-  transition: all 0.2s;
 }
