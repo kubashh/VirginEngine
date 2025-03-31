@@ -23,3 +23,5 @@ export const useRefresh = () => {
   const [, setState] = useState(false)
   return () => setState((prev) => !prev)
 }
+
+export const useConst = (value) => useState(value)[0]

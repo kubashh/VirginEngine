@@ -51,19 +51,6 @@ h5 {
   color: var(--c2);
 }
 
-/* Input */
-.inputText {
-  height: 100%;
-  padding-top: 1px;
-  border-bottom: 1px solid var(--c2);
-}
-
-.checkbox {
-  cursor: pointer;
-  accent-color: var(--c3);
-  height: 100%;
-}
-
 header > {
   z-index: 1;
 }
@@ -76,6 +63,31 @@ main {
     "a c d";
   width: 100vw;
   height: 100vh;
+}
+
+/* Input */
+textarea {
+  resize: none;
+}
+
+.inputText {
+  height: 100%;
+  padding-top: 1px;
+  border-bottom: 1px solid var(--c2);
+}
+
+textarea:focus,
+.inputText:focus {
+  z-index: 1;
+  outline: medium solid var(--c3s);
+}
+
+.checkbox {
+  cursor: pointer;
+  accent-color: var(--c3);
+  margin: auto auto auto 0;
+  height: calc(100% - 6px);
+  aspect-ratio: 1;
 }
 
 /* Editor */
@@ -195,7 +207,7 @@ main {
   width: 100vw;
   height: 100vh;
 }
-.w100p-24 {
+.w100p-12 {
   width: calc(100% - 12px);
 }
 .w200 {
