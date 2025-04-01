@@ -7,10 +7,8 @@ const isChildKey = (text) => `ABCDEFGHIJKLMNOPRQSTUWXYZ`.includes(text[0])
 
 // Deep copy
 const deepCopy = (data) => {
-  if (typeof data === `function`) return data
-
   if (Array.isArray(data)) {
-    return data.reduce((old, val) => [...old, deepCopy(val)], [])
+    return data.reduce((prev, val) => [...prev, deepCopy(val)], [])
   }
 
   if (typeof data === `object`) {
@@ -24,6 +22,20 @@ const deepCopy = (data) => {
   }
 
   return data
+}
+
+// Clone
+const clone = (obj, parent) => {
+  const name = obj.name
+
+  let newName = name
+  let i = 0
+  while (parent[newName]) {
+    newName = `${name}${i}`
+    i++
+  }
+
+  parent[newName] = new GameObject({ ...obj.props, parent })
 }
 
 // Load scene

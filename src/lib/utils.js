@@ -68,14 +68,22 @@ export const openMainScene = () => {
   openScene(scene, key)
 }
 
-export const defaultGameObject = (props) => ({
-  type: `gameObject`,
-  transform: {
-    position: props?.position || { x: 0, y: 0 },
-    rotation: props?.rotation || { z: 0 },
-    scale: props?.scale || { x: 1, y: 1 }
+export const defaultGameObject = (props) => {
+  const obj = {
+    type: `gameObject`,
+    transform: {
+      position: props?.position || { x: 0, y: 0 },
+      rotation: props?.rotation || { z: 0 },
+      scale: props?.scale || { x: 1, y: 1 }
+    }
   }
-})
+
+  for (const key in props) {
+    if (![`position`, `rotation`, `scale`].includes(key)) obj[key] = props[key]
+  }
+
+  return obj
+}
 
 export const capitalize = (text) =>
   typeof text !== `string` ||

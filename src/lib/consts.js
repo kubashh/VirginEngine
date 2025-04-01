@@ -41,28 +41,28 @@ export const files = {
   Scenes: {
     type: `folder`,
 
+    MenuScene: { type: `scene` },
+    MainScene: { type: `scene` },
+
     // Default Scene
     DefaultScene: {
       type: `scene`,
-      //camera: {
-      //  ...defaultGameObject(),
-      //  camera: { width: 400, height: 300 }
-      //},
-      Update: {
-        ...defaultGameObject({
-          position: { x: 0, y: 200 },
-          scale: { x: 130, y: 30 }
-        }),
-        rect: { x: 0, y: 0 },
-        text: { value: `update` },
-        render: `function () {
-          this.text.text = "Update ".concat(Log.updates)
-        }`
-      },
-      Obj1: {
-        ...defaultGameObject(),
-        start: `function() { console.log("Start") }`
-      }
+      // camera: defaultGameObject({ camera: { width: 400, height: 300 } }),
+      Parent: defaultGameObject({
+        start: `function() {
+  for(let i = 0; i < 10; i++)
+    setTimeout(() => clone(this.parent.Child, scene))
+}`
+      }),
+      Child: defaultGameObject({
+        scale: { x: 20, y: 20 },
+        sprite: { color: `red`, imagePath: `` },
+        start: `function() {
+  this.position = {x: Math.random() * 1000, y: Math.random() * window.innerHeight}
+  console.log("Start ".concat(this.position.x))
+}`,
+        update: `function() { console.log(this.position.x, this.name) }`
+      })
     }
   },
 

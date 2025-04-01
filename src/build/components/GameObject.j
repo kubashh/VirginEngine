@@ -31,7 +31,10 @@ class GameObject {
     if (update) this.toUpdate.push(update.bind(this))
     if (render) this.toRender.push(render.bind(this))
 
-    start?.bind(this)()
+    if (start) {
+      this.start = start.bind(this)
+      this.start()
+    }
 
     gameObjects.push(this)
   }
@@ -44,8 +47,29 @@ class GameObject {
     return childs
   }
 
-  destroy() {
-    GameObject.destroy(this)
+  get name() {
+    for (const key in this.parent) {
+      if (this === this.parent[key]) return key
+    }
+  }
+
+  get props() {
+    const newObj = {
+      start: this?.start,
+      update: this?.update,
+      transform: {
+        position: this.position,
+        rotation: this.rotation,
+        scale: this.scale
+      }
+    }
+
+    // for (const key in this) {
+    //   if (![`toUpdate`, `toRender`, `parent`].includes(key))
+    //     newObj[key] = this[key]
+    // }
+
+    return deepCopy(newObj)
   }
 
   static destroy(obj) {

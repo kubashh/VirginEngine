@@ -11,10 +11,6 @@ class Text {
     gameObject.toRender.push(this.render.bind(this))
   }
 
-  set text(newText) {
-    this.value = newText
-  }
-
   render() {
     draw({
       text: this.value,
