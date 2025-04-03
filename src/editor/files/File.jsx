@@ -23,8 +23,8 @@ export const File = ({ old, file, name, main, deep = 0, path = `files` }) => {
     const newArrElement = (name, type) => [
       () =>
         editor.setNameInput([
-          (newText) => {
-            file[newText] = { type }
+          (newName) => {
+            file[newName] = { type }
 
             setOpen(true)
             editor.reloadFiles()
@@ -43,11 +43,11 @@ export const File = ({ old, file, name, main, deep = 0, path = `files` }) => {
       [
         () =>
           editor.setNameInput([
-            (newText) => {
-              if (name === newText) return
+            (newName) => {
+              if (name === newName) return
 
               delete old[name]
-              old[newText] = file
+              old[newName] = file
               editor.reloadFiles()
             },
             name

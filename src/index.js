@@ -5,8 +5,7 @@ import "./index.css"
 
 document.oncontextmenu = (event) => event.preventDefault()
 
-const root = createRoot(document.getElementsByTagName(`main`)[0])
-root.render(
+createRoot(document.getElementsByTagName(`main`)[0]).render(
   <StrictMode>
     <App />
   </StrictMode>

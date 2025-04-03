@@ -18,11 +18,7 @@ const sprite = [
   []
 ]
 
-const components = {
-  text,
-  rect,
-  sprite
-}
+const components = { text, rect, sprite }
 
 const toChilds = (object, name, arr) =>
   arr.reduce(

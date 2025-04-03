@@ -26,8 +26,7 @@ export const isFirstUpperCase = (text) =>
   alphabet.toUpperCase().includes(text[0])
 
 export const isValidName = (name) => {
-  if (typeof name !== `string` || name.length === 0 || !isFirstUpperCase(name))
-    return false
+  if (name.length === 0 || !isFirstUpperCase(name)) return false
 
   for (let i = 1; i < name.length; i++) {
     if (!allowedNameChars.includes(name[i].toLowerCase())) return false
@@ -68,27 +67,23 @@ export const openMainScene = () => {
   openScene(scene, key)
 }
 
-export const defaultGameObject = (props) => {
-  const obj = {
+export const defaultGameObject = ({
+  position,
+  rotation,
+  scale,
+  ...rest
+} = {}) =>
+  Object.keys(rest).reduce((prev, key) => ({ [key]: rest[key], ...prev }), {
     type: `gameObject`,
     transform: {
-      position: props?.position || { x: 0, y: 0 },
-      rotation: props?.rotation || { z: 0 },
-      scale: props?.scale || { x: 1, y: 1 }
+      position: position || { x: 0, y: 0 },
+      rotation: rotation || { z: 0 },
+      scale: scale || { x: 1, y: 1 }
     }
-  }
-
-  for (const key in props) {
-    if (![`position`, `rotation`, `scale`].includes(key)) obj[key] = props[key]
-  }
-
-  return obj
-}
+  })
 
 export const capitalize = (text) =>
-  typeof text !== `string` ||
-  text.length === 0 ||
-  text[0] === text[0].toUpperCase()
+  text.length === 0 || text[0] === text[0].toUpperCase()
     ? text
     : `${text[0].toUpperCase()}${text.slice(1)}`
 
@@ -101,13 +96,8 @@ export const isOccupied = (obj, name) => {
 
 // LoadFile
 const clearAssign = (old, obj) => {
-  for (const key in old) {
-    delete old[key]
-  }
-
-  for (const key in obj) {
-    old[key] = obj[key]
-  }
+  for (const key in old) delete old[key]
+  for (const key in obj) old[key] = obj[key]
 }
 
 export const loadFile = (refresh) =>
@@ -134,10 +124,10 @@ export const loadFile = (refresh) =>
 
 // Type
 export const getType = (data) => {
-  if (typeof data === `boolean`) return `boolean`
-  if (typeof data === `number`) return `number`
+  if (typeof data !== `string`) return typeof data
+
   if (Array.isArray(data) || data[0] === `[`) return `array`
-  if (typeof data === `object` || data[0] === `{`) return `object`
+  if (data[0] === `{`) return `object`
   if (data.indexOf(`function`) === 0) return `function`
   if ([`"`, `'`, "`"].includes(data[0])) return `string`
   return `string`

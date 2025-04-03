@@ -30,10 +30,17 @@ export const config = {
 export const editor = {
   selectedScene: undefined,
   selectedSceneName: ``,
+  setUp: false,
+  dragData: undefined,
+
   reloadHierarchy: () => {},
   reloadFiles: () => {},
   setInspector: () => {},
-  setDragData: () => {}
+
+  setDragData: () => {},
+  setNameInput: () => {},
+  setScene: () => {},
+  setContextMenu: () => {}
 }
 
 export const files = {

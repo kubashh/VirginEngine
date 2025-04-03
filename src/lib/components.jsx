@@ -1,6 +1,6 @@
 export const FileElement = ({ deep, arrow, name, childsElement, ...rest }) => (
   <>
-    <div className="flex fadeIn" style={{ marginLeft: deep * 10 }}>
+    <div className="flex fadeIn" style={{ marginLeft: deep * 8 }}>
       {arrow}
       <div className="hover" {...rest} children={name} />
     </div>

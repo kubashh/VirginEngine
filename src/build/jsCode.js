@@ -5,31 +5,31 @@ import { isCustomProp } from "../lib/utils"
 const optymalizeJs = (text) =>
   text
     .replace(/\/\*[\s\S]*?\*\/|\/\/.*/g, ``) // Remove comments
-    //.replace(`\n`, `;`)
+    // .replace(`\n`, `;`)
     .split(`\n`) // Split into lines
     .map((line) => line.trim()) // Trim lines
     .filter((line) => line !== ``) // Remove empty lines
-    //.map(line => line.replace(/\s*([({[])\s*/g, `$1`)) // Remove spaces before brackets
+    // .map(line => line.replace(/\s*([({[])\s*/g, `$1`)) // Remove spaces before brackets
     .join(`\n`) // Join lines
-//.replace(/\s{2,}/g, ` `) // Replace multiple spaces with a single space
+// .replace(/\s{2,}/g, ` `) // Replace multiple spaces with a single space
 
 // Files methods
 const joinFiles = (...files) =>
-  files.reduce((old, current) => `${old}\n${current}`)
+  files.reduce((prev, current) => `${prev}\n${current}`)
 
 const filesToString = (data, name, type) => {
   if (Array.isArray(data)) {
     return `${data
-      .reduce((old, e) => {
-        return `${old}${filesToString(e)},`
+      .reduce((prev, e) => {
+        return `${prev}${filesToString(e)},`
       }, `[`)
       .slice(0, -1)}]`
   }
 
   if (typeof data === `object`) {
     return `${Object.keys(data)
-      .reduce((old, key) => {
-        return `${old}${key}:${filesToString(data[key], key, data.type)},`
+      .reduce((prev, key) => {
+        return `${prev}${key}:${filesToString(data[key], key, data.type)},`
       }, `{`)
       .slice(0, -1)}}`
   }

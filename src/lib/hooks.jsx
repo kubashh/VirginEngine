@@ -20,7 +20,7 @@ export const useArrow = (main = false, haveChilds = true) => {
 }
 
 export const useRefresh = () => {
-  const [, setState] = useState(false)
+  const setState = useState(false)[1]
   return () => setState((prev) => !prev)
 }
 

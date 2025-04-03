@@ -8,17 +8,14 @@ import {
 import { editor } from "../../lib/consts"
 import { FileElement } from "../../lib/components"
 
-const getChilds = (obj) => {
-  const childs = {}
-
-  for (const key in obj) {
-    if (!includesKeywords(key) && isFirstUpperCase(key)) {
-      childs[key] = obj[key]
-    }
-  }
-
-  return childs
-}
+const getChilds = (obj = {}) =>
+  Object.keys(obj).reduce(
+    (prev, key) =>
+      !includesKeywords(key) && isFirstUpperCase(key)
+        ? { [key]: obj[key], ...prev }
+        : prev,
+    {}
+  )
 
 export const GameObject = ({ old, name, object, main, deep = 0 }) => {
   const childs = getChilds(object)
@@ -35,10 +32,10 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
       [
         () => {
           editor.setNameInput([
-            (newText) => {
-              if (Object.keys(object).includes(newText)) return
+            (newName) => {
+              if (Object.keys(object).includes(newName)) return
 
-              object[newText] = defaultGameObject()
+              object[newName] = defaultGameObject()
 
               setOpen(true)
               editor.reloadHierarchy()
@@ -50,11 +47,11 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
       [
         () => {
           editor.setNameInput([
-            (newText) => {
-              if (name === newText || old[newText]) return
+            (newName) => {
+              if (name === newName || old[newName]) return
 
               delete old[name]
-              old[newText] = object
+              old[newName] = object
               editor.reloadHierarchy()
             },
             name
