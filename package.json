@@ -10,7 +10,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build -d dist"
+    "build": "BUILD_PATH='./dist' react-scripts build"
   },
   "eslintConfig": {
     "extends": [
