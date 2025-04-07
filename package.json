@@ -9,10 +9,8 @@
     "react-scripts": "5.0.1"
   },
   "scripts": {
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build -m u",
     "start": "react-scripts start",
-    "build": "react-scripts build"
+    "build": "react-scripts build -d dist"
   },
   "eslintConfig": {
     "extends": [
@@ -35,9 +33,5 @@
   "prettier": {
     "semi": false,
     "trailingComma": "none"
-  },
-  "devDependencies": {
-    "gh-pages": "^6.2.0",
-    "prettier": "3.5.2"
   }
 }
