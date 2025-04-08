@@ -32,7 +32,7 @@ const useNameInput = (ref) => {
 
       setNameInput((prev) => [prev[0], value, prev[2]])
     },
-    onKeyDown: ({ key }) => key === `Enter` && ret()
+    onKeyDown: ({ key }) => key === `Enter` && ret(),
   }
 }
 

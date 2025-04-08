@@ -13,7 +13,7 @@ export const keywords = [
   `text`,
   `rect`,
   `sprite`,
-  `camera`
+  `camera`,
 ]
 
 export const config = {
@@ -24,7 +24,7 @@ export const config = {
   fullScreen: false,
   //screenWidth: 1600,
   //screenHeight: 900,
-  pathToMainScene: `files.Scenes.DefaultScene`
+  pathToMainScene: `files.Scenes.DefaultScene`,
 }
 
 export const editor = {
@@ -40,7 +40,7 @@ export const editor = {
   setDragData: () => {},
   setNameInput: () => {},
   setScene: () => {},
-  setContextMenu: () => {}
+  setContextMenu: () => {},
 }
 
 export const files = {
@@ -59,7 +59,7 @@ export const files = {
         start: `function() {
   for(let i = 0; i < 10; i++)
     setTimeout(() => clone(this.parent.Child, scene))
-}`
+}`,
       }),
       Child: defaultGameObject({
         scale: { x: 20, y: 20 },
@@ -68,9 +68,9 @@ export const files = {
   this.position = {x: Math.random() * 1000, y: Math.random() * window.innerHeight}
   console.log("Start ".concat(this.position.x))
 }`,
-        update: `function() { console.log(this.position.x, this.name) }`
-      })
-    }
+        update: `function() { console.log(this.position.x, this.name) }`,
+      }),
+    },
   },
 
   //Assets
@@ -81,8 +81,8 @@ export const files = {
       value: {
         src: `data:image/png;base64`,
         width: 1,
-        height: 1
-      }
-    }
-  }
+        height: 1,
+      },
+    },
+  },
 }

@@ -3,7 +3,7 @@ import { setComponents } from "./components/componentsLib"
 import {
   defaultGameObject,
   includesKeywords,
-  isFirstUpperCase
+  isFirstUpperCase,
 } from "../../lib/utils"
 import { editor } from "../../lib/consts"
 import { FileElement } from "../../lib/components"
@@ -39,10 +39,10 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
 
               setOpen(true)
               editor.reloadHierarchy()
-            }
+            },
           ])
         },
-        `New Object`
+        `New Object`,
       ],
       [
         () => {
@@ -54,11 +54,11 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
               old[newName] = object
               editor.reloadHierarchy()
             },
-            name
+            name,
           ])
         },
         `Rename`,
-        !main
+        !main,
       ],
       [
         () => {
@@ -66,8 +66,8 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
           editor.reloadHierarchy()
         },
         `Delete`,
-        !main
-      ]
+        !main,
+      ],
     ])
   }
 
@@ -117,6 +117,6 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
     onClick,
     onContextMenu,
     onMouseDown,
-    onMouseUp
+    onMouseUp,
   })
 }

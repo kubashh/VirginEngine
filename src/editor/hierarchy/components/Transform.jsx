@@ -6,7 +6,7 @@ export const Transform = ({ object }) => (
       text="Position"
       childs={[
         { object: object.transform.position, access: `x` },
-        { object: object.transform.position, access: `y` }
+        { object: object.transform.position, access: `y` },
       ]}
     />
     <InspectorSection
@@ -17,7 +17,7 @@ export const Transform = ({ object }) => (
       text="Scale"
       childs={[
         { object: object.transform.scale, access: `x` },
-        { object: object.transform.scale, access: `y` }
+        { object: object.transform.scale, access: `y` },
       ]}
     />
   </>

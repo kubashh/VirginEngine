@@ -3,7 +3,7 @@ import {
   capitalize,
   getType,
   isCustomProp,
-  isOccupied
+  isOccupied,
 } from "../../../lib/utils"
 import { editor } from "../../../lib/consts"
 import { AddComponent } from "./componentsLib"
@@ -53,7 +53,7 @@ const scriptTypes = {
   string: [`""`, TypeInput],
   array: [`[12, 43, "foo"]`, AdvancedInput, `[`, `]`],
   object: [`{}`, AdvancedInput, `{`, `}`],
-  function: [`function() {}`, AdvancedInput, `function(`, `) {`, `}`]
+  function: [`function() {}`, AdvancedInput, `function(`, `) {`, `}`],
 }
 
 // Add script component
@@ -69,7 +69,7 @@ const AddScript = ({ object, value, refresh }) => (
           refresh()
         },
         ``,
-        true
+        true,
       ])
     }
   />
@@ -85,7 +85,7 @@ export const Script = ({ object, refresh }) => (
           text={key}
           element={scriptTypes[getType(object[key])][1]({
             object,
-            access: key
+            access: key,
           })}
           remove={() => {
             delete object[key]

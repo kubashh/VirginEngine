@@ -60,8 +60,8 @@ class GameObject {
       transform: {
         position: this.position,
         rotation: this.rotation,
-        scale: this.scale
-      }
+        scale: this.scale,
+      },
     }
 
     // for (const key in this) {

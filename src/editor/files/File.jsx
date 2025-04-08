@@ -28,10 +28,10 @@ export const File = ({ old, file, name, main, deep = 0, path = `files` }) => {
 
             setOpen(true)
             editor.reloadFiles()
-          }
+          },
         ]),
       name,
-      isFolder
+      isFolder,
     ]
 
     editor.setContextMenu([
@@ -50,10 +50,10 @@ export const File = ({ old, file, name, main, deep = 0, path = `files` }) => {
               old[newName] = file
               editor.reloadFiles()
             },
-            name
+            name,
           ]),
         `Rename`,
-        !main
+        !main,
       ],
       [() => navigator.clipboard.writeText(path), `Copy path`],
       [
@@ -62,8 +62,8 @@ export const File = ({ old, file, name, main, deep = 0, path = `files` }) => {
           editor.reloadFiles()
         },
         `Delete`,
-        !main
-      ]
+        !main,
+      ],
     ])
   }
 
@@ -118,6 +118,6 @@ export const File = ({ old, file, name, main, deep = 0, path = `files` }) => {
     onContextMenu,
     onMouseDown,
     onMouseUp,
-    onDoubleClick
+    onDoubleClick,
   })
 }

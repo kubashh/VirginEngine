@@ -15,7 +15,7 @@ const sprite = [
   [[`color`], [`imagePath`]],
   { color: ``, imagePath: `` },
   [],
-  []
+  [],
 ]
 
 const components = { text, rect, sprite }
@@ -26,8 +26,8 @@ const toChilds = (object, name, arr) =>
       ...prev,
       {
         object: e.slice(0, -1).reduce((prev, key) => prev[key], object[name]),
-        access: e.at(-1)
-      }
+        access: e.at(-1),
+      },
     ],
     []
   )

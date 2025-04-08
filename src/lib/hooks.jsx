@@ -15,7 +15,7 @@ export const useArrow = (main = false, haveChilds = true) => {
       <div className="w24 h24" />
     ),
     open,
-    setOpen
+    setOpen,
   ]
 }
 

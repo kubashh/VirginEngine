@@ -32,5 +32,5 @@ export const editorOpctions = {
   Save: save,
   Build: build,
   Load: loadFile,
-  Config: onConfig
+  Config: onConfig,
 }

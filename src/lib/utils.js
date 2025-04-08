@@ -4,7 +4,7 @@ import {
   config,
   editor,
   files,
-  keywords
+  keywords,
 } from "./consts"
 
 const createElement = ({ name, ...props }) => {
@@ -19,7 +19,7 @@ export const downloadFile = (name, text, encode = false) =>
   createElement({
     name: `a`,
     href: `data:text;charset=utf-8,${encode ? encodeURIComponent(text) : text}`,
-    download: name
+    download: name,
   })
 
 export const isFirstUpperCase = (text) =>
@@ -78,8 +78,8 @@ export const defaultGameObject = ({
     transform: {
       position: position || { x: 0, y: 0 },
       rotation: rotation || { z: 0 },
-      scale: scale || { x: 1, y: 1 }
-    }
+      scale: scale || { x: 1, y: 1 },
+    },
   })
 
 export const capitalize = (text) =>
@@ -119,7 +119,7 @@ export const loadFile = (refresh) =>
       }
 
       reader.readAsText(target.files[0])
-    }
+    },
   })
 
 // Type
