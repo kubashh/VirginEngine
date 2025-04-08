@@ -58,7 +58,7 @@ const render = () => {
     fillStyle: `white`,
     font: `22px serif`,
     textAlign: `left`,
-    textBaseline: `top`
+    textBaseline: `top`,
   }
 
   draw({ text: `Update ${Log.updates}`, ...props })

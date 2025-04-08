@@ -38,7 +38,7 @@ class Transform {
     for (const child of this.gameObject.childs) {
       child.transform.position = {
         x: child.transform.positionX - this.positionX + x,
-        y: child.transform.positionY - this.positionY + y
+        y: child.transform.positionY - this.positionY + y,
       }
     }
 
@@ -89,7 +89,7 @@ class Transform {
     for (const child of this.gameObject.childs) {
       child.transform.scale = {
         x: (child.transform.scaleX / this.scaleX) * x,
-        y: (child.transform.scaleY / this.scaleY) * y
+        y: (child.transform.scaleY / this.scaleY) * y,
       }
     }
 

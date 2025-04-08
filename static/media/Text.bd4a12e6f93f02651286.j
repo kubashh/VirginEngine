@@ -18,7 +18,7 @@ class Text {
       fillStyle: `white`,
       font: `${this.transform.scale.y}px serif`,
       textBaseline: this.textBaseline,
-      textAlign: this.textAlign
+      textAlign: this.textAlign,
     })
   }
 

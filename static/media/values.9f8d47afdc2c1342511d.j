@@ -49,7 +49,7 @@ const GameTime = {
     GameTime.value = newTime
     GameTime.ms = 1000 / (60 * GameTime.value)
     GameTime.lastTime = performance.now()
-  }
+  },
 }
 
 // Log

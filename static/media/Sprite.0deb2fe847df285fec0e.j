@@ -11,7 +11,7 @@ class Sprite {
       y: this.gameObject.position.y,
       w: this.gameObject.scale.x,
       h: this.gameObject.scale.y,
-      color: this.color
+      color: this.color,
     })
   }
 }

@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkvirginengine=self.webpackChunkvirginengine||[]).push([[61],{61:(e,i,n)=>{e.exports=n.p+"static/media/Sprite.42bb837402700e740565.j"}}]);
