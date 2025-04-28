@@ -3,15 +3,15 @@ import { jsCode } from "./jsCode"
 
 const optymalizeHtml = (text) =>
   text
-    .replace(/\n/g, ` `)
-    .replace(/\s{2,}/g, ` `)
-    .replace(/> /g, `>`)
-    .replace(/ </g, `<`)
-    .replace(/; /g, `;`)
-    .replace(/ {/g, `{`)
-    .replace(/{ /g, `{`)
-    .replace(/ "/g, `"`)
-    .replace(/" /g, `"`)
+    .replaceAll(`\n`, ` `)
+    .replaceAll(/\s{2,}/g, ` `)
+    .replaceAll(`> `, `>`)
+    .replaceAll(` <`, `<`)
+    .replaceAll(`; `, `;`)
+    .replaceAll(` {`, `{`)
+    .replaceAll(`{ `, `{`)
+    .replaceAll(` "`, `"`)
+    .replaceAll(`" `, `"`)
 
 export const htmlCode = () =>
   `${optymalizeHtml(`

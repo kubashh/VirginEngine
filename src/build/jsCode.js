@@ -39,19 +39,12 @@ const filesToString = (data, name, type) => {
     : JSON.stringify(data)
 }
 
-const importFile = async (file) =>
-  await fetch(file.default).then((r) => r.text())
-
-const getImports = async (imports) => {
-  const files = []
-  for (const imp of imports) {
-    files.push(await importFile(imp))
-  }
-  return files
-}
-
 const importJoinFiles = async (...imports) =>
-  joinFiles(...(await getImports(imports)))
+  joinFiles(
+    ...(await Promise.all(
+      imports.map(async (imp) => await fetch(imp.default).then((r) => r.text()))
+    ))
+  )
 
 // Static files
 const staticFiles = await importJoinFiles(

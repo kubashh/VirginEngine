@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   /* Width, Haight */
   --width2: calc(15vw + 50px);
@@ -174,17 +178,11 @@ textarea:focus,
   position: absolute;
   z-index: 1;
 }
-.grid {
-  display: grid;
-}
 .gridTC_auto1fr {
   grid-template-columns: auto 1fr;
 }
 .gap12 {
   gap: 12px;
-}
-.flex {
-  display: flex;
 }
 .column {
   display: flex;

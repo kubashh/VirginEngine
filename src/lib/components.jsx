@@ -9,12 +9,12 @@ export const FileElement = ({ deep, arrow, name, childsElement, ...rest }) => (
 )
 
 export const Header = ({ text, ...rest }) => (
-  <div className="flex bb1_aaa pr8 pl8">
-    <h3 className="mr_auto" children={text} />
+  <div className="flex bb1_aaa border-zinc-500 border-20 px-2">
+    <h3 className="mr-auto" children={text} />
     {Object.keys(rest).map((key) => (
       <input
         type="button"
-        className="mt_auto mr8 mb_auto ml8 hover"
+        className="my-auto mx-2 hover"
         key={key}
         value={key}
         onClick={rest[key]}

@@ -1,66 +1,29 @@
-clear
-
-# Is a number
-if ! [ $1 = 0 ] && ! [ $1 = 1 ] && ! [ $1 = 2 ] && ! [ $1 = 3 ]; then
-  echo "Error: Bad number (valid numbers: [0, 1, 2, 3])"
-  exit
-fi
+# Oldv
+oldv="0.0.0.0"
 
 # Read old version
-oldv=$(head -n 1 .version)
+if [ -f ".version" ]; then oldv=$(head -n 1 .version); fi
 
-# Init versions variables
-v0=0
-v1=0
-v2=0
-v3=0
-
-# Set values
+# Set vars
 i=0
-for element in $(echo $oldv | tr "." "\n")
-do
-  if [ $i = 0 ]; then
-    v0=$element
-  fi
-
-  if [ $i = 1 ]; then
-    v1=$element
-  fi
-
-  if [ $i = 2 ]; then
-    v2=$element
-  fi
-
-  if [ $i = 3 ]; then
-    v3=$element
-  fi
+for element in $(echo $oldv | tr "." "\n"); do
+  case $i in
+    0) v0=$element;;
+    1) v1=$element;;
+    2) v2=$element;;
+    3) v3=$element;;
+  esac
 
   i=$((i+1))
 done
 
-
 # Increase version
-if [ $1 = 0 ]; then
-  v0=$((v0+1))
-  v1=0
-  v2=0
-  v3=0
-fi
-
-if [ $1 = 1 ]; then
-  v1=$((v1+1))
-  v2=0
-  v3=0
-fi
-
-if [ $1 = 2 ]; then
-  v2=$((v2+1))
-  v3=0
-fi
-
-if [ $1 = 3 ]; then
-  v3=$((v3+1))
-fi
+case $1 in
+  0) v0=$((v0+1)) && v1=0 && v2=0 && v3=0;;
+  1) v1=$((v1+1)) && v2=0 && v3=0;;
+  2) v2=$((v2+1)) && v3=0;;
+  *) v3=$((v3+1));;
+esac
 
 # Set new version
 newv=$v0.$v1.$v2.$v3
@@ -69,8 +32,7 @@ newv=$v0.$v1.$v2.$v3
 echo $newv > .version
 
 # Debug
-echo "$oldv (old)"
-echo "$newv (new)"
+echo "$oldv (old), $newv (new)"
 
 # Git
 git add .
