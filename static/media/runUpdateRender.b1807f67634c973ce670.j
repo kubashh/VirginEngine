@@ -1,5 +1,5 @@
 // Run
-const run = async () => {
+async function run() {
   GameTime.set(1)
   requestAnimationFrame(render)
 
@@ -32,7 +32,7 @@ const run = async () => {
 }
 
 // Update
-const update = () => {
+function update() {
   for (const obj of gameObjects) {
     for (const f of obj.toUpdate) f()
   }
@@ -42,7 +42,7 @@ const update = () => {
 }
 
 // Render
-const render = () => {
+function render() {
   // clear
   ctx.fillStyle = `black`
   ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height)

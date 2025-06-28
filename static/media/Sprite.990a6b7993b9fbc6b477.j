@@ -5,7 +5,7 @@ class Sprite {
     gameObject.toRender.push(this.render.bind(this))
   }
 
-  render = () => {
+  render() {
     draw({
       x: this.gameObject.position.x,
       y: this.gameObject.position.y,
