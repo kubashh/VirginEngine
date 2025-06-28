@@ -18,10 +18,10 @@ jobs:
         uses: actions/setup-node@v4
 
       - name: Install dependencies
-        run: npm i
+        uses: bahmutov/npm-install@v1
 
       - name: Build project
-        run: node run build
+        run: npm run build
 
       - name: Upload dist files
         uses: actions/upload-artifact@v4
