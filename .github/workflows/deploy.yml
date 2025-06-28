@@ -12,10 +12,10 @@ jobs:
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout
+        uses: actions/checkout@4
 
       - name: Setup Node
-        uses: actions/setup-node@latest
+        uses: actions/setup-node@4
 
       - name: Install dependencies
         run: npm i
@@ -24,7 +24,7 @@ jobs:
         run: npm run build
 
       - name: Upload dist files
-        uses: actions/upload-artifact@latest
+        uses: actions/upload-artifac@4
         with:
           name: dist-files
           path: ./dist
@@ -42,7 +42,7 @@ jobs:
           path: ./dist
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@latest
+        uses: peaceiris/actions-gh-pages@4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
