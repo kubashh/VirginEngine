@@ -1,6 +1,6 @@
 import { useRefresh } from "../../../lib/hooks"
 
-export const StringInput = ({ object, access }) => {
+export function StringInput({ object, access }) {
   const refresh = useRefresh()
 
   return (

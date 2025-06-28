@@ -3,16 +3,18 @@ import { editor } from "../../lib/consts"
 import { Header } from "../../lib/components"
 import { editorOpctions } from "./editorOptions"
 
-const InspectorComponent = () => {
+function InspectorComponent() {
   const [element, setElement] = useState()
   editor.setInspector = setElement
 
   return element
 }
 
-export const Inspector = () => (
-  <section className="inspector">
-    <Header text="Inspenctor" {...editorOpctions} />
-    <div children={<InspectorComponent />} />
-  </section>
-)
+export default function Inspector() {
+  return (
+    <section className="inspector">
+      <Header text="Inspenctor" {...editorOpctions} />
+      <div children={<InspectorComponent />} />
+    </section>
+  )
+}

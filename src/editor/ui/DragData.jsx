@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react"
 import { editor } from "../../lib/consts"
 
-const useDragData = () => {
+function useDragData() {
   const [mouse, setMouse] = useState({})
 
-  const handleMouseMove = ({ clientX, clientY }) =>
+  function handleMouseMove({ clientX, clientY }) {
     setMouse({ left: clientX + 3, top: clientY + 3 })
+  }
 
-  const setDragData = (newData, event) => {
+  function setDragData(newData, event) {
     editor.dragData = event?.button === 0 ? newData : undefined
 
     handleMouseMove(event || { clientX: 0, clientY: 0 })
@@ -30,10 +31,8 @@ const useDragData = () => {
   return { children: editor.dragData?.name, style: mouse }
 }
 
-export const DragData = () => {
+export default function DragData() {
   const props = useDragData()
 
-  return props.children ? (
-    <div className="zAbsolute bgc000_50p" {...props} />
-  ) : null
+  return props.children ? <div className="zAbsolute bgc000_50p" {...props} /> : null
 }

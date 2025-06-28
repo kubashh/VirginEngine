@@ -5,19 +5,18 @@ import { test } from "../../build/build"
 
 const opctions = [`16 / 9`, `1 / 1`, `9 / 16`]
 
-export const Test = () => {
+export default function Test() {
   const [aspectRatio, setAspectRatio] = useState(opctions[0])
   const [code, setCode] = useState()
   editor.setScene = setCode
 
-  return code ? (
+  if (!code) return
+
+  return (
     <div className="zAbsolute whFull">
       <Header
         text="Test"
-        {...opctions.reduce(
-          (old, value) => ({ ...old, [value]: () => setAspectRatio(value) }),
-          {}
-        )}
+        {...opctions.reduce((old, value) => ({ ...old, [value]: () => setAspectRatio(value) }), {})}
         Start={test}
         Stop={() => {
           console.clear()
@@ -33,5 +32,5 @@ export const Test = () => {
         />
       </div>
     </div>
-  ) : null
+  )
 }

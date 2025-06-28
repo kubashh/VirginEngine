@@ -1,13 +1,10 @@
-import {
-  allowedNameChars,
-  alphabet,
-  config,
-  editor,
-  files,
-  keywords,
-} from "./consts"
+import { allowedNameChars, alphabet, config, editor, files, keywords } from "./consts"
 
-const createElement = ({ name, ...props }) => {
+export function deepCopy(obj) {
+  return JSON.parse(JSON.stringify(obj))
+}
+
+function createElement({ name, ...props }) {
   const element = document.createElement(name)
   for (const key in props) {
     element[key] = props[key]
@@ -15,17 +12,19 @@ const createElement = ({ name, ...props }) => {
   element.click()
 }
 
-export const downloadFile = (name, text, encode = false) =>
+export function downloadFile(name, text, encode = false) {
   createElement({
     name: `a`,
     href: `data:text;charset=utf-8,${encode ? encodeURIComponent(text) : text}`,
     download: name,
   })
+}
 
-export const isFirstUpperCase = (text) =>
-  alphabet.toUpperCase().includes(text[0])
+export function isFirstUpperCase(text) {
+  return alphabet.toUpperCase().includes(text[0])
+}
 
-export const isValidName = (name) => {
+export function isValidName(name) {
   if (name.length === 0 || !isFirstUpperCase(name)) return false
 
   for (let i = 1; i < name.length; i++) {
@@ -35,28 +34,29 @@ export const isValidName = (name) => {
   return true
 }
 
-export const addSpaceBeforeUpper = (text) =>
-  text
+export function addSpaceBeforeUpper(text) {
+  return text
     .slice(1)
     .split(``)
-    .reduce(
-      (prev, char) => `${prev}${char === char.toUpperCase() ? ` ` : ``}${char}`,
-      text[0].toUpperCase()
-    )
+    .reduce((prev, char) => `${prev}${char === char.toUpperCase() ? ` ` : ``}${char}`, text[0].toUpperCase())
+}
 
-export const includesKeywords = (text) => keywords.includes(text)
+export function includesKeywords(text) {
+  return keywords.includes(text)
+}
 
-export const isCustomProp = (text) =>
-  !isFirstUpperCase(text) && !includesKeywords(text)
+export function isCustomProp(text) {
+  return !isFirstUpperCase(text) && !includesKeywords(text)
+}
 
-export const openScene = (scene, sceneName) => {
+export function openScene(scene, sceneName) {
   editor.selectedScene = scene
   editor.selectedSceneName = sceneName
 
   editor.reloadHierarchy?.()
 }
 
-export const openMainScene = () => {
+export function openMainScene() {
   editor.setUp = true
   let scene = files
   let key
@@ -67,13 +67,8 @@ export const openMainScene = () => {
   openScene(scene, key)
 }
 
-export const defaultGameObject = ({
-  position,
-  rotation,
-  scale,
-  ...rest
-} = {}) =>
-  Object.keys(rest).reduce((prev, key) => ({ [key]: rest[key], ...prev }), {
+export function defaultGameObject({ position, rotation, scale, ...rest } = {}) {
+  return Object.keys(rest).reduce((prev, key) => ({ [key]: rest[key], ...prev }), {
     type: `gameObject`,
     transform: {
       position: position || { x: 0, y: 0 },
@@ -81,27 +76,28 @@ export const defaultGameObject = ({
       scale: scale || { x: 1, y: 1 },
     },
   })
+}
 
-export const capitalize = (text) =>
-  text.length === 0 || text[0] === text[0].toUpperCase()
+export function capitalize(text) {
+  return text.length === 0 || text[0] === text[0].toUpperCase()
     ? text
     : `${text[0].toUpperCase()}${text.slice(1)}`
+}
 
-export const isOccupied = (obj, name) => {
-  for (const key in obj) {
-    if (key === name) return true
-  }
+export function isOccupied(obj, name) {
+  for (const key in obj) if (key === name) return true
+
   return false
 }
 
 // LoadFile
-const clearAssign = (old, obj) => {
+function clearAssign(old, obj) {
   for (const key in old) delete old[key]
   for (const key in obj) old[key] = obj[key]
 }
 
-export const loadFile = (refresh) =>
-  createElement({
+export function loadFile(refresh) {
+  return createElement({
     name: `input`,
     type: `file`,
     accept: `.virginengine`,
@@ -121,9 +117,10 @@ export const loadFile = (refresh) =>
       reader.readAsText(target.files[0])
     },
   })
+}
 
 // Type
-export const getType = (data) => {
+export function getType(data) {
   if (typeof data !== `string`) return typeof data
 
   if (Array.isArray(data) || data[0] === `[`) return `array`

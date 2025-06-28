@@ -21,18 +21,13 @@ window.addEventListener(`mouseup`, () => delete eventsHover.click)
 
 window.addEventListener(`click`, () => (events.click = true))
 
-window.addEventListener(
-  `keydown`,
-  ({ key }) => (events[key] = eventsHover[key] = true)
-)
+window.addEventListener(`keydown`, ({ key }) => (events[key] = eventsHover[key] = true))
 window.addEventListener(`keyup`, ({ key }) => delete eventsHover[key])
 
 window.addEventListener(`contextmenu`, (e) => {
   e.preventDefault()
 
-  !document.fullscreenElement
-    ? document.documentElement.requestFullscreen()
-    : document.exitFullscreen()
+  !document.fullscreenElement ? document.documentElement.requestFullscreen() : document.exitFullscreen()
 })
 
 // GameTime
@@ -41,11 +36,11 @@ const GameTime = {
   value: 1,
   lastTime: 0,
 
-  get: () => {
+  get() {
     return GameTime.value
   },
 
-  set: (newTime) => {
+  set(newTime) {
     GameTime.value = newTime
     GameTime.ms = 1000 / (60 * GameTime.value)
     GameTime.lastTime = performance.now()

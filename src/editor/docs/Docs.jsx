@@ -1,9 +1,10 @@
 import { Header } from "../../lib/components"
 
-const DocsContent = () => (
-  <div className="p3">
-    Coming soon!
-    {/* <div style={{ marginBottom: 32 }}>
+function DocsContent() {
+  return (
+    <div className="p3">
+      Coming soon!
+      {/* <div style={{ marginBottom: 32 }}>
       <h1>JS</h1>
       <h2>Arrays</h2>
       <h3>Create</h3>
@@ -17,12 +18,15 @@ const DocsContent = () => (
       <h1>Virgin Engine</h1>
       <h2>types</h2>
     </div> */}
-  </div>
-)
+    </div>
+  )
+}
 
-export const Docs = () => (
-  <section className="docs">
-    <Header text="Docs" />
-    <DocsContent />
-  </section>
-)
+export default function Docs() {
+  return (
+    <section className="docs">
+      <Header text="Docs" />
+      <DocsContent />
+    </section>
+  )
+}

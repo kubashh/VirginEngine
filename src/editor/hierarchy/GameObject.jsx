@@ -1,23 +1,17 @@
 import { useArrow } from "../../lib/hooks"
 import { setComponents } from "./components/componentsLib"
-import {
-  defaultGameObject,
-  includesKeywords,
-  isFirstUpperCase,
-} from "../../lib/utils"
+import { defaultGameObject, includesKeywords, isFirstUpperCase } from "../../lib/utils"
 import { editor } from "../../lib/consts"
 import { FileElement } from "../../lib/components"
 
-const getChilds = (obj = {}) =>
-  Object.keys(obj).reduce(
-    (prev, key) =>
-      !includesKeywords(key) && isFirstUpperCase(key)
-        ? { [key]: obj[key], ...prev }
-        : prev,
+function getChilds(obj = {}) {
+  return Object.keys(obj).reduce(
+    (prev, key) => (!includesKeywords(key) && isFirstUpperCase(key) ? { [key]: obj[key], ...prev } : prev),
     {}
   )
+}
 
-export const GameObject = ({ old, name, object, main, deep = 0 }) => {
+export default function GameObject({ old, name, object, main, deep = 0 }) {
   const childs = getChilds(object)
   const haveChilds = Object.keys(childs)?.length > 0
 
@@ -72,18 +66,12 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
   }
 
   const onMouseDown = (event) =>
-    !main &&
-    editor.setDragData({ from: `hierarchy`, old, file: object, name }, event)
+    !main && editor.setDragData({ from: `hierarchy`, old, file: object, name }, event)
 
   const onMouseUp = () => {
     const { dragData } = editor
 
-    if (
-      !dragData ||
-      dragData.name === name ||
-      dragData.file.type !== `gameObject`
-    )
-      return
+    if (!dragData || dragData.name === name || dragData.file.type !== `gameObject`) return
 
     for (const key in childs) {
       if (key === dragData.name) return
@@ -100,13 +88,7 @@ export const GameObject = ({ old, name, object, main, deep = 0 }) => {
   const childsElement =
     open &&
     Object.entries(childs).map(([key, value]) => (
-      <GameObject
-        old={object}
-        object={value}
-        key={key}
-        name={key}
-        deep={deep + 1}
-      />
+      <GameObject old={object} object={value} key={key} name={key} deep={deep + 1} />
     ))
 
   return FileElement({

@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-export const useArrow = (main = false, haveChilds = true) => {
+export function useArrow(main = false, haveChilds = true) {
   const [open, setOpen] = useState(main)
 
   return [
@@ -19,9 +19,11 @@ export const useArrow = (main = false, haveChilds = true) => {
   ]
 }
 
-export const useRefresh = () => {
-  const setState = useState(false)[1]
-  return () => setState((prev) => !prev)
+export function useRefresh() {
+  const f = useState(false)[1]
+  return () => f((prev) => !prev)
 }
 
-export const useConst = (value) => useState(value)[0]
+export function useConst(value) {
+  return useState(value)[0]
+}

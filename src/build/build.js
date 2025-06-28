@@ -2,10 +2,11 @@ import { htmlCode } from "./htmlCode"
 import { downloadFile } from "../lib/utils"
 import { config, editor } from "../lib/consts"
 
-export const build = () =>
+export function build() {
   downloadFile(`${config.gameName}.html`, htmlCode(), true)
+}
 
-export const test = () => {
+export function test() {
   console.clear()
   editor.setScene(htmlCode())
 }

@@ -2,17 +2,7 @@ class GameObject {
   toUpdate = []
   toRender = []
 
-  constructor({
-    parent,
-    transform,
-    rect,
-    text,
-    sprite,
-    start,
-    update,
-    render,
-    ...rest
-  }) {
+  constructor({ parent, transform, rect, text, sprite, start, update, render, ...rest }) {
     if (parent) this.parent = parent
 
     this.transform = new Transform(transform, this)
@@ -23,8 +13,7 @@ class GameObject {
       if (isChildKey(key)) {
         this[key] = new GameObject({ ...rest[key], parent: this })
       } else {
-        this[key] =
-          typeof rest[key] === `function` ? rest[key].bind(this) : rest[key]
+        this[key] = typeof rest[key] === `function` ? rest[key].bind(this) : rest[key]
       }
     }
 

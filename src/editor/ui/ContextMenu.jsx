@@ -1,14 +1,13 @@
 import { useEffect, useRef, useState } from "react"
 import { editor } from "../../lib/consts"
 
-const useContextMenu = (ref) => {
+function useContextMenu(ref) {
   const [[x, y, ...arr], setContextMenu] = useState([])
 
   useEffect(() => {
     editor.setContextMenu = setContextMenu
 
-    const handler = ({ target }) =>
-      ref.current && !ref.current.contains(target) && setContextMenu([])
+    const handler = ({ target }) => ref.current && !ref.current.contains(target) && setContextMenu([])
 
     document.addEventListener(`mousedown`, handler)
 
@@ -18,7 +17,7 @@ const useContextMenu = (ref) => {
   return [arr, { inset: `${y}px auto auto ${x}px` }, setContextMenu]
 }
 
-export const ContextMenu = () => {
+export default function ContextMenu() {
   const ref = useRef()
   const [arr, style, setContextMenu] = useContextMenu(ref)
 

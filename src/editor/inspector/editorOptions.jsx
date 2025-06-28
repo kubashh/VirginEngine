@@ -3,11 +3,9 @@ import { downloadFile, loadFile } from "../../lib/utils"
 import { build, test } from "../../build/build"
 import { InspectorSection } from "./InspectorSection"
 
-const save = () =>
-  downloadFile(
-    `${config.gameName}.virginengine`,
-    JSON.stringify({ config, files })
-  )
+function save() {
+  downloadFile(`${config.gameName}.virginengine`, JSON.stringify({ config, files }))
+}
 
 window.addEventListener(`keydown`, (e) => {
   if (e.ctrlKey && e.key === `s`) {
@@ -16,21 +14,21 @@ window.addEventListener(`keydown`, (e) => {
   }
 })
 
-const Config = () => (
-  <InspectorSection
-    text="Config"
-    childs={Object.keys(config)
-      .filter((key) => key !== `type`)
-      .map((key) => ({ text: key, object: config, access: key }))}
-  />
-)
-
-const onConfig = () => editor.setInspector(<Config />)
+function Config() {
+  return (
+    <InspectorSection
+      text="Config"
+      childs={Object.keys(config)
+        .filter((key) => key !== `type`)
+        .map((key) => ({ text: key, object: config, access: key }))}
+    />
+  )
+}
 
 export const editorOpctions = {
   Test: test,
   Save: save,
   Build: build,
   Load: loadFile,
-  Config: onConfig,
+  Config: () => editor.setInspector(<Config />),
 }

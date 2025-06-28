@@ -1,4 +1,4 @@
-export const BooleanInput = ({ object, access, refresh }) => {
+export function BooleanInput({ object, access, refresh }) {
   return (
     <>
       <input

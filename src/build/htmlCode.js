@@ -1,8 +1,8 @@
 import { config } from "../lib/consts"
 import { jsCode } from "./jsCode"
 
-const optymalizeHtml = (text) =>
-  text
+function optymalizeHtml(text) {
+  return text
     .replaceAll(`\n`, ` `)
     .replaceAll(/\s{2,}/g, ` `)
     .replaceAll(`> `, `>`)
@@ -12,9 +12,10 @@ const optymalizeHtml = (text) =>
     .replaceAll(`{ `, `{`)
     .replaceAll(` "`, `"`)
     .replaceAll(`" `, `"`)
+}
 
-export const htmlCode = () =>
-  `${optymalizeHtml(`
+export function htmlCode() {
+  return `${optymalizeHtml(`
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -44,3 +45,4 @@ export const htmlCode = () =>
   </body>
 </html>
 `)}`
+}

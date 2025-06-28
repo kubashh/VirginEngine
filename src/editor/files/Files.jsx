@@ -1,4 +1,4 @@
-import { File } from "./File"
+import File from "./File"
 import { editor, files } from "../../lib/consts"
 import { useRefresh } from "../../lib/hooks"
 import { Header } from "../../lib/components"
@@ -6,16 +6,16 @@ import { Header } from "../../lib/components"
 const FilesComponent = () => {
   editor.reloadFiles = useRefresh()
 
-  return (
-    <div>
-      <File file={files} name="files" main />
-    </div>
-  )
+  return <File file={files} name="files" main />
 }
 
-export const Files = () => (
-  <section className="files">
-    <Header text="Files" />
-    <FilesComponent />
-  </section>
-)
+export default function Files() {
+  return (
+    <section className="files">
+      <Header text="Files" />
+      <div>
+        <FilesComponent />
+      </div>
+    </section>
+  )
+}

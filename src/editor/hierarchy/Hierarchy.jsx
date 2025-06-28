@@ -1,9 +1,9 @@
-import { GameObject } from "./GameObject"
+import GameObject from "./GameObject"
 import { editor, files } from "../../lib/consts"
 import { useRefresh } from "../../lib/hooks"
 import { Header } from "../../lib/components"
 
-const HierarchyComponent = () => {
+function HierarchyComponent() {
   const refresh = useRefresh()
 
   editor.reloadHierarchy = () => {
@@ -11,21 +11,16 @@ const HierarchyComponent = () => {
     refresh()
   }
 
-  return (
-    <div>
-      <GameObject
-        object={editor.selectedScene}
-        old={files.Scenes}
-        name={editor.selectedSceneName}
-        main
-      />
-    </div>
-  )
+  return <GameObject object={editor.selectedScene} old={files.Scenes} name={editor.selectedSceneName} main />
 }
 
-export const Hierarchy = () => (
-  <section className="hierarchy">
-    <Header text="Hierarchy" />
-    <HierarchyComponent />
-  </section>
-)
+export default function Hierarchy() {
+  return (
+    <section className="hierarchy">
+      <Header text="Hierarchy" />
+      <div>
+        <HierarchyComponent />
+      </div>
+    </section>
+  )
+}

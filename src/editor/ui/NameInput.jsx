@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import { capitalize, isValidName } from "../../lib/utils"
 import { editor } from "../../lib/consts"
 
-const useNameInput = (ref) => {
+function useNameInput(ref) {
   const [[cb, text = ``, lowerCase = false], setNameInput] = useState([])
 
   editor.setNameInput = setNameInput
@@ -15,8 +15,9 @@ const useNameInput = (ref) => {
   }
 
   useEffect(() => {
-    const handler = ({ target }) =>
-      ref.current && !ref.current.contains(target) && ret()
+    function handler({ target }) {
+      if (ref.current && !ref.current.contains(target)) ret()
+    }
 
     document.addEventListener(`mousedown`, handler)
 
@@ -36,17 +37,11 @@ const useNameInput = (ref) => {
   }
 }
 
-export const NameInput = () => {
+export default function NameInput() {
   const ref = useRef()
   const props = useNameInput(ref)
 
   return typeof props.value === `string` ? (
-    <input
-      type="text"
-      ref={ref}
-      className="zAbsolute fontSize36 translateCenter"
-      {...props}
-      autoFocus
-    />
+    <input type="text" ref={ref} className="zAbsolute fontSize36 translateCenter" {...props} autoFocus />
   ) : null
 }

@@ -1,6 +1,6 @@
 import { editor } from "../../../lib/consts"
 import { useRefresh } from "../../../lib/hooks"
-import { capitalize } from "../../../lib/utils"
+import { capitalize, deepCopy } from "../../../lib/utils"
 import { InspectorSection } from "../../inspector/InspectorSection"
 import { Script } from "./Script"
 import { Transform } from "./Transform"
@@ -11,17 +11,12 @@ const text = [[[`value`]], { value: `` }, [`rect`], []]
 // textAlign = [`left`, `center`, `right`]
 const rect = [[[`x`], [`y`]], { x: 0, y: 0 }, [], [`text`]]
 
-const sprite = [
-  [[`color`], [`imagePath`]],
-  { color: ``, imagePath: `` },
-  [],
-  [],
-]
+const sprite = [[[`color`], [`imagePath`]], { color: ``, imagePath: `` }, [], []]
 
 const components = { text, rect, sprite }
 
-const toChilds = (object, name, arr) =>
-  arr.reduce(
+function toChilds(object, name, arr) {
+  return arr.reduce(
     (prev, e) => [
       ...prev,
       {
@@ -31,19 +26,15 @@ const toChilds = (object, name, arr) =>
     ],
     []
   )
+}
 
-const deepCopy = (obj) => JSON.parse(JSON.stringify(obj))
+export function AddComponent({ text, onClick }) {
+  return (
+    <input type="button" value={`+ ${text}`} className="fontSize16 mt12 mb24 p6_12 hover" onClick={onClick} />
+  )
+}
 
-export const AddComponent = ({ text, onClick }) => (
-  <input
-    type="button"
-    value={`+ ${text}`}
-    className="fontSize16 mt12 mb24 p6_12 hover"
-    onClick={onClick}
-  />
-)
-
-const Component = ({ name, refresh, readOnly, ...props }) => {
+function Component({ name, refresh, readOnly, ...props }) {
   const remove = () => {
     for (const key of components[name][3]) {
       delete props.object[key]
@@ -67,8 +58,7 @@ const Component = ({ name, refresh, readOnly, ...props }) => {
 
         props.object[name] = deepCopy(components[name][1])
         for (const key of components[name][2]) {
-          if (!props.object[key])
-            props.object[key] = deepCopy(components[key][1])
+          if (!props.object[key]) props.object[key] = deepCopy(components[key][1])
         }
 
         refresh()
@@ -77,7 +67,7 @@ const Component = ({ name, refresh, readOnly, ...props }) => {
   )
 }
 
-const Components = ({ name, ...props }) => {
+function Components({ name, ...props }) {
   const refresh = useRefresh()
   props = { ...props, refresh }
 
@@ -93,6 +83,6 @@ const Components = ({ name, ...props }) => {
   )
 }
 
-export const setComponents = (props) => {
+export function setComponents(props) {
   editor.setInspector(<Components {...props} />)
 }

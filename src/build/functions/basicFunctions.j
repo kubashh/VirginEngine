@@ -1,12 +1,19 @@
 // Time
-const wait = async (time) => await new Promise((r) => setTimeout(r, time))
-const wait0 = async () => new Promise((r) => setTimeout(r))
+async function wait(time) {
+  await new Promise((r) => setTimeout(r, time))
+}
+
+async function wait0() {
+  new Promise((r) => setTimeout(r))
+}
 
 // Is child
-const isChildKey = (text) => `ABCDEFGHIJKLMNOPRQSTUWXYZ`.includes(text[0])
+function isChildKey(text) {
+  return `ABCDEFGHIJKLMNOPRQSTUWXYZ`.includes(text[0])
+}
 
 // Deep copy
-const deepCopy = (data) => {
+function deepCopy(data) {
   if (Array.isArray(data)) {
     return data.reduce((prev, val) => [...prev, deepCopy(val)], [])
   }
@@ -25,7 +32,7 @@ const deepCopy = (data) => {
 }
 
 // Clone
-const clone = (obj, parent) => {
+function clone(obj, parent) {
   const name = obj.name
 
   let newName = name
@@ -39,7 +46,7 @@ const clone = (obj, parent) => {
 }
 
 // Load scene
-const loadScene = (newScene) => {
+function loadScene(newScene) {
   // Clear gameObject array
   gameObjects.length = 0
 
@@ -52,7 +59,7 @@ const loadScene = (newScene) => {
 }
 
 // Set and draw on ctx (canvas)
-const draw = ({ text, color, x, y, w, h, ...props }) => {
+function draw({ text, color, x, y, w, h, ...props }) {
   ctx.save()
   for (const key in props) {
     ctx[key] = props[key]
@@ -66,10 +73,8 @@ const draw = ({ text, color, x, y, w, h, ...props }) => {
   ctx.restore()
 }
 
-const drawBoxMiddle = (x, y, w, h, color) => {
-  if (color) {
-    ctx.fillStyle = color
-  }
+function drawBoxMiddle(x, y, w, h, color) {
+  if (color) ctx.fillStyle = color
 
   ctx.fillRect(x, y, w, h)
 }

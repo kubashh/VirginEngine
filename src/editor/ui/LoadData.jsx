@@ -7,16 +7,18 @@ const newProject = (refresh) => () => {
   refresh()
 }
 
-const LoadDataButton = ({ text, onClick }) => (
-  <input
-    className="m30_auto p20_92 b_c2 fontSize52 hover fadeIn"
-    type="button"
-    value={text}
-    onClick={onClick}
-  />
-)
+function LoadDataButton({ text, onClick }) {
+  return (
+    <input
+      className="m30_auto p20_92 b_c2 fontSize52 hover fadeIn"
+      type="button"
+      value={text}
+      onClick={onClick}
+    />
+  )
+}
 
-export const LoadData = () => {
+export default function LoadData() {
   const refresh = useRefresh()
 
   return !editor.setUp ? (

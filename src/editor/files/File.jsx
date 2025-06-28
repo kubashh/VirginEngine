@@ -4,7 +4,7 @@ import { openScene } from "../../lib/utils"
 import { editor } from "../../lib/consts"
 import { FileElement } from "../../lib/components"
 
-export const File = ({ old, file, name, main, deep = 0, path = `files` }) => {
+export default function File({ old, file, name, main, deep = 0, path = `files` }) {
   if (!main) path += `.${name}`
   const isFolder = file.type === `folder`
   const [arrow, open, setOpen] = useArrow(main, isFolder)
@@ -67,20 +67,14 @@ export const File = ({ old, file, name, main, deep = 0, path = `files` }) => {
     ])
   }
 
-  const onMouseDown = (event) =>
-    !main && editor.setDragData({ from: `files`, old, file, name }, event)
+  const onMouseDown = (event) => !main && editor.setDragData({ from: `files`, old, file, name }, event)
 
   const onMouseUp = () => {
     if (!isFolder) return
 
     const { dragData } = editor
 
-    if (
-      dragData?.from !== `files` ||
-      dragData.name === name ||
-      file[dragData.name]
-    )
-      return
+    if (dragData?.from !== `files` || dragData.name === name || file[dragData.name]) return
 
     file[dragData.name] = dragData.file
     if (dragData.old) {
@@ -98,14 +92,7 @@ export const File = ({ old, file, name, main, deep = 0, path = `files` }) => {
     Object.entries(file).map(
       ([key, value]) =>
         isFirstUpperCase(key) && (
-          <File
-            old={file}
-            file={value}
-            name={key}
-            key={key}
-            deep={deep + 1}
-            path={path}
-          />
+          <File old={file} file={value} name={key} key={key} deep={deep + 1} path={path} />
         )
     )
 

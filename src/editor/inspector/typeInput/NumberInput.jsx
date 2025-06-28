@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { numbers } from "../../../lib/consts"
 
-export const NumberInput = ({ object, access }) => {
+export function NumberInput({ object, access }) {
   const [currentNumber, setCurrentNumber] = useState(object[access])
 
   return (

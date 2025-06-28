@@ -4,12 +4,9 @@ import { BooleanInput } from "./typeInput/BooleanInput"
 import { NumberInput } from "./typeInput/NumberInput"
 import { StringInput } from "./typeInput/StringInput"
 
-export const TypeInput = (props) => {
-  const refresh = useRefresh()
-  props = { ...props, refresh }
-
-  let element
+function useElement(props) {
   const type = props.type || getType(props.object[props.access])
+  let element = null
   switch (type) {
     case "boolean":
       element = <BooleanInput {...props} />
@@ -33,9 +30,15 @@ export const TypeInput = (props) => {
       console.log(`ENUM`)
       break
     default:
-      console.error(`Type Error!`)
-      break
+      throw Error(`No such type!`)
   }
+
+  return [element, type]
+}
+
+export function TypeInput(props) {
+  const refresh = useRefresh()
+  const [element, type] = useElement({ ...props, refresh })
 
   return (
     <div className="grid gap12 w100p-12 gridTC_auto1fr">
