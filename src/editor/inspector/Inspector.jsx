@@ -1,6 +1,6 @@
 import { useState } from "react"
+import Header from "../../components/Header"
 import { editor } from "../../lib/consts"
-import { Header } from "../../lib/components"
 import { editorOpctions } from "./editorOptions"
 
 function InspectorComponent() {

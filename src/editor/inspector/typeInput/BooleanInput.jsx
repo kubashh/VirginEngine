@@ -1,4 +1,4 @@
-export function BooleanInput({ object, access, refresh }) {
+export default function BooleanInput({ object, access, refresh }) {
   return (
     <>
       <input

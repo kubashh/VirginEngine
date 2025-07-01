@@ -1,13 +1,13 @@
 import { useState } from "react"
+import Header from "../../components/Header"
 import { editor } from "../../lib/consts"
-import { Header } from "../../lib/components"
 import { test } from "../../build/build"
 
 const opctions = [`16 / 9`, `1 / 1`, `9 / 16`]
 
 export default function Test() {
   const [aspectRatio, setAspectRatio] = useState(opctions[0])
-  const [code, setCode] = useState()
+  const [code, setCode] = useState(``)
   editor.setScene = setCode
 
   if (!code) return
@@ -20,7 +20,7 @@ export default function Test() {
         Start={test}
         Stop={() => {
           console.clear()
-          setCode()
+          setCode(``)
         }}
       />
       <div className="flex justifyContent bgc111 h100p">

@@ -1,4 +1,4 @@
-import { Header } from "../../lib/components"
+import Header from "../components/Header"
 
 function DocsContent() {
   return (

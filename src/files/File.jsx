@@ -1,8 +1,7 @@
-import { useArrow } from "../../lib/hooks"
-import { isFirstUpperCase } from "../../lib/utils"
-import { openScene } from "../../lib/utils"
-import { editor } from "../../lib/consts"
-import { FileElement } from "../../lib/components"
+import FileElement from "../components/FileElement"
+import { editor } from "../lib/consts"
+import { openScene, isFirstUpperCase } from "../lib/utils"
+import { useArrow } from "../lib/hooks"
 
 export default function File({ old, file, name, main, deep = 0, path = `files` }) {
   if (!main) path += `.${name}`

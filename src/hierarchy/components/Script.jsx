@@ -1,10 +1,10 @@
-import { InspectorSection } from "../../inspector/InspectorSection"
-import { capitalize, getType, isCustomProp, isOccupied } from "../../../lib/utils"
-import { editor } from "../../../lib/consts"
-import { AddComponent } from "./componentsLib"
-import { TypeInput } from "../../inspector/TypeInput"
-import { useConst, useRefresh } from "../../../lib/hooks"
 import { useRef } from "react"
+import InspectorSection from "../../editor/inspector/InspectorSection"
+import TypeInput from "../../editor/inspector/TypeInput"
+import { editor } from "../../lib/consts"
+import { capitalize, getType, isCustomProp, isOccupied } from "../../lib/utils"
+import { useConst, useRefresh } from "../../lib/hooks"
+import { AddComponent } from "./componentsLib"
 
 function AdvancedInput({ object, access }) {
   const type = useConst(getType(object[access]))
@@ -72,7 +72,7 @@ function AddScript({ object, value, refresh }) {
   )
 }
 
-export function Script({ object, refresh }) {
+export default function Script({ object, refresh }) {
   return (
     <>
       {Object.keys(object)

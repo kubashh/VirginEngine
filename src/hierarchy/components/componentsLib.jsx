@@ -1,9 +1,9 @@
-import { editor } from "../../../lib/consts"
-import { useRefresh } from "../../../lib/hooks"
-import { capitalize, deepCopy } from "../../../lib/utils"
-import { InspectorSection } from "../../inspector/InspectorSection"
-import { Script } from "./Script"
-import { Transform } from "./Transform"
+import InspectorSection from "../../editor/inspector/InspectorSection"
+import Script from "./Script"
+import Transform from "./Transform"
+import { editor } from "../../lib/consts"
+import { capitalize, deepCopy } from "../../lib/utils"
+import { useRefresh } from "../../lib/hooks"
 
 const text = [[[`value`]], { value: `` }, [`rect`], []]
 

@@ -1,8 +1,8 @@
-import { useArrow } from "../../lib/hooks"
+import FileElement from "../components/FileElement"
+import { editor } from "../lib/consts"
+import { defaultGameObject, includesKeywords, isFirstUpperCase } from "../lib/utils"
+import { useArrow } from "../lib/hooks"
 import { setComponents } from "./components/componentsLib"
-import { defaultGameObject, includesKeywords, isFirstUpperCase } from "../../lib/utils"
-import { editor } from "../../lib/consts"
-import { FileElement } from "../../lib/components"
 
 function getChilds(obj = {}) {
   return Object.keys(obj).reduce(

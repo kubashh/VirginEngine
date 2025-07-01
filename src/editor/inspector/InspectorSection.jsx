@@ -1,6 +1,6 @@
-import { TypeInput } from "./TypeInput"
+import TypeInput from "./TypeInput"
 
-export function InspectorSection({ text, remove, childs, element }) {
+export default function InspectorSection({ text, remove, childs, element }) {
   return (
     <div className="mt16 ml12 bb2_111 pb8">
       <div className="flex">

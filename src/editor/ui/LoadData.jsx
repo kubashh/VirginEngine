@@ -1,6 +1,6 @@
 import { editor } from "../../lib/consts"
-import { useRefresh } from "../../lib/hooks"
 import { loadFile, openMainScene } from "../../lib/utils"
+import { useRefresh } from "../../lib/hooks"
 
 const newProject = (refresh) => () => {
   openMainScene()

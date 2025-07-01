@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react"
-import { capitalize, isValidName } from "../../lib/utils"
 import { editor } from "../../lib/consts"
+import { capitalize, isValidName } from "../../lib/utils"
 
 function useNameInput(ref) {
   const [[cb, text = ``, lowerCase = false], setNameInput] = useState([])

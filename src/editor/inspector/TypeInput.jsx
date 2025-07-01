@@ -1,8 +1,8 @@
-import { useRefresh } from "../../lib/hooks"
+import BooleanInput from "./typeInput/BooleanInput"
+import NumberInput from "./typeInput/NumberInput"
+import StringInput from "./typeInput/StringInput"
 import { addSpaceBeforeUpper, getType } from "../../lib/utils"
-import { BooleanInput } from "./typeInput/BooleanInput"
-import { NumberInput } from "./typeInput/NumberInput"
-import { StringInput } from "./typeInput/StringInput"
+import { useRefresh } from "../../lib/hooks"
 
 function useElement(props) {
   const type = props.type || getType(props.object[props.access])
@@ -36,7 +36,7 @@ function useElement(props) {
   return [element, type]
 }
 
-export function TypeInput(props) {
+export default function TypeInput(props) {
   const refresh = useRefresh()
   const [element, type] = useElement({ ...props, refresh })
 

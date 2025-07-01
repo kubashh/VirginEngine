@@ -1,7 +1,7 @@
 import File from "./File"
-import { editor, files } from "../../lib/consts"
-import { useRefresh } from "../../lib/hooks"
-import { Header } from "../../lib/components"
+import Header from "../components/Header"
+import { editor, files } from "../lib/consts"
+import { useRefresh } from "../lib/hooks"
 
 const FilesComponent = () => {
   editor.reloadFiles = useRefresh()

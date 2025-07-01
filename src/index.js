@@ -1,6 +1,6 @@
 import { createRoot } from "react-dom/client"
-import App from "./App"
-import "./index.css"
+import App from "./app/App"
+import "./app/index.css"
 
 document.oncontextmenu = (event) => event.preventDefault()
 

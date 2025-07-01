@@ -4,7 +4,7 @@ async function wait(time) {
 }
 
 async function wait0() {
-  new Promise((r) => setTimeout(r))
+  await new Promise((r) => setTimeout(r))
 }
 
 // Is child

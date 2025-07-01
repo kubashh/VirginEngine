@@ -1,6 +1,6 @@
-import { InspectorSection } from "../../inspector/InspectorSection"
+import InspectorSection from "../../editor/inspector/InspectorSection"
 
-export function Transform({ object }) {
+export default function Transform({ object }) {
   return (
     <>
       <InspectorSection
