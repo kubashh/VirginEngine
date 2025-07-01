@@ -1,4 +1,3 @@
-import { createPortal } from "react-dom"
 import Docs from "../docs/Docs"
 import Hierarchy from "../hierarchy/Hierarchy"
 import Inspector from "../inspector/Inspector"
@@ -9,27 +8,23 @@ import NameInput from "../ui/NameInput"
 import DragData from "../ui/DragData"
 import Test from "../ui/Test"
 
-function StaticUI() {
-  return (
-    <>
-      <LoadData />
-      <ContextMenu />
-      <NameInput />
-      <DragData />
-      <Test />
-    </>
-  )
-}
-
 export default function App() {
   return (
     <>
-      {createPortal(<StaticUI />, document.getElementsByTagName(`header`)[0])}
+      <header>
+        <LoadData />
+        <ContextMenu />
+        <NameInput />
+        <DragData />
+        <Test />
+      </header>
 
-      <Docs />
-      <Hierarchy />
-      <Files />
-      <Inspector />
+      <main>
+        <Docs />
+        <Hierarchy />
+        <Files />
+        <Inspector />
+      </main>
     </>
   )
 }

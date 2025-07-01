@@ -4,4 +4,4 @@ import "./app/index.css"
 
 document.oncontextmenu = (event) => event.preventDefault()
 
-createRoot(document.getElementsByTagName(`main`)[0]).render(<App />)
+createRoot(document.getElementsByTagName(`body`)[0]).render(<App />)
