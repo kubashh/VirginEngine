@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { editor } from "../../lib/consts"
+import { editor } from "../lib/consts"
 
 function useDragData() {
   const [mouse, setMouse] = useState({})

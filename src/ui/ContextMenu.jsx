@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react"
-import { editor } from "../../lib/consts"
+import { editor } from "../lib/consts"
 
 function useContextMenu(ref) {
   const [[x, y, ...arr], setContextMenu] = useState([])

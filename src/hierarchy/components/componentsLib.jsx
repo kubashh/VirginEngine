@@ -1,4 +1,4 @@
-import InspectorSection from "../../editor/inspector/InspectorSection"
+import InspectorSection from "../../inspector/InspectorSection"
 import Script from "./Script"
 import Transform from "./Transform"
 import { editor } from "../../lib/consts"

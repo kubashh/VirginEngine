@@ -1,7 +1,7 @@
 import { useState } from "react"
-import Header from "../../components/Header"
-import { editor } from "../../lib/consts"
-import { test } from "../../build/build"
+import Header from "../components/Header"
+import { editor } from "../lib/consts"
+import { test } from "../build/build"
 
 const opctions = [`16 / 9`, `1 / 1`, `9 / 16`]
 

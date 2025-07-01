@@ -1,7 +1,7 @@
 import InspectorSection from "./InspectorSection"
-import { config, editor, files } from "../../lib/consts"
-import { downloadFile, loadFile } from "../../lib/utils"
-import { build, test } from "../../build/build"
+import { config, editor, files } from "../lib/consts"
+import { downloadFile, loadFile } from "../lib/utils"
+import { build, test } from "../build/build"
 
 function save() {
   downloadFile(`${config.gameName}.virginengine`, JSON.stringify({ config, files }))

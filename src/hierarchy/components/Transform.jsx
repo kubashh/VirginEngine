@@ -1,4 +1,4 @@
-import InspectorSection from "../../editor/inspector/InspectorSection"
+import InspectorSection from "../../inspector/InspectorSection"
 
 export default function Transform({ object }) {
   return (

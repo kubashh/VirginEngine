@@ -1,6 +1,6 @@
 import { useRef } from "react"
-import InspectorSection from "../../editor/inspector/InspectorSection"
-import TypeInput from "../../editor/inspector/TypeInput"
+import InspectorSection from "../../inspector/InspectorSection"
+import TypeInput from "../../inspector/TypeInput"
 import { editor } from "../../lib/consts"
 import { capitalize, getType, isCustomProp, isOccupied } from "../../lib/utils"
 import { useConst, useRefresh } from "../../lib/hooks"

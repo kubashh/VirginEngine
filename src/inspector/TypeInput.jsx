@@ -1,8 +1,8 @@
 import BooleanInput from "./typeInput/BooleanInput"
 import NumberInput from "./typeInput/NumberInput"
 import StringInput from "./typeInput/StringInput"
-import { addSpaceBeforeUpper, getType } from "../../lib/utils"
-import { useRefresh } from "../../lib/hooks"
+import { addSpaceBeforeUpper, getType } from "../lib/utils"
+import { useRefresh } from "../lib/hooks"
 
 function useElement(props) {
   const type = props.type || getType(props.object[props.access])
