@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/virginengine/static/css/main.d1efddc5.css",
-    "main.js": "/virginengine/static/js/main.3265ca0d.js",
+    "main.js": "/virginengine/static/js/main.87a2b2e8.js",
     "static/js/262.f82c7017.chunk.js": "/virginengine/static/js/262.f82c7017.chunk.js",
     "static/js/393.643da86d.chunk.js": "/virginengine/static/js/393.643da86d.chunk.js",
     "static/js/886.6068639c.chunk.js": "/virginengine/static/js/886.6068639c.chunk.js",
@@ -24,10 +24,10 @@
     "static/media/Collider.j": "/virginengine/static/media/Collider.e5122752e28a451e635f.j",
     "static/media/Physics.j": "/virginengine/static/media/Physics.241aa7badaecee81c8a7.j",
     "main.d1efddc5.css.map": "/virginengine/static/css/main.d1efddc5.css.map",
-    "main.3265ca0d.js.map": "/virginengine/static/js/main.3265ca0d.js.map"
+    "main.87a2b2e8.js.map": "/virginengine/static/js/main.87a2b2e8.js.map"
   },
   "entrypoints": [
     "static/css/main.d1efddc5.css",
-    "static/js/main.3265ca0d.js"
+    "static/js/main.87a2b2e8.js"
   ]
 }
