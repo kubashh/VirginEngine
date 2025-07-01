@@ -22,11 +22,8 @@ function joinFiles(arr: (NonSharedBuffer | string)[]) {
 function encode(s: string) {
   const buf = []
   for (const e of s) {
-    if (e === `\n`) buf.push(`\\`, `n`)
-    else {
-      if (e === `"`) buf.push(`\\`)
-      buf.push(e)
-    }
+    if (["`", `$`].includes(e)) buf.push(`\\`)
+    buf.push(e)
   }
   return buf.join(``)
 }
@@ -58,6 +55,6 @@ const files = optymalizeJs(
   ])
 )
 
-const jsFile = `export const core = "${encode(files)}"`
+const jsFile = `export const core = \`${encode(files)}\``
 
 writeFileSync(`../src/build/core.js`, jsFile)

@@ -26,5 +26,5 @@ function filesToString(data, name, type) {
 export function jsCode() {
   return core
     .replace("`REPLACE_FILES`", filesToString(files))
-    .replace("`REPLACE_PATH_TO_MAIN_SCENE`", config.pathToMainScene)
+    .replace("`REPLACE_PATH_TO_MAIN_SCENE`", `\\"${config.pathToMainScene}\\"`)
 }

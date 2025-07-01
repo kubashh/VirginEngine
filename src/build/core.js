@@ -1,1 +1,335 @@
-export const core = "const ctx = document.body.children[0].getContext(`2d`)\nfunction onresize() {\nctx.canvas.width = window.innerWidth\nctx.canvas.height = window.innerHeight\n}\nwindow.addEventListener(`resize`, onresize)\nonresize()\nconst files = `REPLACE_FILES`\nlet scene = {}\nconst events = {}\nconst eventsHover = {}\nwindow.addEventListener(`mousedown`, () => (eventsHover.click = true))\nwindow.addEventListener(`mouseup`, () => delete eventsHover.click)\nwindow.addEventListener(`click`, () => (events.click = true))\nwindow.addEventListener(`keydown`, ({ key }) => (events[key] = eventsHover[key] = true))\nwindow.addEventListener(`keyup`, ({ key }) => delete eventsHover[key])\nwindow.addEventListener(`contextmenu`, (e) => {\ne.preventDefault()\n!document.fullscreenElement ? document.documentElement.requestFullscreen() : document.exitFullscreen()\n})\nconst GameTime = {\nms: 1,\nvalue: 1,\nlastTime: 0,\nget() {\nreturn GameTime.value\n},\nset(newTime) {\nGameTime.value = newTime\nGameTime.ms = 1000 / (60 * GameTime.value)\nGameTime.lastTime = performance.now()\n},\n}\nconst Log = { updates: 0, frames: 0, framesTemp: 0 }\nconst gameObjects = []\nclass GameObject {\ntoUpdate = []\ntoRender = []\nconstructor({ parent, transform, rect, text, sprite, start, update, render, ...rest }) {\nif (parent) this.parent = parent\nthis.transform = new Transform(transform, this)\nif (text) this.text = new Text(text, this, rect)\nif (sprite) this.sprite = new Sprite(sprite, this)\nfor (const key in rest) {\nif (isChildKey(key)) {\nthis[key] = new GameObject({ ...rest[key], parent: this })\n} else {\nthis[key] = typeof rest[key] === `function` ? rest[key].bind(this) : rest[key]\n}\n}\nif (update) this.toUpdate.push(update.bind(this))\nif (render) this.toRender.push(render.bind(this))\nif (start) {\nthis.start = start.bind(this)\nthis.start()\n}\ngameObjects.push(this)\n}\nget childs() {\nconst childs = []\nfor (const key in this) {\nif (isChildKey(key)) childs.push(this[key])\n}\nreturn childs\n}\nget name() {\nfor (const key in this.parent) {\nif (this === this.parent[key]) return key\n}\n}\nget props() {\nconst newObj = {\nstart: this?.start,\nupdate: this?.update,\ntransform: {\nposition: this.position,\nrotation: this.rotation,\nscale: this.scale,\n},\n}\nreturn deepCopy(newObj)\n}\nstatic destroy(obj) {\nfor (const child of obj.childs) GameObject.destroy(child)\nconst { parent } = obj\nlet parentKey = ``\nfor (const key in obj.parent) {\nif (obj.parent[key] === obj) {\nparentKey = key\nbreak\n}\n}\nfor (const key in obj) delete obj[key]\ngameObjects.splice(gameObjects.indexOf(obj))\ndelete parent[parentKey]\n}\n}\nclass Transform {\ngameObject = null\npositionX = 0\npositionY = 0\nrotationZ = 0\nscaleX = 1\nscaleY = 1\nconstructor(props, gameObject) {\nif (props) {\nthis.gameObject = gameObject\nconst { position, rotation, scale, rect } = props\nif (rect) this.rect = rect\nthis.position = position\nthis.rotation = rotation\nthis.scale = scale\ngameObject.position = position\ngameObject.rotation = rotation\ngameObject.scale = scale\n} else {\nthis.readOnly = true\n}\n}\nget position() {\nreturn { x: this.positionX, y: this.positionY }\n}\nset position({ x, y }) {\nif (this.readOnly) {\nalert(`PROGRAMMER, you can't chage \"readOnly\" position`)\nreturn\n}\nfor (const child of this.gameObject.childs) {\nchild.transform.position = {\nx: child.transform.positionX - this.positionX + x,\ny: child.transform.positionY - this.positionY + y,\n}\n}\nthis.positionX = x\nthis.positionY = y\n}\nget rotation() {\nreturn { z: this.rotationZ }\n}\nset rotation({ z }) {\nif (this.readOnly) {\nalert(`PROGRAMMER, you can't chage \"readOnly\" rotation`)\nreturn\n}\nwhile (z < 0) {\nz += 360\n}\nwhile (z > 360) {\nz -= 360\n}\nfor (const child of this.gameObject.childs) {\nlet newRot = child.transform.rotationZ - this.rotationZ + z\nif (newRot < 0) {\nnewRot += 360\n} else if (newRot > 360) {\nnewRot -= 360\n}\nchild.transform.rotation = { z: newRot }\n}\nthis.rotationZ = z\n}\nget scale() {\nreturn { x: this.scaleX, y: this.scaleY }\n}\nset scale({ x, y }) {\nif (this.readOnly) {\nalert(`PROGRAMMER, you can't chage \"readOnly\" scale`)\nreturn\n}\nfor (const child of this.gameObject.childs) {\nchild.transform.scale = {\nx: (child.transform.scaleX / this.scaleX) * x,\ny: (child.transform.scaleY / this.scaleY) * y,\n}\n}\nthis.scaleX = x\nthis.scaleY = y\n}\n}\nclass Collider {\nconstructor() {}\n}\nclass Physics {\nconstructor() {}\n}\nclass Sprite {\nconstructor({ color }, gameObject) {\nthis.gameObject = gameObject\nthis.color = color\ngameObject.toRender.push(this.render.bind(this))\n}\nrender() {\ndraw({\nx: this.gameObject.position.x,\ny: this.gameObject.position.y,\nw: this.gameObject.scale.x,\nh: this.gameObject.scale.y,\ncolor: this.color,\n})\n}\n}\nclass Animation {\nconstructor() {}\n}\nclass Text {\nvalue = ``\nrect = undefined\ntransform = undefined\nconstructor({ value }, gameObject, rect) {\nthis.transform = gameObject.transform\nthis.value = value\nthis.textBaseline = Text.textBaseline[rect.x]\nthis.textAlign = Text.textAlign[rect.y]\ngameObject.toRender.push(this.render.bind(this))\n}\nrender() {\ndraw({\ntext: this.value,\n...this.transform.position,\nfillStyle: `white`,\nfont: `${this.transform.scale.y}px serif`,\ntextBaseline: this.textBaseline,\ntextAlign: this.textAlign,\n})\n}\nstatic textBaseline = [`top`, `middle`, `bottom`]\nstatic textAlign = [`left`, `center`, `right`]\n}\nasync function wait(time) {\nawait new Promise((r) => setTimeout(r, time))\n}\nasync function wait0() {\nawait new Promise((r) => setTimeout(r))\n}\nfunction isChildKey(text) {\nreturn `ABCDEFGHIJKLMNOPRQSTUWXYZ`.includes(text[0])\n}\nfunction deepCopy(data) {\nif (Array.isArray(data)) {\nreturn data.reduce((prev, val) => [...prev, deepCopy(val)], [])\n}\nif (typeof data === `object`) {\nconst newObj = {}\nfor (const key in data) {\nnewObj[key] = deepCopy(data[key])\n}\nreturn newObj\n}\nreturn data\n}\nfunction clone(obj, parent) {\nconst name = obj.name\nlet newName = name\nlet i = 0\nwhile (parent[newName]) {\nnewName = `${name}${i}`\ni++\n}\nparent[newName] = new GameObject({ ...obj.props, parent })\n}\nfunction loadScene(newScene) {\ngameObjects.length = 0\nscene = new GameObject(deepCopy(newScene))\nfor (const key in events) delete events[key]\nfor (const key in eventsHover) delete eventsHover[key]\n}\nfunction draw({ text, color, x, y, w, h, ...props }) {\nctx.save()\nfor (const key in props) {\nctx[key] = props[key]\n}\nif (text) ctx.fillText(text, x, y)\nif (color) {\nctx.fillStyle = color\nctx.fillRect(x, y, w, h)\n}\nctx.restore()\n}\nfunction drawBoxMiddle(x, y, w, h, color) {\nif (color) ctx.fillStyle = color\nctx.fillRect(x, y, w, h)\n}\nasync function run() {\nGameTime.set(1)\nrequestAnimationFrame(render)\nlet timer = performance.now()\nlet updates = 0\nlet delta = 0\nwhile (true) {\nconst now = performance.now()\ndelta += (now - GameTime.lastTime) / GameTime.ms\nif (delta > 60) delta = 60\nGameTime.lastTime = now\nwhile (delta >= 1) {\nupdate()\nupdates++\ndelta--\n}\nif (now - timer > 1000) {\ntimer += 1000\nLog.updates = updates\nLog.frames = Log.framesTemp\nupdates = 0\nLog.framesTemp = 0\n}\nawait wait0()\n}\n}\nfunction update() {\nfor (const obj of gameObjects) {\nfor (const f of obj.toUpdate) f()\n}\nfor (const key in events) delete events[key]\n}\nfunction render() {\nctx.fillStyle = `black`\nctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height)\nfor (const obj of gameObjects) {\nfor (const f of obj.toRender) f()\n}\nconst props = {\nx: 8,\ny: 8,\nfillStyle: `white`,\nfont: `22px serif`,\ntextAlign: `left`,\ntextBaseline: `top`,\n}\ndraw({ text: `Update ${Log.updates}`, ...props })\ndraw({ text: `Render ${Log.frames}`, ...props, y: 38 })\nLog.framesTemp++\nrequestAnimationFrame(render)\n}\nloadScene(`REPLACE_PATH_TO_MAIN_SCENE`)\nrun()"
+export const core = `const ctx = document.body.children[0].getContext(\`2d\`)
+function onresize() {
+ctx.canvas.width = window.innerWidth
+ctx.canvas.height = window.innerHeight
+}
+window.addEventListener(\`resize\`, onresize)
+onresize()
+const files = \`REPLACE_FILES\`
+let scene = {}
+const events = {}
+const eventsHover = {}
+window.addEventListener(\`mousedown\`, () => (eventsHover.click = true))
+window.addEventListener(\`mouseup\`, () => delete eventsHover.click)
+window.addEventListener(\`click\`, () => (events.click = true))
+window.addEventListener(\`keydown\`, ({ key }) => (events[key] = eventsHover[key] = true))
+window.addEventListener(\`keyup\`, ({ key }) => delete eventsHover[key])
+window.addEventListener(\`contextmenu\`, (e) => {
+e.preventDefault()
+!document.fullscreenElement ? document.documentElement.requestFullscreen() : document.exitFullscreen()
+})
+const GameTime = {
+ms: 1,
+value: 1,
+lastTime: 0,
+get() {
+return GameTime.value
+},
+set(newTime) {
+GameTime.value = newTime
+GameTime.ms = 1000 / (60 * GameTime.value)
+GameTime.lastTime = performance.now()
+},
+}
+const Log = { updates: 0, frames: 0, framesTemp: 0 }
+const gameObjects = []
+class GameObject {
+toUpdate = []
+toRender = []
+constructor({ parent, transform, rect, text, sprite, start, update, render, ...rest }) {
+if (parent) this.parent = parent
+this.transform = new Transform(transform, this)
+if (text) this.text = new Text(text, this, rect)
+if (sprite) this.sprite = new Sprite(sprite, this)
+for (const key in rest) {
+if (isChildKey(key)) {
+this[key] = new GameObject({ ...rest[key], parent: this })
+} else {
+this[key] = typeof rest[key] === \`function\` ? rest[key].bind(this) : rest[key]
+}
+}
+if (update) this.toUpdate.push(update.bind(this))
+if (render) this.toRender.push(render.bind(this))
+if (start) {
+this.start = start.bind(this)
+this.start()
+}
+gameObjects.push(this)
+}
+get childs() {
+const childs = []
+for (const key in this) {
+if (isChildKey(key)) childs.push(this[key])
+}
+return childs
+}
+get name() {
+for (const key in this.parent) {
+if (this === this.parent[key]) return key
+}
+}
+get props() {
+const newObj = {
+start: this?.start,
+update: this?.update,
+transform: {
+position: this.position,
+rotation: this.rotation,
+scale: this.scale,
+},
+}
+return deepCopy(newObj)
+}
+static destroy(obj) {
+for (const child of obj.childs) GameObject.destroy(child)
+const { parent } = obj
+let parentKey = \`\`
+for (const key in obj.parent) {
+if (obj.parent[key] === obj) {
+parentKey = key
+break
+}
+}
+for (const key in obj) delete obj[key]
+gameObjects.splice(gameObjects.indexOf(obj))
+delete parent[parentKey]
+}
+}
+class Transform {
+gameObject = null
+positionX = 0
+positionY = 0
+rotationZ = 0
+scaleX = 1
+scaleY = 1
+constructor(props, gameObject) {
+if (props) {
+this.gameObject = gameObject
+const { position, rotation, scale, rect } = props
+if (rect) this.rect = rect
+this.position = position
+this.rotation = rotation
+this.scale = scale
+gameObject.position = position
+gameObject.rotation = rotation
+gameObject.scale = scale
+} else {
+this.readOnly = true
+}
+}
+get position() {
+return { x: this.positionX, y: this.positionY }
+}
+set position({ x, y }) {
+if (this.readOnly) {
+alert(\`PROGRAMMER, you can't chage "readOnly" position\`)
+return
+}
+for (const child of this.gameObject.childs) {
+child.transform.position = {
+x: child.transform.positionX - this.positionX + x,
+y: child.transform.positionY - this.positionY + y,
+}
+}
+this.positionX = x
+this.positionY = y
+}
+get rotation() {
+return { z: this.rotationZ }
+}
+set rotation({ z }) {
+if (this.readOnly) {
+alert(\`PROGRAMMER, you can't chage "readOnly" rotation\`)
+return
+}
+while (z < 0) {
+z += 360
+}
+while (z > 360) {
+z -= 360
+}
+for (const child of this.gameObject.childs) {
+let newRot = child.transform.rotationZ - this.rotationZ + z
+if (newRot < 0) {
+newRot += 360
+} else if (newRot > 360) {
+newRot -= 360
+}
+child.transform.rotation = { z: newRot }
+}
+this.rotationZ = z
+}
+get scale() {
+return { x: this.scaleX, y: this.scaleY }
+}
+set scale({ x, y }) {
+if (this.readOnly) {
+alert(\`PROGRAMMER, you can't chage "readOnly" scale\`)
+return
+}
+for (const child of this.gameObject.childs) {
+child.transform.scale = {
+x: (child.transform.scaleX / this.scaleX) * x,
+y: (child.transform.scaleY / this.scaleY) * y,
+}
+}
+this.scaleX = x
+this.scaleY = y
+}
+}
+class Collider {
+constructor() {}
+}
+class Physics {
+constructor() {}
+}
+class Sprite {
+constructor({ color }, gameObject) {
+this.gameObject = gameObject
+this.color = color
+gameObject.toRender.push(this.render.bind(this))
+}
+render() {
+draw({
+x: this.gameObject.position.x,
+y: this.gameObject.position.y,
+w: this.gameObject.scale.x,
+h: this.gameObject.scale.y,
+color: this.color,
+})
+}
+}
+class Animation {
+constructor() {}
+}
+class Text {
+value = \`\`
+rect = undefined
+transform = undefined
+constructor({ value }, gameObject, rect) {
+this.transform = gameObject.transform
+this.value = value
+this.textBaseline = Text.textBaseline[rect.x]
+this.textAlign = Text.textAlign[rect.y]
+gameObject.toRender.push(this.render.bind(this))
+}
+render() {
+draw({
+text: this.value,
+...this.transform.position,
+fillStyle: \`white\`,
+font: \`\${this.transform.scale.y}px serif\`,
+textBaseline: this.textBaseline,
+textAlign: this.textAlign,
+})
+}
+static textBaseline = [\`top\`, \`middle\`, \`bottom\`]
+static textAlign = [\`left\`, \`center\`, \`right\`]
+}
+async function wait(time) {
+await new Promise((r) => setTimeout(r, time))
+}
+async function wait0() {
+await new Promise((r) => setTimeout(r))
+}
+function isChildKey(text) {
+return \`ABCDEFGHIJKLMNOPRQSTUWXYZ\`.includes(text[0])
+}
+function deepCopy(data) {
+if (Array.isArray(data)) {
+return data.reduce((prev, val) => [...prev, deepCopy(val)], [])
+}
+if (typeof data === \`object\`) {
+const newObj = {}
+for (const key in data) {
+newObj[key] = deepCopy(data[key])
+}
+return newObj
+}
+return data
+}
+function clone(obj, parent) {
+const name = obj.name
+let newName = name
+let i = 0
+while (parent[newName]) {
+newName = \`\${name}\${i}\`
+i++
+}
+parent[newName] = new GameObject({ ...obj.props, parent })
+}
+function loadScene(newScene) {
+gameObjects.length = 0
+scene = new GameObject(deepCopy(newScene))
+for (const key in events) delete events[key]
+for (const key in eventsHover) delete eventsHover[key]
+}
+function draw({ text, color, x, y, w, h, ...props }) {
+ctx.save()
+for (const key in props) {
+ctx[key] = props[key]
+}
+if (text) ctx.fillText(text, x, y)
+if (color) {
+ctx.fillStyle = color
+ctx.fillRect(x, y, w, h)
+}
+ctx.restore()
+}
+function drawBoxMiddle(x, y, w, h, color) {
+if (color) ctx.fillStyle = color
+ctx.fillRect(x, y, w, h)
+}
+async function run() {
+GameTime.set(1)
+requestAnimationFrame(render)
+let timer = performance.now()
+let updates = 0
+let delta = 0
+while (true) {
+const now = performance.now()
+delta += (now - GameTime.lastTime) / GameTime.ms
+if (delta > 60) delta = 60
+GameTime.lastTime = now
+while (delta >= 1) {
+update()
+updates++
+delta--
+}
+if (now - timer > 1000) {
+timer += 1000
+Log.updates = updates
+Log.frames = Log.framesTemp
+updates = 0
+Log.framesTemp = 0
+}
+await wait0()
+}
+}
+function update() {
+for (const obj of gameObjects) {
+for (const f of obj.toUpdate) f()
+}
+for (const key in events) delete events[key]
+}
+function render() {
+ctx.fillStyle = \`black\`
+ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+for (const obj of gameObjects) {
+for (const f of obj.toRender) f()
+}
+const props = {
+x: 8,
+y: 8,
+fillStyle: \`white\`,
+font: \`22px serif\`,
+textAlign: \`left\`,
+textBaseline: \`top\`,
+}
+draw({ text: \`Update \${Log.updates}\`, ...props })
+draw({ text: \`Render \${Log.frames}\`, ...props, y: 38 })
+Log.framesTemp++
+requestAnimationFrame(render)
+}
+loadScene(\`REPLACE_PATH_TO_MAIN_SCENE\`)
+run()`
