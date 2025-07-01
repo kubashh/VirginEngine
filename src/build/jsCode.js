@@ -1,4 +1,4 @@
-import core from "./core"
+import { core } from "./core"
 
 import { config, files } from "../lib/consts"
 import { isCustomProp } from "../lib/utils"

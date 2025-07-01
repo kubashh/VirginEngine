@@ -58,6 +58,6 @@ const files = optymalizeJs(
   ])
 )
 
-const jsFile = `export default "${encode(files)}"`
+const jsFile = `export const core = "${encode(files)}"`
 
 writeFileSync(`../src/build/core.js`, jsFile)
