@@ -1,13 +1,15 @@
 // Canvas
 const ctx = document.body.children[0].getContext(`2d`)
 
-const onresize = () => {
+function onresize() {
   ctx.canvas.width = window.innerWidth
   ctx.canvas.height = window.innerHeight
 }
 
 window.addEventListener(`resize`, onresize)
 onresize()
+
+const files = `REPLACE_FILES`
 
 // Scene
 let scene = {}
