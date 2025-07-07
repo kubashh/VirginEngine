@@ -3,7 +3,8 @@ import { editor } from "../lib/consts"
 import { openScene, isFirstUpperCase } from "../lib/utils"
 import { useArrow } from "../lib/hooks"
 
-export default function File({ old, file, name, main, deep = 0, path = `files` }) {
+export default function File({ old, file, name, deep = 0, path = `files` }: FileProps) {
+  const main = deep === 0
   if (!main) path += `.${name}`
   const isFolder = file.type === `folder`
   const [arrow, open, setOpen] = useArrow(main, isFolder)
@@ -18,13 +19,14 @@ export default function File({ old, file, name, main, deep = 0, path = `files` }
     )
   }
 
-  const onContextMenu = ({ pageX, pageY }) => {
-    const newArrElement = (name, type) => [
+  const onContextMenu = ({ pageX, pageY }: MouseEvent) => {
+    const newArrElement = (name: string, type: string) => [
       () =>
         editor.setNameInput([
-          (newName) => {
+          (newName: string) => {
             file[newName] = { type }
 
+            // @ts-ignore
             setOpen(true)
             editor.reloadFiles()
           },
@@ -42,7 +44,7 @@ export default function File({ old, file, name, main, deep = 0, path = `files` }
       [
         () =>
           editor.setNameInput([
-            (newName) => {
+            (newName: string) => {
               if (name === newName) return
 
               delete old[name]
@@ -66,12 +68,13 @@ export default function File({ old, file, name, main, deep = 0, path = `files` }
     ])
   }
 
-  const onMouseDown = (event) => !main && editor.setDragData({ from: `files`, old, file, name }, event)
+  const onMouseDown = (event: MouseEvent) =>
+    !main && editor.setDragData({ from: `files`, old, file, name }, event)
 
   const onMouseUp = () => {
     if (!isFolder) return
 
-    const { dragData } = editor
+    const { dragData }: { dragData: any } = editor
 
     if (dragData?.from !== `files` || dragData.name === name || file[dragData.name]) return
 

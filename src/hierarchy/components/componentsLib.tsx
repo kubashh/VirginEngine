@@ -13,14 +13,14 @@ const rect = [[[`x`], [`y`]], { x: 0, y: 0 }, [], [`text`]]
 
 const sprite = [[[`color`], [`imagePath`]], { color: ``, imagePath: `` }, [], []]
 
-const components = { text, rect, sprite }
+const components: Obj = { text, rect, sprite }
 
-function toChilds(object, name, arr) {
+function toChilds(object: Obj, name: string, arr: any[]) {
   return arr.reduce(
     (prev, e) => [
       ...prev,
       {
-        object: e.slice(0, -1).reduce((prev, key) => prev[key], object[name]),
+        object: e.slice(0, -1).reduce((prev: Obj, key: string) => prev[key], object[name]),
         access: e.at(-1),
       },
     ],
@@ -28,13 +28,13 @@ function toChilds(object, name, arr) {
   )
 }
 
-export function AddComponent({ text, onClick }) {
+export function AddComponent({ text, onClick }: AddComponentProps) {
   return (
     <input type="button" value={`+ ${text}`} className="fontSize16 mt12 mb24 p6_12 hover" onClick={onClick} />
   )
 }
 
-function Component({ name, refresh, readOnly, ...props }) {
+function Component({ name, refresh, readOnly, ...props }: Obj) {
   const remove = () => {
     for (const key of components[name][3]) {
       delete props.object[key]
@@ -48,7 +48,7 @@ function Component({ name, refresh, readOnly, ...props }) {
       key={name}
       text={capitalize(name)}
       childs={toChilds(props.object, name, components[name][0])}
-      {...{ ...props, remove: !readOnly && remove }}
+      {...{ ...props, remove: !readOnly ? remove : undefined }}
     />
   ) : (
     <AddComponent
@@ -67,22 +67,22 @@ function Component({ name, refresh, readOnly, ...props }) {
   )
 }
 
-function Components({ name, ...props }) {
+function Components({ name, ...props }: Obj) {
   const refresh = useRefresh()
   props = { ...props, refresh }
 
   return (
     <div key={JSON.stringify(props)}>
       <h2 className="ml12">{name}</h2>
-      <Transform {...props} />
+      <Transform object={props.object} />
       {Object.keys(components).map((key) => (
         <Component {...props} key={key} name={key} />
       ))}
-      <Script {...props} />
+      <Script object={props.object} refresh={refresh} />
     </div>
   )
 }
 
-export function setComponents(props) {
+export function setComponents(props: Obj) {
   editor.setInspector(<Components {...props} />)
 }

@@ -1,6 +1,6 @@
 import InspectorSection from "../../inspector/InspectorSection"
 
-export default function Transform({ object }) {
+export default function Transform({ object }: TransformProps) {
   return (
     <>
       <InspectorSection

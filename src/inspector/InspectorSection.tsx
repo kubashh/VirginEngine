@@ -1,6 +1,6 @@
 import TypeInput from "./TypeInput"
 
-export default function InspectorSection({ text, remove, childs, element }) {
+export default function InspectorSection({ text, remove, childs, element }: InspectorSectionProps) {
   return (
     <div className="mt16 ml12 bb2_111 pb8">
       <div className="flex">
@@ -10,6 +10,7 @@ export default function InspectorSection({ text, remove, childs, element }) {
         ) : null}
       </div>
       {childs?.map((props) => (
+        // @ts-ignore
         <TypeInput key={props.access} {...props} />
       ))}
       {element}

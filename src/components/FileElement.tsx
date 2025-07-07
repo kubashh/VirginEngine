@@ -1,4 +1,4 @@
-export default function FileElement({ deep, arrow, name, childsElement, ...rest }) {
+export default function FileElement({ deep, arrow, name, childsElement, ...rest }: Obj) {
   return (
     <>
       <div className="flex fadeIn" style={{ marginLeft: deep * 8 }}>

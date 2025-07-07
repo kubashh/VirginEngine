@@ -1,9 +1,8 @@
 import { core } from "./core"
-
 import { config, files } from "../lib/consts"
 import { isCustomProp } from "../lib/utils"
 
-function filesToString(data, name, type) {
+function filesToString(data: Obj, name?: string, type?: string): any {
   if (Array.isArray(data)) {
     return `${data
       .reduce((prev, e) => {
@@ -20,7 +19,7 @@ function filesToString(data, name, type) {
       .slice(0, -1)}}`
   }
 
-  return type === `gameObject` && isCustomProp(name) ? data : JSON.stringify(data)
+  return type === `gameObject` && isCustomProp(name!) ? data : JSON.stringify(data)
 }
 
 export function jsCode() {

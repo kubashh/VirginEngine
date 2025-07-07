@@ -7,11 +7,13 @@ function HierarchyComponent() {
   const refresh = useRefresh()
 
   editor.reloadHierarchy = () => {
-    editor.setInspector()
+    editor.setInspector(null)
     refresh()
   }
 
-  return <GameObject object={editor.selectedScene} old={files.Scenes} name={editor.selectedSceneName} main />
+  return (
+    <GameObject object={editor.selectedScene} old={files.Scenes} name={editor.selectedSceneName} deep={0} />
+  )
 }
 
 export default function Hierarchy() {

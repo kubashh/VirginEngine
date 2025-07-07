@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from "react"
 import { editor } from "../lib/consts"
 import { capitalize, isValidName } from "../lib/utils"
 
-function useNameInput(ref) {
-  const [[cb, text = ``, lowerCase = false], setNameInput] = useState([])
+function useNameInput(ref: React.Ref<HTMLInputElement | null>) {
+  const [[cb, text = ``, lowerCase = false], setNameInput] = useState<any[]>([])
 
   editor.setNameInput = setNameInput
 
@@ -15,8 +15,11 @@ function useNameInput(ref) {
   }
 
   useEffect(() => {
-    function handler({ target }) {
-      if (ref.current && !ref.current.contains(target)) ret()
+    if (!ref) return
+
+    function handler({ target }: MouseEvent) {
+      // @ts-ignore
+      if (ref?.current && !ref.current.contains(target)) ret()
     }
 
     document.addEventListener(`mousedown`, handler)
@@ -26,22 +29,23 @@ function useNameInput(ref) {
 
   return {
     value: cb && text,
-    onChange: ({ target }) => {
-      let value = capitalize(target.value)
+    onChange: ({ target }: { target: { value: string } }) => {
+      const value = capitalize(target.value)
 
       if (!isValidName(value)) return
 
       setNameInput((prev) => [prev[0], value, prev[2]])
     },
-    onKeyDown: ({ key }) => key === `Enter` && ret(),
+    onKeyDown: ({ key }: KeyboardEvent) => key === `Enter` && ret(),
   }
 }
 
 export default function NameInput() {
-  const ref = useRef()
+  const ref = useRef<HTMLInputElement | null>(null)
   const props = useNameInput(ref)
 
   return typeof props.value === `string` ? (
-    <input type="text" ref={ref} className="zAbsolute fontSize36 translateCenter" {...props} autoFocus />
+    // @ts-ignore
+    <input ref={ref} type="text" className="zAbsolute fontSize36 translateCenter" {...props} autoFocus />
   ) : null
 }

@@ -6,7 +6,7 @@ import { useRefresh } from "../lib/hooks"
 const FilesComponent = () => {
   editor.reloadFiles = useRefresh()
 
-  return <File file={files} name="files" main />
+  return <File file={files} name="files" deep={0} old />
 }
 
 export default function Files() {

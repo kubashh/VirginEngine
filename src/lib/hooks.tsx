@@ -24,6 +24,6 @@ export function useRefresh() {
   return () => f((prev) => !prev)
 }
 
-export function useConst(value) {
+export function useConst(value: any) {
   return useState(value)[0]
 }

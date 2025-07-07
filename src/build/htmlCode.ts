@@ -1,7 +1,7 @@
 import { config } from "../lib/consts"
 import { jsCode } from "./jsCode"
 
-function optymalizeHtml(text) {
+function optymalizeHtml(text: string) {
   return text
     .replaceAll(`\n`, ` `)
     .replaceAll(/\s{2,}/g, ` `)

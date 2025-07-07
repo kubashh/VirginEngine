@@ -4,14 +4,15 @@ import { defaultGameObject, includesKeywords, isFirstUpperCase } from "../lib/ut
 import { useArrow } from "../lib/hooks"
 import { setComponents } from "./components/componentsLib"
 
-function getChilds(obj = {}) {
+function getChilds(obj: Obj = {}) {
   return Object.keys(obj).reduce(
     (prev, key) => (!includesKeywords(key) && isFirstUpperCase(key) ? { [key]: obj[key], ...prev } : prev),
     {}
   )
 }
 
-export default function GameObject({ old, name, object, main, deep = 0 }) {
+export default function GameObject({ old, name, object, deep = 0 }: GameObjectProps) {
+  const main = deep === 0
   const childs = getChilds(object)
   const haveChilds = Object.keys(childs)?.length > 0
 
@@ -19,18 +20,19 @@ export default function GameObject({ old, name, object, main, deep = 0 }) {
 
   const onClick = () => !main && setComponents({ old, object, name })
 
-  const onContextMenu = ({ pageX, pageY }) => {
+  const onContextMenu = ({ pageX, pageY }: MouseEvent) => {
     editor.setContextMenu([
       pageX,
       pageY,
       [
         () => {
           editor.setNameInput([
-            (newName) => {
+            (newName: string) => {
               if (Object.keys(object).includes(newName)) return
 
               object[newName] = defaultGameObject()
 
+              // @ts-ignore
               setOpen(true)
               editor.reloadHierarchy()
             },
@@ -41,7 +43,7 @@ export default function GameObject({ old, name, object, main, deep = 0 }) {
       [
         () => {
           editor.setNameInput([
-            (newName) => {
+            (newName: string) => {
               if (name === newName || old[newName]) return
 
               delete old[name]
@@ -65,11 +67,11 @@ export default function GameObject({ old, name, object, main, deep = 0 }) {
     ])
   }
 
-  const onMouseDown = (event) =>
+  const onMouseDown: React.MouseEventHandler = (event) =>
     !main && editor.setDragData({ from: `hierarchy`, old, file: object, name }, event)
 
   const onMouseUp = () => {
-    const { dragData } = editor
+    const { dragData }: { dragData: any } = editor
 
     if (!dragData || dragData.name === name || dragData.file.type !== `gameObject`) return
 

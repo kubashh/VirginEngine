@@ -6,7 +6,7 @@ import { capitalize, getType, isCustomProp, isOccupied } from "../../lib/utils"
 import { useConst, useRefresh } from "../../lib/hooks"
 import { AddComponent } from "./componentsLib"
 
-function AdvancedInput({ object, access }) {
+function AdvancedInput({ object, access }: StringInputProps) {
   const type = useConst(getType(object[access]))
 
   return (
@@ -23,9 +23,9 @@ function AdvancedInput({ object, access }) {
   )
 }
 
-function InputDefault({ object, access }) {
+function InputDefault({ object, access }: StringInputProps) {
   const refresh = useRefresh()
-  const ref = useRef(null)
+  const ref = useRef<HTMLTextAreaElement | null>(null)
 
   return (
     <textarea
@@ -42,7 +42,7 @@ function InputDefault({ object, access }) {
 }
 
 // Types
-const scriptTypes = {
+const scriptTypes: Obj = {
   boolean: [false, TypeInput],
   number: [0, TypeInput],
   string: [`""`, TypeInput],
@@ -52,13 +52,13 @@ const scriptTypes = {
 }
 
 // Add script component
-function AddScript({ object, value, refresh }) {
+function AddScript({ object, value, refresh }: AddScriptProps) {
   return (
     <AddComponent
       text={capitalize(value)}
       onClick={() =>
         editor.setNameInput([
-          (text) => {
+          (text: string) => {
             if (isOccupied(object, text)) return
 
             object[text] = scriptTypes[value][0]
@@ -72,7 +72,7 @@ function AddScript({ object, value, refresh }) {
   )
 }
 
-export default function Script({ object, refresh }) {
+export default function Script({ object, refresh }: ScriptProps) {
   return (
     <>
       {Object.keys(object)

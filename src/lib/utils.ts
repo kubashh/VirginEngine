@@ -1,10 +1,10 @@
 import { allowedNameChars, alphabet, config, editor, files, keywords } from "./consts"
 
-export function deepCopy(obj) {
+export function deepCopy(obj: Obj) {
   return JSON.parse(JSON.stringify(obj))
 }
 
-function createElement({ name, ...props }) {
+function createElement({ name, ...props }: Obj) {
   const element = document.createElement(name)
   for (const key in props) {
     element[key] = props[key]
@@ -12,7 +12,7 @@ function createElement({ name, ...props }) {
   element.click()
 }
 
-export function downloadFile(name, text, encode = false) {
+export function downloadFile(name: string, text: string, encode = false) {
   createElement({
     name: `a`,
     href: `data:text;charset=utf-8,${encode ? encodeURIComponent(text) : text}`,
@@ -20,11 +20,11 @@ export function downloadFile(name, text, encode = false) {
   })
 }
 
-export function isFirstUpperCase(text) {
+export function isFirstUpperCase(text: string) {
   return alphabet.toUpperCase().includes(text[0])
 }
 
-export function isValidName(name) {
+export function isValidName(name: string) {
   if (name.length === 0 || !isFirstUpperCase(name)) return false
 
   for (let i = 1; i < name.length; i++) {
@@ -34,24 +34,24 @@ export function isValidName(name) {
   return true
 }
 
-export function addSpaceBeforeUpper(text) {
+export function addSpaceBeforeUpper(text: string) {
   return text
     .slice(1)
     .split(``)
     .reduce((prev, char) => `${prev}${char === char.toUpperCase() ? ` ` : ``}${char}`, text[0].toUpperCase())
 }
 
-export function includesKeywords(text) {
+export function includesKeywords(text: string) {
   return keywords.includes(text)
 }
 
-export function isCustomProp(text) {
+export function isCustomProp(text: string) {
   return !isFirstUpperCase(text) && !includesKeywords(text)
 }
 
-export function openScene(scene, sceneName) {
+export function openScene(scene: Obj, name: string) {
   editor.selectedScene = scene
-  editor.selectedSceneName = sceneName
+  editor.selectedSceneName = name
 
   editor.reloadHierarchy?.()
 }
@@ -64,10 +64,12 @@ export function openMainScene() {
     scene = scene[key]
   }
 
+  if (!key) throw Error(`No main scene!`)
+
   openScene(scene, key)
 }
 
-export function defaultGameObject({ position, rotation, scale, ...rest } = {}) {
+export function defaultGameObject({ position, rotation, scale, ...rest }: Obj = {}) {
   return Object.keys(rest).reduce((prev, key) => ({ [key]: rest[key], ...prev }), {
     type: `gameObject`,
     transform: {
@@ -78,33 +80,33 @@ export function defaultGameObject({ position, rotation, scale, ...rest } = {}) {
   })
 }
 
-export function capitalize(text) {
+export function capitalize(text: string) {
   return text.length === 0 || text[0] === text[0].toUpperCase()
     ? text
     : `${text[0].toUpperCase()}${text.slice(1)}`
 }
 
-export function isOccupied(obj, name) {
+export function isOccupied(obj: Obj, name: string) {
   for (const key in obj) if (key === name) return true
 
   return false
 }
 
 // LoadFile
-function clearAssign(old, obj) {
+function clearAssign(old: Obj, obj: Obj) {
   for (const key in old) delete old[key]
   for (const key in obj) old[key] = obj[key]
 }
 
-export function loadFile(refresh) {
+export function loadFile(refresh: Void) {
   return createElement({
     name: `input`,
     type: `file`,
     accept: `.virginengine`,
-    onchange: ({ target }) => {
+    onchange: ({ target }: { target: any }) => {
       const reader = new FileReader()
 
-      reader.onload = ({ target }) => {
+      reader.onload = ({ target }: { target: any }) => {
         const data = JSON.parse(target.result)
 
         clearAssign(config, data.config)
@@ -120,7 +122,7 @@ export function loadFile(refresh) {
 }
 
 // Type
-export function getType(data) {
+export function getType(data: any) {
   if (typeof data !== `string`) return typeof data
 
   if (Array.isArray(data) || data[0] === `[`) return `array`

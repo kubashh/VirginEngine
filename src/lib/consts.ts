@@ -22,28 +22,26 @@ export const config = {
   author: `Your Name or Nick`,
   description: `Write what game is`,
   fullScreen: false,
-  //screenWidth: 1600,
-  //screenHeight: 900,
   pathToMainScene: `files.Scenes.DefaultScene`,
 }
 
 export const editor = {
-  selectedScene: undefined,
+  selectedScene: {},
   selectedSceneName: ``,
   setUp: false,
   dragData: undefined,
 
   reloadHierarchy: () => {},
   reloadFiles: () => {},
-  setInspector: () => {},
+  setInspector: (arg: any) => {},
 
-  setDragData: () => {},
-  setNameInput: () => {},
-  setScene: () => {},
-  setContextMenu: () => {},
+  setDragData: (arg1: any, arg2: any) => {},
+  setNameInput: (arg: any) => {},
+  setScene: (arg: string) => {},
+  setContextMenu: (arg: any) => {},
 }
 
-export const files = {
+export const files: Obj = {
   type: `folder`,
   Scenes: {
     type: `folder`,

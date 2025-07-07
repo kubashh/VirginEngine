@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { numbers } from "../../lib/consts"
 
-export default function NumberInput({ object, access }) {
+export default function NumberInput({ object, access }: StringInputProps) {
   const [currentNumber, setCurrentNumber] = useState(object[access])
 
   return (

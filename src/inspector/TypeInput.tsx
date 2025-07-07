@@ -4,7 +4,7 @@ import StringInput from "./typeInput/StringInput"
 import { addSpaceBeforeUpper, getType } from "../lib/utils"
 import { useRefresh } from "../lib/hooks"
 
-function useElement(props) {
+function useElement(props: TypeInputProps) {
   const type = props.type || getType(props.object[props.access])
   let element = null
   switch (type) {
@@ -36,7 +36,7 @@ function useElement(props) {
   return [element, type]
 }
 
-export default function TypeInput(props) {
+export default function TypeInput(props: TypeInputProps) {
   const refresh = useRefresh()
   const [element, type] = useElement({ ...props, refresh })
 

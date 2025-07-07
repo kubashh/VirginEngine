@@ -2,12 +2,12 @@ import { editor } from "../lib/consts"
 import { loadFile, openMainScene } from "../lib/utils"
 import { useRefresh } from "../lib/hooks"
 
-const newProject = (refresh) => () => {
+const newProject = (refresh: Void) => () => {
   openMainScene()
   refresh()
 }
 
-function LoadDataButton({ text, onClick }) {
+function LoadDataButton({ text, onClick }: { text: string; onClick: React.MouseEventHandler }) {
   return (
     <input
       className="m30_auto p20_92 b_c2 fontSize52 hover fadeIn"
