@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
-import { editor } from "../lib/consts"
+import { dragData, editor } from "../lib/consts"
 
 function useDragData() {
+  dragData.bind()
   const [mouse, setMouse] = useState<{ left: number; top: number } | undefined>()
 
   function handleMouseMove({ clientX, clientY }: MouseEvent) {
@@ -10,7 +11,7 @@ function useDragData() {
 
   function setDragData(newData: Obj, event: MouseEvent) {
     // @ts-ignore
-    editor.dragData = event?.button === 0 ? newData : undefined
+    dragData.value = event?.button === 0 ? newData : undefined
 
     handleMouseMove(event || { clientX: 0, clientY: 0 })
   }
@@ -19,7 +20,7 @@ function useDragData() {
   editor.setDragData = setDragData
 
   useEffect(() => {
-    if (!editor.dragData) return
+    if (!dragData.value) return
 
     window.addEventListener(`mousemove`, handleMouseMove)
     // @ts-ignore
@@ -33,11 +34,15 @@ function useDragData() {
   })
 
   // @ts-ignore
-  return { children: editor.dragData?.name, style: mouse }
+  return { style: mouse }
 }
 
 export default function DragData() {
   const props = useDragData()
 
-  return props.children ? <div className="zAbsolute bgc000_50p" {...props} /> : null
+  return dragData.value ? (
+    <div className="zAbsolute bgc000_50p" {...props}>
+      {dragData.value.name}
+    </div>
+  ) : null
 }

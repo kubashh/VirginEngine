@@ -1,34 +1,35 @@
-import { useState } from "react"
 import Header from "../components/Header"
-import { editor } from "../lib/consts"
+import { Signal } from "../lib/Signal"
+import { testScene } from "../lib/consts"
 import { test } from "../build/build"
 
 const opctions = [`16 / 9`, `1 / 1`, `9 / 16`]
 
-export default function Test() {
-  const [aspectRatio, setAspectRatio] = useState(opctions[0])
-  const [code, setCode] = useState(``)
-  editor.setScene = setCode
+const aspectRatio = new Signal(opctions[0])
 
-  if (!code) return
+export default function Test() {
+  testScene.bind()
+  aspectRatio.bind()
+
+  if (!testScene.value) return
 
   return (
     <div className="zAbsolute whFull">
       <Header
         text="Test"
-        {...opctions.reduce((old, value) => ({ ...old, [value]: () => setAspectRatio(value) }), {})}
+        {...opctions.reduce((old, value) => ({ ...old, [value]: () => (aspectRatio.value = value) }), {})}
         Start={test}
         Stop={() => {
           console.clear()
-          setCode(``)
+          testScene.value = ``
         }}
       />
       <div className="flex justifyContent bgc111 h100p">
         <iframe
           title="scene"
           className="brl1_c2"
-          style={{ height: `min(100%, 100vw * ${aspectRatio})`, aspectRatio }}
-          srcDoc={code}
+          style={{ height: `min(100%, 100vw * ${aspectRatio.value})`, aspectRatio: aspectRatio.value }}
+          srcDoc={testScene.value}
         />
       </div>
     </div>

@@ -1,5 +1,5 @@
 import FileElement from "../components/FileElement"
-import { editor } from "../lib/consts"
+import { currentScene, dragData, editor, nameInput } from "../lib/consts"
 import { defaultGameObject, includesKeywords, isFirstUpperCase } from "../lib/utils"
 import { useArrow } from "../lib/hooks"
 import { setComponents } from "./components/componentsLib"
@@ -26,7 +26,7 @@ export default function GameObject({ old, name, object, deep = 0 }: GameObjectPr
       pageY,
       [
         () => {
-          editor.setNameInput([
+          nameInput.value = [
             (newName: string) => {
               if (Object.keys(object).includes(newName)) return
 
@@ -34,24 +34,24 @@ export default function GameObject({ old, name, object, deep = 0 }: GameObjectPr
 
               // @ts-ignore
               setOpen(true)
-              editor.reloadHierarchy()
+              currentScene.refresh()
             },
-          ])
+          ]
         },
         `New Object`,
       ],
       [
         () => {
-          editor.setNameInput([
+          nameInput.value = [
             (newName: string) => {
               if (name === newName || old[newName]) return
 
               delete old[name]
               old[newName] = object
-              editor.reloadHierarchy()
+              currentScene.refresh()
             },
             name,
-          ])
+          ]
         },
         `Rename`,
         !main,
@@ -59,7 +59,7 @@ export default function GameObject({ old, name, object, deep = 0 }: GameObjectPr
       [
         () => {
           delete old[name]
-          editor.reloadHierarchy()
+          currentScene.refresh()
         },
         `Delete`,
         !main,
@@ -67,24 +67,25 @@ export default function GameObject({ old, name, object, deep = 0 }: GameObjectPr
     ])
   }
 
-  const onMouseDown: React.MouseEventHandler = (event) =>
-    !main && editor.setDragData({ from: `hierarchy`, old, file: object, name }, event)
+  const onMouseDown = () => {
+    if (!main) dragData.value = { from: `hierarchy`, old, file: object, name }
+  }
 
   const onMouseUp = () => {
-    const { dragData }: { dragData: any } = editor
+    const dragDat = dragData.value
 
-    if (!dragData || dragData.name === name || dragData.file.type !== `gameObject`) return
+    if (!dragDat || dragDat.name === name || dragDat.file.type !== `gameObject`) return
 
     for (const key in childs) {
-      if (key === dragData.name) return
+      if (key === dragDat.name) return
     }
 
-    object[dragData.name] = dragData.file
-    if (dragData.from === `hierarchy` && dragData.old) {
-      delete dragData.old[dragData.name]
+    object[dragDat.name] = dragDat.file
+    if (dragDat.from === `hierarchy` && dragDat.old) {
+      delete dragDat.old[dragDat.name]
     }
 
-    editor.reloadHierarchy()
+    currentScene.refresh()
   }
 
   const childsElement =

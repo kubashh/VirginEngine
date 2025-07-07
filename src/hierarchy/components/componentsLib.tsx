@@ -1,7 +1,7 @@
 import InspectorSection from "../../inspector/InspectorSection"
 import Script from "./Script"
 import Transform from "./Transform"
-import { editor } from "../../lib/consts"
+import { inspector } from "../../lib/consts"
 import { capitalize, deepCopy } from "../../lib/utils"
 import { useRefresh } from "../../lib/hooks"
 
@@ -84,5 +84,5 @@ function Components({ name, ...props }: Obj) {
 }
 
 export function setComponents(props: Obj) {
-  editor.setInspector(<Components {...props} />)
+  inspector.value = <Components {...props} />
 }

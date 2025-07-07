@@ -1,5 +1,5 @@
 import FileElement from "../components/FileElement"
-import { editor } from "../lib/consts"
+import { dragData, editor, inspector, nameInput } from "../lib/consts"
 import { openScene, isFirstUpperCase } from "../lib/utils"
 import { useArrow } from "../lib/hooks"
 
@@ -10,7 +10,7 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
   const [arrow, open, setOpen] = useArrow(main, isFolder)
 
   const onClick = () => {
-    editor.setInspector(
+    inspector.value = (
       <div className="m12">
         <h1 children="File" />
         <h3 children={`Type: ${file.type}`} />
@@ -22,7 +22,7 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
   const onContextMenu = ({ pageX, pageY }: MouseEvent) => {
     const newArrElement = (name: string, type: string) => [
       () =>
-        editor.setNameInput([
+        (nameInput.value = [
           (newName: string) => {
             file[newName] = { type }
 
@@ -43,7 +43,7 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
       newArrElement(`New scene`, `scene`),
       [
         () =>
-          editor.setNameInput([
+          (nameInput.value = [
             (newName: string) => {
               if (name === newName) return
 
@@ -68,19 +68,20 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
     ])
   }
 
-  const onMouseDown = (event: MouseEvent) =>
-    !main && editor.setDragData({ from: `files`, old, file, name }, event)
+  const onMouseDown = (event: MouseEvent) => {
+    if (!main) dragData.value = { from: `files`, old, file, name }
+  }
 
   const onMouseUp = () => {
     if (!isFolder) return
 
-    const { dragData }: { dragData: any } = editor
+    const dragDat = dragData.value
 
-    if (dragData?.from !== `files` || dragData.name === name || file[dragData.name]) return
+    if (dragDat?.from !== `files` || dragDat.name === name || file[dragDat.name]) return
 
-    file[dragData.name] = dragData.file
-    if (dragData.old) {
-      delete dragData.old[dragData.name]
+    file[dragDat.name] = dragDat.file
+    if (dragDat.old) {
+      delete dragDat.old[dragDat.name]
     }
 
     editor.reloadFiles()

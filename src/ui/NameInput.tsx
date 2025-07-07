@@ -1,17 +1,17 @@
-import { useEffect, useRef, useState } from "react"
-import { editor } from "../lib/consts"
+import { useEffect, useRef } from "react"
+import { nameInput } from "../lib/consts"
 import { capitalize, isValidName } from "../lib/utils"
 
 function useNameInput(ref: React.Ref<HTMLInputElement | null>) {
-  const [[cb, text = ``, lowerCase = false], setNameInput] = useState<any[]>([])
-
-  editor.setNameInput = setNameInput
+  nameInput.bind()
+  const [cb, text = ``, lowerCase = false] = nameInput.value
 
   const ret = () => {
     if (isValidName(text)) {
+      // @ts-ignore
       cb(lowerCase ? `${text[0].toLowerCase()}${text.slice(1)}` : text)
     }
-    setNameInput([])
+    nameInput.value = []
   }
 
   useEffect(() => {
@@ -34,7 +34,7 @@ function useNameInput(ref: React.Ref<HTMLInputElement | null>) {
 
       if (!isValidName(value)) return
 
-      setNameInput((prev) => [prev[0], value, prev[2]])
+      nameInput.value = [cb, value, lowerCase]
     },
     onKeyDown: ({ key }: KeyboardEvent) => key === `Enter` && ret(),
   }

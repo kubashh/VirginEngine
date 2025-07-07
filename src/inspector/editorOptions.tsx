@@ -1,5 +1,5 @@
 import InspectorSection from "./InspectorSection"
-import { config, editor, files } from "../lib/consts"
+import { config, files, inspector } from "../lib/consts"
 import { downloadFile, loadFile } from "../lib/utils"
 import { build, test } from "../build/build"
 
@@ -30,5 +30,5 @@ export const editorOpctions = {
   Save: save,
   Build: build,
   Load: loadFile,
-  Config: () => editor.setInspector(<Config />),
+  Config: () => (inspector.value = <Config />),
 }

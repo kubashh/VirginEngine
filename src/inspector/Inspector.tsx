@@ -1,13 +1,10 @@
-import { useState } from "react"
 import Header from "../components/Header"
-import { editor } from "../lib/consts"
+import { inspector } from "../lib/consts"
 import { editorOpctions } from "./editorOptions"
 
 function InspectorComponent() {
-  const [element, setElement] = useState()
-  editor.setInspector = setElement
-
-  return element
+  inspector.bind()
+  return inspector.value
 }
 
 export default function Inspector() {

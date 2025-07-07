@@ -1,4 +1,4 @@
-import { allowedNameChars, alphabet, config, editor, files, keywords } from "./consts"
+import { allowedNameChars, alphabet, config, currentScene, editor, files, keywords } from "./consts"
 
 export function deepCopy(obj: Obj) {
   return JSON.parse(JSON.stringify(obj))
@@ -53,7 +53,7 @@ export function openScene(scene: Obj, name: string) {
   editor.selectedScene = scene
   editor.selectedSceneName = name
 
-  editor.reloadHierarchy?.()
+  currentScene.refresh()
 }
 
 export function openMainScene() {

@@ -1,15 +1,9 @@
 import GameObject from "./GameObject"
 import Header from "../components/Header"
-import { editor, files } from "../lib/consts"
-import { useRefresh } from "../lib/hooks"
+import { currentScene, editor, files, inspector } from "../lib/consts"
 
 function HierarchyComponent() {
-  const refresh = useRefresh()
-
-  editor.reloadHierarchy = () => {
-    editor.setInspector(null)
-    refresh()
-  }
+  currentScene.bind(() => (inspector.value = null))
 
   return (
     <GameObject object={editor.selectedScene} old={files.Scenes} name={editor.selectedSceneName} deep={0} />

@@ -1,3 +1,4 @@
+import { Signal } from "./Signal"
 import { defaultGameObject } from "./utils"
 
 export const alphabet = `abcdefghijklmnoprqstuwxyz`
@@ -29,15 +30,9 @@ export const editor = {
   selectedScene: {},
   selectedSceneName: ``,
   setUp: false,
-  dragData: undefined,
 
-  reloadHierarchy: () => {},
   reloadFiles: () => {},
-  setInspector: (arg: any) => {},
 
-  setDragData: (arg1: any, arg2: any) => {},
-  setNameInput: (arg: any) => {},
-  setScene: (arg: string) => {},
   setContextMenu: (arg: any) => {},
 }
 
@@ -84,3 +79,9 @@ export const files: Obj = {
     },
   },
 }
+
+export const currentScene = new Signal<Obj>(files.Scenes.MainScene)
+export const inspector = new Signal<React.ReactNode | null>(null)
+export const nameInput = new Signal<[((arg: string) => void)?, string?, boolean?]>([])
+export const dragData = new Signal<Obj | null>(null)
+export const testScene = new Signal(``)

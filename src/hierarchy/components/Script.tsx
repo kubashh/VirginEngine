@@ -1,7 +1,7 @@
 import { useRef } from "react"
 import InspectorSection from "../../inspector/InspectorSection"
 import TypeInput from "../../inspector/TypeInput"
-import { editor } from "../../lib/consts"
+import { nameInput } from "../../lib/consts"
 import { capitalize, getType, isCustomProp, isOccupied } from "../../lib/utils"
 import { useConst, useRefresh } from "../../lib/hooks"
 import { AddComponent } from "./componentsLib"
@@ -57,7 +57,7 @@ function AddScript({ object, value, refresh }: AddScriptProps) {
     <AddComponent
       text={capitalize(value)}
       onClick={() =>
-        editor.setNameInput([
+        (nameInput.value = [
           (text: string) => {
             if (isOccupied(object, text)) return
 
