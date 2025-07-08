@@ -30,12 +30,10 @@ export const editor = {
   selectedSceneName: ``,
   setUp: false,
 
-  reloadFiles: () => {},
-
   setContextMenu: (arg: any) => {},
 }
 
-export const files: Obj = {
+const filesTemplate: Obj = {
   type: `folder`,
   Scenes: {
     type: `folder`,
@@ -79,8 +77,9 @@ export const files: Obj = {
   },
 }
 
-export const currentScene = new Signal<Obj>(files.Scenes.MainScene)
+export const currentScene = new Signal<Obj>(filesTemplate.Scenes.MainScene)
 export const inspector = new Signal<React.ReactNode | null>(null)
 export const nameInput = new Signal<[((arg: string) => void)?, string?, boolean?]>([])
 export const dragData = new Signal<Obj | null>(null)
 export const testScene = new Signal(``)
+export const files = new Signal<Obj>(filesTemplate)

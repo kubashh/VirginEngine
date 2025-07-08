@@ -5,7 +5,9 @@ import { currentScene, editor, files, inspector } from "../lib/consts"
 function HierarchyComponent() {
   currentScene.bind(() => (inspector.value = null))
 
-  return <GameObject object={currentScene.value} old={files.Scenes} name={editor.selectedSceneName} deep={0} />
+  return (
+    <GameObject object={currentScene.value} old={files.value.Scenes} name={editor.selectedSceneName} deep={0} />
+  )
 }
 
 export default function Hierarchy() {

@@ -4,7 +4,7 @@ import { downloadFile, loadFile } from "../lib/utils"
 import { build, test } from "../build/build"
 
 function save() {
-  downloadFile(`${config.gameName}.virginengine`, JSON.stringify({ config, files }))
+  downloadFile(`${config.gameName}.virginengine`, JSON.stringify({ config, files: files.value }))
 }
 
 window.addEventListener(`keydown`, (e) => {

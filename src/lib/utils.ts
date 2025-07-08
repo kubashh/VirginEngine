@@ -56,7 +56,7 @@ export function openScene(scene: Obj, name: string) {
 
 export function openMainScene() {
   editor.setUp = true
-  let scene = files
+  let scene = files.value
   let key
   for (key of config.pathToMainScene.split(`.`).slice(1)) {
     scene = scene[key]
@@ -108,7 +108,7 @@ export function loadFile(refresh: Void) {
         const data = JSON.parse(target.result)
 
         clearAssign(config, data.config)
-        clearAssign(files, data.files)
+        clearAssign(files.value, data.files)
 
         openMainScene()
         if (typeof refresh === `function`) refresh?.()

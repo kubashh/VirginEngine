@@ -1,5 +1,5 @@
 import FileElement from "../components/FileElement"
-import { dragData, editor, inspector, nameInput } from "../lib/consts"
+import { dragData, editor, files, inspector, nameInput } from "../lib/consts"
 import { openScene, isFirstUpperCase } from "../lib/utils"
 import { useArrow } from "../lib/hooks"
 
@@ -28,7 +28,7 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
 
             // @ts-ignore
             setOpen(true)
-            editor.reloadFiles()
+            files.refresh()
           },
         ]),
       name,
@@ -49,7 +49,7 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
 
               delete old[name]
               old[newName] = file
-              editor.reloadFiles()
+              files.refresh()
             },
             name,
           ]),
@@ -60,7 +60,7 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
       [
         () => {
           delete old[name]
-          editor.reloadFiles()
+          files.refresh()
         },
         `Delete`,
         !main,
@@ -84,7 +84,7 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
       delete dragDat.old[dragDat.name]
     }
 
-    editor.reloadFiles()
+    files.refresh()
   }
 
   const onDoubleClick = () => file.type === `scene` && openScene(file, name)

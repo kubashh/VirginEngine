@@ -1,12 +1,11 @@
 import File from "./File"
 import Header from "../components/Header"
-import { editor, files } from "../lib/consts"
-import { useRefresh } from "../lib/hooks"
+import { files } from "../lib/consts"
 
 const FilesComponent = () => {
-  editor.reloadFiles = useRefresh()
+  files.bind()
 
-  return <File file={files} name="files" deep={0} old />
+  return <File file={files.value} name="files" deep={0} old />
 }
 
 export default function Files() {
