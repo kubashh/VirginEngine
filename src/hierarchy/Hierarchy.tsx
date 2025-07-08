@@ -14,7 +14,7 @@ export default function Hierarchy() {
   return (
     <section className="hierarchy">
       <Header text="Hierarchy" />
-      <div>
+      <div className="overflow-y-scroll">
         <HierarchyComponent />
       </div>
     </section>

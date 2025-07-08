@@ -2,7 +2,7 @@ import Header from "../components/Header"
 
 function DocsContent() {
   return (
-    <div className="p3">
+    <div className="p3 overflow-y-scroll">
       Coming soon!
       {/* <div style={{ marginBottom: 32 }}>
       <h1>JS</h1>

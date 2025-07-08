@@ -11,7 +11,7 @@ function AdvancedInput({ object, access }: StringInputProps) {
 
   return (
     <div className="row">
-      <div className="flex gap12">
+      <div className="flex gap-3">
         <div>{access}</div>
         <div className="c3">: {type}</div>
         <div>=</div>
@@ -91,7 +91,7 @@ export default function Script({ object, refresh }: ScriptProps) {
             }}
           />
         ))}
-      <div className="wrap mb16">
+      <div className="flex flex-wrap mb16">
         {Object.keys(scriptTypes).map((value) => (
           <AddScript key={value} value={value} object={object} refresh={refresh} />
         ))}

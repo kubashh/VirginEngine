@@ -41,8 +41,8 @@ export default function TypeInput(props: TypeInputProps) {
   const [element, type] = useElement({ ...props, refresh })
 
   return (
-    <div className="grid gap12 w100p-12 gridTC_auto1fr">
-      <div className="flex gap12">
+    <div className="grid gap-3 w100p-12 gridTC_auto1fr">
+      <div className="flex gap-3">
         <h4>{addSpaceBeforeUpper(props.access)}</h4>
         <h4 className="c3">: {type}</h4>
         <h4>=</h4>

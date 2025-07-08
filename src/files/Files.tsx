@@ -12,7 +12,7 @@ export default function Files() {
   return (
     <section className="files">
       <Header text="Files" />
-      <div>
+      <div className="overflow-y-scroll">
         <FilesComponent />
       </div>
     </section>

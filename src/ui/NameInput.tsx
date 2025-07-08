@@ -46,6 +46,6 @@ export default function NameInput() {
 
   return typeof props.value === `string` ? (
     // @ts-ignore
-    <input ref={ref} type="text" className="zAbsolute fontSize36 translateCenter" {...props} autoFocus />
+    <input ref={ref} type="text" className="absolute z-1 fontSize36 translateCenter" {...props} autoFocus />
   ) : null
 }

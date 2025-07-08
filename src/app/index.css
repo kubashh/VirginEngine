@@ -103,13 +103,6 @@ textarea:focus,
   grid-template-rows: 24px auto;
 }
 
-.docs > :last-child,
-.hierarchy > :last-child,
-.files > :last-child,
-.inspector > :last-child {
-  overflow: scroll;
-}
-
 .docs {
   grid-area: a;
   width: var(--width1);
@@ -140,24 +133,8 @@ textarea:focus,
   height: 100vh;
 }
 
-@keyframes intro {
-  0% {
-    opacity: 0;
-    transform: translateX(-15%);
-  }
-
-  100% {
-    opacity: 1;
-    transform: translateX(0px);
-  }
-}
-
-.fadeIn {
-  animation: intro 0.25s;
-}
-
 .transition {
-  transition: all 0.2s;
+  transition: all 0.15s;
 }
 
 .translateCenter {
@@ -166,7 +143,7 @@ textarea:focus,
 
 /* Hover */
 .hover {
-  transition: color 0.2s;
+  transition: color 0.15s;
   cursor: pointer;
 }
 .hover:hover {
@@ -174,23 +151,8 @@ textarea:focus,
 }
 
 /* Common props */
-.zAbsolute {
-  position: absolute;
-  z-index: 1;
-}
 .gridTC_auto1fr {
   grid-template-columns: auto 1fr;
-}
-.gap12 {
-  gap: 12px;
-}
-.column {
-  display: flex;
-  flex-direction: column;
-}
-.wrap {
-  display: flex;
-  flex-wrap: wrap;
 }
 
 .textAlign {
@@ -341,4 +303,31 @@ textarea:focus,
 
 .borderRadius {
   border-radius: 50%;
+}
+
+/*
+  AS TAILWIND
+*/
+
+/* Common */
+.flex {
+  display: flex;
+}
+.flex-col {
+  flex-direction: column;
+}
+.flex-wrap {
+  flex-wrap: wrap;
+}
+.absolute {
+  position: absolute;
+}
+.z-1 {
+  z-index: 1;
+}
+.overflow-y-scroll {
+  overflow-y: scroll;
+}
+.gap-3 {
+  gap: 0.75rem /* 12px */;
 }

@@ -18,7 +18,11 @@ export default function ContextMenu() {
   }, [ref])
 
   return arr.length > 2 ? (
-    <div ref={ref} className="zAbsolute w200 bgc333 p3" style={{ inset: `${arr[1]}px auto auto ${arr[0]}px` }}>
+    <div
+      ref={ref}
+      className="absolute z-1 w200 bgc333 p3"
+      style={{ inset: `${arr[1]}px auto auto ${arr[0]}px` }}
+    >
       {arr.slice(2).map(([fn, text, show = true]: any) =>
         show ? (
           <div

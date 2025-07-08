@@ -14,7 +14,7 @@ export default function Test() {
   if (!testScene.value) return
 
   return (
-    <div className="zAbsolute whFull">
+    <div className="absolute z-1 whFull">
       <Header
         text="Test"
         {...opctions.reduce((old, value) => ({ ...old, [value]: () => (aspectRatio.value = value) }), {})}

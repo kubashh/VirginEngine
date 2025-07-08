@@ -11,7 +11,9 @@ export default function Inspector() {
   return (
     <section className="inspector">
       <Header text="Inspenctor" {...editorOpctions} />
-      <div children={<InspectorComponent />} />
+      <div className="overflow-y-scroll">
+        <InspectorComponent />
+      </div>
     </section>
   )
 }
