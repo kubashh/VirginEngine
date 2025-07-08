@@ -27,7 +27,6 @@ export const config = {
 }
 
 export const editor = {
-  selectedScene: {},
   selectedSceneName: ``,
   setUp: false,
 

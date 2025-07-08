@@ -50,10 +50,8 @@ export function isCustomProp(text: string) {
 }
 
 export function openScene(scene: Obj, name: string) {
-  editor.selectedScene = scene
   editor.selectedSceneName = name
-
-  currentScene.refresh()
+  currentScene.value = scene
 }
 
 export function openMainScene() {
