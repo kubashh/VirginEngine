@@ -16,7 +16,7 @@ export default function GameObject({ old, name, object, deep = 0 }: GameObjectPr
   const childs = getChilds(object)
   const haveChilds = Object.keys(childs)?.length > 0
 
-  const [arrow, open, setOpen] = useArrow(main, haveChilds)
+  const [arrow, open] = useArrow(main, haveChilds)
 
   const onClick = () => !main && setComponents({ old, object, name })
 
@@ -32,8 +32,7 @@ export default function GameObject({ old, name, object, deep = 0 }: GameObjectPr
 
               object[newName] = defaultGameObject()
 
-              // @ts-ignore
-              setOpen(true)
+              open.value = true
               currentScene.refresh()
             },
           ]
@@ -89,7 +88,7 @@ export default function GameObject({ old, name, object, deep = 0 }: GameObjectPr
   }
 
   const childsElement =
-    open &&
+    open.value &&
     Object.entries(childs).map(([key, value]) => (
       <GameObject old={object} object={value} key={key} name={key} deep={deep + 1} />
     ))

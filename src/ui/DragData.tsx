@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { dragData, editor } from "../lib/consts"
+import { dragData } from "../lib/consts"
 
 function useDragData() {
   dragData.bind()
@@ -15,9 +15,6 @@ function useDragData() {
 
     handleMouseMove(event || { clientX: 0, clientY: 0 })
   }
-
-  // @ts-ignore
-  editor.setDragData = setDragData
 
   useEffect(() => {
     if (!dragData.value) return

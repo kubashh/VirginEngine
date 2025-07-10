@@ -1,11 +1,11 @@
 import Header from "../components/Header"
-import { Signal } from "../lib/Signal"
+import { signal } from "../lib/Signal"
 import { testScene } from "../lib/consts"
 import { test } from "../build/build"
 
 const opctions = [`16 / 9`, `1 / 1`, `9 / 16`]
 
-const aspectRatio = new Signal(opctions[0])
+const aspectRatio = signal(opctions[0])
 
 export default function Test() {
   testScene.bind()

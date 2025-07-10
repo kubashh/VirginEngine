@@ -46,12 +46,13 @@ function clone(obj, parent) {
 }
 
 // Load scene
-function loadScene(newScene) {
+function loadScene({ name, ...newScene }) {
   // Clear gameObject array
   gameObjects.length = 0
 
   // Load Scene
   scene = new GameObject(deepCopy(newScene))
+  scene.name = name
 
   // Start (Delete events)
   for (const key in events) delete events[key]

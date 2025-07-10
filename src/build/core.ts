@@ -36,11 +36,12 @@ const gameObjects = []
 class GameObject {
 toUpdate = []
 toRender = []
-constructor({ parent, transform, rect, text, sprite, start, update, render, ...rest }) {
+constructor({ parent, transform, rect, text, sprite, start, update, render, name, ...rest }) {
 if (parent) this.parent = parent
 this.transform = new Transform(transform, this)
 if (text) this.text = new Text(text, this, rect)
 if (sprite) this.sprite = new Sprite(sprite, this)
+if (name) this.name = name
 for (const key in rest) {
 if (isChildKey(key)) {
 this[key] = new GameObject({ ...rest[key], parent: this })
@@ -258,9 +259,10 @@ i++
 }
 parent[newName] = new GameObject({ ...obj.props, parent })
 }
-function loadScene(newScene) {
+function loadScene({ name, ...newScene }) {
 gameObjects.length = 0
 scene = new GameObject(deepCopy(newScene))
+scene.name = name
 for (const key in events) delete events[key]
 for (const key in eventsHover) delete eventsHover[key]
 }

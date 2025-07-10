@@ -7,7 +7,7 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
   const main = deep === 0
   if (!main) path += `.${name}`
   const isFolder = file.type === `folder`
-  const [arrow, open, setOpen] = useArrow(main, isFolder)
+  const [arrow, open] = useArrow(main, isFolder)
 
   const onClick = () => {
     inspector.value = (
@@ -26,8 +26,7 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
           (newName: string) => {
             file[newName] = { type }
 
-            // @ts-ignore
-            setOpen(true)
+            open.value = true
             files.refresh()
           },
         ]),
@@ -90,7 +89,7 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
   const onDoubleClick = () => file.type === `scene` && openScene(file, name)
 
   const childsElement =
-    open &&
+    open.value &&
     file.type !== `scene` &&
     Object.entries(file).map(
       ([key, value]) =>

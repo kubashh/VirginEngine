@@ -2,12 +2,14 @@ class GameObject {
   toUpdate = []
   toRender = []
 
-  constructor({ parent, transform, rect, text, sprite, start, update, render, ...rest }) {
+  constructor({ parent, transform, rect, text, sprite, start, update, render, name, ...rest }) {
     if (parent) this.parent = parent
 
     this.transform = new Transform(transform, this)
     if (text) this.text = new Text(text, this, rect)
     if (sprite) this.sprite = new Sprite(sprite, this)
+
+    if (name) this.name = name
 
     for (const key in rest) {
       if (isChildKey(key)) {

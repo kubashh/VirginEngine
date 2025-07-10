@@ -1,4 +1,4 @@
-import { Signal } from "./Signal"
+import { signal } from "./Signal"
 import { defaultGameObject } from "./utils"
 
 export const alphabet = `abcdefghijklmnoprqstuwxyz`
@@ -24,10 +24,6 @@ export const config = {
   description: `Write what game is`,
   fullScreen: false,
   pathToMainScene: `files.Scenes.DefaultScene`,
-}
-
-export const editor = {
-  setUp: false,
 }
 
 const filesTemplate: Obj = {
@@ -75,10 +71,11 @@ const filesTemplate: Obj = {
   },
 }
 
-export const currentScene = new Signal<Obj>(filesTemplate.Scenes.MainScene)
-export const inspector = new Signal<React.ReactNode>(null)
-export const nameInput = new Signal<[((arg: string) => void)?, string?, boolean?]>([])
-export const dragData = new Signal<Obj | null>(null)
-export const testScene = new Signal(``)
-export const files = new Signal<Obj>(filesTemplate)
-export const contextMenu = new Signal<[number?, number?, ...any]>([])
+export const currentScene = signal<Obj>(filesTemplate.Scenes.MainScene)
+export const inspector = signal<React.ReactNode>(null)
+export const nameInput = signal<[((arg: string) => void)?, string?, boolean?]>([])
+export const dragData = signal<Obj | null>(null)
+export const testScene = signal(``)
+export const files = signal<Obj>(filesTemplate)
+export const contextMenu = signal<[number?, number?, ...any]>([])
+export const setUp = signal(false)

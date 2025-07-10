@@ -1,4 +1,4 @@
-import { allowedNameChars, alphabet, config, currentScene, editor, files, keywords } from "./consts"
+import { allowedNameChars, alphabet, config, currentScene, files, keywords, setUp } from "./consts"
 
 export function deepCopy(obj: Obj) {
   return JSON.parse(JSON.stringify(obj))
@@ -54,7 +54,8 @@ export function openScene(scene: Obj, name: string) {
 }
 
 export function openMainScene() {
-  editor.setUp = true
+  setUp.value = true
+
   let scene = files.value
   let key
   for (key of config.pathToMainScene.split(`.`).slice(1)) {
@@ -95,8 +96,8 @@ function clearAssign(old: Obj, obj: Obj) {
   for (const key in obj) old[key] = obj[key]
 }
 
-export function loadFile(refresh: Void) {
-  return createElement({
+export function loadFile() {
+  createElement({
     name: `input`,
     type: `file`,
     accept: `.virginengine`,
@@ -110,13 +111,20 @@ export function loadFile(refresh: Void) {
         clearAssign(files.value, data.files)
 
         openMainScene()
-        if (typeof refresh === `function`) refresh?.()
       }
 
       reader.readAsText(target.files[0])
     },
   })
 }
+
+// export function getSceneName(scene: Obj) {
+//   for (const key in files.value.Scenes) {
+//     if (files.value.Scenes[key] === scene) return key
+//   }
+
+//   throw Error(`No such scene!`)
+// }
 
 // Type
 export function getType(data: any) {
