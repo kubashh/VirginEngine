@@ -9,7 +9,7 @@ function InspectorComponent() {
 
 export default function Inspector() {
   return (
-    <section className="inspector grid row-span-2 border-l-1 border-solid border-zinc-400">
+    <section className="grid grid-rows-[24px_1fr] w-(--width3) row-span-2 border-l-1 border-solid border-zinc-400">
       <Header text="Inspenctor" {...editorOpctions} />
       <div className="overflow-y-scroll">
         <InspectorComponent />

@@ -10,7 +10,7 @@ const FilesComponent = () => {
 
 export default function Files() {
   return (
-    <section className="files grid">
+    <section className="grid grid-rows-[24px_1fr] w-(--width2) h-(--height2)">
       <Header text="Files" />
       <div className="overflow-y-scroll">
         <FilesComponent />

@@ -19,7 +19,6 @@
 
 * {
   border: 0;
-  box-sizing: border-box;
   color: white;
   background-color: black;
 }
@@ -42,32 +41,6 @@ textarea:focus,
   margin: auto auto auto 0;
   height: calc(100% - 6px);
   aspect-ratio: 1;
-}
-
-/* Editor */
-.docs,
-.hierarchy,
-.files,
-.inspector {
-  grid-template-rows: 24px auto;
-}
-
-.docs {
-  width: var(--width1);
-}
-
-.hierarchy {
-  width: var(--width2);
-  height: var(--height1);
-}
-
-.files {
-  width: var(--width2);
-  height: var(--height2);
-}
-
-.inspector {
-  width: var(--width3);
 }
 
 /* Hover */
@@ -130,4 +103,19 @@ textarea:focus,
 }
 .select-none {
   user-select: none;
+}
+.w-\(--width1\) {
+  width: var(--width1);
+}
+.w-\(--width2\) {
+  width: var(--width2);
+}
+.w-\(--width3\) {
+  width: var(--width3);
+}
+.h-\(--height1\) {
+  height: var(--height1);
+}
+.h-\(--height2\) {
+  height: var(--height2);
 }

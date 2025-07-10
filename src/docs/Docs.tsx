@@ -24,7 +24,7 @@ function DocsContent() {
 
 export default function Docs() {
   return (
-    <section className="docs row-span-2 grid border-r-1 border-solid border-zinc-400">
+    <section className="row-span-2 grid grid-rows-[24px_1fr] w-(--width1) border-r-1 border-solid border-zinc-400">
       <Header text="Docs" />
       <DocsContent />
     </section>
