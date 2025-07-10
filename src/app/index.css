@@ -290,20 +290,6 @@ textarea:focus,
 .c3 {
   color: var(--c3);
 }
-/* background color */
-.bgc333 {
-  background-color: #333;
-}
-.bgc111 {
-  background-color: #111;
-}
-.bgc000_50p {
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-.borderRadius {
-  border-radius: 50%;
-}
 
 /*
   AS TAILWIND
@@ -330,4 +316,27 @@ textarea:focus,
 }
 .gap-3 {
   gap: 0.75rem /* 12px */;
+}
+
+/* w */
+.w-full {
+  width: 100%;
+}
+
+/* border */
+.rounded-full {
+  border-radius: 9999px;
+}
+
+/* colors */
+.bg-\[\#0007\] {
+  background-color: #0007;
+}
+.bg-zinc-950 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(9 9 11 / var(--tw-bg-opacity, 1)) /* #09090b */;
+}
+.bg-zinc-800 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(39 39 42 / var(--tw-bg-opacity, 1)) /* #27272a */;
 }

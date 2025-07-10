@@ -9,7 +9,7 @@ export default function LoadData() {
   setUp.bind()
 
   return !setUp.value ? (
-    <div className="absolute z-1 whFull bgc000_50p flex flex-col justifyContent">
+    <div className="absolute z-1 whFull bg-[#0007] flex flex-col justifyContent">
       <LoadDataButton value="Load Project" onClick={() => loadFile()} />
       <LoadDataButton value="New project" onClick={openMainScene} />
     </div>

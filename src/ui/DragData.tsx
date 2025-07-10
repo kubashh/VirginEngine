@@ -1,45 +1,41 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { dragData } from "../lib/consts"
+import { useSignal } from "../lib/Signal"
 
 function useDragData() {
   dragData.bind()
-  const [mouse, setMouse] = useState<{ left: number; top: number } | undefined>()
+  const mouse = useSignal<{ left: number; top: number } | undefined>(undefined)
 
   function handleMouseMove({ clientX, clientY }: MouseEvent) {
-    setMouse({ left: clientX + 3, top: clientY + 3 })
+    mouse.value = { left: clientX + 3, top: clientY + 3 }
   }
 
-  function setDragData(newData: Obj, event: MouseEvent) {
-    // @ts-ignore
-    dragData.value = event?.button === 0 ? newData : undefined
-
-    handleMouseMove(event || { clientX: 0, clientY: 0 })
+  function handleMouseUp() {
+    dragData.value = null
+    mouse.value = undefined
   }
 
   useEffect(() => {
     if (!dragData.value) return
 
     window.addEventListener(`mousemove`, handleMouseMove)
-    // @ts-ignore
-    window.addEventListener(`mouseup`, setDragData)
+    window.addEventListener(`mouseup`, handleMouseUp)
 
     return () => {
       window.removeEventListener(`mousemove`, handleMouseMove)
-      // @ts-ignore
-      window.removeEventListener(`mouseup`, setDragData)
+      window.removeEventListener(`mouseup`, handleMouseUp)
     }
   })
 
-  // @ts-ignore
-  return { style: mouse }
+  return { style: mouse.value }
 }
 
 export default function DragData() {
   const props = useDragData()
 
-  return dragData.value ? (
-    <div className="absolute z-1 bgc000_50p" {...props}>
-      {dragData.value.name}
+  return props.style ? (
+    <div className="absolute z-1 bg-[#0007]" {...props}>
+      {dragData.value?.name}
     </div>
   ) : null
 }

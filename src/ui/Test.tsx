@@ -24,7 +24,7 @@ export default function Test() {
           testScene.value = ``
         }}
       />
-      <div className="flex justifyContent bgc111 h100p">
+      <div className="flex justifyContent bg-zinc-950 h100p">
         <iframe
           title="scene"
           className="brl1_c2"

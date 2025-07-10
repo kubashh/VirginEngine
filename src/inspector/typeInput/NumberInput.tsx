@@ -1,24 +1,30 @@
-import { useState } from "react"
 import { numbers } from "../../lib/consts"
+import { useSignal } from "../../lib/Signal"
 
 export default function NumberInput({ object, access }: StringInputProps) {
-  const [currentNumber, setCurrentNumber] = useState(object[access])
+  const currentNumber = useSignal(object[access])
 
   return (
     <input
       type="text"
-      className="inputText w100p"
-      value={currentNumber}
+      className="inputText w-full"
+      value={currentNumber.value}
       onChange={({ target: { value } }) => {
         let dot = false
+        let min = false
         for (const char of value) {
           // Is includes allow chars
-          if (!`${numbers}.`.includes(char)) return
+          if (!`-${numbers}.`.includes(char)) return
 
           // Double dot check
           if (char === `.`) {
             if (dot) return
             dot = true
+          }
+          // Double minus sign check
+          if (char === `-`) {
+            if (min) return
+            min = true
           }
         }
 
@@ -30,7 +36,7 @@ export default function NumberInput({ object, access }: StringInputProps) {
           object[access] = newNumber
         }
 
-        setCurrentNumber(set ? newNumber : value)
+        currentNumber.value = set ? newNumber : value
       }}
     />
   )

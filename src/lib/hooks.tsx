@@ -8,7 +8,7 @@ export function useArrow(main = false, haveChilds = true): [React.ReactNode, Sig
   return [
     haveChilds ? (
       <div
-        className="textAlign justifySelf w24 h24 borderRadius transition hover"
+        className="textAlign justifySelf w24 h24 rounded-full transition hover"
         style={{ transform: `rotate(${open.value ? 90 : 0}deg)` }}
         onClick={() => (open.value = !open.value)}
         children=">"
