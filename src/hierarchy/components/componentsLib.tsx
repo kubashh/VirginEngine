@@ -30,7 +30,7 @@ function toChilds(object: Obj, name: string, arr: any[]) {
 
 export function AddComponent({ text, onClick }: AddComponentProps) {
   return (
-    <input type="button" value={`+ ${text}`} className="fontSize16 mt12 mb24 p6_12 hover" onClick={onClick} />
+    <input type="button" value={`+ ${text}`} className="text-base mt12 mb24 p6_12 hover" onClick={onClick} />
   )
 }
 

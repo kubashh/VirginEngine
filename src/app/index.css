@@ -19,17 +19,10 @@
 }
 
 * {
-  margin: 0;
   border: 0;
-  padding: 0;
   box-sizing: border-box;
   color: white;
   background-color: black;
-}
-
-body {
-  font-family: sans-serif;
-  overflow: hidden;
 }
 
 /* Headers */
@@ -82,7 +75,6 @@ textarea {
 
 textarea:focus,
 .inputText:focus {
-  z-index: 1;
   outline: medium solid var(--c3s);
 }
 
@@ -133,10 +125,6 @@ textarea:focus,
   height: 100vh;
 }
 
-.transition {
-  transition: all 0.15s;
-}
-
 .translateCenter {
   transform: translate(calc(50vw - 50%), calc(50vh - 50%));
 }
@@ -163,16 +151,6 @@ textarea:focus,
 }
 .justifyContent {
   justify-content: center;
-}
-
-.fontSize16 {
-  font-size: 16px;
-}
-.fontSize36 {
-  font-size: 36px;
-}
-.fontSize52 {
-  font-size: 52px;
 }
 
 /* width, height */
@@ -311,11 +289,28 @@ textarea:focus,
 .z-1 {
   z-index: 1;
 }
+.overflow-hidden {
+  overflow: hidden;
+}
 .overflow-y-scroll {
   overflow-y: scroll;
 }
 .gap-3 {
   gap: 0.75rem /* 12px */;
+}
+
+/* text */
+.text-base {
+  font-size: 1rem /* 16px */;
+  line-height: 1.5rem /* 24px */;
+}
+.text-4xl {
+  font-size: 2.25rem /* 36px */;
+  line-height: 2.5rem /* 40px */;
+}
+.text-5xl {
+  font-size: 3rem /* 48px */;
+  line-height: 1;
 }
 
 /* w */
@@ -328,7 +323,7 @@ textarea:focus,
   border-radius: 9999px;
 }
 
-/* colors */
+/* bg */
 .bg-\[\#0007\] {
   background-color: #0007;
 }
