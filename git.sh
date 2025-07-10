@@ -1,12 +1,12 @@
 # Oldv
-oldv="0.0.0.0"
+ver="0.0.0.0"
 
 # Read old version
-if [ -f ".version" ]; then oldv=$(head -n 1 .version); fi
+if [ -f ".version" ]; then ver=$(head -n 1 .version); fi
 
 # Set vars
 i=0
-for element in $(echo $oldv | tr "." "\n"); do
+for element in $(echo $ver | tr "." "\n"); do
   case $i in
     0) v0=$element;;
     1) v1=$element;;
@@ -26,17 +26,14 @@ case $1 in
 esac
 
 # Set new version
-newv=$v0.$v1.$v2.$v3
+ver=$v0.$v1.$v2.$v3
 
 # Update version file
-echo $newv > .version
-
-# Debug
-echo "$oldv (old), $newv (new)"
+echo $ver > .version
 
 # Git
 git add .
-git commit -m $newv
+git commit -m $ver
 git push
 
 clear
