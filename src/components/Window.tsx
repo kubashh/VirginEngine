@@ -5,7 +5,7 @@ export default function Window({ name, headerOptions, className, children }: Win
   return (
     <section className={clsx(`grid grid-rows-[24px_1fr]`, className)}>
       <Header name={name} options={headerOptions} />
-      Window {children}
+      {children}
     </section>
   )
 }

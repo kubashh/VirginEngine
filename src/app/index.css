@@ -34,7 +34,6 @@ textarea:focus,
 }
 
 .checkbox {
-  cursor: pointer;
   accent-color: var(--col1);
   margin: auto auto auto 0;
   height: calc(100% - 6px);

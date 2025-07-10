@@ -2,7 +2,7 @@ export default function BooleanInput({ object, access, refresh }: StringInputPro
   return (
     <input
       type="checkbox"
-      className="checkbox"
+      className="cursor-pointer accent-(--col1) checkbox"
       checked={object[access]}
       style={{ opacity: !object[access] ? 0.2 : 0 }}
       onChange={({ target }) => {
