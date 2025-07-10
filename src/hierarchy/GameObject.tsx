@@ -1,5 +1,5 @@
 import FileElement from "../components/FileElement"
-import { currentScene, dragData, editor, nameInput } from "../lib/consts"
+import { contextMenu, currentScene, dragData, nameInput } from "../lib/consts"
 import { defaultGameObject, includesKeywords, isFirstUpperCase } from "../lib/utils"
 import { useArrow } from "../lib/hooks"
 import { setComponents } from "./components/componentsLib"
@@ -21,7 +21,7 @@ export default function GameObject({ old, name, object, deep = 0 }: GameObjectPr
   const onClick = () => !main && setComponents({ old, object, name })
 
   const onContextMenu = ({ pageX, pageY }: MouseEvent) => {
-    editor.setContextMenu([
+    contextMenu.value = [
       pageX,
       pageY,
       [
@@ -64,7 +64,7 @@ export default function GameObject({ old, name, object, deep = 0 }: GameObjectPr
         `Delete`,
         !main,
       ],
-    ])
+    ]
   }
 
   const onMouseDown = () => {

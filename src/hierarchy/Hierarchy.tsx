@@ -1,12 +1,12 @@
 import GameObject from "./GameObject"
 import Header from "../components/Header"
-import { currentScene, editor, files, inspector } from "../lib/consts"
+import { currentScene, files, inspector } from "../lib/consts"
 
 function HierarchyComponent() {
   currentScene.bind(() => (inspector.value = null))
 
   return (
-    <GameObject object={currentScene.value} old={files.value.Scenes} name={editor.selectedSceneName} deep={0} />
+    <GameObject object={currentScene.value} old={files.value.Scenes} name={currentScene.value.name} deep={0} />
   )
 }
 

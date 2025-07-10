@@ -27,10 +27,7 @@ export const config = {
 }
 
 export const editor = {
-  selectedSceneName: ``,
   setUp: false,
-
-  setContextMenu: (arg: any) => {},
 }
 
 const filesTemplate: Obj = {
@@ -38,11 +35,12 @@ const filesTemplate: Obj = {
   Scenes: {
     type: `folder`,
 
-    MenuScene: { type: `scene` },
-    MainScene: { type: `scene` },
+    MenuScene: { type: `scene`, name: `MenuScene` },
+    MainScene: { type: `scene`, name: `MainScene` },
 
     // Default Scene
     DefaultScene: {
+      name: `DefaultScene`,
       type: `scene`,
       // camera: defaultGameObject({ camera: { width: 400, height: 300 } }),
       Parent: defaultGameObject({
@@ -78,8 +76,9 @@ const filesTemplate: Obj = {
 }
 
 export const currentScene = new Signal<Obj>(filesTemplate.Scenes.MainScene)
-export const inspector = new Signal<React.ReactNode | null>(null)
+export const inspector = new Signal<React.ReactNode>(null)
 export const nameInput = new Signal<[((arg: string) => void)?, string?, boolean?]>([])
 export const dragData = new Signal<Obj | null>(null)
 export const testScene = new Signal(``)
 export const files = new Signal<Obj>(filesTemplate)
+export const contextMenu = new Signal<[number?, number?, ...any]>([])

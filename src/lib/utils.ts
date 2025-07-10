@@ -50,7 +50,6 @@ export function isCustomProp(text: string) {
 }
 
 export function openScene(scene: Obj, name: string) {
-  editor.selectedSceneName = name
   currentScene.value = scene
 }
 

@@ -1,5 +1,5 @@
 import FileElement from "../components/FileElement"
-import { dragData, editor, files, inspector, nameInput } from "../lib/consts"
+import { contextMenu, dragData, files, inspector, nameInput } from "../lib/consts"
 import { openScene, isFirstUpperCase } from "../lib/utils"
 import { useArrow } from "../lib/hooks"
 
@@ -35,7 +35,7 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
       isFolder,
     ]
 
-    editor.setContextMenu([
+    contextMenu.value = [
       pageX,
       pageY,
       newArrElement(`New file`, `txt`),
@@ -65,7 +65,7 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
         `Delete`,
         !main,
       ],
-    ])
+    ]
   }
 
   const onMouseDown = (event: MouseEvent) => {
