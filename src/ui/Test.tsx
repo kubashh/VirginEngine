@@ -24,10 +24,10 @@ export default function Test() {
           testScene.value = ``
         }}
       />
-      <div className="flex justify-center h-full bg-zinc-950">
+      <div className="h-full flex justify-center bg-zinc-950">
         <iframe
           title="scene"
-          className="brl1_c2"
+          className="border-x-1 border-solid border-zinc-400"
           style={{ height: `min(100%, 100vw * ${aspectRatio.value})`, aspectRatio: aspectRatio.value }}
           srcDoc={testScene.value}
         />

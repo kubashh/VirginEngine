@@ -56,24 +56,6 @@ textarea:focus,
   width: calc(100% - 12px);
 }
 
-/* border */
-.b_c2 {
-  border: 4px solid var(--c2);
-}
-.brl1_c2 {
-  border-right: 1px solid var(--c2);
-  border-left: 1px solid var(--c2);
-}
-.bb1_aaa {
-  border-bottom: 1px solid #aaa;
-}
-.bb2_111 {
-  border-bottom: 2px solid #111;
-}
-.bl4_333 {
-  border-left: 4px solid #333;
-}
-
 /* color */
 .c3 {
   color: var(--c3);
@@ -118,4 +100,8 @@ textarea:focus,
 }
 .h-\(--height2\) {
   height: var(--height2);
+}
+.border-x-1 {
+  border-left-width: 1px;
+  border-right-width: 1px;
 }

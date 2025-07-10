@@ -67,7 +67,7 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
     ]
   }
 
-  const onMouseDown = (event: MouseEvent) => {
+  const onMouseDown = () => {
     if (!main) dragData.value = { from: `files`, old, file, name }
   }
 

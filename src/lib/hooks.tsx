@@ -8,7 +8,7 @@ export function useArrow(main = false, haveChilds = true): [React.ReactNode, Sig
   return [
     haveChilds ? (
       <div
-        className="text-center justify-self-center w-6 h-6 rounded-full hover cursor-pointer"
+        className="w-6 h-6 text-center justify-self-center rounded-full cursor-pointer hover"
         style={{ transform: `rotate(${open.value ? 90 : 0}deg)` }}
         onClick={() => (open.value = !open.value)}
         children=">"

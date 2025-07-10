@@ -34,7 +34,7 @@ export default function DragData() {
   const props = useDragData()
 
   return props.style ? (
-    <div className="absolute z-1 bg-[#0007]" {...props}>
+    <div className="absolute z-1 bg-[#000a]" {...props}>
       {dragData.value?.name}
     </div>
   ) : null

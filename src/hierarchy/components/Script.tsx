@@ -93,7 +93,7 @@ export default function Script({ object, refresh }: ScriptProps) {
             }}
           />
         ))}
-      <div className="flex flex-wrap mb-4">
+      <div className="mb-4 flex flex-wrap">
         {Object.keys(scriptTypes).map((value) => (
           <AddScript key={value} value={value} object={object} refresh={refresh} />
         ))}
