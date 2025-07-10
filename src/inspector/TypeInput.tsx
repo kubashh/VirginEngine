@@ -44,7 +44,7 @@ export default function TypeInput(props: TypeInputProps) {
     <div className="w100p-12 grid grid-cols-[auto_1fr] gap-3">
       <div className="flex gap-3">
         <span>{addSpaceBeforeUpper(props.access)}</span>
-        <span className="c3">: {type}</span>
+        <span className="text-(--col1)">: {type}</span>
         <span>=</span>
       </div>
       {element}

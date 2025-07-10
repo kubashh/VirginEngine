@@ -16,12 +16,14 @@ export default function Test() {
   return (
     <div className="absolute z-1 w-screen h-screen">
       <Header
-        text="Test"
-        {...opctions.reduce((old, value) => ({ ...old, [value]: () => (aspectRatio.value = value) }), {})}
-        Start={test}
-        Stop={() => {
-          console.clear()
-          testScene.value = ``
+        name="Test"
+        options={{
+          ...opctions.reduce((old, value) => ({ ...old, [value]: () => (aspectRatio.value = value) }), {}),
+          Restart: test,
+          Exit: () => {
+            console.clear()
+            testScene.value = ``
+          },
         }}
       />
       <div className="h-full flex justify-center bg-zinc-950">

@@ -1,5 +1,5 @@
+import Window from "../components/Window"
 import GameObject from "./GameObject"
-import Header from "../components/Header"
 import { currentScene, files, inspector } from "../lib/consts"
 
 function HierarchyComponent() {
@@ -12,11 +12,10 @@ function HierarchyComponent() {
 
 export default function Hierarchy() {
   return (
-    <section className="w-(--width2) h-(--height1) border-b-1 border-solid border-zinc-400 grid grid-rows-[24px_1fr]">
-      <Header text="Hierarchy" />
+    <Window name="Hierarchy" className="w-(--width2) h-(--height1) border-b-1 border-solid border-zinc-400">
       <div className="overflow-y-scroll">
         <HierarchyComponent />
       </div>
-    </section>
+    </Window>
   )
 }

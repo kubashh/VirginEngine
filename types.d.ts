@@ -60,3 +60,15 @@ type AddComponentProps = {
   text: string
   onClick: Void
 }
+
+type HeaderProps = {
+  name: string
+  options?: Record<string, Void>
+}
+
+type WindowProps = {
+  name: string
+  headerOptions?: Record<string, Void>
+  className?: string
+  children: React.ReactNode
+}

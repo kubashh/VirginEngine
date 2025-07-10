@@ -1,4 +1,4 @@
-import Header from "../components/Header"
+import Window from "../components/Window"
 
 function DocsContent() {
   return (
@@ -24,9 +24,8 @@ function DocsContent() {
 
 export default function Docs() {
   return (
-    <section className="row-span-2 w-(--width1) border-r-1 border-solid border-zinc-400 grid grid-rows-[24px_1fr]">
-      <Header text="Docs" />
+    <Window name="Docs" className="row-span-2 w-(--width1) border-r-1 border-solid border-zinc-400">
       <DocsContent />
-    </section>
+    </Window>
   )
 }

@@ -1,5 +1,5 @@
+import Window from "../components/Window"
 import File from "./File"
-import Header from "../components/Header"
 import { files } from "../lib/consts"
 
 const FilesComponent = () => {
@@ -10,11 +10,10 @@ const FilesComponent = () => {
 
 export default function Files() {
   return (
-    <section className="w-(--width2) h-(--height2) grid grid-rows-[24px_1fr]">
-      <Header text="Files" />
+    <Window name="Files" className="w-(--width2) h-(--height2)">
       <div className="overflow-y-scroll">
         <FilesComponent />
       </div>
-    </section>
+    </Window>
   )
 }
