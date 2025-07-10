@@ -11,7 +11,7 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
 
   const onClick = () => {
     inspector.value = (
-      <div className="m12">
+      <div className="m-3">
         <h2 className="text-2xl font-bold">File</h2>
         <div>Type: {file.type}</div>
         <div>Name: {name}</div>

@@ -29,9 +29,7 @@ function toChilds(object: Obj, name: string, arr: any[]) {
 }
 
 export function AddComponent({ text, onClick }: AddComponentProps) {
-  return (
-    <input type="button" value={`+ ${text}`} className="text-base mt12 mb24 p6_12 hover" onClick={onClick} />
-  )
+  return <input type="button" value={`+ ${text}`} className="mt12 mb24 p6_12 hover" onClick={onClick} />
 }
 
 function Component({ name, refresh, readOnly, ...props }: Obj) {
@@ -73,7 +71,7 @@ function Components({ name, ...props }: Obj) {
 
   return (
     <div key={JSON.stringify(props)}>
-      <h2 className="ml12 text-xl font-bold">{name}</h2>
+      <h2 className="ml-3 text-xl font-bold">{name}</h2>
       <Transform object={props.object} />
       {Object.keys(components).map((key) => (
         <Component {...props} key={key} name={key} />
