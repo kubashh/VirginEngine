@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/virginengine/static/css/main.8c0ee8aa.css",
-    "main.js": "/virginengine/static/js/main.87a86c23.js",
+    "main.css": "/virginengine/static/css/main.ef2ed9ff.css",
+    "main.js": "/virginengine/static/js/main.6c268473.js",
     "index.html": "/virginengine/index.html",
-    "main.8c0ee8aa.css.map": "/virginengine/static/css/main.8c0ee8aa.css.map",
-    "main.87a86c23.js.map": "/virginengine/static/js/main.87a86c23.js.map"
+    "main.ef2ed9ff.css.map": "/virginengine/static/css/main.ef2ed9ff.css.map",
+    "main.6c268473.js.map": "/virginengine/static/js/main.6c268473.js.map"
   },
   "entrypoints": [
-    "static/css/main.8c0ee8aa.css",
-    "static/js/main.87a86c23.js"
+    "static/css/main.ef2ed9ff.css",
+    "static/js/main.6c268473.js"
   ]
 }
