@@ -5,8 +5,8 @@ import { addSpaceBeforeUpper, getType } from "../lib/utils"
 import { useRefresh } from "../lib/hooks"
 
 function useElement(props: TypeInputProps) {
-  const type = props.type || getType(props.object[props.access])
-  let element = null
+  const type: VTypes = props.type || getType(props.object[props.access])
+  let element: React.ReactNode = null
   switch (type) {
     case "boolean":
       element = <BooleanInput {...props} />

@@ -3,6 +3,8 @@
 type Obj = Record<string, any>
 type Void = () => void
 
+type VTypes = `boolean` | `number` | `string` | `array` | `object` | `function` | `enum`
+
 // Props
 
 type FileProps = {

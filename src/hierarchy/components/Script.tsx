@@ -1,4 +1,4 @@
-import { useRef } from "react"
+import { useEffect, useRef } from "react"
 import InspectorSection from "../../inspector/InspectorSection"
 import TypeInput from "../../inspector/TypeInput"
 import { nameInput } from "../../lib/consts"
@@ -24,8 +24,10 @@ function AdvancedInput({ object, access }: StringInputProps) {
 }
 
 function InputDefault({ object, access }: StringInputProps) {
+  const ref = useRef<HTMLTextAreaElement>(null)
   const refresh = useRefresh()
-  const ref = useRef<HTMLTextAreaElement | null>(null)
+
+  useEffect(refresh, [ref])
 
   return (
     <textarea
