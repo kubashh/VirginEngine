@@ -10,7 +10,7 @@ function AdvancedInput({ object, access }: StringInputProps) {
   const type = useConst(getType(object[access]))
 
   return (
-    <div className="row">
+    <div className="flex flex-col">
       <div className="flex gap-3">
         <div>{access}</div>
         <div className="c3">: {type}</div>
@@ -32,7 +32,7 @@ function InputDefault({ object, access }: StringInputProps) {
   return (
     <textarea
       ref={ref}
-      className="w100p-12"
+      className="w100p-12 resize-none"
       style={{ height: ref?.current?.scrollHeight }}
       value={object[access]}
       onChange={({ target }) => {
@@ -93,7 +93,7 @@ export default function Script({ object, refresh }: ScriptProps) {
             }}
           />
         ))}
-      <div className="flex flex-wrap mb16">
+      <div className="flex flex-wrap mb-4">
         {Object.keys(scriptTypes).map((value) => (
           <AddScript key={value} value={value} object={object} refresh={refresh} />
         ))}

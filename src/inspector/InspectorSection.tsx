@@ -2,11 +2,11 @@ import TypeInput from "./TypeInput"
 
 export default function InspectorSection({ text, remove, childs, element }: InspectorSectionProps) {
   return (
-    <div className="mt16 ml12 bb2_111 pb8">
+    <div className="mt-4 ml-3 bb2_111 pb-2">
       <div className="flex">
-        <h2 className="mb6 bl4_333 pl6 text-2xl font-bold">{text}</h2>
+        <h2 className="mb-2 bl4_333 pl-2 text-2xl font-bold">{text}</h2>
         {remove ? (
-          <input type="button" value="Remove" className="m_auto mr16 text-base hover" onClick={remove} />
+          <input type="button" value="Remove" className="ml-auto mr-4 hover cursor-pointer" onClick={remove} />
         ) : null}
       </div>
       {childs?.map((props) => (

@@ -2,7 +2,7 @@ import Header from "../components/Header"
 
 function DocsContent() {
   return (
-    <div className="p3 overflow-y-scroll">
+    <div className="p3 overflow-y-scroll select-text">
       Coming soon!
       {/* <div style={{ marginBottom: 32 }}>
       <h1>JS</h1>
@@ -24,7 +24,7 @@ function DocsContent() {
 
 export default function Docs() {
   return (
-    <section className="docs">
+    <section className="docs row-span-2 border-r-1 border-solid border-zinc-400">
       <Header text="Docs" />
       <DocsContent />
     </section>

@@ -12,7 +12,7 @@ function HierarchyComponent() {
 
 export default function Hierarchy() {
   return (
-    <section className="hierarchy">
+    <section className="hierarchy border-b-1 border-solid border-zinc-400">
       <Header text="Hierarchy" />
       <div className="overflow-y-scroll">
         <HierarchyComponent />

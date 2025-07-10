@@ -19,11 +19,11 @@ export default function App() {
         <Test />
       </header>
 
-      <main>
+      <main className="w-screen h-screen grid grid-cols-[30fr_30fr_40fr] grid-rows-[55fr_45fr]">
         <Docs />
         <Hierarchy />
-        <Files />
         <Inspector />
+        <Files />
       </main>
     </>
   )

@@ -18,13 +18,13 @@ export default function ContextMenu() {
   return contextMenu.value.length > 2 ? (
     <div
       ref={ref}
-      className="absolute z-1 w200 bg-zinc-800 p3"
+      className="absolute z-1 w200 p-1 bg-zinc-800"
       style={{ inset: `${contextMenu.value[1]}px auto auto ${contextMenu.value[0]}px` }}
     >
       {contextMenu.value.slice(2).map(([fn, text, show = true]: any) =>
         show ? (
           <div
-            className="hover"
+            className="hover cursor-pointer"
             key={text}
             onClick={() => {
               fn()

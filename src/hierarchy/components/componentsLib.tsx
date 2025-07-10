@@ -29,7 +29,14 @@ function toChilds(object: Obj, name: string, arr: any[]) {
 }
 
 export function AddComponent({ text, onClick }: AddComponentProps) {
-  return <input type="button" value={`+ ${text}`} className="mt12 mb24 p6_12 hover" onClick={onClick} />
+  return (
+    <input
+      type="button"
+      value={`+ ${text}`}
+      className="mt-3 mb-6 px-3 py-2 hover cursor-pointer"
+      onClick={onClick}
+    />
+  )
 }
 
 function Component({ name, refresh, readOnly, ...props }: Obj) {

@@ -14,7 +14,7 @@ export default function Test() {
   if (!testScene.value) return
 
   return (
-    <div className="absolute z-1 whFull">
+    <div className="absolute z-1 w-screen h-screen">
       <Header
         text="Test"
         {...opctions.reduce((old, value) => ({ ...old, [value]: () => (aspectRatio.value = value) }), {})}
@@ -24,7 +24,7 @@ export default function Test() {
           testScene.value = ``
         }}
       />
-      <div className="flex justifyContent bg-zinc-950 h-full">
+      <div className="flex justify-center h-full bg-zinc-950">
         <iframe
           title="scene"
           className="brl1_c2"
