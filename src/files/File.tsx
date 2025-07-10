@@ -12,9 +12,9 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
   const onClick = () => {
     inspector.value = (
       <div className="m12">
-        <h1 children="File" />
-        <h3 children={`Type: ${file.type}`} />
-        <h3 children={`Name: ${name}`} />
+        <h2 className="text-2xl font-bold">File</h2>
+        <div>Type: {file.type}</div>
+        <div>Name: {name}</div>
       </div>
     )
   }

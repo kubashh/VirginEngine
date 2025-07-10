@@ -73,7 +73,7 @@ function Components({ name, ...props }: Obj) {
 
   return (
     <div key={JSON.stringify(props)}>
-      <h2 className="ml12">{name}</h2>
+      <h2 className="ml12 text-xl font-bold">{name}</h2>
       <Transform object={props.object} />
       {Object.keys(components).map((key) => (
         <Component {...props} key={key} name={key} />

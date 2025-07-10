@@ -4,7 +4,7 @@ export default function InspectorSection({ text, remove, childs, element }: Insp
   return (
     <div className="mt16 ml12 bb2_111 pb8">
       <div className="flex">
-        <h1 className="mb6 bl4_333 pl6" children={text} />
+        <h2 className="mb6 bl4_333 pl6 text-2xl font-bold">{text}</h2>
         {remove ? (
           <input type="button" value="Remove" className="m_auto mr16 text-base hover" onClick={remove} />
         ) : null}
