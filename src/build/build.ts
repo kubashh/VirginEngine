@@ -7,6 +7,5 @@ export function build() {
 }
 
 export function test() {
-  console.clear()
   testScene.value = htmlCode()
 }

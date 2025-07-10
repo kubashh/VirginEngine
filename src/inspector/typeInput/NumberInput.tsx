@@ -1,8 +1,8 @@
 import { numbers } from "../../lib/consts"
-import { useSignal } from "../../lib/Signal"
+import { useSignal } from "../../lib/signals"
 
 export default function NumberInput({ object, access }: StringInputProps) {
-  const currentNumber = useSignal(object[access])
+  const currentNumber = useSignal(object[access], () => (object[access] = currentNumber.value))
 
   return (
     <input
@@ -14,7 +14,7 @@ export default function NumberInput({ object, access }: StringInputProps) {
         let min = false
         for (const char of value) {
           // Is includes allow chars
-          if (!`-${numbers}.`.includes(char)) return
+          if (!`${numbers}-.`.includes(char)) return
 
           // Double dot check
           if (char === `.`) {
@@ -28,15 +28,9 @@ export default function NumberInput({ object, access }: StringInputProps) {
           }
         }
 
-        let newNumber = Number(value) || 0
-        let set = true
-        if (value[value.length - 1] === `.`) {
-          set = false
-        } else {
-          object[access] = newNumber
-        }
+        if (value.at(-1) === `.`) return
 
-        currentNumber.value = set ? newNumber : value
+        currentNumber.value = Number(value) || 0
       }}
     />
   )

@@ -1,6 +1,6 @@
 import { useState } from "react"
-import { useSignal } from "./Signal"
-import type { Signal } from "./Signal"
+import { useSignal } from "./signals"
+import type { Signal } from "./signals"
 
 export function useArrow(main = false, haveChilds = true): [React.ReactNode, Signal<boolean>] {
   const open = useSignal(main)

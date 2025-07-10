@@ -2,12 +2,12 @@ import { useEffect, useRef } from "react"
 import { nameInput } from "../lib/consts"
 import { capitalize, isValidName } from "../lib/utils"
 
-function useNameInput(ref: React.Ref<HTMLInputElement | null>) {
+function useNameInput(ref: React.RefObject<HTMLInputElement | null>) {
   nameInput.bind()
-  const [cb, text = ``, lowerCase = false] = nameInput.value as [(text: string) => void, string, boolean?]
+  const [cb, text = ``, lowerCase = false] = nameInput.value
 
   const ret = () => {
-    if (isValidName(text)) {
+    if (cb && isValidName(text)) {
       cb(lowerCase ? `${text[0].toLowerCase()}${text.slice(1)}` : text)
     }
     nameInput.value = []
@@ -17,8 +17,7 @@ function useNameInput(ref: React.Ref<HTMLInputElement | null>) {
     if (!ref) return
 
     function handler({ target }: MouseEvent) {
-      // @ts-ignore
-      if (ref?.current && !ref.current.contains(target)) ret()
+      if (ref.current && !ref.current.contains(target as Node)) ret()
     }
 
     document.addEventListener(`mousedown`, handler)

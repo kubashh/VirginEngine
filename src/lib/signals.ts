@@ -44,8 +44,8 @@ export function signal<T>(v: T) {
   return new Sig(v)
 }
 
-export function useSignal<T>(v: T) {
+export function useSignal<T>(v: T, f?: Void) {
   const sig = useConst(new Sig(v))
-  sig.bind()
+  sig.bind(f)
   return sig
 }

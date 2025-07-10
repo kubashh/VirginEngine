@@ -1,4 +1,4 @@
-import { signal } from "./Signal"
+import { signal } from "./signals"
 import { defaultGameObject } from "./utils"
 
 export const alphabet = `abcdefghijklmnoprqstuwxyz`

@@ -1,5 +1,5 @@
-import Header from "../components/Header"
-import { signal } from "../lib/Signal"
+import Window from "../components/Window"
+import { signal } from "../lib/signals"
 import { testScene } from "../lib/consts"
 import { test } from "../build/build"
 
@@ -8,25 +8,22 @@ const opctions = [`16 / 9`, `1 / 1`, `9 / 16`]
 const aspectRatio = signal(opctions[0])
 
 export default function Test() {
-  testScene.bind()
+  testScene.bind(console.clear)
   aspectRatio.bind()
 
   if (!testScene.value) return
 
   return (
-    <div className="absolute z-1 w-screen h-screen">
-      <Header
-        name="Test"
-        options={{
-          ...opctions.reduce((old, value) => ({ ...old, [value]: () => (aspectRatio.value = value) }), {}),
-          Restart: test,
-          Exit: () => {
-            console.clear()
-            testScene.value = ``
-          },
-        }}
-      />
-      <div className="h-full flex justify-center bg-zinc-950">
+    <Window
+      name="Test"
+      className="absolute z-1 w-screen h-screen"
+      headerOptions={{
+        ...opctions.reduce((old, value) => ({ ...old, [value]: () => (aspectRatio.value = value) }), {}),
+        Restart: test,
+        Exit: () => (testScene.value = ``),
+      }}
+    >
+      <div className="flex justify-center bg-zinc-950">
         <iframe
           title="scene"
           className="border-x-1 border-solid border-zinc-400"
@@ -34,6 +31,6 @@ export default function Test() {
           srcDoc={testScene.value}
         />
       </div>
-    </div>
+    </Window>
   )
 }

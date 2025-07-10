@@ -1,19 +1,21 @@
 import { useEffect } from "react"
 import { dragData } from "../lib/consts"
-import { useSignal } from "../lib/Signal"
+import { signal } from "../lib/signals"
 
-function useDragData() {
+const mouse = signal<{ left: number; top: number } | undefined>(undefined)
+
+function handleMouseMove({ clientX, clientY }: MouseEvent) {
+  mouse.value = { left: clientX + 3, top: clientY + 3 }
+}
+
+function handleMouseUp() {
+  dragData.value = null
+  mouse.value = undefined
+}
+
+export default function DragData() {
   dragData.bind()
-  const mouse = useSignal<{ left: number; top: number } | undefined>(undefined)
-
-  function handleMouseMove({ clientX, clientY }: MouseEvent) {
-    mouse.value = { left: clientX + 3, top: clientY + 3 }
-  }
-
-  function handleMouseUp() {
-    dragData.value = null
-    mouse.value = undefined
-  }
+  mouse.bind()
 
   useEffect(() => {
     if (!dragData.value) return
@@ -27,14 +29,8 @@ function useDragData() {
     }
   })
 
-  return { style: mouse.value }
-}
-
-export default function DragData() {
-  const props = useDragData()
-
-  return props.style ? (
-    <div className="absolute z-1 bg-[#000a]" {...props}>
+  return mouse.value ? (
+    <div className="absolute z-1 bg-[#000a]" style={mouse.value}>
       {dragData.value?.name}
     </div>
   ) : null

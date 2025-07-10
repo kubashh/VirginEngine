@@ -1,17 +1,14 @@
-import { useRefresh } from "../../lib/hooks"
+import { useSignal } from "../../lib/signals"
 
 export default function StringInput({ object, access }: StringInputProps) {
-  const refresh = useRefresh()
+  const str = useSignal(object[access], () => (object[access] = str.value))
 
   return (
     <input
       type="text"
       className="inputText w-full"
-      value={object[access]}
-      onChange={({ target }) => {
-        object[access] = target.value
-        refresh()
-      }}
+      value={str.value}
+      onChange={({ target }) => (str.value = target.value)}
     />
   )
 }
