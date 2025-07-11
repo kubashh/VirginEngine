@@ -7,11 +7,12 @@ export default function NumberInput({ object, access }: StringInputProps) {
   return (
     <input
       type="text"
-      className="inputText w-full"
+      className="w-full border-b-1 border-solid border-zinc-400"
       value={currentNumber.value}
       onChange={({ target: { value } }) => {
+        if (value.slice(1).includes(`-`)) return
+
         let dot = false
-        let min = false
         for (const char of value) {
           // Is includes allow chars
           if (!`${numbers}-.`.includes(char)) return
@@ -21,16 +22,13 @@ export default function NumberInput({ object, access }: StringInputProps) {
             if (dot) return
             dot = true
           }
-          // Double minus sign check
-          if (char === `-`) {
-            if (min) return
-            min = true
-          }
         }
 
-        if (value.at(-1) === `.`) return
+        const num = Number(value)
 
-        currentNumber.value = Number(value) || 0
+        if (value.at(-1) === `.` || (!num && num !== 0)) return
+
+        currentNumber.value = num
       }}
     />
   )

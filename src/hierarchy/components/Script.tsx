@@ -32,7 +32,7 @@ function InputDefault({ object, access }: StringInputProps) {
   return (
     <textarea
       ref={ref}
-      className="w100p-12 resize-none"
+      className="w-full resize-none"
       style={{ height: ref?.current?.scrollHeight }}
       value={object[access]}
       onChange={({ target }) => {

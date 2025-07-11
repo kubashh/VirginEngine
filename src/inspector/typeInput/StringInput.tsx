@@ -6,7 +6,7 @@ export default function StringInput({ object, access }: StringInputProps) {
   return (
     <input
       type="text"
-      className="inputText w-full"
+      className="w-full border-b-1 border-solid border-zinc-400"
       value={str.value}
       onChange={({ target }) => (str.value = target.value)}
     />
