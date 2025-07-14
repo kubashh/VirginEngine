@@ -7,16 +7,6 @@
   --width3: calc(30vw + 80px);
   --height1: 55vh;
   --height2: 45vh;
-
-  /* Color */
-  --col1: hsl(126, 100%, 35%);
-  --col2: hsl(126, 100%, 21%); /* #00690A */
-}
-
-/* Input */
-textarea:focus,
-.inputText:focus {
-  outline: medium solid var(--col2);
 }
 
 /* Hover */

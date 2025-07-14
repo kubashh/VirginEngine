@@ -15,7 +15,7 @@ function AdvancedInput({ object, access }: StringInputProps) {
     <div className="flex flex-col">
       <div className="flex gap-3">
         <div>{access}</div>
-        <div className="text-(--col1)">: {type}</div>
+        <div className="text-green-500">: {type}</div>
         <div>=</div>
         {/* <div>{scriptTypes[type][2]}</div> */}
       </div>
