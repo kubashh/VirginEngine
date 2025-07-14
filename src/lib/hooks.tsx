@@ -1,4 +1,7 @@
-import { useState } from "react"
+"use client"
+
+import { useEffect, useState } from "react"
+
 import { useSignal } from "./signals"
 import type { Signal } from "./signals"
 
@@ -27,4 +30,11 @@ export function useRefresh() {
 
 export function useConst(value: any) {
   return useState(value)[0]
+}
+
+export function useClient() {
+  const [isClient, setIsClient] = useState(false)
+  useEffect(() => setIsClient(true), [isClient])
+
+  return isClient
 }

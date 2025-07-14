@@ -1,3 +1,5 @@
+"use client"
+
 import { useEffect, useRef } from "react"
 import InspectorSection from "../../inspector/InspectorSection"
 import TypeInput from "../../inspector/TypeInput"

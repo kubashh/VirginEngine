@@ -1,8 +1,6 @@
 # dependencies
 /node_modules
-/bun.lock
-/core/node_modules
-/core/bun.lock
 
-# production
+# next.js
+/.next
 /dist

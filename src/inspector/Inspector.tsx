@@ -8,12 +8,13 @@ function save() {
   downloadFile(`${config.gameName}.virginengine`, JSON.stringify({ config, files: files.value }))
 }
 
-window.addEventListener(`keydown`, (e) => {
-  if (e.ctrlKey && e.key === `s`) {
-    e.preventDefault()
-    save()
-  }
-})
+if (typeof window !== `undefined`)
+  window.addEventListener(`keydown`, (e) => {
+    if (e.ctrlKey && e.key === `s`) {
+      e.preventDefault()
+      save()
+    }
+  })
 
 function Config() {
   return (

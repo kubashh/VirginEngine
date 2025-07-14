@@ -1,3 +1,5 @@
+"use client"
+
 import { useEffect } from "react"
 import { dragData } from "../lib/consts"
 import { signal } from "../lib/signals"
