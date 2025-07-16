@@ -1,4 +1,4 @@
-import { allowedNameChars, alphabet, config, currentScene, files, keywords, setUp } from "./consts"
+import { allowedNameChars, alphabet, conf, currentScene, files, keywords, setUp } from "./consts"
 
 export function deepCopy(obj: Obj) {
   return JSON.parse(JSON.stringify(obj))
@@ -53,7 +53,7 @@ export function openMainScene() {
   setUp.value = true
 
   let scene = files.value
-  for (const key of config.pathToMainScene.split(`.`).slice(1)) {
+  for (const key of conf.pathToMainScene.split(`.`).slice(1)) {
     scene = scene[key]
   }
 
@@ -100,7 +100,7 @@ export function loadFile() {
       reader.onload = ({ target }: { target: any }) => {
         const data = JSON.parse(target.result)
 
-        clearAssign(config, data.config)
+        clearAssign(conf, data.conf)
         clearAssign(files.value, data.files)
 
         openMainScene()

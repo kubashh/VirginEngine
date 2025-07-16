@@ -1,11 +1,11 @@
 import Window from "../components/Window"
 import InspectorSection from "./InspectorSection"
-import { config, files, inspector } from "../lib/consts"
+import { conf, files, inspector } from "../lib/consts"
 import { downloadFile, loadFile } from "../lib/utils"
 import { build, test } from "../build/build"
 
 function save() {
-  downloadFile(`${config.gameName}.virginengine`, JSON.stringify({ config, files: files.value }))
+  downloadFile(`${conf.gameName}.virginengine`, JSON.stringify({ conf, files: files.value }))
 }
 
 if (typeof window !== `undefined`)
@@ -20,9 +20,9 @@ function Config() {
   return (
     <InspectorSection
       text="Config"
-      childs={Object.keys(config)
+      childs={Object.keys(conf)
         .filter((key) => key !== `type`)
-        .map((key) => ({ text: key, object: config, access: key }))}
+        .map((key) => ({ text: key, object: conf, access: key }))}
     />
   )
 }

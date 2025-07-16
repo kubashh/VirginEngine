@@ -1,4 +1,4 @@
-import { config } from "../lib/consts"
+import { conf } from "../lib/consts"
 import { jsCode } from "./jsCode"
 
 function optymalizeHtml(text: string) {
@@ -21,11 +21,11 @@ export function htmlCode() {
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <meta name="author" content="${config.author}">
-    <meta name="description" content="${config.description}">
-    <meta name="keywords" content="${config.gameName},${config.author}">
+    <meta name="author" content="${conf.author}">
+    <meta name="description" content="${conf.description}">
+    <meta name="keywords" content="${conf.gameName},${conf.author}">
 
-    <title>${config.gameName}</title>
+    <title>${conf.gameName}</title>
 
   </head>
   <body style="

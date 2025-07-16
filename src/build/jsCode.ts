@@ -1,5 +1,5 @@
 import { core } from "./core"
-import { config, files } from "../lib/consts"
+import { conf, files } from "../lib/consts"
 import { isCustomProp } from "../lib/utils"
 
 function filesToString(data: Obj, name?: string, type?: string): any {
@@ -25,5 +25,5 @@ function filesToString(data: Obj, name?: string, type?: string): any {
 export function jsCode() {
   return core
     .replace("`REPLACE_FILES`", filesToString(files.value))
-    .replace("`REPLACE_PATH_TO_MAIN_SCENE`", config.pathToMainScene)
+    .replace("`REPLACE_PATH_TO_MAIN_SCENE`", conf.pathToMainScene)
 }
