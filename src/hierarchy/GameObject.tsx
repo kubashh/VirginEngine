@@ -1,12 +1,12 @@
 import FileElement from "../components/FileElement"
-import { contextMenu, currentScene, dragData, nameInput } from "../lib/consts"
-import { defaultGameObject, includesKeywords, isFirstUpperCase } from "../lib/utils"
+import { contextMenu, currentScene, dragData, keywords, nameInput } from "../lib/consts"
+import { defaultGameObject, isFirstUpperCase } from "../lib/utils"
 import { useArrow } from "../lib/hooks"
 import { setComponents } from "./components/componentsLib"
 
 function getChilds(obj: Obj = {}) {
   return Object.keys(obj).reduce(
-    (prev, key) => (!includesKeywords(key) && isFirstUpperCase(key) ? { [key]: obj[key], ...prev } : prev),
+    (prev, key) => (!keywords.includes(key) && isFirstUpperCase(key) ? { [key]: obj[key], ...prev } : prev),
     {}
   )
 }

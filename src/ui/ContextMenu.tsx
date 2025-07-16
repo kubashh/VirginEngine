@@ -20,7 +20,7 @@ export default function ContextMenu() {
   return contextMenu.value.length > 2 ? (
     <div
       ref={ref}
-      className="absolute z-1 border-4 border-solid border-zinc-800 px-2 py-0.5"
+      className="absolute z-1 border-4 border-solid border-zinc-800 px-2 py-0.5 bg-black"
       style={{ inset: `${contextMenu.value[1]}px auto auto ${contextMenu.value[0]}px` }}
     >
       {contextMenu.value.slice(2).map(([fn, text, show = true]: any) =>

@@ -86,7 +86,7 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
     files.refresh()
   }
 
-  const onDoubleClick = () => file.type === `scene` && openScene(file, name)
+  const onDoubleClick = () => file.type === `scene` && openScene(file)
 
   const childsElement =
     open.value &&

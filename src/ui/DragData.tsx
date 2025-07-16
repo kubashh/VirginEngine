@@ -6,7 +6,9 @@ import { signal } from "../lib/signals"
 
 const mouse = signal<{ left: number; top: number } | undefined>(undefined)
 
-function handleMouseMove({ clientX, clientY }: MouseEvent) {
+function handleMouseMove({ clientX, clientY, buttons }: MouseEvent) {
+  if (buttons !== 1) return
+  console.log(`Render`)
   mouse.value = { left: clientX + 3, top: clientY + 3 }
 }
 

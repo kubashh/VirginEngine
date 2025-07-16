@@ -5,23 +5,13 @@ export const alphabet = `abcdefghijklmnoprqstuwxyz`
 export const numbers = `0123456789`
 export const allowedNameChars = `${alphabet}${numbers}_`
 
-export const keywords = [
-  `type`,
-  `transform`,
-  `position`,
-  `rotation`,
-  `scale`,
-  `text`,
-  `rect`,
-  `sprite`,
-  `camera`,
-]
+export const keywords = [`type`, `transform`, `position`, `rotation`, `scale`, `text`, `rect`, `sprite`]
 
 export const config = {
   gameName: `Name of Game`,
   version: `0.0.0`,
-  author: `Your Name or Nick`,
-  description: `Write what game is`,
+  author: `Your Nick`,
+  description: `Description`,
   fullScreen: false,
   pathToMainScene: `files.Scenes.DefaultScene`,
 }
@@ -60,7 +50,7 @@ const filesTemplate: Obj = {
   //Assets
   Assets: {
     type: `folder`,
-    TempImage: {
+    ExampleImage: {
       type: `image`,
       value: {
         src: `data:image/png;base64`,
@@ -79,3 +69,5 @@ export const testScene = signal(``)
 export const files = signal<Obj>(filesTemplate)
 export const contextMenu = signal<[number?, number?, ...any]>([])
 export const setUp = signal(false)
+
+if (typeof window !== `undefined`) window.oncontextmenu = (e) => e.preventDefault()

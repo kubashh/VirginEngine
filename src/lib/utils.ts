@@ -27,8 +27,8 @@ export function isFirstUpperCase(text: string) {
 export function isValidName(name: string) {
   if (name.length === 0 || !isFirstUpperCase(name)) return false
 
-  for (let i = 1; i < name.length; i++) {
-    if (!allowedNameChars.includes(name[i].toLowerCase())) return false
+  for (const c of name) {
+    if (!allowedNameChars.includes(c.toLowerCase())) return false
   }
 
   return true
@@ -41,15 +41,11 @@ export function addSpaceBeforeUpper(text: string) {
     .reduce((prev, char) => `${prev}${char === char.toUpperCase() ? ` ` : ``}${char}`, text[0].toUpperCase())
 }
 
-export function includesKeywords(text: string) {
-  return keywords.includes(text)
-}
-
 export function isCustomProp(text: string) {
-  return !isFirstUpperCase(text) && !includesKeywords(text)
+  return !isFirstUpperCase(text) && !keywords.includes(text)
 }
 
-export function openScene(scene: Obj, name: string) {
+export function openScene(scene: Obj) {
   currentScene.value = scene
 }
 
@@ -57,14 +53,11 @@ export function openMainScene() {
   setUp.value = true
 
   let scene = files.value
-  let key
-  for (key of config.pathToMainScene.split(`.`).slice(1)) {
+  for (const key of config.pathToMainScene.split(`.`).slice(1)) {
     scene = scene[key]
   }
 
-  if (!key) throw Error(`No main scene!`)
-
-  openScene(scene, key)
+  openScene(scene)
 }
 
 export function defaultGameObject({ position, rotation, scale, ...rest }: Obj = {}) {
