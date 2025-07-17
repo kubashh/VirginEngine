@@ -37,18 +37,17 @@ function useNameInput(ref: React.RefObject<HTMLInputElement | null>) {
 
           nameInput.value = [cb, value, lowerCase]
         },
-        onKeyDown: ({ key }: KeyboardEvent) => key === `Enter` && ret(),
+        onKeyDown: ({ key }: React.KeyboardEvent<HTMLInputElement>) => key === `Enter` && ret(),
       }
     : null
 }
 
 export default function NameInput() {
-  const ref = useRef<HTMLInputElement | null>(null)
+  const ref = useRef<HTMLInputElement>(null)
   const props = useNameInput(ref)
 
   return (
     props && (
-      // @ts-ignore
       <input
         ref={ref}
         type="text"

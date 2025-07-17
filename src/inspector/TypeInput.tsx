@@ -20,8 +20,6 @@ function useElement(type: VTypes, props: { sig: Signal<any> }) {
       return null
     case `enum`:
       return null
-    default:
-      throw Error(`No such type!`)
   }
 }
 
