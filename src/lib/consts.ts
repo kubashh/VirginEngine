@@ -8,9 +8,9 @@ export const allowedNameChars = `${alphabet}${numbers}_`
 export const keywords = [`type`, `transform`, `position`, `rotation`, `scale`, `text`, `rect`, `sprite`]
 
 export const conf = {
-  gameName: `Name of Game`,
+  gameName: `NameOfGame`,
   version: `0.0.0`,
-  author: `Your Nick`,
+  author: `YourNick`,
   description: `Description`,
   fullScreen: false,
   pathToMainScene: `files.Scenes.DefaultScene`,

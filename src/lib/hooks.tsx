@@ -1,9 +1,7 @@
 "use client"
 
-import { useEffect, useState } from "react"
-
-import { useSignal } from "./signals"
-import type { Signal } from "./signals"
+import { useState, useEffect } from "react"
+import { useSignal, type Signal } from "./signals"
 
 export function useArrow(main = false, haveChilds = true): [React.ReactNode, Signal<boolean>] {
   const open = useSignal(main)

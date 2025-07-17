@@ -5,6 +5,12 @@ type Void = () => void
 
 type VTypes = `boolean` | `number` | `string` | `array` | `object` | `function` | `enum`
 
+type Variable = {
+  object: Obj
+  access: string
+  type?: VTypes
+}
+
 // Props
 
 type FileProps = {
@@ -25,15 +31,14 @@ type GameObjectProps = {
 type InspectorSectionProps = {
   text: string
   remove?: Void
-  childs?: Obj[]
+  childs?: Variable[]
   element?: React.ReactNode
 }
 
 type TypeInputProps = {
   object: Obj
   access: string
-  type: strig
-  refresh: Void
+  type?: VTypes
 }
 
 type StringInputProps = {

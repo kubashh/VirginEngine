@@ -1,14 +1,13 @@
-export default function BooleanInput({ object, access, refresh }: StringInputProps & { refresh: Void }) {
+import clsx from "clsx"
+import type { Signal } from "@/lib/signals"
+
+export default function BooleanInput({ sig }: { sig: Signal<boolean> }) {
   return (
     <input
       type="checkbox"
-      className="h-5 my-auto mr-auto aspect-square accent-green-500 cursor-pointer"
-      checked={object[access]}
-      style={{ opacity: !object[access] ? 0.2 : 0 }}
-      onChange={({ target }) => {
-        object[access] = target.checked
-        refresh()
-      }}
+      className={clsx(`w-5 h-5 my-auto accent-green-600 cursor-pointer`, !sig.value && `opacity-20`)}
+      checked={sig.value}
+      onChange={({ target }) => (sig.value = target.checked)}
     />
   )
 }

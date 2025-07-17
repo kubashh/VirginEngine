@@ -2,48 +2,38 @@ import BooleanInput from "./typeInput/BooleanInput"
 import NumberInput from "./typeInput/NumberInput"
 import StringInput from "./typeInput/StringInput"
 import { addSpaceBeforeUpper, getType } from "../lib/utils"
-import { useRefresh } from "../lib/hooks"
+import { useSignal, type Signal } from "@/lib/signals"
 
-function useElement(props: TypeInputProps) {
-  const type: VTypes = props.type || getType(props.object[props.access])
-  let element: React.ReactNode = null
+function useElement(type: VTypes, props: { sig: Signal<any> }) {
   switch (type) {
     case "boolean":
-      element = <BooleanInput {...props} />
-      break
+      return <BooleanInput {...props} />
     case "number":
-      element = <NumberInput {...props} />
-      break
+      return <NumberInput {...props} />
     case "string":
-      element = <StringInput {...props} />
-      break
+      return <StringInput {...props} />
     case "array":
-      element = null
-      break
+      return null
     case "object":
-      element = null
-      break
+      return null
     case "function":
-      element = null
-      break
+      return null
     case `enum`:
-      console.log(`ENUM`)
-      break
+      return null
     default:
       throw Error(`No such type!`)
   }
-
-  return [element, type]
 }
 
-export default function TypeInput(props: TypeInputProps) {
-  const refresh = useRefresh()
-  const [element, type] = useElement({ ...props, refresh })
+export default function TypeInput({ object, access, type: defType }: TypeInputProps) {
+  const sig = useSignal(object[access], () => (object[access] = sig.value))
+  const type = defType || getType(sig.value)
+  const element = useElement(type, { sig })
 
   return (
     <div className="w-full grid grid-cols-[auto_1fr] gap-3">
       <div className="flex gap-3">
-        <span>{addSpaceBeforeUpper(props.access)}</span>
+        <span>{addSpaceBeforeUpper(access)}</span>
         <span className="text-green-500">: {type}</span>
         <span>=</span>
       </div>

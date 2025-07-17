@@ -1,17 +1,15 @@
 import { numbers } from "../../lib/consts"
-import { useSignal } from "../../lib/signals"
+import { useSignal, type Signal } from "@/lib/signals"
 
-export default function NumberInput({ object, access }: StringInputProps) {
-  const currentNumber = useSignal(object[access], () => (object[access] = currentNumber.value))
+export default function NumberInput({ sig }: { sig: Signal<number> }) {
+  const buf = useSignal(String(sig.value))
 
   return (
     <input
       type="text"
-      className="w-full border-b-1 border-solid border-zinc-400"
-      value={currentNumber.value}
+      className="w-full border-b-1 border-solid border-zinc-400 accent-green-600"
+      value={buf.value}
       onChange={({ target: { value } }) => {
-        if (value.slice(1).includes(`-`)) return
-
         let dot = false
         for (const char of value) {
           // Is includes allow chars
@@ -24,11 +22,17 @@ export default function NumberInput({ object, access }: StringInputProps) {
           }
         }
 
-        const num = Number(value)
+        const num = value.slice(1).includes(`-`)
+          ? -Number(`${value.at(0)}${value.slice(1).replaceAll(`-`, ``)}`)
+          : Number(value)
 
-        if (value.at(-1) === `.` || (!num && num !== 0)) return
+        if (num || num === 0) {
+          sig.value = num
+          buf.value = String(num)
+          return
+        }
 
-        currentNumber.value = num
+        buf.value = value
       }}
     />
   )

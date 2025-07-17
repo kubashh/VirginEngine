@@ -111,17 +111,9 @@ export function loadFile() {
   })
 }
 
-// export function getSceneName(scene: Obj) {
-//   for (const key in files.value.Scenes) {
-//     if (files.value.Scenes[key] === scene) return key
-//   }
-
-//   throw Error(`No such scene!`)
-// }
-
 // Type
 export function getType(data: any) {
-  if (typeof data !== `string`) return typeof data
+  if (typeof data !== `string`) return typeof data as VTypes
 
   if (Array.isArray(data) || data[0] === `[`) return `array`
   if (data[0] === `{`) return `object`

@@ -10,7 +10,6 @@ export default function InspectorSection({ text, remove, childs, element }: Insp
         ) : null}
       </div>
       {childs?.map((props) => (
-        // @ts-ignore
         <TypeInput key={props.access} {...props} />
       ))}
       {element}

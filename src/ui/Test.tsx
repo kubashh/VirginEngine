@@ -3,7 +3,7 @@ import { signal } from "../lib/signals"
 import { testScene } from "../lib/consts"
 import { test } from "../build/build"
 
-const opctions = [`16 / 9`, `1 / 1`, `9 / 16`]
+const opctions = [`16/9`, `1/1`, `9/16`]
 
 const aspectRatio = signal(opctions[0])
 
