@@ -1,6 +1,5 @@
 {
-  "name": "virginengine-test",
-  "version": "0.1.0",
+  "name": "virginengine",
   "private": true,
   "scripts": {
     "dev": "clear && next dev --turbopack",

@@ -24,7 +24,7 @@ function optymalizeJs(text: string) {
 }
 
 function encode(s: string) {
-  const buf: string[] = []
+  const buf = []
   for (const e of s) {
     if (["`", `$`].includes(e)) buf.push(`\\`)
     buf.push(e)
