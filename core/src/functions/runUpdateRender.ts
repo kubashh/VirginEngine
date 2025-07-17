@@ -1,5 +1,8 @@
+import { ctx, events, gameObjects, GameTime, Log } from "../values/values"
+import { draw, wait0 } from "./basicFunctions"
+
 // Run
-async function run() {
+export async function run() {
   GameTime.set(1)
   requestAnimationFrame(render)
 

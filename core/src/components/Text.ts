@@ -1,9 +1,15 @@
-class Text {
-  value = ``
-  rect = undefined
-  transform = undefined
+import { draw } from "../functions/basicFunctions"
+import type { GameObject } from "./GameObject"
 
-  constructor({ value }, gameObject, rect) {
+export class Text {
+  value: string
+  rect: XY | undefined
+  transform
+
+  textBaseline
+  textAlign
+
+  constructor(value: string, gameObject: GameObject, rect: XY) {
     this.transform = gameObject.transform
     this.value = value
     this.textBaseline = Text.textBaseline[rect.x]

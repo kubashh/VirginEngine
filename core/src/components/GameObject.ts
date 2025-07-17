@@ -1,19 +1,36 @@
-class GameObject {
-  toUpdate = []
-  toRender = []
+import { gameObjects } from "../values/values"
+import { deepCopy, isChildKey } from "../functions/basicFunctions"
+import { Sprite } from "./Sprite"
+import { Text } from "./Text"
+import { Transform } from "./Transform"
 
-  constructor({ parent, transform, rect, text, sprite, start, update, render, ...rest }) {
+export class GameObject {
+  toUpdate: Void[] = []
+  toRender: Void[] = []
+
+  parent?: any
+  start?: Void
+  update?: Void
+  transform
+  position: any
+  rotation: any
+  scale: any
+
+  text
+  sprite
+
+  constructor({ parent, transform, rect, text, sprite, start, update, render, ...rest }: Obj<any>) {
     if (parent) this.parent = parent
 
     this.transform = new Transform(transform, this)
-    if (text) this.text = new Text(text, this, rect)
+    if (text) this.text = new Text(text.value, this, rect)
     if (sprite) this.sprite = new Sprite(sprite, this)
 
     for (const key in rest) {
       if (isChildKey(key)) {
-        this[key] = new GameObject({ ...rest[key], parent: this })
+        ;(this as any)[key] = new GameObject({ ...rest[key], parent: this })
       } else {
-        this[key] = typeof rest[key] === `function` ? rest[key].bind(this) : rest[key]
+        ;(this as any)[key] = typeof rest[key] === `function` ? rest[key].bind(this) : rest[key]
       }
     }
 
@@ -22,16 +39,16 @@ class GameObject {
 
     if (start) {
       this.start = start.bind(this)
-      this.start()
+      this.start!()
     }
 
     gameObjects.push(this)
   }
 
-  get childs() {
-    const childs = []
+  get childs(): GameObject[] {
+    const childs: GameObject[] = []
     for (const key in this) {
-      if (isChildKey(key)) childs.push(this[key])
+      if (isChildKey(key)) childs.push((this as any)[key])
     }
     return childs
   }
@@ -61,7 +78,7 @@ class GameObject {
     return deepCopy(newObj)
   }
 
-  static destroy(obj) {
+  static destroy(obj: GameObject) {
     // TO DO complite delete, do not delete objects and arrays, !!! DO NOT DELETE functions !!!
     for (const child of obj.childs) GameObject.destroy(child)
 
@@ -74,7 +91,7 @@ class GameObject {
       }
     }
 
-    for (const key in obj) delete obj[key]
+    for (const key in obj) delete (obj as any)[key]
     gameObjects.splice(gameObjects.indexOf(obj))
     delete parent[parentKey]
   }

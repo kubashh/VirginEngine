@@ -1,60 +1,33 @@
-import { readFileSync, writeFileSync } from "fs"
+import { readFileSync, unlinkSync, writeFileSync } from "fs"
+
+await Bun.build({
+  entrypoints: [`src/core.ts`],
+  outdir: `../src/build`,
+})
+
+const file = optymalizeJs(String(readFileSync(`../src/build/core.js`)))
+
+unlinkSync(`../src/build/core.js`)
+
+const outFile = `export const core = \`${encode(file)}\``
+
+writeFileSync(`../src/build/core.ts`, outFile)
 
 // Optymalize JavaScript
 function optymalizeJs(text: string) {
-  return (
-    text
-      .replace(/\/\*[\s\S]*?\*\/|\/\/.*/g, ``) // Remove comments
-      // .replace(`\n`, `;`)
-      .split(`\n`) // Split into lines
-      .map((line) => line.trim()) // Trim lines
-      .filter((line) => line !== ``) // Remove empty lines
-      // .map(line => line.replace(/\s*([({[])\s*/g, `$1`)) // Remove spaces before brackets
-      .join(`\n`) // Join lines
-  )
-  // .replace(/\s{2,}/g, ` `) // Replace multiple spaces with a single space
-}
-
-function joinFiles(arr: (NonSharedBuffer | string)[]) {
-  return arr.reduce((prev: string, s) => `${prev}${s}\n`, ``)
+  return text
+    .replace(/\/\*[\s\S]*?\*\/|\/\/.*/g, ``) // Remove comments
+    .split(`\n`) // Split into lines
+    .map((line) => line.trim()) // Trim lines
+    .filter((line) => line !== ``) // Remove empty lines
+    .join(`\n`) // Join lines
 }
 
 function encode(s: string) {
-  const buf = []
+  const buf: string[] = []
   for (const e of s) {
     if (["`", `$`].includes(e)) buf.push(`\\`)
     buf.push(e)
   }
   return buf.join(``)
 }
-
-// Static files
-const files = optymalizeJs(
-  joinFiles([
-    // Values
-    readFileSync("./src/values/values.js"),
-
-    // Components
-    readFileSync("./src/components/GameObject.js"),
-    readFileSync("./src/components/Transform.js"),
-    readFileSync("./src/components/Collider.js"),
-    readFileSync("./src/components/Physics.js"),
-    readFileSync("./src/components/Sprite.js"),
-    readFileSync("./src/components/Animation.js"),
-    readFileSync("./src/components/Text.js"),
-
-    // Functions
-    readFileSync("./src/functions/basicFunctions.js"),
-    readFileSync("./src/functions/runUpdateRender.js"),
-
-    // Run
-    `
-    loadScene(\`REPLACE_PATH_TO_MAIN_SCENE\`)
-    run()
-    //document.body.children[1].remove()`,
-  ])
-)
-
-const jsFile = `export const core = \`${encode(files)}\``
-
-writeFileSync(`../src/build/core.ts`, jsFile)

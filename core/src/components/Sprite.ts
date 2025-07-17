@@ -1,5 +1,11 @@
-class Sprite {
-  constructor({ color }, gameObject) {
+import { draw } from "../functions/basicFunctions"
+import type { GameObject } from "./GameObject"
+
+export class Sprite {
+  gameObject: GameObject
+  color: string
+
+  constructor({ color }: { color: string }, gameObject: GameObject) {
     this.gameObject = gameObject
     this.color = color
     gameObject.toRender.push(this.render.bind(this))

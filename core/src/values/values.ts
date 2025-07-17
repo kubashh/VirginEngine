@@ -1,5 +1,7 @@
+import type { GameObject } from "../components/GameObject"
+
 // Canvas
-const ctx = document.body.children[0].getContext(`2d`)
+export const ctx = (document.body.children[0] as HTMLCanvasElement).getContext(`2d`)!
 
 function onresize() {
   ctx.canvas.width = window.innerWidth
@@ -9,14 +11,20 @@ function onresize() {
 window.addEventListener(`resize`, onresize)
 onresize()
 
-const files = `REPLACE_FILES`
+export const files = `REPLACE_FILES`
+console.log(files)
 
 // Scene
-let scene = {}
+export let scene: Obj<any> = {}
+
+export function setScene(newScene: GameObject, name: string) {
+  scene = newScene
+  scene.name = name
+}
 
 // Events
-const events = {}
-const eventsHover = {}
+export const events: Obj<boolean> = {}
+export const eventsHover: Obj<boolean> = {}
 
 window.addEventListener(`mousedown`, () => (eventsHover.click = true))
 window.addEventListener(`mouseup`, () => delete eventsHover.click)
@@ -33,7 +41,7 @@ window.addEventListener(`contextmenu`, (e) => {
 })
 
 // GameTime
-const GameTime = {
+export const GameTime = {
   ms: 1,
   value: 1,
   lastTime: 0,
@@ -42,7 +50,7 @@ const GameTime = {
     return GameTime.value
   },
 
-  set(newTime) {
+  set(newTime: number) {
     GameTime.value = newTime
     GameTime.ms = 1000 / (60 * GameTime.value)
     GameTime.lastTime = performance.now()
@@ -50,7 +58,7 @@ const GameTime = {
 }
 
 // Log
-const Log = { updates: 0, frames: 0, framesTemp: 0 }
+export const Log = { updates: 0, frames: 0, framesTemp: 0 }
 
 // Arrays
-const gameObjects = []
+export const gameObjects: GameObject[] = []

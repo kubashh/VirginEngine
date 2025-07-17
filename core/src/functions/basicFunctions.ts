@@ -1,25 +1,28 @@
+import { GameObject } from "../components/GameObject"
+import { ctx, events, eventsHover, gameObjects, scene, setScene } from "../values/values"
+
 // Time
-async function wait(time) {
+export async function wait(time: number) {
   await new Promise((r) => setTimeout(r, time))
 }
 
-async function wait0() {
+export async function wait0() {
   await new Promise((r) => setTimeout(r))
 }
 
 // Is child
-function isChildKey(text) {
-  return `ABCDEFGHIJKLMNOPRQSTUWXYZ`.includes(text[0])
+export function isChildKey(text: string) {
+  return `ABCDEFGHIJKLMNOPRQSTUWXYZ`.includes(text.at(0)!)
 }
 
 // Deep copy
-function deepCopy(data) {
+export function deepCopy(data: any) {
   if (Array.isArray(data)) {
     return data.reduce((prev, val) => [...prev, deepCopy(val)], [])
   }
 
   if (typeof data === `object`) {
-    const newObj = {}
+    const newObj: Obj<any> = {}
 
     for (const key in data) {
       newObj[key] = deepCopy(data[key])
@@ -32,7 +35,7 @@ function deepCopy(data) {
 }
 
 // Clone
-function clone(obj, parent) {
+export function clone(obj: Obj<any>, parent: Obj<any>) {
   const name = obj.name
 
   let newName = name
@@ -46,13 +49,12 @@ function clone(obj, parent) {
 }
 
 // Load scene
-function loadScene({ name, ...newScene }) {
+export function loadScene({ name, ...newScene }: any) {
   // Clear gameObject array
   gameObjects.length = 0
 
   // Load Scene
-  scene = new GameObject(deepCopy(newScene))
-  scene.name = name
+  setScene(new GameObject(deepCopy(newScene)), name)
 
   // Start (Delete events)
   for (const key in events) delete events[key]
@@ -60,10 +62,10 @@ function loadScene({ name, ...newScene }) {
 }
 
 // Set and draw on ctx (canvas)
-function draw({ text, color, x, y, w, h, ...props }) {
+export function draw({ text, color, x, y, w, h, ...props }: Obj<any>) {
   ctx.save()
   for (const key in props) {
-    ctx[key] = props[key]
+    ;(ctx as any)[key] = props[key]
   }
 
   if (text) ctx.fillText(text, x, y)
@@ -74,7 +76,7 @@ function draw({ text, color, x, y, w, h, ...props }) {
   ctx.restore()
 }
 
-function drawBoxMiddle(x, y, w, h, color) {
+export function drawBoxMiddle(x: number, y: number, w: number, h: number, color: string) {
   if (color) ctx.fillStyle = color
 
   ctx.fillRect(x, y, w, h)
