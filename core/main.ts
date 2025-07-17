@@ -16,7 +16,7 @@ writeFileSync(`../src/build/core.ts`, outFile)
 // Optymalize JavaScript
 function optymalizeJs(text: string) {
   return text
-    .replace(/\/\*[\s\S]*?\*\/|\/\/.*/g, ``) // Remove comments
+    .replaceAll(/\/\*[\s\S]*?\*\/|\/\/.*/g, ``) // Remove comments
     .split(`\n`) // Split into lines
     .map((line) => line.trim()) // Trim lines
     .filter((line) => line !== ``) // Remove empty lines

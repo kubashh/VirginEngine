@@ -14,18 +14,17 @@ function optymalizeHtml(text: string) {
     .replaceAll(`" `, `"`)
 }
 
-export function htmlCode() {
-  return `${optymalizeHtml(`
+const html = optymalizeHtml(`
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <meta name="author" content="${conf.author}">
-    <meta name="description" content="${conf.description}">
-    <meta name="keywords" content="${conf.gameName},${conf.author}">
+    <meta name="author" content="AUTHOR">
+    <meta name="description" content="DESCRIPTION">
+    <meta name="keywords" content="GAME_NAME,AUTHOR">
 
-    <title>${conf.gameName}</title>
+    <title>GAME_NAME</title>
 
   </head>
   <body style="
@@ -40,9 +39,16 @@ export function htmlCode() {
 
     <canvas></canvas>
     <script>
-      `)}${jsCode()}${optymalizeHtml(`
+      SCRIPT
     </script>
   </body>
 </html>
-`)}`
+`)
+
+export function htmlCode() {
+  return html
+    .replaceAll(`AUTHOR`, conf.author)
+    .replaceAll(`DESCRIPTION`, conf.description)
+    .replaceAll(`GAME_NAME`, conf.gameName)
+    .replaceAll(`SCRIPT`, jsCode())
 }

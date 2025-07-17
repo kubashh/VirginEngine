@@ -19,7 +19,10 @@ export default function Test() {
       className="absolute z-1 w-screen h-screen"
       headerOptions={{
         ...opctions.reduce((old, value) => ({ ...old, [value]: () => (aspectRatio.value = value) }), {}),
-        Restart: test,
+        Restart: () => {
+          testScene.value = `.`
+          setTimeout(test)
+        },
         Exit: () => (testScene.value = ``),
       }}
     >
