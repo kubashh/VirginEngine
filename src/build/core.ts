@@ -221,7 +221,6 @@ newName = \`\${name}\${i}\`;
 i++;
 }
 parent[newName] = new GameObject({ ...this.props, parent });
-console.log(\`Clone\`, parent[newName]);
 }
 destroy() {
 for (const child of this.childs)
@@ -345,7 +344,7 @@ ctx.canvas.width = window.innerWidth;
 ctx.canvas.height = window.innerHeight;
 }
 window.addEventListener(\`resize\`, onresize);
+console.log(\`Engine:\`, !!files);
 onresize();
-console.log(files);
 loadScene(\`REPLACE_PATH_TO_MAIN_SCENE\`);
 run();`

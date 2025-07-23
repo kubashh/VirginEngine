@@ -27,9 +27,13 @@ window.addEventListener(`resize`, onresize)
 
 // Run
 
+console.log(`Engine:`, !!files)
+// console.clear()
+
 onresize()
 
-console.log(files)
 loadScene(`REPLACE_PATH_TO_MAIN_SCENE`)
+
 run()
+
 // document.body.children[1].remove()`

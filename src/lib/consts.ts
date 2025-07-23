@@ -39,7 +39,7 @@ const filesTemplate: Obj = {
         scale: { x: 20, y: 20 },
         sprite: { color: `red`, imagePath: `` },
         start: `function() {
-  this.position = {x: Math.random() * 1000, y: Math.random() * window.innerHeight}
+  this.position = {x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight}
   console.log("Start ".concat(this.position.x))
 }`,
         update: `function() { console.log(this.position.x, this.name) }`,

@@ -1,5 +1,3 @@
-"use client"
-
 import { useEffect, useRef } from "react"
 import { nameInput } from "../lib/consts"
 import { capitalize, isValidName } from "../lib/utils"

@@ -93,8 +93,6 @@ export class GameObject {
     }
 
     parent[newName] = new GameObject({ ...this.props, parent })
-
-    console.log(`Clone`, parent[newName])
   }
 
   destroy() {
