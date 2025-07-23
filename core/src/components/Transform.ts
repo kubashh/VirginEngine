@@ -12,7 +12,7 @@ export class Transform {
   rect
   readonly
 
-  constructor(props?: { position: XY; rotation: Z; scale: XY; rect: XY }, gameObject?: GameObject) {
+  constructor(props: { position: XY; rotation: Z; scale: XY; rect: XY }, gameObject: GameObject) {
     if (props && gameObject) {
       this.gameObject = gameObject
 
@@ -35,10 +35,7 @@ export class Transform {
     return { x: this.positionX, y: this.positionY }
   }
   set position({ x, y }) {
-    if (this.readonly) {
-      alert(`PROGRAMMER, you can't chage "readOnly" position`)
-      return
-    }
+    if (this.readonly) throw alert(`PROGRAMMER, you can't chage "readOnly" position`)
 
     for (const child of this.gameObject!.childs) {
       child.transform.position = {
@@ -56,14 +53,12 @@ export class Transform {
     return { z: this.rotationZ }
   }
   set rotation({ z }) {
-    if (this.readonly) {
-      throw alert(`PROGRAMMER, you can't chage "readOnly" rotation`)
-    }
+    if (this.readonly) throw alert(`PROGRAMMER, you can't chage "readOnly" rotation`)
 
     while (z < 0) {
       z += 360
     }
-    while (z > 360) {
+    while (z >= 360) {
       z -= 360
     }
 
@@ -85,10 +80,7 @@ export class Transform {
     return { x: this.scaleX, y: this.scaleY }
   }
   set scale({ x, y }) {
-    if (this.readonly) {
-      alert(`PROGRAMMER, you can't chage "readOnly" scale`)
-      return
-    }
+    if (this.readonly) throw alert(`PROGRAMMER, you can't chage "readOnly" scale`)
 
     for (const child of this.gameObject!.childs) {
       child.transform.scale = {

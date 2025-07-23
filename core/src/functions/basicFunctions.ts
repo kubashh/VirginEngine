@@ -1,5 +1,5 @@
 import { GameObject } from "../components/GameObject"
-import { ctx, events, eventsHover, gameObjects, scene, setScene } from "../values/values"
+import { ctx, events, eventsHover, gameObjects, setScene } from "../values/values"
 
 // Time
 export async function wait(time: number) {
@@ -25,6 +25,7 @@ export function deepCopy(data: any) {
     const newObj: Obj<any> = {}
 
     for (const key in data) {
+      if ([`parent`, `toUpdate`, `toRender`, `gameObject`].includes(key)) continue
       newObj[key] = deepCopy(data[key])
     }
 
@@ -32,20 +33,6 @@ export function deepCopy(data: any) {
   }
 
   return data
-}
-
-// Clone
-export function clone(obj: Obj<any>, parent: Obj<any>) {
-  const name = obj.name
-
-  let newName = name
-  let i = 0
-  while (parent[newName]) {
-    newName = `${name}${i}`
-    i++
-  }
-
-  parent[newName] = new GameObject({ ...obj.props, parent })
 }
 
 // Load scene

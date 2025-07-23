@@ -2,7 +2,7 @@
   "name": "virginengine",
   "private": true,
   "scripts": {
-    "dev": "clear && next dev --turbopack",
+    "dev": "cd core && bun run build && cd .. && next dev --turbopack",
     "build": "next build"
   },
   "dependencies": {

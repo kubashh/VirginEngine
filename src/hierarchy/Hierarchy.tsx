@@ -12,7 +12,7 @@ function HierarchyComponent() {
 
 export default function Hierarchy() {
   return (
-    <Window name="Hierarchy" className="w-(--width2) h-(--height1) border-b-1 border-solid border-zinc-400">
+    <Window name="Hierarchy" className="w-(--width2) h-(--height1) border-b-1 border-zinc-400">
       <div className="overflow-y-scroll">
         <HierarchyComponent />
       </div>

@@ -7,7 +7,7 @@ export default function NumberInput({ sig }: { sig: Signal<number> }) {
   return (
     <input
       type="text"
-      className="w-full border-b-1 border-solid border-zinc-400 accent-green-600"
+      className="w-full border-b-1 border-zinc-400 accent-green-600"
       value={buf.value}
       onChange={({ target: { value } }) => {
         let dot = false

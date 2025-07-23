@@ -32,7 +32,7 @@ const filesTemplate: Obj = {
       Parent: defaultGameObject({
         start: `function() {
   for(let i = 0; i < 10; i++)
-    setTimeout(() => clone(this.parent.Child, scene))
+    setTimeout(() => this.parent.Child.clone(scene))
 }`,
       }),
       Child: defaultGameObject({

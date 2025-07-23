@@ -1,12 +1,5 @@
 export const core = `var ctx = document.body.children[0].getContext(\`2d\`);
-function onresize() {
-ctx.canvas.width = window.innerWidth;
-ctx.canvas.height = window.innerHeight;
-}
-window.addEventListener(\`resize\`, onresize);
-onresize();
 var files = \`REPLACE_FILES\`;
-console.log(files);
 var scene = {};
 function setScene(newScene, name) {
 scene = newScene;
@@ -14,15 +7,6 @@ scene.name = name;
 }
 var events = {};
 var eventsHover = {};
-window.addEventListener(\`mousedown\`, () => eventsHover.click = true);
-window.addEventListener(\`mouseup\`, () => delete eventsHover.click);
-window.addEventListener(\`click\`, () => events.click = true);
-window.addEventListener(\`keydown\`, ({ key }) => events[key] = eventsHover[key] = true);
-window.addEventListener(\`keyup\`, ({ key }) => delete eventsHover[key]);
-window.addEventListener(\`contextmenu\`, (e) => {
-e.preventDefault();
-!document.fullscreenElement ? document.documentElement.requestFullscreen() : document.exitFullscreen();
-});
 var GameTime = {
 ms: 1,
 value: 1,
@@ -109,10 +93,8 @@ get position() {
 return { x: this.positionX, y: this.positionY };
 }
 set position({ x, y }) {
-if (this.readonly) {
-alert(\`PROGRAMMER, you can't chage "readOnly" position\`);
-return;
-}
+if (this.readonly)
+throw alert(\`PROGRAMMER, you can't chage "readOnly" position\`);
 for (const child of this.gameObject.childs) {
 child.transform.position = {
 x: child.transform.positionX - this.positionX + x,
@@ -126,13 +108,12 @@ get rotation() {
 return { z: this.rotationZ };
 }
 set rotation({ z }) {
-if (this.readonly) {
+if (this.readonly)
 throw alert(\`PROGRAMMER, you can't chage "readOnly" rotation\`);
-}
 while (z < 0) {
 z += 360;
 }
-while (z > 360) {
+while (z >= 360) {
 z -= 360;
 }
 for (const child of this.gameObject.childs) {
@@ -150,10 +131,8 @@ get scale() {
 return { x: this.scaleX, y: this.scaleY };
 }
 set scale({ x, y }) {
-if (this.readonly) {
-alert(\`PROGRAMMER, you can't chage "readOnly" scale\`);
-return;
-}
+if (this.readonly)
+throw alert(\`PROGRAMMER, you can't chage "readOnly" scale\`);
 for (const child of this.gameObject.childs) {
 child.transform.scale = {
 x: child.transform.scaleX / this.scaleX * x,
@@ -164,6 +143,7 @@ this.scaleX = x;
 this.scaleY = y;
 }
 }
+var keywords = [\`toUpdate\`, \`toRender\`, \`parent\`, \`position\`, \`rotation\`, \`scale\`];
 class GameObject {
 toUpdate = [];
 toRender = [];
@@ -192,11 +172,11 @@ this[key] = typeof rest[key] === \`function\` ? rest[key].bind(this) : rest[key]
 }
 }
 if (update)
-this.toUpdate.push(update.bind(this));
+this.toUpdate.push(() => update.bind(this)());
 if (render)
-this.toRender.push(render.bind(this));
+this.toRender.push(() => render.bind(this)());
 if (start) {
-this.start = start.bind(this);
+this.start = () => start.bind(this)();
 this.start();
 }
 gameObjects.push(this);
@@ -214,6 +194,7 @@ for (const key in this.parent) {
 if (this === this.parent[key])
 return key;
 }
+throw Error(\`No name in Obj!\`);
 }
 get props() {
 const newObj = {
@@ -225,22 +206,31 @@ rotation: this.rotation,
 scale: this.scale
 }
 };
+for (const key in this) {
+if (!(key in newObj) && !keywords.includes(key))
+newObj[key] = this[key];
+}
 return deepCopy(newObj);
 }
-static destroy(obj) {
-for (const child of obj.childs)
-GameObject.destroy(child);
-const { parent } = obj;
-let parentKey = \`\`;
-for (const key in obj.parent) {
-if (obj.parent[key] === obj) {
-parentKey = key;
-break;
+clone(parent) {
+const name = this.name;
+let newName = name;
+let i = 0;
+while (parent[newName]) {
+newName = \`\${name}\${i}\`;
+i++;
 }
+parent[newName] = new GameObject({ ...this.props, parent });
+console.log(\`Clone\`, parent[newName]);
 }
-for (const key in obj)
-delete obj[key];
-gameObjects.splice(gameObjects.indexOf(obj));
+destroy() {
+for (const child of this.childs)
+child.destroy();
+const { parent } = this;
+const parentKey = this.name;
+for (const key in this)
+delete this[key];
+gameObjects.splice(gameObjects.indexOf(this));
 delete parent[parentKey];
 }
 }
@@ -257,21 +247,13 @@ return data.reduce((prev, val) => [...prev, deepCopy(val)], []);
 if (typeof data === \`object\`) {
 const newObj = {};
 for (const key in data) {
+if ([\`parent\`, \`toUpdate\`, \`toRender\`, \`gameObject\`].includes(key))
+continue;
 newObj[key] = deepCopy(data[key]);
 }
 return newObj;
 }
 return data;
-}
-function clone(obj, parent) {
-const name = obj.name;
-let newName = name;
-let i = 0;
-while (parent[newName]) {
-newName = \`\${name}\${i}\`;
-i++;
-}
-parent[newName] = new GameObject({ ...obj.props, parent });
 }
 function loadScene({ name, ...newScene }) {
 gameObjects.length = 0;
@@ -349,6 +331,21 @@ draw({ text: \`Render \${Log.frames}\`, ...props, y: 38 });
 Log.framesTemp++;
 requestAnimationFrame(render);
 }
-console.log(files, clone);
+window.addEventListener(\`mousedown\`, () => eventsHover.click = true);
+window.addEventListener(\`mouseup\`, () => delete eventsHover.click);
+window.addEventListener(\`click\`, () => events.click = true);
+window.addEventListener(\`keydown\`, ({ key }) => events[key] = eventsHover[key] = true);
+window.addEventListener(\`keyup\`, ({ key }) => delete eventsHover[key]);
+window.addEventListener(\`contextmenu\`, (e) => {
+e.preventDefault();
+!document.fullscreenElement ? document.documentElement.requestFullscreen() : document.exitFullscreen();
+});
+function onresize() {
+ctx.canvas.width = window.innerWidth;
+ctx.canvas.height = window.innerHeight;
+}
+window.addEventListener(\`resize\`, onresize);
+onresize();
+console.log(files);
 loadScene(\`REPLACE_PATH_TO_MAIN_SCENE\`);
 run();`
