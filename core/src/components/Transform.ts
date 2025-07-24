@@ -9,18 +9,16 @@ export default class Transform {
   sx = 1
   sy = 1
 
-  rect = { x: 0, y: 0 }
   readonly
 
-  constructor(props: { position?: XY; rotation?: Z; scale?: XY; rect: XY }, gameObject: GameObject) {
+  constructor(props: { position?: XY; rotation?: Z; scale?: XY }, gameObject: GameObject) {
     if (props && gameObject) {
       this.gameObject = gameObject
 
-      const { position, rotation, scale, rect } = props
+      const { position, rotation, scale } = props
       if (position) this.position = position
       if (rotation) this.rotation = rotation
       if (scale) this.scale = scale
-      if (rect) this.rect = rect
 
       gameObject.position = this.position
       gameObject.rotation = this.rotation

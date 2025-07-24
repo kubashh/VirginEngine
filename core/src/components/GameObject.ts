@@ -1,6 +1,7 @@
 import Transform from "./Transform"
 import Sprite from "./Sprite"
 import Text from "./Text"
+import Rect from "./Rect"
 import { gameObjects } from "../values/values"
 import { deepCopy, isChildKey } from "../util/basicFunctions"
 
@@ -17,6 +18,7 @@ export default class GameObject {
   position: any
   rotation: any
   scale: any
+  rect: any
 
   text
   sprite
@@ -27,6 +29,8 @@ export default class GameObject {
     this.transform = new Transform(transform, this)
     if (text) this.text = new Text(text.value, this, rect)
     if (sprite) this.sprite = Sprite(sprite, this)
+
+    if (rect) this.rect = new Rect(rect, this)
 
     for (const key in rest) {
       if (isChildKey(key)) {
@@ -74,8 +78,8 @@ export default class GameObject {
         position: this.position,
         rotation: this.rotation,
         scale: this.scale,
-        rect: this.transform.rect,
       },
+      rect: this.rect && { x: this.rect.x, y: this.rect.y },
     }
 
     for (const key in this) {

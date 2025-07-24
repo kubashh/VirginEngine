@@ -28,19 +28,16 @@ py = 0;
 rz = 0;
 sx = 1;
 sy = 1;
-rect = { x: 0, y: 0 };
 constructor(props, gameObject) {
 if (props && gameObject) {
 this.gameObject = gameObject;
-const { position, rotation, scale, rect } = props;
+const { position, rotation, scale } = props;
 if (position)
 this.position = position;
 if (rotation)
 this.rotation = rotation;
 if (scale)
 this.scale = scale;
-if (rect)
-this.rect = rect;
 gameObject.position = this.position;
 gameObject.rotation = this.rotation;
 gameObject.scale = this.scale;
@@ -156,6 +153,16 @@ textAlign: this.textAlign
 });
 }
 }
+class Rect {
+gameObject;
+x;
+y;
+constructor({ x, y }, gameObject) {
+this.gameObject = gameObject;
+this.x = x;
+this.y = y;
+}
+}
 var keywords = [\`toUpdate\`, \`toRender\`, \`parent\`, \`position\`, \`rotation\`, \`scale\`];
 class GameObject {
 toUpdate = [];
@@ -167,6 +174,7 @@ transform;
 position;
 rotation;
 scale;
+rect;
 text;
 sprite;
 constructor({ parent, transform, rect, text, sprite, start, update, render, ...rest }) {
@@ -176,6 +184,8 @@ if (text)
 this.text = new Text(text.value, this, rect);
 if (sprite)
 this.sprite = Sprite(sprite, this);
+if (rect)
+this.rect = new Rect(rect, this);
 for (const key in rest) {
 if (isChildKey(key)) {
 this[key] = new GameObject({ ...rest[key], parent: this });
@@ -217,9 +227,9 @@ update: this?.update,
 transform: {
 position: this.position,
 rotation: this.rotation,
-scale: this.scale,
-rect: this.transform.rect
-}
+scale: this.scale
+},
+rect: this.rect && { x: this.rect.x, y: this.rect.y }
 };
 for (const key in this) {
 if (!(key in newObj) && !keywords.includes(key))

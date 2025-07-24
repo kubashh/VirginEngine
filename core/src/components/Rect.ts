@@ -5,10 +5,10 @@ export default class Rect {
   x
   y
 
-  constructor({ rect }: { rect: XY }, gameObject: GameObject) {
+  constructor({ x, y }: XY, gameObject: GameObject) {
     this.gameObject = gameObject
 
-    this.x = rect.x
-    this.y = rect.y
+    this.x = x
+    this.y = y
   }
 }
