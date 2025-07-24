@@ -21,7 +21,7 @@ export class GameObject {
   text
   sprite
 
-  constructor({ parent, transform, rect, text, sprite, start, update, render, ...rest }: Obj<any>) {
+  constructor({ parent, transform, rect, text, sprite, start, update, render, ...rest }: Any) {
     this.parent = parent || new GameObject({ parent: {} })
 
     this.transform = new Transform(transform, this)
@@ -30,47 +30,51 @@ export class GameObject {
 
     for (const key in rest) {
       if (isChildKey(key)) {
-        ;(this as any)[key] = new GameObject({ ...rest[key], parent: this })
+        ;(this as Any)[key] = new GameObject({ ...rest[key], parent: this })
       } else {
-        ;(this as any)[key] = typeof rest[key] === `function` ? rest[key].bind(this) : rest[key]
+        ;(this as Any)[key] = typeof rest[key] === `function` ? rest[key].bind(this) : rest[key]
       }
     }
 
-    if (update) this.toUpdate.push(() => update.bind(this)())
+    if (update) {
+      this.update = update
+      this.toUpdate.push(() => this.update!.bind(this)())
+    }
     if (render) this.toRender.push(() => render.bind(this)())
 
     if (start) {
-      this.start = () => start.bind(this)()
-      this.start!()
+      this.start = start
+      this.start!.bind(this)()
     }
 
     gameObjects.push(this)
   }
 
-  get childs(): GameObject[] {
+  get childs() {
     const childs: GameObject[] = []
     for (const key in this) {
-      if (isChildKey(key)) childs.push((this as any)[key])
+      if (isChildKey(key)) childs.push((this as Any)[key])
     }
     return childs
   }
 
   get name() {
     for (const key in this.parent) {
-      if (this === (this.parent as any)[key]) return key
+      if (this === (this.parent as Any)[key]) return key
     }
 
     throw Error(`No name in Obj!`)
   }
 
   get props() {
-    const newObj: Obj<any> = {
+    const newObj: Any = {
       start: this?.start,
       update: this?.update,
       transform: {
         position: this.position,
         rotation: this.rotation,
         scale: this.scale,
+        rect: this.transform.rect,
       },
     }
 
@@ -82,7 +86,7 @@ export class GameObject {
   }
 
   // Clone
-  clone(parent: Obj<any>) {
+  clone(parent: Any) {
     const name = this.name
 
     let newName = name
@@ -102,8 +106,8 @@ export class GameObject {
     const { parent } = this
     const parentKey = this.name
 
-    for (const key in this) delete (this as any)[key]
+    for (const key in this) delete (this as Any)[key]
     gameObjects.splice(gameObjects.indexOf(this))
-    delete (parent as any)[parentKey]
+    delete (parent as Any)[parentKey]
   }
 }

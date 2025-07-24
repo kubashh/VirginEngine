@@ -13,14 +13,14 @@ const rect = [[[`x`], [`y`]], { x: 0, y: 0 }, [], [`text`]]
 
 const sprite = [[[`color`], [`imagePath`]], { color: ``, imagePath: `` }, [], []]
 
-const components: Obj = { text, rect, sprite }
+const components: Any = { text, rect, sprite }
 
-function toChilds(object: Obj, name: string, arr: any[]) {
+function toChilds(object: Any, name: string, arr: any[]) {
   return arr.reduce(
     (prev, e) => [
       ...prev,
       {
-        object: e.slice(0, -1).reduce((prev: Obj, key: string) => prev[key], object[name]),
+        object: e.slice(0, -1).reduce((prev: Any, key: string) => prev[key], object[name]),
         access: e.at(-1),
       },
     ],
@@ -39,7 +39,7 @@ export function AddComponent({ text, onClick }: AddComponentProps) {
   )
 }
 
-function Component({ name, refresh, readOnly, ...props }: Obj) {
+function Component({ name, refresh, readOnly, ...props }: Any) {
   const remove = () => {
     for (const key of components[name][3]) {
       delete props.object[key]
@@ -72,7 +72,7 @@ function Component({ name, refresh, readOnly, ...props }: Obj) {
   )
 }
 
-function Components({ name, ...props }: Obj) {
+function Components({ name, ...props }: Any) {
   const refresh = useRefresh()
   props = { ...props, refresh }
 
@@ -88,6 +88,6 @@ function Components({ name, ...props }: Obj) {
   )
 }
 
-export function setComponents(props: Obj) {
+export function setComponents(props: Any) {
   inspector.value = <Components {...props} />
 }

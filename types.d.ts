@@ -1,6 +1,7 @@
 // Simple
 
-type Obj = Record<string, any>
+type Obj<T> = Record<string, T>
+type Any = Obj<any>
 type Void = () => void
 
 type VTypes = `boolean` | `number` | `string` | `array` | `object` | `function` | `enum`

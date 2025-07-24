@@ -1,10 +1,10 @@
 import { allowedNameChars, alphabet, conf, currentScene, files, keywords, setUp } from "./consts"
 
-export function deepCopy(obj: Obj) {
+export function deepCopy(obj: Any) {
   return JSON.parse(JSON.stringify(obj))
 }
 
-function createElement({ name, ...props }: Obj) {
+function createElement({ name, ...props }: Any) {
   const element = document.createElement(name)
   for (const key in props) element[key] = props[key]
   element.click()
@@ -46,7 +46,7 @@ export function isCustomProp(text: string) {
   return !isFirstUpperCase(text) && !keywords.includes(text)
 }
 
-export function openScene(scene: Obj) {
+export function openScene(scene: Any) {
   currentScene.value = scene
 }
 
@@ -61,7 +61,7 @@ export function openMainScene() {
   openScene(scene)
 }
 
-export function defaultGameObject({ position, rotation, scale, ...rest }: Obj = {}) {
+export function defaultGameObject({ position, rotation, scale, ...rest }: Any = {}) {
   return Object.keys(rest).reduce((prev, key) => ({ [key]: rest[key], ...prev }), {
     type: `gameObject`,
     transform: {
@@ -78,13 +78,13 @@ export function capitalize(text: string) {
     : `${text[0].toUpperCase()}${text.slice(1)}`
 }
 
-export function isOccupied(obj: Obj, name: string) {
+export function isOccupied(obj: Any, name: string) {
   for (const key in obj) if (key === name) return true
   return false
 }
 
 // LoadFile
-function clearAssign(old: Obj, obj: Obj) {
+function clearAssign(old: Any, obj: Any) {
   for (const key in old) delete old[key]
   for (const key in obj) old[key] = obj[key]
 }

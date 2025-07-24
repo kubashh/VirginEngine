@@ -169,13 +169,15 @@ this[key] = new GameObject({ ...rest[key], parent: this });
 this[key] = typeof rest[key] === \`function\` ? rest[key].bind(this) : rest[key];
 }
 }
-if (update)
-this.toUpdate.push(() => update.bind(this)());
+if (update) {
+this.update = update;
+this.toUpdate.push(() => this.update.bind(this)());
+}
 if (render)
 this.toRender.push(() => render.bind(this)());
 if (start) {
-this.start = () => start.bind(this)();
-this.start();
+this.start = start;
+this.start.bind(this)();
 }
 gameObjects.push(this);
 }
@@ -201,7 +203,8 @@ update: this?.update,
 transform: {
 position: this.position,
 rotation: this.rotation,
-scale: this.scale
+scale: this.scale,
+rect: this.transform.rect
 }
 };
 for (const key in this) {

@@ -18,7 +18,7 @@ export function deepCopy(data: any) {
   }
 
   if (typeof data === `object`) {
-    const newObj: Obj<any> = {}
+    const newObj: Any = {}
 
     for (const key in data) {
       if ([`parent`, `toUpdate`, `toRender`, `gameObject`].includes(key)) continue
@@ -48,10 +48,10 @@ export function loadScene({ name, ...newScene }: any) {
 }
 
 // Set and draw on ctx (canvas)
-export function draw({ text, color, x, y, w, h, ...props }: Obj<any>) {
+export function draw({ text, color, x, y, w, h, ...props }: Any) {
   ctx.save()
   for (const key in props) {
-    ;(ctx as any)[key] = props[key]
+    ;(ctx as Any)[key] = props[key]
   }
 
   if (text) ctx.fillText(text, x, y)

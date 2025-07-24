@@ -16,7 +16,7 @@ export const conf = {
   pathToMainScene: `files.Scenes.DefaultScene`,
 }
 
-const filesTemplate: Obj = {
+const filesTemplate: Any = {
   type: `folder`,
   Scenes: {
     type: `folder`,
@@ -28,21 +28,23 @@ const filesTemplate: Obj = {
     DefaultScene: {
       name: `DefaultScene`,
       type: `scene`,
-      // camera: defaultGameObject({ camera: { width: 400, height: 300 } }),
+      // camera: { scale: 1, aspectRatio: 1, x: 0, y: 0 },
       Parent: defaultGameObject({
         start: `function() {
-  for(let i = 0; i < 10; i++)
+  for(let i = 0; i < 1000; i++)
     setTimeout(() => this.parent.Child.clone(scene))
 }`,
       }),
       Child: defaultGameObject({
         scale: { x: 20, y: 20 },
-        sprite: { color: `red`, imagePath: `` },
+        sprite: { color: `#974`, imagePath: `` },
         start: `function() {
   this.position = {x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight}
-  console.log("Start ".concat(this.position.x))
 }`,
-        update: `function() { console.log(this.position.x, this.name) }`,
+        update: `function() {
+  const x = this.position.x - 1
+  this.position = {x: x < 0 ? window.innerWidth : x, y: this.position.y}
+}`,
       }),
     },
   },
@@ -61,12 +63,12 @@ const filesTemplate: Obj = {
   },
 }
 
-export const currentScene = signal<Obj>(filesTemplate.Scenes.MainScene)
+export const currentScene = signal<Any>(filesTemplate.Scenes.MainScene)
 export const inspector = signal<React.ReactNode>(null)
 export const nameInput = signal<[((arg: string) => void)?, string?, boolean?]>([])
-export const dragData = signal<Obj | null>(null)
+export const dragData = signal<Any | null>(null)
 export const testScene = signal(``)
-export const files = signal<Obj>(filesTemplate)
+export const files = signal<Any>(filesTemplate)
 export const contextMenu = signal<[number?, number?, ...any]>([])
 export const setUp = signal(false)
 

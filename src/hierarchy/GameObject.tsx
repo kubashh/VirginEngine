@@ -4,7 +4,7 @@ import { defaultGameObject, isFirstUpperCase } from "../lib/utils"
 import { useArrow } from "../lib/hooks"
 import { setComponents } from "./components/componentsLib"
 
-function getChilds(obj: Obj = {}) {
+function getChilds(obj: Any = {}) {
   return Object.keys(obj).reduce(
     (prev, key) => (!keywords.includes(key) && isFirstUpperCase(key) ? { [key]: obj[key], ...prev } : prev),
     {}

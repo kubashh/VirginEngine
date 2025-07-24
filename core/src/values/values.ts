@@ -34,7 +34,7 @@ export const GameTime = {
 }
 
 // Scene
-export let scene: Obj<any> = {}
+export let scene: Any = {}
 
 export function setScene(newScene: GameObject) {
   scene = newScene
