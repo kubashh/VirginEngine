@@ -2,7 +2,7 @@ import { core } from "./core"
 import { conf, files } from "../lib/consts"
 import { isCustomProp } from "../lib/utils"
 
-function filesToString(data: Obj, name?: string, type?: string): any {
+function filesToString(data: Any, name?: string, type?: string): any {
   if (Array.isArray(data)) {
     return `${data
       .reduce((prev, e) => {
