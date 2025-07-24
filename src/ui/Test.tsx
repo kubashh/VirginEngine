@@ -30,7 +30,7 @@ export default function Test() {
         <iframe
           title="scene"
           className="box-content border-x-1 border-zinc-400"
-          style={{ height: `min(100%, calc(100vw * ${aspectRatio.value}))`, aspectRatio: aspectRatio.value }}
+          style={{ aspectRatio: aspectRatio.value }}
           srcDoc={testScene.value}
         />
       </div>
