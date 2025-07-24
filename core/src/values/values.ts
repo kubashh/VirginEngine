@@ -1,4 +1,4 @@
-import type { GameObject } from "../components/GameObject"
+import type GameObject from "../components/GameObject"
 
 // Canvas
 export const ctx = (document.body.children[0] as HTMLCanvasElement).getContext(`2d`)!

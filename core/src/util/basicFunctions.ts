@@ -1,4 +1,4 @@
-import { GameObject } from "../components/GameObject"
+import GameObject from "../components/GameObject"
 import { ctx, events, eventsHover, gameObjects, scene, setScene } from "../values/values"
 
 // Time
@@ -47,7 +47,7 @@ export function loadScene({ name, ...newScene }: any) {
   onresize()
 }
 
-// Set and draw on ctx (canvas)
+// Set and draw on canvas
 export function draw({ text, color, x, y, w, h, ...props }: Any) {
   ctx.save()
   for (const key in props) {
@@ -63,9 +63,7 @@ export function draw({ text, color, x, y, w, h, ...props }: Any) {
 }
 
 export function drawBoxMiddle(x: number, y: number, w: number, h: number, color: string) {
-  if (color) ctx.fillStyle = color
-
-  ctx.fillRect(x, y, w, h)
+  draw({ x: x - w / 2, y: y - h / 2, w, h, color })
 }
 
 export function onresize() {

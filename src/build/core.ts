@@ -21,50 +21,6 @@ var scene = {};
 function setScene(newScene) {
 scene = newScene;
 }
-class Sprite {
-gameObject;
-color;
-constructor({ color }, gameObject) {
-this.gameObject = gameObject;
-this.color = color;
-gameObject.toRender.push(this.render.bind(this));
-}
-render() {
-draw({
-x: this.gameObject.position.x,
-y: this.gameObject.position.y,
-w: this.gameObject.scale.x,
-h: this.gameObject.scale.y,
-color: this.color
-});
-}
-}
-class Text {
-value;
-rect;
-transform;
-textBaseline;
-textAlign;
-constructor(value, gameObject, rect) {
-this.transform = gameObject.transform;
-this.value = value;
-this.textBaseline = Text.textBaseline[rect.x];
-this.textAlign = Text.textAlign[rect.y];
-gameObject.toRender.push(this.render.bind(this));
-}
-render() {
-draw({
-text: this.value,
-...this.transform.position,
-fillStyle: \`white\`,
-font: \`\${this.transform.scale.y}px serif\`,
-textBaseline: this.textBaseline,
-textAlign: this.textAlign
-});
-}
-static textBaseline = [\`top\`, \`middle\`, \`bottom\`];
-static textAlign = [\`left\`, \`center\`, \`right\`];
-}
 class Transform {
 gameObject;
 px = 0;
@@ -72,18 +28,22 @@ py = 0;
 rz = 0;
 sx = 1;
 sy = 1;
-rect;
+rect = { x: 0, y: 0 };
 constructor(props, gameObject) {
 if (props && gameObject) {
 this.gameObject = gameObject;
 const { position, rotation, scale, rect } = props;
+if (position)
 this.position = position;
+if (rotation)
 this.rotation = rotation;
+if (scale)
 this.scale = scale;
+if (rect)
 this.rect = rect;
-gameObject.position = position;
-gameObject.rotation = rotation;
-gameObject.scale = scale;
+gameObject.position = this.position;
+gameObject.rotation = this.rotation;
+gameObject.scale = this.scale;
 } else {
 this.readonly = true;
 }
@@ -142,6 +102,60 @@ this.sx = x;
 this.sy = y;
 }
 }
+function Sprite(props, gameObject) {
+if (props.imagePath)
+return new PathSprite(props, gameObject);
+return new BoxSprite(props, gameObject);
+}
+class BoxSprite {
+gameObject;
+color;
+constructor({ color }, gameObject) {
+this.gameObject = gameObject;
+this.color = color;
+gameObject.toRender.push(this.render.bind(this));
+}
+render() {
+drawBoxMiddle(this.gameObject.position.x, this.gameObject.position.y, this.gameObject.scale.x, this.gameObject.scale.y, this.color);
+}
+}
+class PathSprite {
+gameObject;
+imagePath;
+constructor({ imagePath }, gameObject) {
+this.gameObject = gameObject;
+this.imagePath = imagePath;
+gameObject.toRender.push(this.render.bind(this));
+throw Error(\`PathSprite, camming soon!\`);
+}
+render() {}
+}
+var textBaseline = [\`top\`, \`middle\`, \`bottom\`];
+var textAlign = [\`left\`, \`center\`, \`right\`];
+class Text {
+value;
+rect;
+transform;
+textBaseline;
+textAlign;
+constructor(value, gameObject, rect) {
+this.transform = gameObject.transform;
+this.value = value;
+this.textBaseline = textBaseline[rect.x];
+this.textAlign = textAlign[rect.y];
+gameObject.toRender.push(this.render.bind(this));
+}
+render() {
+draw({
+text: this.value,
+...this.transform.position,
+fillStyle: \`white\`,
+font: \`\${this.transform.scale.y}px serif\`,
+textBaseline: this.textBaseline,
+textAlign: this.textAlign
+});
+}
+}
 var keywords = [\`toUpdate\`, \`toRender\`, \`parent\`, \`position\`, \`rotation\`, \`scale\`];
 class GameObject {
 toUpdate = [];
@@ -161,7 +175,7 @@ this.transform = new Transform(transform, this);
 if (text)
 this.text = new Text(text.value, this, rect);
 if (sprite)
-this.sprite = new Sprite(sprite, this);
+this.sprite = Sprite(sprite, this);
 for (const key in rest) {
 if (isChildKey(key)) {
 this[key] = new GameObject({ ...rest[key], parent: this });
@@ -277,6 +291,9 @@ ctx.fillStyle = color;
 ctx.fillRect(x, y, w, h);
 }
 ctx.restore();
+}
+function drawBoxMiddle(x, y, w, h, color) {
+draw({ x: x - w / 2, y: y - h / 2, w, h, color });
 }
 function onresize() {
 ctx.canvas.width = window.innerWidth;

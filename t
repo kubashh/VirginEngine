@@ -1,17 +1,14 @@
-import type GameObject from "./GameObject"
 import { drawBoxMiddle } from "../util/basicFunctions"
+import type { GameObject } from "./GameObject"
 
-interface Spr {
-  gameObject: GameObject
-  render: Void
+export class Sprite {
+  constructor(props: { color: string; imagePath?: string }, gameObject: GameObject) {
+    if (props.imagePath) new PathSprite(props as { color: string; imagePath: string }, gameObject)
+    else new BoxSprite(props, gameObject)
+  }
 }
 
-export default function Sprite(props: { color?: string; imagePath?: string }, gameObject: GameObject): Spr {
-  if (props.imagePath) return new PathSprite(props as { imagePath: string }, gameObject)
-  return new BoxSprite(props as { color: string }, gameObject)
-}
-
-class BoxSprite implements Spr {
+class BoxSprite {
   gameObject: GameObject
   color: string
 
@@ -32,12 +29,14 @@ class BoxSprite implements Spr {
   }
 }
 
-class PathSprite implements Spr {
+class PathSprite {
   gameObject: GameObject
+  color: string
   imagePath: string
 
-  constructor({ imagePath }: { imagePath: string }, gameObject: GameObject) {
+  constructor({ color, imagePath }: { color: string; imagePath: string }, gameObject: GameObject) {
     this.gameObject = gameObject
+    this.color = color
     this.imagePath = imagePath
     gameObject.toRender.push(this.render.bind(this))
     throw Error(`PathSprite, camming soon!`)

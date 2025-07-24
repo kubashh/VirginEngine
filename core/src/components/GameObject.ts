@@ -1,12 +1,12 @@
+import Transform from "./Transform"
+import Sprite from "./Sprite"
+import Text from "./Text"
 import { gameObjects } from "../values/values"
 import { deepCopy, isChildKey } from "../util/basicFunctions"
-import { Sprite } from "./Sprite"
-import { Text } from "./Text"
-import { Transform } from "./Transform"
 
 const keywords = [`toUpdate`, `toRender`, `parent`, `position`, `rotation`, `scale`]
 
-export class GameObject {
+export default class GameObject {
   toUpdate: Void[] = []
   toRender: Void[] = []
 
@@ -26,7 +26,7 @@ export class GameObject {
 
     this.transform = new Transform(transform, this)
     if (text) this.text = new Text(text.value, this, rect)
-    if (sprite) this.sprite = new Sprite(sprite, this)
+    if (sprite) this.sprite = Sprite(sprite, this)
 
     for (const key in rest) {
       if (isChildKey(key)) {

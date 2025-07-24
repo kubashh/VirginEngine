@@ -1,9 +1,12 @@
+import type GameObject from "./GameObject"
 import { draw } from "../util/basicFunctions"
-import type { GameObject } from "./GameObject"
 
-export class Text {
+const textBaseline = [`top`, `middle`, `bottom`]
+const textAlign = [`left`, `center`, `right`]
+
+export default class Text {
   value: string
-  rect: XY | undefined
+  rect?: XY
   transform
 
   textBaseline
@@ -12,8 +15,8 @@ export class Text {
   constructor(value: string, gameObject: GameObject, rect: XY) {
     this.transform = gameObject.transform
     this.value = value
-    this.textBaseline = Text.textBaseline[rect.x]
-    this.textAlign = Text.textAlign[rect.y]
+    this.textBaseline = textBaseline[rect.x]
+    this.textAlign = textAlign[rect.y]
     gameObject.toRender.push(this.render.bind(this))
   }
 
@@ -27,7 +30,4 @@ export class Text {
       textAlign: this.textAlign,
     })
   }
-
-  static textBaseline = [`top`, `middle`, `bottom`]
-  static textAlign = [`left`, `center`, `right`]
 }
