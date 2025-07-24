@@ -38,7 +38,10 @@ export function addSpaceBeforeUpper(text: string) {
   return text
     .slice(1)
     .split(``)
-    .reduce((prev, char) => `${prev}${char === char.toUpperCase() ? ` ` : ``}${char}`, text[0].toUpperCase())
+    .reduce(
+      (prev, char) => `${prev}${char === char.toUpperCase() ? ` ` : ``}${char}`,
+      text[0].toUpperCase()
+    )
 }
 
 export function isCustomProp(text: string) {

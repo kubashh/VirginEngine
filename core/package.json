@@ -2,7 +2,7 @@
   "name": "core",
   "private": true,
   "scripts": {
-    "build": "clear && bun main.ts"
+    "build": "bun i && clear && bun main.ts"
   },
   "devDependencies": {
     "@types/bun": "latest"
@@ -12,6 +12,6 @@
   },
   "prettier": {
     "semi": false,
-    "printWidth": 112
+    "printWidth": 108
   }
 }

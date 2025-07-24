@@ -1,27 +1,26 @@
 export const core = `var ctx = document.body.children[0].getContext(\`2d\`);
 var files = \`REPLACE_FILES\`;
-var scene = {};
-function setScene(newScene, name) {
-scene = newScene;
-scene.name = name;
-}
 var events = {};
 var eventsHover = {};
+var gameObjects = [];
+var Log = { updates: 0, frames: 0, framesTemp: 0 };
 var GameTime = {
 ms: 1,
 value: 1,
 lastTime: 0,
 get() {
-return GameTime.value;
+return this.value;
 },
 set(newTime) {
-GameTime.value = newTime;
-GameTime.ms = 1000 / (60 * GameTime.value);
-GameTime.lastTime = performance.now();
+this.value = newTime;
+this.ms = 1000 / (60 * this.value);
+this.lastTime = performance.now();
 }
 };
-var Log = { updates: 0, frames: 0, framesTemp: 0 };
-var gameObjects = [];
+var scene = {};
+function setScene(newScene) {
+scene = newScene;
+}
 class Sprite {
 gameObject;
 color;
@@ -68,11 +67,11 @@ static textAlign = [\`left\`, \`center\`, \`right\`];
 }
 class Transform {
 gameObject;
-positionX = 0;
-positionY = 0;
-rotationZ = 0;
-scaleX = 1;
-scaleY = 1;
+px = 0;
+py = 0;
+rz = 0;
+sx = 1;
+sy = 1;
 rect;
 constructor(props, gameObject) {
 if (props && gameObject) {
@@ -90,22 +89,22 @@ this.readonly = true;
 }
 }
 get position() {
-return { x: this.positionX, y: this.positionY };
+return { x: this.px, y: this.py };
 }
 set position({ x, y }) {
 if (this.readonly)
 throw alert(\`PROGRAMMER, you can't chage "readOnly" position\`);
 for (const child of this.gameObject.childs) {
 child.transform.position = {
-x: child.transform.positionX - this.positionX + x,
-y: child.transform.positionY - this.positionY + y
+x: child.transform.px - this.px + x,
+y: child.transform.py - this.py + y
 };
 }
-this.positionX = x;
-this.positionY = y;
+this.px = x;
+this.py = y;
 }
 get rotation() {
-return { z: this.rotationZ };
+return { z: this.rz };
 }
 set rotation({ z }) {
 if (this.readonly)
@@ -117,7 +116,7 @@ while (z >= 360) {
 z -= 360;
 }
 for (const child of this.gameObject.childs) {
-let newRot = child.transform.rotationZ - this.rotationZ + z;
+let newRot = child.transform.rz - this.rz + z;
 if (newRot < 0) {
 newRot += 360;
 } else if (newRot > 360) {
@@ -125,22 +124,22 @@ newRot -= 360;
 }
 child.transform.rotation = { z: newRot };
 }
-this.rotationZ = z;
+this.rz = z;
 }
 get scale() {
-return { x: this.scaleX, y: this.scaleY };
+return { x: this.sx, y: this.sy };
 }
 set scale({ x, y }) {
 if (this.readonly)
 throw alert(\`PROGRAMMER, you can't chage "readOnly" scale\`);
 for (const child of this.gameObject.childs) {
 child.transform.scale = {
-x: child.transform.scaleX / this.scaleX * x,
-y: child.transform.scaleY / this.scaleY * y
+x: child.transform.sx / this.sx * x,
+y: child.transform.sy / this.sy * y
 };
 }
-this.scaleX = x;
-this.scaleY = y;
+this.sx = x;
+this.sy = y;
 }
 }
 var keywords = [\`toUpdate\`, \`toRender\`, \`parent\`, \`position\`, \`rotation\`, \`scale\`];
@@ -157,8 +156,7 @@ scale;
 text;
 sprite;
 constructor({ parent, transform, rect, text, sprite, start, update, render, ...rest }) {
-if (parent)
-this.parent = parent;
+this.parent = parent || new GameObject({ parent: {} });
 this.transform = new Transform(transform, this);
 if (text)
 this.text = new Text(text.value, this, rect);
@@ -233,8 +231,8 @@ gameObjects.splice(gameObjects.indexOf(this));
 delete parent[parentKey];
 }
 }
-async function wait0() {
-await new Promise((r) => setTimeout(r));
+async function wait(time) {
+await new Promise((r) => setTimeout(r, time));
 }
 function isChildKey(text) {
 return \`ABCDEFGHIJKLMNOPRQSTUWXYZ\`.includes(text.at(0));
@@ -256,11 +254,13 @@ return data;
 }
 function loadScene({ name, ...newScene }) {
 gameObjects.length = 0;
-setScene(new GameObject(deepCopy(newScene)), name);
 for (const key in events)
 delete events[key];
 for (const key in eventsHover)
 delete eventsHover[key];
+setScene(new GameObject(deepCopy(newScene)));
+scene.name = name;
+onresize();
 }
 function draw({ text, color, x, y, w, h, ...props }) {
 ctx.save();
@@ -274,6 +274,10 @@ ctx.fillStyle = color;
 ctx.fillRect(x, y, w, h);
 }
 ctx.restore();
+}
+function onresize() {
+ctx.canvas.width = window.innerWidth;
+ctx.canvas.height = window.innerHeight;
 }
 async function run() {
 GameTime.set(1);
@@ -299,7 +303,7 @@ Log.frames = Log.framesTemp;
 updates = 0;
 Log.framesTemp = 0;
 }
-await wait0();
+await wait();
 }
 }
 function update() {
@@ -339,10 +343,6 @@ window.addEventListener(\`contextmenu\`, (e) => {
 e.preventDefault();
 !document.fullscreenElement ? document.documentElement.requestFullscreen() : document.exitFullscreen();
 });
-function onresize() {
-ctx.canvas.width = window.innerWidth;
-ctx.canvas.height = window.innerHeight;
-}
 window.addEventListener(\`resize\`, onresize);
 console.log(\`Engine:\`, !!files);
 onresize();

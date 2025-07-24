@@ -3,19 +3,18 @@ import type { GameObject } from "../components/GameObject"
 // Canvas
 export const ctx = (document.body.children[0] as HTMLCanvasElement).getContext(`2d`)!
 
+// Files
 export const files = `REPLACE_FILES`
-
-// Scene
-export let scene: Obj<any> = {}
-
-export function setScene(newScene: GameObject, name: string) {
-  scene = newScene
-  scene.name = name
-}
 
 // Events
 export const events: Obj<boolean> = {}
 export const eventsHover: Obj<boolean> = {}
+
+// gameObjects
+export const gameObjects: GameObject[] = []
+
+// Log
+export const Log = { updates: 0, frames: 0, framesTemp: 0 }
 
 // GameTime
 export const GameTime = {
@@ -24,18 +23,19 @@ export const GameTime = {
   lastTime: 0,
 
   get() {
-    return GameTime.value
+    return this.value
   },
 
   set(newTime: number) {
-    GameTime.value = newTime
-    GameTime.ms = 1000 / (60 * GameTime.value)
-    GameTime.lastTime = performance.now()
+    this.value = newTime
+    this.ms = 1000 / (60 * this.value)
+    this.lastTime = performance.now()
   },
 }
 
-// Log
-export const Log = { updates: 0, frames: 0, framesTemp: 0 }
+// Scene
+export let scene: Obj<any> = {}
 
-// gameObjects
-export const gameObjects: GameObject[] = []
+export function setScene(newScene: GameObject) {
+  scene = newScene
+}

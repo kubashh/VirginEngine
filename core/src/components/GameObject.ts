@@ -1,5 +1,5 @@
 import { gameObjects } from "../values/values"
-import { deepCopy, isChildKey } from "../functions/basicFunctions"
+import { deepCopy, isChildKey } from "../util/basicFunctions"
 import { Sprite } from "./Sprite"
 import { Text } from "./Text"
 import { Transform } from "./Transform"
@@ -10,7 +10,7 @@ export class GameObject {
   toUpdate: Void[] = []
   toRender: Void[] = []
 
-  parent?: any
+  parent: GameObject
   start?: Void
   update?: Void
   transform
@@ -22,7 +22,7 @@ export class GameObject {
   sprite
 
   constructor({ parent, transform, rect, text, sprite, start, update, render, ...rest }: Obj<any>) {
-    if (parent) this.parent = parent
+    this.parent = parent || new GameObject({ parent: {} })
 
     this.transform = new Transform(transform, this)
     if (text) this.text = new Text(text.value, this, rect)
@@ -57,7 +57,7 @@ export class GameObject {
 
   get name() {
     for (const key in this.parent) {
-      if (this === this.parent[key]) return key
+      if (this === (this.parent as any)[key]) return key
     }
 
     throw Error(`No name in Obj!`)
@@ -104,6 +104,6 @@ export class GameObject {
 
     for (const key in this) delete (this as any)[key]
     gameObjects.splice(gameObjects.indexOf(this))
-    delete parent[parentKey]
+    delete (parent as any)[parentKey]
   }
 }

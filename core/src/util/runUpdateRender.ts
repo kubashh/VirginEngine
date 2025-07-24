@@ -1,5 +1,5 @@
 import { ctx, events, gameObjects, GameTime, Log } from "../values/values"
-import { draw, wait0 } from "./basicFunctions"
+import { draw, wait } from "./basicFunctions"
 
 // Run
 export async function run() {
@@ -30,7 +30,7 @@ export async function run() {
       Log.framesTemp = 0
     }
 
-    await wait0()
+    await wait()
   }
 }
 

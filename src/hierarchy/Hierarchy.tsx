@@ -6,7 +6,12 @@ function HierarchyComponent() {
   currentScene.bind(() => (inspector.value = null))
 
   return (
-    <GameObject object={currentScene.value} old={files.value.Scenes} name={currentScene.value.name} deep={0} />
+    <GameObject
+      object={currentScene.value}
+      old={files.value.Scenes}
+      name={currentScene.value.name}
+      deep={0}
+    />
   )
 }
 

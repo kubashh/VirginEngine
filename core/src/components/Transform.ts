@@ -3,11 +3,11 @@ import type { GameObject } from "./GameObject"
 export class Transform {
   gameObject?: GameObject
 
-  positionX = 0
-  positionY = 0
-  rotationZ = 0
-  scaleX = 1
-  scaleY = 1
+  px = 0
+  py = 0
+  rz = 0
+  sx = 1
+  sy = 1
 
   rect
   readonly
@@ -32,25 +32,25 @@ export class Transform {
 
   // Position
   get position() {
-    return { x: this.positionX, y: this.positionY }
+    return { x: this.px, y: this.py }
   }
   set position({ x, y }) {
     if (this.readonly) throw alert(`PROGRAMMER, you can't chage "readOnly" position`)
 
     for (const child of this.gameObject!.childs) {
       child.transform.position = {
-        x: child.transform.positionX - this.positionX + x,
-        y: child.transform.positionY - this.positionY + y,
+        x: child.transform.px - this.px + x,
+        y: child.transform.py - this.py + y,
       }
     }
 
-    this.positionX = x
-    this.positionY = y
+    this.px = x
+    this.py = y
   }
 
   // Rotation
   get rotation() {
-    return { z: this.rotationZ }
+    return { z: this.rz }
   }
   set rotation({ z }) {
     if (this.readonly) throw alert(`PROGRAMMER, you can't chage "readOnly" rotation`)
@@ -63,7 +63,7 @@ export class Transform {
     }
 
     for (const child of this.gameObject!.childs) {
-      let newRot = child.transform.rotationZ - this.rotationZ + z
+      let newRot = child.transform.rz - this.rz + z
       if (newRot < 0) {
         newRot += 360
       } else if (newRot > 360) {
@@ -72,24 +72,24 @@ export class Transform {
       child.transform.rotation = { z: newRot }
     }
 
-    this.rotationZ = z
+    this.rz = z
   }
 
   // Scale
   get scale() {
-    return { x: this.scaleX, y: this.scaleY }
+    return { x: this.sx, y: this.sy }
   }
   set scale({ x, y }) {
     if (this.readonly) throw alert(`PROGRAMMER, you can't chage "readOnly" scale`)
 
     for (const child of this.gameObject!.childs) {
       child.transform.scale = {
-        x: (child.transform.scaleX / this.scaleX) * x,
-        y: (child.transform.scaleY / this.scaleY) * y,
+        x: (child.transform.sx / this.sx) * x,
+        y: (child.transform.sy / this.sy) * y,
       }
     }
 
-    this.scaleX = x
-    this.scaleY = y
+    this.sx = x
+    this.sy = y
   }
 }

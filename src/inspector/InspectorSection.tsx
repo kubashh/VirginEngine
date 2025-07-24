@@ -6,7 +6,12 @@ export default function InspectorSection({ text, remove, childs, element }: Insp
       <div className="flex">
         <h2 className="mb-2 border-l-4 border-zinc-800 pl-2 text-2xl font-bold">{text}</h2>
         {remove ? (
-          <input type="button" value="Remove" className="mr-4 ml-auto cursor-pointer hover" onClick={remove} />
+          <input
+            type="button"
+            value="Remove"
+            className="mr-4 ml-auto cursor-pointer hover"
+            onClick={remove}
+          />
         ) : null}
       </div>
       {childs?.map((props) => (

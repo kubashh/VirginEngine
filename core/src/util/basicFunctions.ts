@@ -1,13 +1,9 @@
 import { GameObject } from "../components/GameObject"
-import { ctx, events, eventsHover, gameObjects, setScene } from "../values/values"
+import { ctx, events, eventsHover, gameObjects, scene, setScene } from "../values/values"
 
 // Time
-export async function wait(time: number) {
+export async function wait(time?: number) {
   await new Promise((r) => setTimeout(r, time))
-}
-
-export async function wait0() {
-  await new Promise((r) => setTimeout(r))
 }
 
 // Is child
@@ -40,12 +36,15 @@ export function loadScene({ name, ...newScene }: any) {
   // Clear gameObject array
   gameObjects.length = 0
 
-  // Load Scene
-  setScene(new GameObject(deepCopy(newScene)), name)
-
-  // Start (Delete events)
+  // Clear events
   for (const key in events) delete events[key]
   for (const key in eventsHover) delete eventsHover[key]
+
+  // Load Scene
+  setScene(new GameObject(deepCopy(newScene)))
+  scene.name = name
+
+  onresize()
 }
 
 // Set and draw on ctx (canvas)
@@ -67,4 +66,15 @@ export function drawBoxMiddle(x: number, y: number, w: number, h: number, color:
   if (color) ctx.fillStyle = color
 
   ctx.fillRect(x, y, w, h)
+}
+
+export function onresize() {
+  ctx.canvas.width = window.innerWidth
+  ctx.canvas.height = window.innerHeight
+
+  // scene.camera = new GameObject({
+  //   transform: {
+  //     position: { x: window.innerWidth / 2, y: window.innerHeight / 2 },
+  //   },
+  // })
 }

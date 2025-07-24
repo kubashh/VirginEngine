@@ -1,4 +1,4 @@
-import { draw } from "../functions/basicFunctions"
+import { draw } from "../util/basicFunctions"
 import type { GameObject } from "./GameObject"
 
 export class Sprite {

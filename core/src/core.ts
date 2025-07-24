@@ -1,6 +1,6 @@
-import { ctx, events, eventsHover, files } from "./values/values"
-import { loadScene } from "./functions/basicFunctions"
-import { run } from "./functions/runUpdateRender"
+import { events, eventsHover, files } from "./values/values"
+import { loadScene, onresize } from "./util/basicFunctions"
+import { run } from "./util/runUpdateRender"
 
 // EventListener
 
@@ -17,11 +17,6 @@ window.addEventListener(`contextmenu`, (e) => {
 
   !document.fullscreenElement ? document.documentElement.requestFullscreen() : document.exitFullscreen()
 })
-
-function onresize() {
-  ctx.canvas.width = window.innerWidth
-  ctx.canvas.height = window.innerHeight
-}
 
 window.addEventListener(`resize`, onresize)
 
