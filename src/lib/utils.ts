@@ -6,9 +6,7 @@ export function deepCopy(obj: Obj) {
 
 function createElement({ name, ...props }: Obj) {
   const element = document.createElement(name)
-  for (const key in props) {
-    element[key] = props[key]
-  }
+  for (const key in props) element[key] = props[key]
   element.click()
 }
 
@@ -55,10 +53,10 @@ export function openScene(scene: Obj) {
 export function openMainScene() {
   setUp.value = true
 
-  let scene = files.value
-  for (const key of conf.pathToMainScene.split(`.`).slice(1)) {
-    scene = scene[key]
-  }
+  const scene = conf.pathToMainScene
+    .split(`.`)
+    .slice(1)
+    .reduce((prev, key) => prev[key], files.value)
 
   openScene(scene)
 }
@@ -82,7 +80,6 @@ export function capitalize(text: string) {
 
 export function isOccupied(obj: Obj, name: string) {
   for (const key in obj) if (key === name) return true
-
   return false
 }
 

@@ -1,8 +1,8 @@
+import clsx from "clsx"
 import Window from "../components/Window"
 import { signal } from "../lib/signals"
 import { testScene } from "../lib/consts"
 import { test } from "../build/build"
-import clsx from "clsx"
 
 const opctions = { "16/9": `aspect-[16/9]`, "1/1": `aspect-square`, "9/16": `aspect-[9/16]` }
 

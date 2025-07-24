@@ -1,5 +1,5 @@
 import clsx from "clsx"
-import type { Signal } from "@/lib/signals"
+import { type Signal } from "@/lib/signals"
 
 export default function BooleanInput({ sig }: { sig: Signal<boolean> }) {
   return (

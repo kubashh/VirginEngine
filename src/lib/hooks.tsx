@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { useSignal, type Signal } from "./signals"
+import { type Signal, useSignal } from "./signals"
 
 export function useArrow(main = false, haveChilds = true): [React.ReactNode, Signal<boolean>] {
   const open = useSignal(main)
