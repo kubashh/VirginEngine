@@ -2,10 +2,11 @@ import Window from "../components/Window"
 import { signal } from "../lib/signals"
 import { testScene } from "../lib/consts"
 import { test } from "../build/build"
+import clsx from "clsx"
 
-const opctions = [`16/9`, `1/1`, `9/16`]
+const opctions = { "16/9": `aspect-[16/9]`, "1/1": `aspect-square`, "9/16": `aspect-[9/16]` }
 
-const aspectRatio = signal(opctions[0])
+const aspectRatio = signal(opctions[`16/9`])
 
 export default function Test() {
   testScene.bind(console.clear)
@@ -18,7 +19,10 @@ export default function Test() {
       name="Test"
       className="absolute z-1 w-screen h-screen"
       headerOptions={{
-        ...opctions.reduce((old, value) => ({ ...old, [value]: () => (aspectRatio.value = value) }), {}),
+        ...Object.entries(opctions).reduce(
+          (old, [key, value]) => ({ ...old, [key]: () => (aspectRatio.value = value) }),
+          {}
+        ),
         Restart: () => {
           testScene.value = `.`
           setTimeout(test)
@@ -29,8 +33,7 @@ export default function Test() {
       <div className="flex justify-center bg-zinc-950">
         <iframe
           title="scene"
-          className="box-content border-x-1 border-zinc-400"
-          style={{ aspectRatio: aspectRatio.value }}
+          className={clsx(`box-content border-x-1 border-zinc-400`, aspectRatio.value)}
           srcDoc={testScene.value}
         />
       </div>
