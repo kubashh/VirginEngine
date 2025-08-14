@@ -17,10 +17,10 @@ writeFileSync(`../src/build/core.ts`, outFile)
 function optymalizeJs(text: string) {
   return text
     .replaceAll(/\/\*[\s\S]*?\*\/|\/\/.*/g, ``) // Remove comments
-    .split(`\n`) // Split into lines
+    .split(`\n`)
     .map((line) => line.trim()) // Trim lines
     .filter((line) => line !== ``) // Remove empty lines
-    .join(`\n`) // Join lines
+    .join(``) // `\n`
 }
 
 function encode(s: string) {

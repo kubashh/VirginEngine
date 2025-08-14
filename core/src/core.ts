@@ -1,5 +1,5 @@
 import { events, eventsHover, files } from "./values/values"
-import { loadScene, onresize } from "./util/basicFunctions"
+import { onresize } from "./util/basicFunctions"
 import { run } from "./util/runUpdateRender"
 
 // EventListener
@@ -27,8 +27,4 @@ console.log(`Engine:`, !!files)
 
 onresize()
 
-loadScene(`REPLACE_PATH_TO_MAIN_SCENE`)
-
 run()
-
-// document.body.children[1].remove()`

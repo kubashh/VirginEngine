@@ -1,8 +1,10 @@
 import { ctx, events, gameObjects, GameTime, Log } from "../values/values"
-import { draw, wait } from "./basicFunctions"
+import { draw, loadScene, wait } from "./basicFunctions"
 
 // Run
 export async function run() {
+  loadScene(`REPLACE_PATH_TO_MAIN_SCENE`)
+
   GameTime.set(1)
   requestAnimationFrame(render)
 
