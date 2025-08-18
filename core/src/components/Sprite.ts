@@ -4,6 +4,7 @@ import { drawBoxMiddle } from "../util/basicFunctions"
 interface Spr {
   gameObject: GameObject
   render: Void
+  props: { color: string } | { imagePath: string }
 }
 
 export default function Sprite(props: { color?: string; imagePath?: string }, gameObject: GameObject): Spr {
@@ -30,6 +31,12 @@ class BoxSprite implements Spr {
       this.color
     )
   }
+
+  get props() {
+    return {
+      color: this.color,
+    }
+  }
 }
 
 class PathSprite implements Spr {
@@ -51,5 +58,11 @@ class PathSprite implements Spr {
     //   this.gameObject.scale.y,
     //   this.color
     // )
+  }
+
+  get props() {
+    return {
+      imagePath: this.imagePath,
+    }
   }
 }

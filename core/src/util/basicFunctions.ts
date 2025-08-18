@@ -1,5 +1,4 @@
-import GameObject from "../components/GameObject"
-import { ctx, events, eventsHover, gameObjects, scene, setScene } from "../values/values"
+import { ctx, Scene } from "../values/values"
 
 // Time
 export async function wait(time?: number) {
@@ -33,16 +32,7 @@ export function deepCopy(data: any) {
 
 // Load scene
 export function loadScene({ name, ...newScene }: any) {
-  // Clear gameObject array
-  gameObjects.length = 0
-
-  // Clear events
-  for (const key in events) delete events[key]
-  for (const key in eventsHover) delete eventsHover[key]
-
-  // Load Scene
-  setScene(new GameObject(deepCopy(newScene)))
-  scene.name = name
+  Scene.load(deepCopy(newScene), name)
 
   onresize()
 }

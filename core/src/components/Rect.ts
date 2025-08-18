@@ -11,4 +11,11 @@ export default class Rect {
     this.x = x
     this.y = y
   }
+
+  get props() {
+    return {
+      x: this.x,
+      y: this.y,
+    }
+  }
 }

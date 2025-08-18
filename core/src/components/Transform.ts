@@ -90,4 +90,12 @@ export default class Transform {
     this.sx = x
     this.sy = y
   }
+
+  get props() {
+    return {
+      position: this.position,
+      rotation: this.rotation,
+      scale: this.scale,
+    }
+  }
 }

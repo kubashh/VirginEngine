@@ -12,7 +12,7 @@ export const conf = {
   version: `0.0.0`,
   author: `YourNick`,
   description: `Description`,
-  fullScreen: false,
+  fullScreen: true,
   pathToMainScene: `files.Scenes.DefaultScene`,
 }
 

@@ -1,4 +1,4 @@
-import type GameObject from "../components/GameObject"
+import GameObject from "../components/GameObject"
 
 // Canvas
 export const ctx = (document.body.children[0] as HTMLCanvasElement).getContext(`2d`)!
@@ -22,10 +22,6 @@ export const GameTime = {
   value: 1,
   lastTime: 0,
 
-  get() {
-    return this.value
-  },
-
   set(newTime: number) {
     this.value = newTime
     this.ms = 1000 / (60 * this.value)
@@ -34,8 +30,29 @@ export const GameTime = {
 }
 
 // Scene
-export let scene: Any = {}
+export let scene = {}
+export const Scene: Any = {
+  objects: [],
+  name: ``,
 
-export function setScene(newScene: GameObject) {
-  scene = newScene
+  load(newScene: Any, name: string) {
+    // Clear gameObject array
+    gameObjects.length = 0
+
+    // Clear events
+    for (const key in events) delete events[key]
+    for (const key in eventsHover) delete eventsHover[key]
+
+    this.close()
+    this.name = name
+
+    scene = new GameObject({ ...newScene, parent: {} })
+  },
+
+  close() {
+    this.objects.length = 0
+    for (const key in this) {
+      if (![`name`, `objects`, `load`, `close`].includes(key)) delete this[key]
+    }
+  },
 }

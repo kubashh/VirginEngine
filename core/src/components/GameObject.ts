@@ -25,12 +25,11 @@ export default class GameObject {
 
   constructor({ parent, transform, rect, text, sprite, start, update, render, ...rest }: Any) {
     this.parent = parent || new GameObject({ parent: {} })
-
     this.transform = new Transform(transform, this)
-    if (text) this.text = new Text(text.value, this, rect)
-    if (sprite) this.sprite = Sprite(sprite, this)
 
     if (rect) this.rect = new Rect(rect, this)
+    if (text) this.text = new Text(text.value, this, rect)
+    if (sprite) this.sprite = Sprite(sprite, this)
 
     for (const key in rest) {
       if (isChildKey(key)) {
@@ -74,12 +73,10 @@ export default class GameObject {
     const newObj: Any = {
       start: this?.start,
       update: this?.update,
-      transform: {
-        position: this.position,
-        rotation: this.rotation,
-        scale: this.scale,
-      },
-      rect: this.rect && { x: this.rect.x, y: this.rect.y },
+      transform: this.transform.props,
+      rect: this.rect?.props,
+      sprite: this.sprite?.props,
+      text: this.text?.props,
     }
 
     for (const key in this) {
@@ -90,7 +87,7 @@ export default class GameObject {
   }
 
   // Clone
-  clone(parent: Any) {
+  clone(parent: Any = this.parent) {
     const name = this.name
 
     let newName = name

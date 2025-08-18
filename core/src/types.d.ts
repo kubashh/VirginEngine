@@ -8,6 +8,7 @@ type Z = {
 }
 
 type Void = () => void
+type F<T> = () => T
 
 type Obj<T> = Record<string, T>
 type Any = Obj<any>

@@ -30,4 +30,13 @@ export default class Text {
       textAlign: this.textAlign,
     })
   }
+
+  get props() {
+    return {
+      value: this.value,
+      rect: this?.rect,
+      textBaseline: this.textBaseline,
+      textAlign: this.textAlign,
+    }
+  }
 }
