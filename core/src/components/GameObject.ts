@@ -1,7 +1,6 @@
 import Transform from "./Transform"
 import Sprite from "./Sprite"
 import Text from "./Text"
-import Rect from "./Rect"
 import { gameObjects } from "../values/values"
 import { deepCopy, isChildKey } from "../util/basicFunctions"
 
@@ -12,28 +11,34 @@ export default class GameObject {
   toRender: Void[] = []
 
   parent: GameObject
+  name: string
   start?: Void
   update?: Void
   transform
   position: any
   rotation: any
   scale: any
-  rect: any
+  rect?: XY
 
   text
   sprite
 
-  constructor({ parent, transform, rect, text, sprite, start, update, render, ...rest }: Any) {
-    this.parent = parent || new GameObject({ parent: {} })
+  constructor(
+    { parent, transform, rect, text, sprite, start, update, render, ...rest }: GameObjectProps,
+    name: string
+  ) {
+    this.name = name
+    this.parent = parent || {}
+    if (parent) (this.parent as any)[this.name] = this
     this.transform = new Transform(transform, this)
 
-    if (rect) this.rect = new Rect(rect)
-    if (text) this.text = new Text(text.value, this, rect)
+    if (rect) this.rect = rect
+    if (text) this.text = new Text(text, this)
     if (sprite) this.sprite = Sprite(sprite, this)
 
     for (const key in rest) {
       ;(this as Any)[key] = isChildKey(key)
-        ? new GameObject({ ...rest[key], parent: this })
+        ? new GameObject({ ...rest[key], parent: this }, key)
         : typeof rest[key] === `function`
         ? rest[key].bind(this)
         : rest[key]
@@ -60,20 +65,12 @@ export default class GameObject {
     )
   }
 
-  get name() {
-    for (const key in this.parent) {
-      if (this === (this.parent as Any)[key]) return key
-    }
-
-    throw Error(`No name in Obj!`)
-  }
-
   get props() {
     const newObj: Any = {
       start: this?.start,
       update: this?.update,
       transform: this.transform.props,
-      rect: this.rect?.props,
+      rect: deepCopy(this.rect),
       sprite: this.sprite?.props,
       text: this.text?.props,
     }
@@ -96,7 +93,7 @@ export default class GameObject {
       i++
     }
 
-    parent[newName] = new GameObject({ ...this.props, parent })
+    new GameObject({ ...this.props, parent }, newName)
   }
 
   destroy() {

@@ -1,4 +1,4 @@
-import { ctx, Scene } from "../values/values"
+import { alphabet, ctx, scene } from "../values/values"
 
 // Time
 export async function wait(time?: number) {
@@ -7,7 +7,7 @@ export async function wait(time?: number) {
 
 // Is child
 export function isChildKey(text: string) {
-  return `ABCDEFGHIJKLMNOPRQSTUWXYZ`.includes(text.at(0)!)
+  return alphabet.includes(text.at(0)!)
 }
 
 // Deep copy
@@ -32,7 +32,7 @@ export function deepCopy(data: any) {
 
 // Load scene
 export function loadScene({ name, ...newScene }: any) {
-  Scene.load(deepCopy(newScene), name)
+  scene.load(deepCopy(newScene), name)
 
   onresize()
 }

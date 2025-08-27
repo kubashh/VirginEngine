@@ -57,17 +57,15 @@ function render() {
     for (const f of obj.toRender) f()
   }
 
-  const props = {
-    x: 8,
-    y: 8,
+  draw({
+    text: `${gameObjects.length}go, ${Log.updates}ups, ${Log.frames}fps`,
+    x: window.innerWidth - 6,
+    y: 6,
     fillStyle: `white`,
-    font: `22px serif`,
-    textAlign: `left`,
+    font: `18px serif`,
+    textAlign: `right`,
     textBaseline: `top`,
-  }
-
-  draw({ text: `Update ${Log.updates}`, ...props })
-  draw({ text: `Render ${Log.frames}`, ...props, y: 38 })
+  })
 
   // recall render
   Log.framesTemp++

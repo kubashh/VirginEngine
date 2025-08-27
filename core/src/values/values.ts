@@ -6,6 +6,9 @@ export const ctx = (document.body.children[0] as HTMLCanvasElement).getContext(`
 // Files
 export const files = `REPLACE_FILES`
 
+// Alphabet
+export const alphabet = `ABCDEFGHIJKLMNOPRQSTUWXYZ`
+
 // Events
 export const events: Obj<boolean> = {}
 export const eventsHover: Obj<boolean> = {}
@@ -30,12 +33,22 @@ export const GameTime = {
 }
 
 // Scene
-export let scene = {}
-export const Scene: Any = {
-  objects: [],
-  name: ``,
+class Scene extends GameObject {
+  camera = { x: 0, y: 0 }
+
+  constructor(scene: any, name: string) {
+    super(scene, name)
+  }
 
   load(newScene: Any, name: string) {
+    this.close()
+
+    scene = new Scene(newScene, name)
+  }
+
+  close() {
+    super.destroy()
+
     // Clear gameObject array
     gameObjects.length = 0
 
@@ -43,16 +56,10 @@ export const Scene: Any = {
     for (const key in events) delete events[key]
     for (const key in eventsHover) delete eventsHover[key]
 
-    this.close()
-    this.name = name
-
-    scene = new GameObject({ ...newScene, parent: {} })
-  },
-
-  close() {
-    this.objects.length = 0
     for (const key in this) {
       if (![`name`, `objects`, `load`, `close`].includes(key)) delete this[key]
     }
-  },
+  }
 }
+
+export let scene = new Scene({}, ``)

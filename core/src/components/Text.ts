@@ -12,11 +12,14 @@ export default class Text {
   textBaseline
   textAlign
 
-  constructor(value: string, gameObject: GameObject, rect: XY) {
+  constructor({ value }: { value: string }, gameObject: GameObject) {
     this.transform = gameObject.transform
     this.value = value
-    this.textBaseline = textBaseline[rect.x]
-    this.textAlign = textAlign[rect.y]
+    if (gameObject.rect) {
+      this.rect = gameObject.rect
+      this.textBaseline = textBaseline[this.rect.x]
+      this.textAlign = textAlign[this.rect.y]
+    }
     gameObject.toRender.push(this.render.bind(this))
   }
 
@@ -34,9 +37,6 @@ export default class Text {
   get props() {
     return {
       value: this.value,
-      rect: this?.rect,
-      textBaseline: this.textBaseline,
-      textAlign: this.textAlign,
     }
   }
 }
