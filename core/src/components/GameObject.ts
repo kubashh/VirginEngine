@@ -27,16 +27,16 @@ export default class GameObject {
     this.parent = parent || new GameObject({ parent: {} })
     this.transform = new Transform(transform, this)
 
-    if (rect) this.rect = new Rect(rect, this)
+    if (rect) this.rect = new Rect(rect)
     if (text) this.text = new Text(text.value, this, rect)
     if (sprite) this.sprite = Sprite(sprite, this)
 
     for (const key in rest) {
-      if (isChildKey(key)) {
-        ;(this as Any)[key] = new GameObject({ ...rest[key], parent: this })
-      } else {
-        ;(this as Any)[key] = typeof rest[key] === `function` ? rest[key].bind(this) : rest[key]
-      }
+      ;(this as Any)[key] = isChildKey(key)
+        ? new GameObject({ ...rest[key], parent: this })
+        : typeof rest[key] === `function`
+        ? rest[key].bind(this)
+        : rest[key]
     }
 
     if (update) {
@@ -53,12 +53,11 @@ export default class GameObject {
     gameObjects.push(this)
   }
 
-  get childs() {
-    const childs: GameObject[] = []
-    for (const key in this) {
-      if (isChildKey(key)) childs.push((this as Any)[key])
-    }
-    return childs
+  get childs(): GameObject[] {
+    return Object.keys(this).reduce(
+      (prev, key) => (isChildKey(key) ? [...prev, (this as Any)[key]] : prev),
+      [] as GameObject[]
+    )
   }
 
   get name() {
