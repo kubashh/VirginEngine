@@ -3,7 +3,7 @@ import Window from "../components/Window"
 function DocsContent() {
   return (
     <div className="p3 overflow-y-scroll select-text">
-      Coming soon!
+      Coming soon222!
       {/* <div style={{ marginBottom: 32 }}>
       <h1>JS</h1>
       <h2>Arrays</h2>
