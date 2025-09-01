@@ -1,5 +1,4 @@
 {
-  "name": "core",
   "private": true,
   "scripts": {
     "build": "bun i && clear && bun main.ts"

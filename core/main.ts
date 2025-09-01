@@ -1,17 +1,15 @@
-import { readFileSync, unlinkSync, writeFileSync } from "fs"
-
 await Bun.build({
   entrypoints: [`src/core.ts`],
   outdir: `../src/build`,
 })
 
-const file = optymalizeJs(String(readFileSync(`../src/build/core.js`)))
+const file = optymalizeJs(await Bun.file(`../src/build/core.js`).text())
 
-unlinkSync(`../src/build/core.js`)
+await Bun.file(`../src/build/core.js`).delete()
 
 const outFile = `export const core = \`${encode(file)}\``
 
-writeFileSync(`../src/build/core.ts`, outFile)
+await Bun.write(`../src/build/core.ts`, outFile)
 
 // Optymalize JavaScript
 function optymalizeJs(text: string) {

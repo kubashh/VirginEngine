@@ -1,5 +1,4 @@
 {
-  "name": "virginengine",
   "private": true,
   "scripts": {
     "dev": "cd core && bun run build && cd .. && next dev --turbopack",
