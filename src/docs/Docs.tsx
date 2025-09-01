@@ -2,9 +2,9 @@ import Window from "../components/Window"
 
 function DocsContent() {
   return (
-    <div className="p3 overflow-y-scroll select-text">
-      Coming soon222!
-      {/* <div style={{ marginBottom: 32 }}>
+    <div className="p-0.75 overflow-y-scroll select-text">
+      Coming soon!
+      {/* <div className="mb-8">
       <h1>JS</h1>
       <h2>Arrays</h2>
       <h3>Create</h3>

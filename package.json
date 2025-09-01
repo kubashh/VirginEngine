@@ -1,4 +1,5 @@
 {
+  "version": "0.16.2",
   "private": true,
   "scripts": {
     "dev": "cd core && bun run build && cd .. && next dev --turbopack",
