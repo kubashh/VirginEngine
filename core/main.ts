@@ -11,7 +11,6 @@ const outFile = `export const core = \`${encode(file)}\``
 
 await Bun.write(`../src/build/core.ts`, outFile)
 
-// Optymalize JavaScript
 function optymalizeJs(text: string) {
   return text
     .replaceAll(/\/\*[\s\S]*?\*\/|\/\/.*/g, ``) // Remove comments
