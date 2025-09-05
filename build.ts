@@ -1,8 +1,11 @@
 #!/usr/bin/env bun
 import plugin from "bun-plugin-tailwind"
+import { build } from "core/main"
 import { existsSync } from "fs"
 import { rm } from "fs/promises"
 import path from "path"
+
+await build()
 
 const entrypoints = [`./src/app/index.html`]
 const outdir = `./dist`

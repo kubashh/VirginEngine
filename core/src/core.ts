@@ -22,7 +22,7 @@ window.addEventListener(`resize`, onresize)
 
 // Run
 
-console.log(`Engine:`, !!files)
+console.log(`Engine:`, !!files, true)
 // console.clear()
 
 onresize()
