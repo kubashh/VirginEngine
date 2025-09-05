@@ -1,5 +1,7 @@
 import { useState } from "react"
 
+type Void = () => void
+
 function useConst<T>(v: T) {
   return useState<T>(v)[0]
 }
@@ -10,8 +12,8 @@ function useRefresh() {
 }
 
 class Sig<T> {
-  v: T
-  refresh: () => void = () => {
+  private v: T
+  refresh: Void = () => {
     throw Error(`Refresh not bind!`)
   }
 
@@ -19,7 +21,7 @@ class Sig<T> {
     this.v = v
   }
 
-  bind(fn?: () => void) {
+  bind(fn?: Void) {
     if (fn) {
       const refresh = useRefresh()
       this.refresh = () => {
