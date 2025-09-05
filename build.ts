@@ -5,6 +5,7 @@ import { existsSync } from "fs"
 import { rm } from "fs/promises"
 import path from "path"
 
+// Build VE core
 await build()
 
 const entrypoints = [`./src/app/index.html`]
@@ -23,7 +24,7 @@ const config: Bun.BuildConfig = {
 }
 
 // Helper function to format file sizes
-const formatFileSize = (bytes: number): string => {
+function formatFileSize(bytes: number): string {
   const units = ["B", "KB", "MB", "GB"]
   let size = bytes
   let unitIndex = 0
