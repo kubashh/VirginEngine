@@ -1,18 +1,15 @@
 import type GameObject from "./GameObject"
 import { drawBoxMiddle } from "../util/basicFunctions"
 
-interface Spr {
+export default function Sprite(
+  props: { color?: string; imagePath?: string },
   gameObject: GameObject
-  render: Void
-  props: { color: string } | { imagePath: string }
-}
-
-export default function Sprite(props: { color?: string; imagePath?: string }, gameObject: GameObject): Spr {
+): TSprite {
   if (props.imagePath) return new PathSprite(props as { imagePath: string }, gameObject)
   return new BoxSprite(props as { color: string }, gameObject)
 }
 
-class BoxSprite implements Spr {
+class BoxSprite implements TSprite {
   gameObject: GameObject
   color: string
 
@@ -39,7 +36,7 @@ class BoxSprite implements Spr {
   }
 }
 
-class PathSprite implements Spr {
+class PathSprite implements TSprite {
   gameObject: GameObject
   imagePath: string
 

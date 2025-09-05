@@ -4,9 +4,9 @@ import { draw } from "../util/basicFunctions"
 const textBaseline = [`top`, `middle`, `bottom`]
 const textAlign = [`left`, `center`, `right`]
 
-export default class Text {
-  value: string
-  rect?: XY
+export default class Text implements TText {
+  value
+  rect
   transform
 
   textBaseline

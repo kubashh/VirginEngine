@@ -25,3 +25,99 @@ type GameObjectProps = {
 
   [key: string]: any
 }
+
+// Compponents
+
+type TGameObject = {
+  toUpdate: Void[] = []
+  toRender: Void[] = []
+
+  parent: TGameObject
+  name: string
+  start?: Void
+  update?: Void
+  transform: TTransform
+  position: any
+  rotation: any
+  scale: any
+  rect?: XY
+
+  text?: TText
+  sprite?: TSprite
+
+  constructor: any
+
+  childs: GameObject[]
+  props: any
+  clone: Void
+  destroy: Void
+
+  [key: string]: any
+}
+
+type TTransform = {
+  gameObject?: TGameObject
+
+  px: number
+  py: number
+  rz: number
+  sx: number
+  sy: number
+
+  readonly?: boolean
+
+  constructor: any
+
+  // Position
+  position: XY
+
+  rotation: Z
+
+  scale: XY
+
+  props: {
+    position: XY
+    rotation: Z
+    scale: XY
+  }
+}
+
+type TText = {
+  value: string
+  rect?: XY
+  transform: TTransform
+
+  textBaseline?: string
+  textAlign?: string
+
+  constructor: any
+
+  render: Void
+
+  props: {
+    value: string
+  }
+}
+
+type TSprite = {
+  gameObject: TGameObject
+
+  constructor: any
+
+  render: Void
+  props: { color: string } | { imagePath: string }
+}
+
+type TPhysics = {
+  velocity: number
+
+  constructor: any
+}
+
+type TCollider = {
+  constructor: any
+}
+
+type TAnimation = {
+  constructor: any
+}

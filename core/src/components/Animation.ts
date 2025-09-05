@@ -1,7 +1,7 @@
-export default function Animation() {
+export default function Animation(): TAnimation {
   return new Anim()
 }
 
-class Anim {
+class Anim implements TAnimation {
   constructor() {}
 }

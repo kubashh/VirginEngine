@@ -1,7 +1,7 @@
-export default function Collider() {
+export default function Collider(): TCollider {
   return new Coll()
 }
 
-class Coll {
+class Coll implements TCollider {
   constructor() {}
 }

@@ -1,7 +1,7 @@
 import type GameObject from "./GameObject"
 
-export default class Transform {
-  gameObject?: GameObject
+export default class Transform implements TTransform {
+  gameObject
 
   px = 0
   py = 0

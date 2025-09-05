@@ -1,43 +1,46 @@
 import Transform from "./Transform"
 import Sprite from "./Sprite"
 import Text from "./Text"
+import Collider from "./Collider"
 import { gameObjects } from "../values/values"
 import { deepCopy, isChildKey } from "../util/basicFunctions"
 
 const keywords = [`toUpdate`, `toRender`, `parent`, `position`, `rotation`, `scale`]
 
-export default class GameObject {
+export default class GameObject implements TGameObject {
   toUpdate: Void[] = []
   toRender: Void[] = []
 
-  parent: GameObject
-  name: string
-  start?: Void
-  update?: Void
+  parent: TGameObject
+  name
+  start
+  update
   transform
   position: any
   rotation: any
   scale: any
-  rect?: XY
+  rect
 
   text
   sprite
+  collider
 
   constructor(
-    { parent, transform, rect, text, sprite, start, update, render, ...rest }: GameObjectProps,
+    { parent, transform, rect, text, sprite, collider, start, update, render, ...rest }: GameObjectProps,
     name: string
   ) {
     this.name = name
     this.parent = parent || {}
-    if (parent) (this.parent as any)[this.name] = this
+    if (parent) this.parent[this.name] = this
     this.transform = new Transform(transform, this)
 
     if (rect) this.rect = rect
     if (text) this.text = new Text(text, this)
     if (sprite) this.sprite = Sprite(sprite, this)
+    if (collider) this.collider = Collider
 
     for (const key in rest) {
-      ;(this as Any)[key] = isChildKey(key)
+      ;(this as TGameObject)[key] = isChildKey(key)
         ? new GameObject({ ...rest[key], parent: this }, key)
         : typeof rest[key] === `function`
         ? rest[key].bind(this)
@@ -60,7 +63,7 @@ export default class GameObject {
 
   get childs(): GameObject[] {
     return Object.keys(this).reduce(
-      (prev, key) => (isChildKey(key) ? [...prev, (this as Any)[key]] : prev),
+      (prev, key) => (isChildKey(key) ? [...prev, (this as TGameObject)[key]] : prev),
       [] as GameObject[]
     )
   }
@@ -103,8 +106,8 @@ export default class GameObject {
     const { parent } = this
     const parentKey = this.name
 
-    for (const key in this) delete (this as Any)[key]
+    for (const key in this) delete this[key]
     gameObjects.splice(gameObjects.indexOf(this))
-    delete (parent as Any)[parentKey]
+    delete parent[parentKey]
   }
 }
