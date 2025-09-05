@@ -1,7 +1,2 @@
-# dependencies
-/node_modules
-/core/node_modules
-
-# next.js
-/.next
-/dist
+node_modules
+dist
