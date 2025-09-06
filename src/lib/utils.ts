@@ -10,10 +10,10 @@ function createElement({ name, ...props }: Any) {
   element.click()
 }
 
-export function downloadFile(name: string, text: string, encode = false) {
+export function downloadFile(name: string, text: string) {
   createElement({
     name: `a`,
-    href: `data:text;charset=utf-8,${encode ? encodeURIComponent(text) : text}`,
+    href: `data:text;charset=utf-8,${encodeURIComponent(text)}`,
     download: name,
   })
 }

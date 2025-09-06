@@ -8,11 +8,12 @@ import path from "path"
 // Build VE core
 await build()
 
-const entrypoints = [`./src/app/index.html`]
+// Build HTML
+
 const outdir = `./dist`
 
 const config: Bun.BuildConfig = {
-  entrypoints,
+  entrypoints: [`./src/app/index.html`],
   outdir,
   plugins: [plugin],
   minify: true,
