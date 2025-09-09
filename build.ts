@@ -1,9 +1,9 @@
 #!/usr/bin/env bun
 import plugin from "bun-plugin-tailwind"
-import { build } from "core/main"
 import { existsSync } from "fs"
 import { rm } from "fs/promises"
-import path from "path"
+import { relative } from "path"
+import { build } from "./core/main"
 
 // Build VE core
 await build()
@@ -55,7 +55,7 @@ const end = performance.now()
 const buildTime = (end - start).toFixed(2)
 
 const outputTable = result.outputs.map((output) => ({
-  File: path.relative(process.cwd(), output.path),
+  File: relative(process.cwd(), output.path),
   Type: output.kind,
   Size: formatFileSize(output.size),
 }))
