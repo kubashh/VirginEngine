@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { type Signal, useSignal } from "./signals"
 
 export function useArrow(main = false, haveChilds = true): [React.ReactNode, Signal<boolean>] {
@@ -26,11 +26,4 @@ export function useRefresh() {
 
 export function useConst(value: any) {
   return useState(value)[0]
-}
-
-export function useClient() {
-  const [isClient, setIsClient] = useState(false)
-  useEffect(() => setIsClient(true), [isClient])
-
-  return isClient
 }
