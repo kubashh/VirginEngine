@@ -12,9 +12,8 @@ this.s = new GSXY(props?.scale || { x: 1, y: 1 });
 gameObject.position = this.position;
 gameObject.rotation = this.rotation;
 gameObject.scale = this.scale;
-if (props && gameObject) {} else {
+if (!props)
 this.readonly = true;
-}
 }
 get position() {
 return this.p;
@@ -23,10 +22,8 @@ set position({ x, y }) {
 if (this.readonly)
 throw alert(\`PROGRAMMER, you can't chage "readOnly" position\`);
 for (const child of this.gameObject.childs) {
-child.transform.position = {
-x: child.transform.p.x - this.p.x + x,
-y: child.transform.p.y - this.p.y + y
-};
+child.position.x += -this.position.x + x;
+child.position.y += -this.position.y + y;
 }
 this.p.x = x;
 this.p.y = y;
@@ -41,7 +38,7 @@ z %= 360;
 if (z < 0)
 z += 360;
 for (const child of this.gameObject.childs) {
-child.transform.rotation.z = child.rotation.z - this.rz + z;
+child.rotation = child.rotation - this.rotation + z;
 }
 this.rz = z;
 }
@@ -52,10 +49,8 @@ set scale({ x, y }) {
 if (this.readonly)
 throw alert(\`PROGRAMMER, you can't chage "readOnly" scale\`);
 for (const child of this.gameObject.childs) {
-child.transform.scale = {
-x: child.transform.s.x / this.s.x * x,
-y: child.transform.s.y / this.s.y * y
-};
+child.scale.x = child.scale.x / this.scale.x * x;
+child.scale.y = child.scale.y / this.scale.y * y;
 }
 this.s.x = x;
 this.s.y = y;

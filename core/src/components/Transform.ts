@@ -1,13 +1,13 @@
 export default class Transform implements TTransform {
-  gameObject
+  private gameObject
 
-  p
-  rz = 0
-  s
+  private p
+  private rz = 0
+  private s
 
-  readonly
+  private readonly
 
-  constructor(props: { position?: XY; rotation?: number; scale?: XY }, gameObject: TGameObject) {
+  constructor(props: TransformProps, gameObject: TGameObject) {
     this.gameObject = gameObject
 
     this.p = new GSXY(props?.position)
@@ -18,10 +18,7 @@ export default class Transform implements TTransform {
     gameObject.rotation = this.rotation
     gameObject.scale = this.scale
 
-    if (props && gameObject) {
-    } else {
-      this.readonly = true
-    }
+    if (!props) this.readonly = true
   }
 
   // Position
@@ -32,10 +29,8 @@ export default class Transform implements TTransform {
     if (this.readonly) throw alert(`PROGRAMMER, you can't chage "readOnly" position`)
 
     for (const child of this.gameObject.childs) {
-      child.transform.position = {
-        x: child.transform.p.x - this.p.x + x,
-        y: child.transform.p.y - this.p.y + y,
-      }
+      child.position.x += -this.position.x + x
+      child.position.y += -this.position.y + y
     }
 
     this.p.x = x
@@ -53,7 +48,7 @@ export default class Transform implements TTransform {
     if (z < 0) z += 360
 
     for (const child of this.gameObject.childs) {
-      child.transform.rotation.z = child.rotation.z - this.rz + z
+      child.rotation = child.rotation - this.rotation + z
     }
 
     this.rz = z
@@ -67,10 +62,8 @@ export default class Transform implements TTransform {
     if (this.readonly) throw alert(`PROGRAMMER, you can't chage "readOnly" scale`)
 
     for (const child of this.gameObject.childs) {
-      child.transform.scale = {
-        x: (child.transform.s.x / this.s.x) * x,
-        y: (child.transform.s.y / this.s.y) * y,
-      }
+      child.scale.x = (child.scale.x / this.scale.x) * x
+      child.scale.y = (child.scale.y / this.scale.y) * y
     }
 
     this.s.x = x
@@ -92,9 +85,9 @@ export default class Transform implements TTransform {
   }
 }
 
-class GSXY implements TGSXY {
-  vx
-  vy
+class GSXY implements XY {
+  private vx
+  private vy
 
   constructor(props?: XY) {
     this.vx = props?.x || 0

@@ -9,6 +9,8 @@ type F<T> = () => T
 type Obj<T> = Record<string, T>
 type Any = Obj<any>
 
+// Props
+
 type GameObjectProps = {
   rect: XY
   parent?: TGameObject
@@ -21,6 +23,8 @@ type GameObjectProps = {
 
   [key: string]: any
 }
+
+type TransformProps = { position?: XY; rotation?: number; scale?: XY }
 
 // Compponents
 
@@ -55,21 +59,10 @@ type TGameObject = {
 }
 
 type TTransform = {
-  gameObject?: TGameObject
-
-  p: TGSXY
-  rz: number
-  s: TGSXY
-
-  readonly?: boolean
-
   constructor: any
 
-  // Position
   position: XY
-
   rotation: number
-
   scale: XY
 
   props: {
@@ -77,16 +70,6 @@ type TTransform = {
     rotation: number
     scale: XY
   }
-}
-
-type TGSXY = {
-  vx: number
-  vy: number
-
-  constructor: any
-
-  x: number
-  y: number
 }
 
 type TText = {
