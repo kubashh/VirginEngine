@@ -140,7 +140,10 @@ ctx.canvas.width = window.innerWidth;
 ctx.canvas.height = window.innerHeight;
 }
 function randInt(min, max) {
-return Math.floor(max ? Math.random() * (max - min) + min : Math.random() * min);
+return Math.floor(rand(min, max));
+}
+function rand(min = 1, max) {
+return max ? Math.random() * (max - min) + min : Math.random() * min;
 }
 function randStr(n = 1) {
 let str = \`\`;
@@ -149,15 +152,12 @@ str += allowedNameChars.at(randInt(allowedNameChars.length));
 }
 return str;
 }
-function randHex() {
-const n = randInt(16);
-return n < 10 ? String(n) : String.fromCharCode(45 + n);
-}
 function randColor() {
 return \`#\${randHex()}\${randHex()}\${randHex()}\`;
 }
-function rand(n = 1) {
-return Math.random() * n;
+function randHex() {
+const n = randInt(16);
+return n < 10 ? String(n) : String.fromCharCode(45 + n);
 }
 function Sprite(props, gameObject) {
 if (props.imagePath)
