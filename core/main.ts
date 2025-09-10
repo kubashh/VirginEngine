@@ -16,10 +16,11 @@ export async function build() {
   await file.write(outText)
 }
 
+const specialChars = ["`", `$`]
 function encode(s: string) {
   const buf = []
   for (const e of s) {
-    if (["`", `$`].includes(e)) buf.push(`\\`)
+    if (specialChars.includes(e)) buf.push(`\\`)
     buf.push(e)
   }
   return buf.join(``)
