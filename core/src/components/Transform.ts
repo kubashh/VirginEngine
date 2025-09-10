@@ -14,8 +14,6 @@ export default class Transform implements TTransform {
     if (props?.rotation) this.rotation = props?.rotation
     this.s = new GSXY(props?.scale || { x: 1, y: 1 })
 
-    if (!gameObject) console.log(`kjjlhfdjfs`)
-
     gameObject.position = this.position
     gameObject.rotation = this.rotation
     gameObject.scale = this.scale
