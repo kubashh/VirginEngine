@@ -1,4 +1,4 @@
-import { alphabet, ctx, scene } from "../values/values"
+import { allowedNameChars, alphabet, ctx, scene } from "../values/values"
 
 // Time
 export async function wait(time?: number) {
@@ -65,4 +65,25 @@ export function onresize() {
   //     position: { x: window.innerWidth / 2, y: window.innerHeight / 2 },
   //   },
   // })
+}
+
+export function randInt(min: number, max?: number) {
+  return Math.floor(max ? Math.random() * (max - min) + min : Math.random() * min)
+}
+
+export function randStr(n = 1) {
+  let str = ``
+  for (let i = 0; i < n; i++) {
+    str += allowedNameChars.at(randInt(allowedNameChars.length))
+  }
+  return str
+}
+
+function randHex() {
+  const n = randInt(16)
+  return n < 10 ? String(n) : String.fromCharCode(45 + n)
+}
+
+export function randColor() {
+  return `#${randHex()}${randHex()}${randHex()}`
 }

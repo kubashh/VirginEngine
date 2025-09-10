@@ -8,6 +8,8 @@ export const files = `REPLACE_FILES`
 
 // Alphabet
 export const alphabet = `ABCDEFGHIJKLMNOPRQSTUWXYZ`
+export const numbers = `0123456789`
+export const allowedNameChars = `${alphabet}${numbers}_`
 
 // Events
 export const events: Obj<boolean> = {}

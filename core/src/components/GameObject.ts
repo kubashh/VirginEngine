@@ -3,7 +3,7 @@ import Sprite from "./Sprite"
 import Text from "./Text"
 import Collider from "./Collider"
 import { gameObjects } from "../values/values"
-import { deepCopy, isChildKey } from "../util/basicFunctions"
+import { deepCopy, isChildKey, randStr } from "../util/basicFunctions"
 
 const keywords = [`toUpdate`, `toRender`, `parent`, `position`, `rotation`, `scale`]
 
@@ -11,11 +11,13 @@ export default class GameObject implements TGameObject {
   toUpdate: Void[] = []
   toRender: Void[] = []
 
-  parent: TGameObject
   name
+  parent
+
   start
   update
   render
+
   transform
   position: any
   rotation: any
@@ -48,16 +50,15 @@ export default class GameObject implements TGameObject {
         : rest[key]
     }
 
+    if (start) this.start = start
     if (update) {
       this.update = update
-      this.toUpdate.push(() => this.update!.bind(this)())
+      this.toUpdate.push(() => update.bind(this)())
     }
     if (render) {
       this.render = render
       this.toRender.push(() => render.bind(this)())
     }
-
-    if (start) this.start = start
 
     gameObjects.push(this)
   }
@@ -74,7 +75,7 @@ export default class GameObject implements TGameObject {
       start: this?.start,
       update: this?.update,
       transform: this.transform.props,
-      rect: deepCopy(this.rect),
+      rect: this.rect,
       sprite: this.sprite?.props,
       text: this.text?.props,
     }
@@ -86,14 +87,12 @@ export default class GameObject implements TGameObject {
     return deepCopy(newObj)
   }
 
-  clone(parent: TGameObject = this.parent) {
+  clone(parent = this.parent) {
     const name = this.name
 
     let newName = name
-    let i = 0
     while (parent[newName]) {
-      newName = `${name}${i}`
-      i++
+      newName = `${name}${randStr(5)}`
     }
 
     const newGameObject = new GameObject({ ...this.props, parent }, newName)

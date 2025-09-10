@@ -1,5 +1,5 @@
 import { events, eventsHover, files } from "./values/values"
-import { onresize } from "./util/basicFunctions"
+import { onresize, randColor } from "./util/basicFunctions"
 import { run } from "./util/runUpdateRender"
 
 // EventListener
@@ -22,7 +22,7 @@ window.addEventListener(`resize`, onresize)
 
 // Run
 
-console.log(`Engine:`, !!files)
+console.log(`Engine: ${!!files || randColor}`)
 // console.clear()
 
 onresize()

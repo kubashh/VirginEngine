@@ -31,8 +31,10 @@ const filesTemplate: Any = {
       // camera: { scale: 1, aspectRatio: 1, x: 0, y: 0 },
       Parent: defaultGameObject({
         start: `function() {
+  console.time()
   for(let i = 0; i < 1000; i++)
-    setTimeout(() => this.parent.Child.clone(scene))
+    this.parent.Child.clone()
+  console.timeEnd()
 }`,
       }),
       Child: defaultGameObject({
