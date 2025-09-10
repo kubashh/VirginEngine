@@ -15,6 +15,7 @@ export default class GameObject implements TGameObject {
   name
   start
   update
+  render
   transform
   position: any
   rotation: any
@@ -30,7 +31,7 @@ export default class GameObject implements TGameObject {
     name: string
   ) {
     this.name = name
-    this.parent = parent || {}
+    this.parent = parent || ({} as TGameObject)
     if (parent) this.parent[this.name] = this
     this.transform = new Transform(transform, this)
 
@@ -51,12 +52,12 @@ export default class GameObject implements TGameObject {
       this.update = update
       this.toUpdate.push(() => this.update!.bind(this)())
     }
-    if (render) this.toRender.push(() => render.bind(this)())
-
-    if (start) {
-      this.start = start
-      this.start!.bind(this)()
+    if (render) {
+      this.render = render
+      this.toRender.push(() => render.bind(this)())
     }
+
+    if (start) this.start = start
 
     gameObjects.push(this)
   }
@@ -85,8 +86,7 @@ export default class GameObject implements TGameObject {
     return deepCopy(newObj)
   }
 
-  // Clone
-  clone(parent: Any = this.parent) {
+  clone(parent: TGameObject = this.parent) {
     const name = this.name
 
     let newName = name
@@ -96,7 +96,8 @@ export default class GameObject implements TGameObject {
       i++
     }
 
-    new GameObject({ ...this.props, parent }, newName)
+    const newGameObject = new GameObject({ ...this.props, parent }, newName)
+    newGameObject.start?.bind(newGameObject)()
   }
 
   destroy() {

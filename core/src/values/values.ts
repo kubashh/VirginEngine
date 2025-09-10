@@ -44,6 +44,10 @@ class Scene extends GameObject {
     this.close()
 
     scene = new Scene(newScene, name)
+
+    for (const object of gameObjects) {
+      object.start?.()
+    }
   }
 
   close() {

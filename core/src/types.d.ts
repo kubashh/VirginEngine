@@ -15,7 +15,7 @@ type Any = Obj<any>
 
 type GameObjectProps = {
   rect: XY
-  parent: any
+  parent?: TGameObject
   transform: { position?: XY; rotation: { z: number }; scale: XY }
   text: { value: string }
   sprite: { color: string } | { imagePath: string }
@@ -34,8 +34,11 @@ type TGameObject = {
 
   parent: TGameObject
   name: string
+
   start?: Void
   update?: Void
+  render?: Void
+
   transform: TTransform
   position: any
   rotation: any
