@@ -68,7 +68,11 @@ export function onresize() {
 }
 
 export function randInt(min: number, max?: number) {
-  return Math.floor(max ? Math.random() * (max - min) + min : Math.random() * min)
+  return Math.floor(rand(min, max))
+}
+
+export function rand(min: number = 1, max?: number) {
+  return max ? Math.random() * (max - min) + min : Math.random() * min
 }
 
 export function randStr(n = 1) {
@@ -79,11 +83,11 @@ export function randStr(n = 1) {
   return str
 }
 
+export function randColor() {
+  return `#${randHex()}${randHex()}${randHex()}`
+}
+
 function randHex() {
   const n = randInt(16)
   return n < 10 ? String(n) : String.fromCharCode(45 + n)
-}
-
-export function randColor() {
-  return `#${randHex()}${randHex()}${randHex()}`
 }
