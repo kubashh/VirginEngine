@@ -2,15 +2,18 @@ export async function build() {
   await Bun.build({
     entrypoints: [`./core/src/core.ts`],
     outdir: `./src/build`,
+    naming: `core.ts`,
   })
 
-  const file = optymalizeJs(await Bun.file(`./src/build/core.js`).text())
+  const file = Bun.file(`./src/build/core.ts`)
 
-  await Bun.file(`./src/build/core.js`).delete()
+  const outText = `export const core = \`${js(await file.text())}\``
 
-  const outFile = `export const core = \`${encode(file)}\``
+  await file.write(outText)
+}
 
-  await Bun.write(`./src/build/core.ts`, outFile)
+function js(text: string) {
+  return encode(optymalizeJs(text))
 }
 
 function optymalizeJs(text: string) {

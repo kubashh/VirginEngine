@@ -103,11 +103,10 @@ export default class GameObject implements TGameObject {
     // TO DO complite delete, do not delete objects and arrays, !!! DO NOT DELETE functions !!!
     for (const child of this.childs) child.destroy()
 
-    const { parent } = this
-    const parentKey = this.name
+    const { parent, name } = this
 
     for (const key in this) delete this[key]
     gameObjects.splice(gameObjects.indexOf(this))
-    delete parent[parentKey]
+    delete parent[name]
   }
 }
