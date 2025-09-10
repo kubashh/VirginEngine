@@ -10,7 +10,8 @@
     "clsx": "^2.1.1",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-    "tailwindcss": "^4.1.13"
+    "tailwindcss": "^4.1.13",
+    "terser": "^5.44.0"
   },
   "devDependencies": {
     "@types/react": "^19.1.12",
