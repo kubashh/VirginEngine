@@ -47,10 +47,10 @@ const html = optymalizeHtml(`
 </html>
 `)
 
-export function htmlCode() {
+export function htmlCode(production?: boolean) {
   return html
     .replaceAll(`AUTHOR`, conf.author)
     .replaceAll(`DESCRIPTION`, conf.description)
     .replaceAll(`GAME_NAME`, conf.gameName)
-    .replaceAll(`SCRIPT`, jsCode())
+    .replaceAll(`SCRIPT`, jsCode(production))
 }

@@ -1,9 +1,9 @@
 {
-  "version": "0.17.4",
+  "version": "0.18.0",
   "private": true,
   "scripts": {
-    "dev": "clear && bun --hot src/server.tsx",
-    "build": "bun run build.ts"
+    "dev": "clear && bun src/server.tsx",
+    "build": "bun build.ts"
   },
   "dependencies": {
     "bun-plugin-tailwind": "^0.0.14",
