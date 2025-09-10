@@ -4,4 +4,5 @@ Simple JS game engine for web games
 
 ## TODO
 
-### config.fullScreen (not working)
+- config.fullScreen (not working)
+- GameObject extends Transform

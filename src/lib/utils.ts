@@ -66,7 +66,7 @@ export function defaultGameObject({ position, rotation, scale, ...rest }: Any = 
     type: `gameObject`,
     transform: {
       position: position || { x: 0, y: 0 },
-      rotation: rotation || { z: 0 },
+      rotation: rotation || 0,
       scale: scale || { x: 1, y: 1 },
     },
   })

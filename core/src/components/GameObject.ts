@@ -18,7 +18,7 @@ export default class GameObject implements TGameObject {
   update
   render
 
-  transform
+  transform: TTransform
   position: any
   rotation: any
   scale: any

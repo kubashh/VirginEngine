@@ -3,10 +3,6 @@ type XY = {
   y: number
 }
 
-type Z = {
-  z: number
-}
-
 type Void = () => void
 type F<T> = () => T
 
@@ -16,7 +12,7 @@ type Any = Obj<any>
 type GameObjectProps = {
   rect: XY
   parent?: TGameObject
-  transform: { position?: XY; rotation: { z: number }; scale: XY }
+  transform: { position?: XY; rotation: number; scale: XY }
   text: { value: string }
   sprite: { color: string } | { imagePath: string }
   start?: Void
@@ -61,11 +57,9 @@ type TGameObject = {
 type TTransform = {
   gameObject?: TGameObject
 
-  px: number
-  py: number
+  p: TGSXY
   rz: number
-  sx: number
-  sy: number
+  s: TGSXY
 
   readonly?: boolean
 
@@ -74,15 +68,25 @@ type TTransform = {
   // Position
   position: XY
 
-  rotation: Z
+  rotation: number
 
   scale: XY
 
   props: {
     position: XY
-    rotation: Z
+    rotation: number
     scale: XY
   }
+}
+
+type TGSXY = {
+  vx: number
+  vy: number
+
+  constructor: any
+
+  x: number
+  y: number
 }
 
 type TText = {

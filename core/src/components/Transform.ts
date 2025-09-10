@@ -1,101 +1,119 @@
-import type GameObject from "./GameObject"
-
 export default class Transform implements TTransform {
   gameObject
 
-  px = 0
-  py = 0
+  p
   rz = 0
-  sx = 1
-  sy = 1
+  s
 
   readonly
 
-  constructor(props: { position?: XY; rotation?: Z; scale?: XY }, gameObject: GameObject) {
+  constructor(props: { position?: XY; rotation?: number; scale?: XY }, gameObject: TGameObject) {
+    this.gameObject = gameObject
+
+    this.p = new GSXY(props?.position)
+    if (props?.rotation) this.rotation = props?.rotation
+    this.s = new GSXY(props?.scale || { x: 1, y: 1 })
+
+    if (!gameObject) console.log(`kjjlhfdjfs`)
+
+    gameObject.position = this.position
+    gameObject.rotation = this.rotation
+    gameObject.scale = this.scale
+
     if (props && gameObject) {
-      this.gameObject = gameObject
-
-      const { position, rotation, scale } = props
-      if (position) this.position = position
-      if (rotation) this.rotation = rotation
-      if (scale) this.scale = scale
-
-      gameObject.position = this.position
-      gameObject.rotation = this.rotation
-      gameObject.scale = this.scale
     } else {
       this.readonly = true
     }
   }
 
   // Position
-  get position() {
-    return { x: this.px, y: this.py }
+  get position(): XY {
+    return this.p
   }
   set position({ x, y }) {
     if (this.readonly) throw alert(`PROGRAMMER, you can't chage "readOnly" position`)
 
-    for (const child of this.gameObject!.childs) {
+    for (const child of this.gameObject.childs) {
       child.transform.position = {
-        x: child.transform.px - this.px + x,
-        y: child.transform.py - this.py + y,
+        x: child.transform.p.x - this.p.x + x,
+        y: child.transform.p.y - this.p.y + y,
       }
     }
 
-    this.px = x
-    this.py = y
+    this.p.x = x
+    this.p.y = y
   }
 
   // Rotation
   get rotation() {
-    return { z: this.rz }
+    return this.rz
   }
-  set rotation({ z }) {
+  set rotation(z: number) {
     if (this.readonly) throw alert(`PROGRAMMER, you can't chage "readOnly" rotation`)
 
-    while (z < 0) {
-      z += 360
-    }
-    while (z >= 360) {
-      z -= 360
-    }
+    z %= 360
+    if (z < 0) z += 360
 
-    for (const child of this.gameObject!.childs) {
-      let newRot = child.transform.rz - this.rz + z
-      if (newRot < 0) {
-        newRot += 360
-      } else if (newRot > 360) {
-        newRot -= 360
-      }
-      child.transform.rotation = { z: newRot }
+    for (const child of this.gameObject.childs) {
+      child.transform.rotation.z = child.rotation.z - this.rz + z
     }
 
     this.rz = z
   }
 
   // Scale
-  get scale() {
-    return { x: this.sx, y: this.sy }
+  get scale(): XY {
+    return this.s
   }
   set scale({ x, y }) {
     if (this.readonly) throw alert(`PROGRAMMER, you can't chage "readOnly" scale`)
 
-    for (const child of this.gameObject!.childs) {
+    for (const child of this.gameObject.childs) {
       child.transform.scale = {
-        x: (child.transform.sx / this.sx) * x,
-        y: (child.transform.sy / this.sy) * y,
+        x: (child.transform.s.x / this.s.x) * x,
+        y: (child.transform.s.y / this.s.y) * y,
       }
     }
 
-    this.sx = x
-    this.sy = y
+    this.s.x = x
+    this.s.y = y
   }
 
   get props() {
     return {
-      position: this.position,
+      position: {
+        x: this.position.x,
+        y: this.position.y,
+      },
       rotation: this.rotation,
-      scale: this.scale,
+      scale: {
+        x: this.scale.x,
+        y: this.scale.y,
+      },
     }
+  }
+}
+
+class GSXY implements TGSXY {
+  vx
+  vy
+
+  constructor(props?: XY) {
+    this.vx = props?.x || 0
+    this.vy = props?.y || 0
+  }
+
+  get x() {
+    return this.vx
+  }
+  set x(v: number) {
+    this.vx = v
+  }
+
+  get y() {
+    return this.vy
+  }
+  set y(v: number) {
+    this.vy = v
   }
 }

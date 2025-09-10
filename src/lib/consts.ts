@@ -43,7 +43,8 @@ const filesTemplate: Any = {
 }`,
         update: `function() {
   const x = this.position.x - 1
-  this.position = {x: x < 0 ? window.innerWidth : x, y: this.position.y}
+  const y = this.position.y - 0.15
+  this.position = {x: x < 0 ? window.innerWidth : x, y: y < 0 ? window.innerHeight : y}
 }`,
       }),
     },

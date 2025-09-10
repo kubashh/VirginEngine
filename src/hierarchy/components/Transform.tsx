@@ -10,7 +10,7 @@ export default function Transform({ object }: TransformProps) {
           { object: object.transform.position, access: `y` },
         ]}
       />
-      <InspectorSection text="Rotation" childs={[{ object: object.transform.rotation, access: `z` }]} />
+      <InspectorSection text="Rotation" childs={[{ object: object.transform, access: `rotation` }]} />
       <InspectorSection
         text="Scale"
         childs={[
