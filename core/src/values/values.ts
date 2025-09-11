@@ -47,9 +47,10 @@ class Scene extends GameObject {
 
     scene = new Scene(newScene, name)
 
-    for (const object of gameObjects) {
-      object.start?.()
-    }
+    for (const obj of gameObjects) obj.start?.()
+
+    // Remove Scene from gameObjects
+    gameObjects.shift()
   }
 
   close() {

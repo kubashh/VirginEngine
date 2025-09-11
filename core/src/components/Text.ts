@@ -29,8 +29,8 @@ export default class Text implements TText {
       text: this.value,
       x: this.gameObject.position.x,
       y: this.gameObject.position.y,
+      h: this.gameObject.scale.y,
       fillStyle: this.color,
-      font: `${this.gameObject.scale.y}px serif`,
       textBaseline: this.textBaseline,
       textAlign: this.textAlign,
     })

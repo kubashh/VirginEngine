@@ -29,6 +29,8 @@ export default class GameObject implements TGameObject {
     { parent, transform, rect, text, sprite, collider, start, update, render, ...rest }: GameObjectProps,
     name: string
   ) {
+    gameObjects.push(this)
+
     this.name = name
     this.parent = parent || ({} as TGameObject)
     if (parent) this.parent[this.name] = this
@@ -50,8 +52,6 @@ export default class GameObject implements TGameObject {
     if (start) this.start = start
     if (update) this.update = update
     if (render) this.render = render
-
-    gameObjects.push(this)
   }
 
   get childs(): GameObject[] {

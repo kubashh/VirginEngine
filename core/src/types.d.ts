@@ -27,6 +27,16 @@ type GameObjectProps = {
 type TransformProps = { position?: XY; rotation?: number; scale?: XY }
 type TextProps = { value: string; color: string }
 
+type drawProps = {
+  text?: string
+  color?: string
+  x: number
+  y: number
+  w?: number
+  h: number
+  font?: string
+} & Any
+
 // Compponents
 
 type TGameObject = {

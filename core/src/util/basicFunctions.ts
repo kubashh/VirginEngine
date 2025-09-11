@@ -38,14 +38,17 @@ export function loadScene({ name, ...newScene }: any) {
 }
 
 // Set and draw on canvas
-export function draw({ text, color, x, y, w, h, ...props }: Any) {
+export function draw({ text, color, x, y, w, h, font, ...props }: drawProps) {
   ctx.save()
   for (const key in props) {
     ;(ctx as Any)[key] = props[key]
   }
 
-  if (text) ctx.fillText(text, x, y)
-  if (color) {
+  if (text) {
+    ctx.font = `${h}px ${font || `serif`}`
+    ctx.fillText(text, x, y)
+  }
+  if (color && w) {
     ctx.fillStyle = color
     ctx.fillRect(x, y, w, h)
   }

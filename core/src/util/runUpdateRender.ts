@@ -48,9 +48,8 @@ function update() {
 
 // Render
 function render() {
-  // clear
-  ctx.fillStyle = `black`
-  ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+  // Clear
+  ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
 
   // Render
 
@@ -64,13 +63,13 @@ function render() {
     text: `${gameObjects.length}go, ${Log.updates}ups, ${Log.frames}fps`,
     x: window.innerWidth - 6,
     y: 6,
+    h: 18,
     fillStyle: `white`,
-    font: `18px serif`,
     textAlign: `right`,
     textBaseline: `top`,
   })
 
-  // recall render
+  // Recall render
   Log.framesTemp++
   requestAnimationFrame(render)
 }
