@@ -3,8 +3,8 @@ type XY = {
   y: number
 }
 
-type Void = () => void
 type F<T> = () => T
+type Void = F<void>
 
 type Obj<T> = Record<string, T>
 type Any = Obj<any>
@@ -14,8 +14,8 @@ type Any = Obj<any>
 type GameObjectProps = {
   rect: XY
   parent?: TGameObject
-  transform: { position?: XY; rotation: number; scale: XY }
-  text: { value: string }
+  transform: TransformProps
+  text: TextProps
   sprite: { color: string } | { imagePath: string }
   start?: Void
   update?: Void
@@ -25,6 +25,7 @@ type GameObjectProps = {
 }
 
 type TransformProps = { position?: XY; rotation?: number; scale?: XY }
+type TextProps = { value: string; color: string }
 
 // Compponents
 
@@ -40,9 +41,9 @@ type TGameObject = {
   render?: Void
 
   transform: TTransform
-  position: any
-  rotation: any
-  scale: any
+  position: XY
+  rotation: number
+  scale: XY
   rect?: XY
 
   text?: TText
@@ -74,8 +75,7 @@ type TTransform = {
 
 type TText = {
   value: string
-  rect?: XY
-  transform: TTransform
+  color: string
 
   textBaseline?: string
   textAlign?: string
@@ -90,8 +90,6 @@ type TText = {
 }
 
 type TSprite = {
-  gameObject: TGameObject
-
   constructor: any
 
   render: Void

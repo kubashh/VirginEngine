@@ -5,20 +5,22 @@ const textBaseline = [`top`, `middle`, `bottom`]
 const textAlign = [`left`, `center`, `right`]
 
 export default class Text implements TText {
+  private gameObject
+
   value
-  rect
-  transform
+  color
 
   textBaseline
   textAlign
 
-  constructor({ value }: { value: string }, gameObject: GameObject) {
-    this.transform = gameObject.transform
+  constructor({ value, color }: TextProps, gameObject: GameObject) {
+    this.gameObject = gameObject
     this.value = value
+    this.color = color
+
     if (gameObject.rect) {
-      this.rect = gameObject.rect
-      this.textBaseline = textBaseline[this.rect.x]
-      this.textAlign = textAlign[this.rect.y]
+      this.textBaseline = textBaseline[gameObject.rect.x]
+      this.textAlign = textAlign[gameObject.rect.y]
     }
     gameObject.toRender.push(this.render.bind(this))
   }
@@ -26,9 +28,9 @@ export default class Text implements TText {
   render() {
     draw({
       text: this.value,
-      ...this.transform.position,
-      fillStyle: `white`,
-      font: `${this.transform.scale.y}px serif`,
+      ...this.gameObject.position,
+      fillStyle: this.color,
+      font: `${this.gameObject.scale.y}px serif`,
       textBaseline: this.textBaseline,
       textAlign: this.textAlign,
     })
@@ -37,6 +39,7 @@ export default class Text implements TText {
   get props() {
     return {
       value: this.value,
+      color: this.color,
     }
   }
 }

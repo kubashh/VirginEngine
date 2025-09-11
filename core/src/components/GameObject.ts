@@ -19,9 +19,9 @@ export default class GameObject implements TGameObject {
   render
 
   transform: TTransform
-  position: any
-  rotation: any
-  scale: any
+  position = {} as XY
+  rotation = 0
+  scale = {} as XY
   rect
 
   text
@@ -40,7 +40,7 @@ export default class GameObject implements TGameObject {
     if (rect) this.rect = rect
     if (text) this.text = new Text(text, this)
     if (sprite) this.sprite = Sprite(sprite, this)
-    if (collider) this.collider = Collider
+    if (collider) this.collider = Collider()
 
     for (const key in rest) {
       ;(this as TGameObject)[key] = isChildKey(key)

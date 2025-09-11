@@ -195,34 +195,35 @@ imagePath: this.imagePath
 var textBaseline = [\`top\`, \`middle\`, \`bottom\`];
 var textAlign = [\`left\`, \`center\`, \`right\`];
 class Text {
+gameObject;
 value;
-rect;
-transform;
+color;
 textBaseline;
 textAlign;
-constructor({ value }, gameObject) {
-this.transform = gameObject.transform;
+constructor({ value, color }, gameObject) {
+this.gameObject = gameObject;
 this.value = value;
+this.color = color;
 if (gameObject.rect) {
-this.rect = gameObject.rect;
-this.textBaseline = textBaseline[this.rect.x];
-this.textAlign = textAlign[this.rect.y];
+this.textBaseline = textBaseline[gameObject.rect.x];
+this.textAlign = textAlign[gameObject.rect.y];
 }
 gameObject.toRender.push(this.render.bind(this));
 }
 render() {
 draw({
 text: this.value,
-...this.transform.position,
+...this.gameObject.position,
 fillStyle: \`white\`,
-font: \`\${this.transform.scale.y}px serif\`,
+font: \`\${this.gameObject.scale.y}px serif\`,
 textBaseline: this.textBaseline,
 textAlign: this.textAlign
 });
 }
 get props() {
 return {
-value: this.value
+value: this.value,
+color: this.color
 };
 }
 }
@@ -242,9 +243,9 @@ start;
 update;
 render;
 transform;
-position;
-rotation;
-scale;
+position = {};
+rotation = 0;
+scale = {};
 rect;
 text;
 sprite;
@@ -262,7 +263,7 @@ this.text = new Text(text, this);
 if (sprite)
 this.sprite = Sprite(sprite, this);
 if (collider)
-this.collider = Collider;
+this.collider = Collider();
 for (const key in rest) {
 this[key] = isChildKey(key) ? new GameObject({ ...rest[key], parent: this }, key) : typeof rest[key] === \`function\` ? rest[key].bind(this) : rest[key];
 }

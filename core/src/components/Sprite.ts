@@ -10,7 +10,8 @@ export default function Sprite(
 }
 
 class BoxSprite implements TSprite {
-  gameObject: GameObject
+  private gameObject: TGameObject
+
   color: string
 
   constructor({ color }: { color: string }, gameObject: GameObject) {
@@ -37,7 +38,8 @@ class BoxSprite implements TSprite {
 }
 
 class PathSprite implements TSprite {
-  gameObject: GameObject
+  private gameObject: GameObject
+
   imagePath: string
 
   constructor({ imagePath }: { imagePath: string }, gameObject: GameObject) {
