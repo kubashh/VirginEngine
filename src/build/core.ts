@@ -165,7 +165,6 @@ color;
 constructor({ color }, gameObject) {
 this.gameObject = gameObject;
 this.color = color;
-gameObject.toRender.push(this.render.bind(this));
 }
 render() {
 drawBoxMiddle(this.gameObject.position.x, this.gameObject.position.y, this.gameObject.scale.x, this.gameObject.scale.y, this.color);
@@ -182,7 +181,6 @@ imagePath;
 constructor({ imagePath }, gameObject) {
 this.gameObject = gameObject;
 this.imagePath = imagePath;
-gameObject.toRender.push(this.render.bind(this));
 throw Error(\`PathSprite, camming soon!\`);
 }
 render() {}
@@ -208,12 +206,12 @@ if (gameObject.rect) {
 this.textBaseline = textBaseline[gameObject.rect.x];
 this.textAlign = textAlign[gameObject.rect.y];
 }
-gameObject.toRender.push(this.render.bind(this));
 }
 render() {
 draw({
 text: this.value,
-...this.gameObject.position,
+x: this.gameObject.position.x,
+y: this.gameObject.position.y,
 fillStyle: this.color,
 font: \`\${this.gameObject.scale.y}px serif\`,
 textBaseline: this.textBaseline,
@@ -235,8 +233,6 @@ constructor() {}
 }
 var keywords = [\`toUpdate\`, \`toRender\`, \`parent\`, \`position\`, \`rotation\`, \`scale\`];
 class GameObject {
-toUpdate = [];
-toRender = [];
 name;
 parent;
 start;
@@ -269,14 +265,10 @@ this[key] = isChildKey(key) ? new GameObject({ ...rest[key], parent: this }, key
 }
 if (start)
 this.start = start;
-if (update) {
+if (update)
 this.update = update;
-this.toUpdate.push(() => update.bind(this)());
-}
-if (render) {
+if (render)
 this.render = render;
-this.toRender.push(() => render.bind(this)());
-}
 gameObjects.push(this);
 }
 get childs() {
@@ -391,8 +383,7 @@ await wait();
 }
 function update() {
 for (const obj of gameObjects) {
-for (const f of obj.toUpdate)
-f();
+obj.update?.();
 }
 for (const key in events)
 delete events[key];
@@ -400,10 +391,10 @@ delete events[key];
 function render() {
 ctx.fillStyle = \`black\`;
 ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-for (const obj of gameObjects) {
-for (const f of obj.toRender)
-f();
-}
+for (const obj of gameObjects)
+obj.sprite?.render();
+for (const obj of gameObjects)
+obj.text?.render();
 draw({
 text: \`\${gameObjects.length}go, \${Log.updates}ups, \${Log.frames}fps\`,
 x: window.innerWidth - 6,

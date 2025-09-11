@@ -5,13 +5,13 @@ import { inspector } from "../../lib/consts"
 import { capitalize, deepCopy } from "../../lib/utils"
 import { useRefresh } from "../../lib/hooks"
 
-const text = [[[`value`]], { value: `` }, [`rect`], []]
+const text = [[[`value`], [`color`]], { value: ``, color: `white` }, [`rect`], []]
 
 // textBaseline = [`top`, `middle`, `bottom`]
 // textAlign = [`left`, `center`, `right`]
 const rect = [[[`x`], [`y`]], { x: 0, y: 0 }, [], [`text`]]
 
-const sprite = [[[`color`], [`imagePath`]], { color: ``, imagePath: `` }, [], []]
+const sprite = [[[`color`], [`imagePath`]], { color: ``, imagePath: `files.Assets.BoxImage` }, [], []]
 
 const components: Any = { text, rect, sprite }
 

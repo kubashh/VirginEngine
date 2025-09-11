@@ -30,9 +30,6 @@ type TextProps = { value: string; color: string }
 // Compponents
 
 type TGameObject = {
-  toUpdate: Void[] = []
-  toRender: Void[] = []
-
   parent: TGameObject
   name: string
 

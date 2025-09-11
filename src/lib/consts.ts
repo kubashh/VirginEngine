@@ -53,12 +53,10 @@ const filesTemplate: Any = {
   //Assets
   Assets: {
     type: `folder`,
-    ExampleImage: {
+    BoxImage: {
       type: `image`,
       value: {
         src: `data:image/png;base64`,
-        width: 1,
-        height: 1,
       },
     },
   },

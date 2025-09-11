@@ -17,7 +17,6 @@ class BoxSprite implements TSprite {
   constructor({ color }: { color: string }, gameObject: GameObject) {
     this.gameObject = gameObject
     this.color = color
-    gameObject.toRender.push(this.render.bind(this))
   }
 
   render() {
@@ -45,7 +44,6 @@ class PathSprite implements TSprite {
   constructor({ imagePath }: { imagePath: string }, gameObject: GameObject) {
     this.gameObject = gameObject
     this.imagePath = imagePath
-    gameObject.toRender.push(this.render.bind(this))
     throw Error(`PathSprite, camming soon!`)
   }
 

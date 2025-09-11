@@ -22,13 +22,13 @@ export default class Text implements TText {
       this.textBaseline = textBaseline[gameObject.rect.x]
       this.textAlign = textAlign[gameObject.rect.y]
     }
-    gameObject.toRender.push(this.render.bind(this))
   }
 
   render() {
     draw({
       text: this.value,
-      ...this.gameObject.position,
+      x: this.gameObject.position.x,
+      y: this.gameObject.position.y,
       fillStyle: this.color,
       font: `${this.gameObject.scale.y}px serif`,
       textBaseline: this.textBaseline,

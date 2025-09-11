@@ -39,7 +39,7 @@ export async function run() {
 // Update
 function update() {
   for (const obj of gameObjects) {
-    for (const f of obj.toUpdate) f()
+    obj.update?.()
   }
 
   // Clear events, not eventsHover
@@ -52,10 +52,13 @@ function render() {
   ctx.fillStyle = `black`
   ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height)
 
-  // all objects .render()
-  for (const obj of gameObjects) {
-    for (const f of obj.toRender) f()
-  }
+  // Render
+
+  // Sprite
+  for (const obj of gameObjects) obj.sprite?.render()
+
+  // Text
+  for (const obj of gameObjects) obj.text?.render()
 
   draw({
     text: `${gameObjects.length}go, ${Log.updates}ups, ${Log.frames}fps`,

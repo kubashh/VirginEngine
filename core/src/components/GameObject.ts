@@ -8,9 +8,6 @@ import { deepCopy, isChildKey, randStr } from "../util/basicFunctions"
 const keywords = [`toUpdate`, `toRender`, `parent`, `position`, `rotation`, `scale`]
 
 export default class GameObject implements TGameObject {
-  toUpdate: Void[] = []
-  toRender: Void[] = []
-
   name
   parent
 
@@ -51,14 +48,8 @@ export default class GameObject implements TGameObject {
     }
 
     if (start) this.start = start
-    if (update) {
-      this.update = update
-      this.toUpdate.push(() => update.bind(this)())
-    }
-    if (render) {
-      this.render = render
-      this.toRender.push(() => render.bind(this)())
-    }
+    if (update) this.update = update
+    if (render) this.render = render
 
     gameObjects.push(this)
   }
