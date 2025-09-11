@@ -54,11 +54,18 @@ const filesTemplate: Any = {
   Assets: {
     type: `folder`,
     BoxImage: {
-      type: `image`,
+      type: `img`,
       value: {
         src: `data:image/png;base64`,
       },
     },
+  },
+}
+
+export const editor = {
+  selectedElement: {
+    type: ``,
+    value: ``,
   },
 }
 

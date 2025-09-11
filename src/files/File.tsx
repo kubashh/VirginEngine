@@ -38,6 +38,7 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
       pageX,
       pageY,
       newArrElement(`New file`, `txt`),
+      newArrElement(`New image`, `img`),
       newArrElement(`New folder`, `folder`),
       newArrElement(`New scene`, `scene`),
       [

@@ -1,4 +1,4 @@
-import { type Signal } from "@/lib/signals"
+import { type Signal } from "../../lib/signals"
 
 export default function StringInput({ sig }: { sig: Signal<string> }) {
   return (

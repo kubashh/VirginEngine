@@ -1,5 +1,5 @@
 import { numbers } from "../../lib/consts"
-import { type Signal, useSignal } from "@/lib/signals"
+import { type Signal, useSignal } from "../../lib/signals"
 
 export default function NumberInput({ sig }: { sig: Signal<number> }) {
   const buf = useSignal(String(sig.value))

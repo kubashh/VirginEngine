@@ -2,7 +2,7 @@ import BooleanInput from "./typeInput/BooleanInput"
 import NumberInput from "./typeInput/NumberInput"
 import StringInput from "./typeInput/StringInput"
 import { addSpaceBeforeUpper, getType } from "../lib/utils"
-import { type Signal, useSignal } from "@/lib/signals"
+import { type Signal, useSignal } from "../lib/signals"
 
 function useElement(type: VTypes, sig: Signal<any>) {
   switch (type) {

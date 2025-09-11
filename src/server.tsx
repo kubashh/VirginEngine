@@ -1,4 +1,4 @@
-import { build } from "core/main"
+import { build } from "../core/main"
 import index from "./app/index.html"
 
 await build()

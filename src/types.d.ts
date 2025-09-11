@@ -78,3 +78,10 @@ type WindowProps = {
   className?: string
   children: React.ReactNode
 }
+
+type ImageGrabberProps = {
+  src: { value: string }
+  id: number
+}
+
+type ImageGrabberCbType = (data: string) => void
