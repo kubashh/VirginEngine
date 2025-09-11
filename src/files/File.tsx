@@ -1,22 +1,35 @@
 import FileElement from "../components/FileElement"
+import ImageGrabber from "components/ImageGrabber"
 import { contextMenu, dragData, files, inspector, nameInput } from "../lib/consts"
 import { openScene, isFirstUpperCase } from "../lib/utils"
 import { useArrow } from "../lib/hooks"
+import { useSignal } from "lib/signals"
+
+function InspectorDisplay({ file, name }: { file: Any; name: string }) {
+  const src = useSignal(file.src, () => (file.src = src.value))
+
+  return (
+    <div className="m-3">
+      <h2 className="text-2xl font-bold">File</h2>
+      <div>Type: {file.type}</div>
+      <div>Name: {name}</div>
+      {file.type === `img` ? (
+        <div className="flex">
+          Image: <ImageGrabber src={src} name={name} />
+        </div>
+      ) : null}
+    </div>
+  )
+}
 
 export default function File({ old, file, name, deep = 0, path = `files` }: FileProps) {
   const main = deep === 0
   if (!main) path += `.${name}`
   const isFolder = file.type === `folder`
-  const [arrow, open] = useArrow(main, isFolder)
+  const [arrow, open] = useArrow(main, isFolder, file?.src)
 
   const onClick = () => {
-    inspector.value = (
-      <div className="m-3">
-        <h2 className="text-2xl font-bold">File</h2>
-        <div>Type: {file.type}</div>
-        <div>Name: {name}</div>
-      </div>
-    )
+    inspector.value = <InspectorDisplay file={file} name={name} />
   }
 
   const onContextMenu = ({ pageX, pageY }: MouseEvent) => {

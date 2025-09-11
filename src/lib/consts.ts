@@ -55,9 +55,7 @@ const filesTemplate: Any = {
     type: `folder`,
     BoxImage: {
       type: `img`,
-      value: {
-        src: `data:image/png;base64`,
-      },
+      src: `data:image/png;base64`,
     },
   },
 }

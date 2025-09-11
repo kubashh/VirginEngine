@@ -1,8 +1,14 @@
 import { useState } from "react"
 import { type Signal, useSignal } from "./signals"
 
-export function useArrow(main = false, haveChilds = true): [React.ReactNode, Signal<boolean>] {
+export function useArrow(
+  main = false,
+  haveChilds = true,
+  src?: string
+): [React.ReactNode, Signal<boolean>] {
   const open = useSignal(main)
+
+  if (src) return [<img className="max-w-6" src={src} />, open]
 
   return [
     haveChilds ? (

@@ -80,8 +80,9 @@ type WindowProps = {
 }
 
 type ImageGrabberProps = {
+  className?: string
   src: { value: string }
-  id: number
+  name: string
 }
 
 type ImageGrabberCbType = (data: string) => void
