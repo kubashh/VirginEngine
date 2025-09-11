@@ -214,7 +214,7 @@ render() {
 draw({
 text: this.value,
 ...this.gameObject.position,
-fillStyle: \`white\`,
+fillStyle: this.color,
 font: \`\${this.gameObject.scale.y}px serif\`,
 textBaseline: this.textBaseline,
 textAlign: this.textAlign
