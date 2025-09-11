@@ -167,14 +167,16 @@ function loadScene({ name, ...newScene }) {
 scene.load(deepCopy(newScene), name);
 onresize();
 }
-function draw({ text, color, x, y, w, h, ...props }) {
+function draw({ text, color, x, y, w, h, font, ...props }) {
 ctx.save();
 for (const key in props) {
 ctx[key] = props[key];
 }
-if (text)
+if (text) {
+ctx.font = \`\${h}px \${font || \`serif\`}\`;
 ctx.fillText(text, x, y);
-if (color) {
+}
+if (color && w) {
 ctx.fillStyle = color;
 ctx.fillRect(x, y, w, h);
 }
@@ -265,8 +267,8 @@ draw({
 text: this.value,
 x: this.gameObject.position.x,
 y: this.gameObject.position.y,
+h: this.gameObject.scale.y,
 fillStyle: this.color,
-font: \`\${this.gameObject.scale.y}px serif\`,
 textBaseline: this.textBaseline,
 textAlign: this.textAlign
 });
@@ -300,6 +302,7 @@ text;
 sprite;
 collider;
 constructor({ parent, transform, rect, text, sprite, collider, start, update, render, ...rest }, name) {
+gameObjects.push(this);
 this.name = name;
 this.parent = parent || {};
 if (parent)
@@ -322,7 +325,6 @@ if (update)
 this.update = update;
 if (render)
 this.render = render;
-gameObjects.push(this);
 }
 get childs() {
 return Object.keys(this).reduce((prev, key) => isChildKey(key) ? [...prev, this[key]] : prev, []);
@@ -388,9 +390,9 @@ super(scene2, name);
 load(newScene, name) {
 this.close();
 scene = new Scene(newScene, name);
-for (const object of gameObjects) {
-object.start?.();
-}
+for (const obj of gameObjects)
+obj.start?.();
+gameObjects.shift();
 }
 close() {
 super.destroy();
@@ -442,8 +444,7 @@ for (const key in events)
 delete events[key];
 }
 function render() {
-ctx.fillStyle = \`black\`;
-ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 for (const obj of gameObjects)
 obj.sprite?.render();
 for (const obj of gameObjects)
@@ -452,8 +453,8 @@ draw({
 text: \`\${gameObjects.length}go, \${Log.updates}ups, \${Log.frames}fps\`,
 x: window.innerWidth - 6,
 y: 6,
+h: 18,
 fillStyle: \`white\`,
-font: \`18px serif\`,
 textAlign: \`right\`,
 textBaseline: \`top\`
 });
