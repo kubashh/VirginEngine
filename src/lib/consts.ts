@@ -1,5 +1,5 @@
 import { signal } from "./signals"
-import { defaultGameObject, saveProject } from "./utils"
+import { defaultGameObject, saveProject } from "./util"
 
 export const alphabet = `abcdefghijklmnoprqstuwxyz`
 export const numbers = `0123456789`

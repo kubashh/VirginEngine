@@ -1,7 +1,7 @@
 import Window from "../components/Window"
 import InspectorSection from "./InspectorSection"
 import { conf, inspector } from "../lib/consts"
-import { loadFile, saveProject } from "../lib/utils"
+import { loadProject, saveProject } from "../lib/util"
 import { build, test } from "../build/build"
 
 function Config() {
@@ -19,7 +19,7 @@ const editorOpctions = {
   Test: test,
   Save: saveProject,
   Build: build,
-  Load: loadFile,
+  Load: loadProject,
   Config: () => (inspector.value = <Config />),
 }
 

@@ -1,6 +1,6 @@
 import FileElement from "../components/FileElement"
 import { contextMenu, currentScene, dragData, keywords, nameInput } from "../lib/consts"
-import { defaultGameObject, isFirstUpperCase } from "../lib/utils"
+import { defaultGameObject, isFirstUpperCase } from "../lib/util"
 import { useArrow } from "../lib/hooks"
 import { setComponents } from "./components/componentsLib"
 

@@ -1,5 +1,5 @@
 import { setUp } from "../lib/consts"
-import { loadFile, openMainScene } from "../lib/utils"
+import { loadFile, openMainScene } from "../lib/util"
 
 function LoadDataButton(props: { value: string; onClick: React.MouseEventHandler }) {
   return (

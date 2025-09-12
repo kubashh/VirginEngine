@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react"
 import { nameInput } from "../lib/consts"
-import { capitalize, isValidName } from "../lib/utils"
+import { capitalize, isValidName } from "../lib/util"
 
 function useNameInput(ref: React.RefObject<HTMLInputElement | null>) {
   nameInput.bind()

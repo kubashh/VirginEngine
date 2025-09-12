@@ -2,7 +2,7 @@ import InspectorSection from "../../inspector/InspectorSection"
 import Script from "./Script"
 import Transform from "./Transform"
 import { inspector } from "../../lib/consts"
-import { capitalize, deepCopy } from "../../lib/utils"
+import { capitalize, deepCopy } from "../../lib/util"
 import { useRefresh } from "../../lib/hooks"
 
 const text = [[[`value`], [`color`]], { value: ``, color: `white` }, [`rect`], []]

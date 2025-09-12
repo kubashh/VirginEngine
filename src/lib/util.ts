@@ -94,7 +94,7 @@ function clearAssign(old: Any, obj: Any) {
   for (const key in obj) old[key] = obj[key]
 }
 
-export function loadFile() {
+export function loadProject() {
   createElement({
     name: `input`,
     type: `file`,

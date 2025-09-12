@@ -1,7 +1,7 @@
 import FileElement from "../components/FileElement"
 import ImageGrabber from "components/ImageGrabber"
 import { contextMenu, dragData, files, inspector, nameInput } from "../lib/consts"
-import { openScene, isFirstUpperCase } from "../lib/utils"
+import { openScene, isFirstUpperCase } from "../lib/util"
 import { useArrow } from "../lib/hooks"
 import { useSignal } from "lib/signals"
 

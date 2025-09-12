@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react"
 import InspectorSection from "../../inspector/InspectorSection"
 import TypeInput from "../../inspector/TypeInput"
 import { nameInput } from "../../lib/consts"
-import { capitalize, getType, isCustomProp, isOccupied } from "../../lib/utils"
+import { capitalize, getType, isCustomProp, isOccupied } from "../../lib/util"
 import { useConst, useRefresh } from "../../lib/hooks"
 import { AddComponent } from "./componentsLib"
 

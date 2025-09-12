@@ -1,7 +1,7 @@
 import { minify_sync } from "terser"
 import { core } from "./core"
 import { conf, files } from "../lib/consts"
-import { isCustomProp } from "../lib/utils"
+import { isCustomProp } from "../lib/util"
 
 function filesToString(data: Any, name?: string, type?: string): any {
   if (Array.isArray(data)) {
