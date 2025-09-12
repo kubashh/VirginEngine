@@ -491,7 +491,6 @@ run();`;function a1(R,E,O){if(Array.isArray(R))return`${R.reduce((I,C)=>{return`
       body {
         background-color:black;
         margin:0;
-        border:0;
         user-select:none;
         width:100vw;
         height:100vh;
