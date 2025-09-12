@@ -11,5 +11,4 @@ Simple JS game engine for web games
 
 ### src
 
-- config.fullScreen (not working)
 - ImageGrabber

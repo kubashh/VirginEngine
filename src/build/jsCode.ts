@@ -1,6 +1,6 @@
 import { minify_sync } from "terser"
 import { core } from "./core"
-import { conf, files } from "../lib/consts"
+import { config, files } from "../lib/consts"
 import { isCustomProp } from "../lib/util"
 
 function filesToString(data: Any, name?: string, type?: string): any {
@@ -23,14 +23,26 @@ function filesToString(data: Any, name?: string, type?: string): any {
   return type === `gameObject` && isCustomProp(name!) ? data : JSON.stringify(data)
 }
 
-export function jsCode(production?: boolean) {
-  const basic = core
+function coreConfig() {
+  let trueCore = core
+
+  if (!config.fullScreen)
+    trueCore = trueCore
+      .split(`\n`)
+      .filter((line) => !line.includes(`!document.fullscreenElement ?`))
+      .join(`\n`)
+
+  return trueCore
     .replace("`REPLACE_FILES`", filesToString(files.value))
-    .replace("`REPLACE_PATH_TO_MAIN_SCENE`", conf.pathToMainScene)
+    .replace("`REPLACE_PATH_TO_MAIN_SCENE`", config.pathToMainScene)
+}
 
-  if (!production) return basic
+export function jsCode(production?: boolean) {
+  const validCore = coreConfig()
 
-  const out = minify_sync(basic)
+  if (!production) return validCore
+
+  const out = minify_sync(validCore)
 
   if (out.code) return out.code
 

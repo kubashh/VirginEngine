@@ -1,4 +1,4 @@
-import { conf } from "../lib/consts"
+import { config } from "../lib/consts"
 import { jsCode } from "./jsCode"
 
 function optymalizeHtml(text: string) {
@@ -49,8 +49,8 @@ const html = optymalizeHtml(`
 
 export function htmlCode(production?: boolean) {
   return html
-    .replaceAll(`AUTHOR`, conf.author)
-    .replaceAll(`DESCRIPTION`, conf.description)
-    .replaceAll(`GAME_NAME`, conf.gameName)
+    .replaceAll(`AUTHOR`, config.author)
+    .replaceAll(`DESCRIPTION`, config.description)
+    .replaceAll(`GAME_NAME`, config.gameName)
     .replaceAll(`SCRIPT`, jsCode(production))
 }

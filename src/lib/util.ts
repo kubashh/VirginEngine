@@ -1,4 +1,4 @@
-import { allowedNameChars, alphabet, conf, currentScene, files, keywords, setUp } from "./consts"
+import { allowedNameChars, alphabet, config, currentScene, files, keywords, setUp } from "./consts"
 
 export function deepCopy(obj: Any) {
   return JSON.parse(JSON.stringify(obj))
@@ -53,7 +53,7 @@ export function openScene(scene: Any) {
 export function openMainScene() {
   setUp.value = true
 
-  const scene = conf.pathToMainScene
+  const scene = config.pathToMainScene
     .split(`.`)
     .slice(1)
     .reduce((prev, key) => prev[key], files.value)
@@ -85,7 +85,7 @@ export function isOccupied(obj: Any, name: string) {
 
 // SaveFile
 export function saveProject() {
-  downloadFile(`${conf.gameName}.virginengine`, JSON.stringify({ conf, files: files.value }))
+  downloadFile(`${config.gameName}.virginengine`, JSON.stringify({ config, files: files.value }))
 }
 
 // LoadFile
@@ -105,7 +105,7 @@ export function loadProject() {
       reader.onload = ({ target }: { target: any }) => {
         const data = JSON.parse(target.result)
 
-        clearAssign(conf, data.conf)
+        clearAssign(config, data.conf)
         clearAssign(files.value, data.files)
 
         openMainScene()

@@ -7,7 +7,7 @@ export const allowedNameChars = `${alphabet}${numbers}_`
 
 export const keywords = [`type`, `transform`, `position`, `rotation`, `scale`, `text`, `rect`, `sprite`]
 
-export const conf = {
+export const config = {
   gameName: `NameOfGame`,
   version: `0.0.0`,
   author: `YourNick`,
