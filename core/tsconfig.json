@@ -3,7 +3,6 @@
     "target": "ESNext",
     "module": "Preserve",
     "moduleResolution": "bundler",
-    "jsx": "react-jsx",
     "allowJs": false,
     "strict": true,
     "skipLibCheck": true,
@@ -13,5 +12,5 @@
       "@/*": ["./src/*"]
     }
   },
-  "exclude": ["dist", "node_modules"]
+  "exclude": ["dist", "node_modules", "../src"]
 }

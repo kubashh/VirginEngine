@@ -1,5 +1,5 @@
 import { events, eventsHover, files } from "./values/values"
-import { onresize, rand, randColor } from "./util/basicFunctions"
+import { onresize, randColor } from "./util/basicFunctions"
 import { run } from "./util/runUpdateRender"
 
 // EventListener

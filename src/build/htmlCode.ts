@@ -30,7 +30,6 @@ const html = optymalizeHtml(`
       body {
         background-color:black;
         margin:0;
-        border:0;
         user-select:none;
         width:100vw;
         height:100vh;
