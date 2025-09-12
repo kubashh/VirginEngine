@@ -1,20 +1,8 @@
 import Window from "../components/Window"
 import InspectorSection from "./InspectorSection"
-import { conf, files, inspector } from "../lib/consts"
-import { downloadFile, loadFile } from "../lib/utils"
+import { conf, inspector } from "../lib/consts"
+import { loadFile, saveProject } from "../lib/utils"
 import { build, test } from "../build/build"
-
-function save() {
-  downloadFile(`${conf.gameName}.virginengine`, JSON.stringify({ conf, files: files.value }))
-}
-
-if (typeof window !== `undefined`)
-  window.addEventListener(`keydown`, (e) => {
-    if (e.ctrlKey && e.key === `s`) {
-      e.preventDefault()
-      save()
-    }
-  })
 
 function Config() {
   return (
@@ -29,7 +17,7 @@ function Config() {
 
 const editorOpctions = {
   Test: test,
-  Save: save,
+  Save: saveProject,
   Build: build,
   Load: loadFile,
   Config: () => (inspector.value = <Config />),

@@ -1,5 +1,5 @@
 import { signal } from "./signals"
-import { defaultGameObject } from "./utils"
+import { defaultGameObject, saveProject } from "./utils"
 
 export const alphabet = `abcdefghijklmnoprqstuwxyz`
 export const numbers = `0123456789`
@@ -39,7 +39,7 @@ const filesTemplate: Any = {
         scale: { x: 20, y: 20 },
         sprite: { color: `#974`, imagePath: `` },
         start: `function() {
-  this.position = {x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight}
+  this.position = {x: rand(window.innerWidth), y: rand(window.innerHeight)}
 }`,
         update: `function() {
   const x = this.position.x - rand() * 2
@@ -50,7 +50,7 @@ const filesTemplate: Any = {
     },
   },
 
-  //Assets
+  // Assets
   Assets: {
     type: `folder`,
     BoxImage: {
@@ -76,4 +76,17 @@ export const files = signal<Any>(filesTemplate)
 export const contextMenu = signal<[number?, number?, ...any]>([])
 export const setUp = signal(false)
 
-if (typeof window !== `undefined`) window.oncontextmenu = (e) => e.preventDefault()
+// Set global events
+
+function preventDefault(e: Event) {
+  e.preventDefault()
+}
+
+window.addEventListener(`contextmenu`, preventDefault)
+
+window.addEventListener(`keydown`, (e) => {
+  if (e.ctrlKey && e.key === `s`) {
+    e.preventDefault()
+    saveProject()
+  }
+})

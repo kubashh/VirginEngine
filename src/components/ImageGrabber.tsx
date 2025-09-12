@@ -21,10 +21,6 @@ export default function ImageGrabber({ src, name, className }: ImageGrabberProps
   )
 }
 
-document.addEventListener(`change`, (e) => {
-  console.log(e)
-})
-
 function configureImage(image: File, src: { value: string }) {
   imgToSrc(image, (newSrc) => {
     src.value = newSrc

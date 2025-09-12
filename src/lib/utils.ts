@@ -83,6 +83,11 @@ export function isOccupied(obj: Any, name: string) {
   return false
 }
 
+// SaveFile
+export function saveProject() {
+  downloadFile(`${conf.gameName}.virginengine`, JSON.stringify({ conf, files: files.value }))
+}
+
 // LoadFile
 function clearAssign(old: Any, obj: Any) {
   for (const key in old) delete old[key]
