@@ -37,7 +37,7 @@ const filesTemplate: Any = {
       }),
       Child: defaultGameObject({
         scale: { x: 20, y: 20 },
-        sprite: { color: `#974`, imagePath: `` },
+        sprite: { color: ``, src: `files.Assets.Images.BoxImage` },
         start: `function() {
   this.position = {x: rand(window.innerWidth), y: rand(window.innerHeight)}
 }`,
@@ -53,9 +53,12 @@ const filesTemplate: Any = {
   // Assets
   Assets: {
     type: `folder`,
-    BoxImage: {
-      type: `img`,
-      src: `data:image/png;base64`,
+    Images: {
+      type: `folder`,
+      BoxImage: {
+        type: `img`,
+        src: `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAdnJLH8AAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAuIwAALiMBeKU/dgAAAA9JREFUCB0BBAD7/wD///8F/gL+A30ZxgAAAABJRU5ErkJggg==`,
+      },
     },
   },
 }

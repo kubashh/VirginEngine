@@ -129,8 +129,13 @@ ctx.fillRect(x, y, w, h);
 }
 ctx.restore();
 }
-function drawBoxMiddle(x, y, w, h, color) {
-draw({ x: x - w / 2, y: y - h / 2, w, h, color });
+function drawImage(img, pos, rot, scl) {
+ctx.save();
+ctx.drawImage(img, pos.x, pos.y);
+ctx.restore();
+}
+function file(path) {
+return path.split(\`.\`).slice(1).reduce((prev, key) => prev[key], files);
 }
 function onresize() {
 ctx.canvas.width = window.innerWidth;
@@ -156,39 +161,23 @@ function randHex() {
 const n = randInt(16);
 return n < 10 ? String(n) : String.fromCharCode(45 + n);
 }
-function Sprite(props, gameObject) {
-if (props.imagePath)
-return new PathSprite(props, gameObject);
-return new BoxSprite(props, gameObject);
-}
-class BoxSprite {
+class Sprite {
 gameObject;
-color;
-constructor({ color }, gameObject) {
+src;
+img;
+constructor({ src }, gameObject) {
 this.gameObject = gameObject;
-this.color = color;
+this.src = src;
+this.img = new Image;
+this.img.onload = () => {};
+this.img.src = file(src).src;
 }
 render() {
-drawBoxMiddle(this.gameObject.position.x, this.gameObject.position.y, this.gameObject.scale.x, this.gameObject.scale.y, this.color);
+drawImage(this.img, this.gameObject.position, this.gameObject.rotation, this.gameObject.scale);
 }
 get props() {
 return {
-color: this.color
-};
-}
-}
-class PathSprite {
-gameObject;
-imagePath;
-constructor({ imagePath }, gameObject) {
-this.gameObject = gameObject;
-this.imagePath = imagePath;
-throw Error(\`PathSprite, camming soon!\`);
-}
-render() {}
-get props() {
-return {
-imagePath: this.imagePath
+src: this.src
 };
 }
 }
@@ -260,7 +249,7 @@ this.rect = rect;
 if (text)
 this.text = new Text(text, this);
 if (sprite)
-this.sprite = Sprite(sprite, this);
+this.sprite = new Sprite(sprite, this);
 if (collider)
 this.collider = Collider();
 for (const key in rest) {

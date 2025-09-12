@@ -1,4 +1,4 @@
-import { allowedNameChars, alphabet, ctx, scene } from "../values/values"
+import { allowedNameChars, alphabet, ctx, files, scene } from "../values/values"
 
 // Time
 export async function wait(time?: number) {
@@ -57,6 +57,19 @@ export function draw({ text, color, x, y, w, h, font, ...props }: drawProps) {
 
 export function drawBoxMiddle(x: number, y: number, w: number, h: number, color: string) {
   draw({ x: x - w / 2, y: y - h / 2, w, h, color })
+}
+
+export function drawImage(img: CanvasImageSource, pos: XY, rot: number, scl: XY) {
+  ctx.save()
+  ctx.drawImage(img, pos.x, pos.y)
+  ctx.restore()
+}
+
+export function file(path: string) {
+  return path
+    .split(`.`)
+    .slice(1)
+    .reduce((prev, key) => prev[key], files as any)
 }
 
 export function onresize() {

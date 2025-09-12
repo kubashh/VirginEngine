@@ -38,7 +38,7 @@ export default class GameObject implements TGameObject {
 
     if (rect) this.rect = rect
     if (text) this.text = new Text(text, this)
-    if (sprite) this.sprite = Sprite(sprite, this)
+    if (sprite) this.sprite = new Sprite(sprite, this)
     if (collider) this.collider = Collider()
 
     for (const key in rest) {

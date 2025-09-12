@@ -8,19 +8,17 @@ export function useArrow(
 ): [React.ReactNode, Signal<boolean>] {
   const open = useSignal(main)
 
-  if (src) return [<img className="max-w-6" src={src} />, open]
+  if (src) return [<img className="w-6 max-h-6 p-0.5" src={src} />, open]
+
+  if (!haveChilds) return [<div className="w-6 h-6" />, open]
 
   return [
-    haveChilds ? (
-      <div
-        className="w-6 h-6 text-center justify-self-center rounded-full cursor-pointer hover"
-        style={{ transform: `rotate(${open.value ? 90 : 0}deg)` }}
-        onClick={() => (open.value = !open.value)}
-        children=">"
-      />
-    ) : (
-      <div className="w-6 h-6" />
-    ),
+    <div
+      className="w-6 h-6 text-center justify-self-center rounded-full cursor-pointer hover"
+      style={{ transform: `rotate(${open.value ? 90 : 0}deg)` }}
+      onClick={() => (open.value = !open.value)}
+      children=">"
+    />,
     open,
   ]
 }

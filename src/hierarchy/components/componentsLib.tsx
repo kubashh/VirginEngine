@@ -11,7 +11,7 @@ const text = [[[`value`], [`color`]], { value: ``, color: `white` }, [`rect`], [
 // textAlign = [`left`, `center`, `right`]
 const rect = [[[`x`], [`y`]], { x: 0, y: 0 }, [], [`text`]]
 
-const sprite = [[[`color`], [`imagePath`]], { color: ``, imagePath: `files.Assets.BoxImage` }, [], []]
+const sprite = [[[`color`], [`src`]], { color: ``, src: `files.Assets.BoxImage` }, [], []]
 
 const components: Any = { text, rect, sprite }
 

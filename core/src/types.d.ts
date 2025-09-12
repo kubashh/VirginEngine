@@ -16,7 +16,7 @@ type GameObjectProps = {
   parent?: TGameObject
   transform: TransformProps
   text: TextProps
-  sprite: { color: string } | { imagePath: string }
+  sprite: { src: string }
   start?: Void
   update?: Void
   render?: Void
@@ -100,7 +100,7 @@ type TSprite = {
   constructor: any
 
   render: Void
-  props: { color: string } | { imagePath: string }
+  props: { color: string } | { src: string }
 }
 
 type TPhysics = {

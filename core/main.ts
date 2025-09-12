@@ -10,9 +10,9 @@ export async function build() {
   const js = encode(
     optymalize(
       (await file.text())
-        .split("\n")
+        .split(`\n`)
         .filter((line) => !line.includes("console.log(`Engine:"))
-        .join("\n")
+        .join(`\n`)
     )
   )
 

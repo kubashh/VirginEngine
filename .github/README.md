@@ -7,10 +7,12 @@ Simple JS game engine for web games
 ### core
 
 - GameObject extends Transform
-- Sprite render image, only image allowed, default image files.Assets.BoxImage
+- Sprite extends HTMLImageElement
+- Sprite.color
+- drawImage to draw
+- drawImage pos, rot, scale
 - Audio, play audio
 
 ### src
 
-- ImageGrabber
 - Audio, convert audio files to strings
