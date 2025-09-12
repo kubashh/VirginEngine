@@ -1,5 +1,5 @@
 import { setUp } from "../lib/consts"
-import { loadFile, openMainScene } from "../lib/util"
+import { loadProject, openMainScene } from "../lib/util"
 
 function LoadDataButton(props: { value: string; onClick: React.MouseEventHandler }) {
   return (
@@ -16,7 +16,7 @@ export default function LoadData() {
 
   return !setUp.value ? (
     <div className="absolute z-1 w-screen h-screen flex flex-col justify-center bg-[#000a]">
-      <LoadDataButton value="Load Project" onClick={() => loadFile()} />
+      <LoadDataButton value="Load Project" onClick={loadProject} />
       <LoadDataButton value="New project" onClick={openMainScene} />
     </div>
   ) : null
