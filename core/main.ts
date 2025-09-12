@@ -16,7 +16,7 @@ export async function build() {
     )
   )
 
-  const outText = optymalize(`export const core = \`${js}\``)
+  const outText = `export const core = \`${js}\``
 
   await file.write(outText)
 }
@@ -30,12 +30,6 @@ export function optymalize(js: string) {
     .join(`\n`)
 }
 
-const specialChars = ["`", `$`]
 function encode(s: string) {
-  const buf = []
-  for (const e of s) {
-    if (specialChars.includes(e)) buf.push(`\\`)
-    buf.push(e)
-  }
-  return buf.join(``)
+  return s.replaceAll("`", "\\`").replaceAll(`$`, `\\$`)
 }
