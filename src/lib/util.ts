@@ -105,7 +105,7 @@ export function loadProject() {
       reader.onload = ({ target }: { target: any }) => {
         const data = JSON.parse(target.result)
 
-        clearAssign(config, data.conf)
+        clearAssign(config, data.config)
         clearAssign(files.value, data.files)
 
         openMainScene()
