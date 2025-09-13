@@ -1,8 +1,4 @@
-import type GameObject from "./GameObject"
-import { draw } from "../util/basicFunctions"
-
-const textBaseline = [`top`, `middle`, `bottom`]
-const textAlign = [`left`, `center`, `right`]
+import { drawText } from "../util/basicFunctions"
 
 export default class Text implements TText {
   private gameObject
@@ -10,29 +6,21 @@ export default class Text implements TText {
   value
   color
 
-  textBaseline
-  textAlign
-
-  constructor({ value, color }: TextProps, gameObject: GameObject) {
+  constructor({ value, color }: TextProps, gameObject: TGameObject) {
     this.gameObject = gameObject
     this.value = value
     this.color = color
-
-    if (gameObject.rect) {
-      this.textBaseline = textBaseline[gameObject.rect.x]
-      this.textAlign = textAlign[gameObject.rect.y]
-    }
   }
 
   render() {
-    draw({
+    drawText({
       text: this.value,
       x: this.gameObject.position.x,
       y: this.gameObject.position.y,
       h: this.gameObject.scale.y,
-      fillStyle: this.color,
-      textBaseline: this.textBaseline,
-      textAlign: this.textAlign,
+      color: this.color,
+      rect: this.gameObject.rect,
+      align: { x: 0, y: 0 },
     })
   }
 

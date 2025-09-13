@@ -16,7 +16,7 @@ type GameObjectProps = {
   parent?: TGameObject
   transform: TransformProps
   text: TextProps
-  sprite: { path: string }
+  sprite: SpriteProps
   start?: Void
   update?: Void
   render?: Void
@@ -26,7 +26,22 @@ type GameObjectProps = {
 
 type TransformProps = { position?: XY; rotation?: number; scale?: XY }
 type TextProps = { value: string; color: string }
+type SpriteProps = { path: string }
 type PhysicsProps = { velocity?: number }
+
+type drawTextProps = {
+  text: string
+  color: string
+  x: number
+  y: number
+  w?: number
+  h: number
+  font?: string
+  rect?: XY
+  align?: XY
+  textAlign?: string
+  textBaseline?: string
+}
 
 type drawProps = {
   text?: string

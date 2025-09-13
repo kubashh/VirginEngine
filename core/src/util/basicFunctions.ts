@@ -37,33 +37,57 @@ export function loadScene({ name, ...newScene }: any) {
   onresize()
 }
 
-// Set and draw on canvas
-export function draw({ text, color, x, y, w, h, font, ...props }: drawProps) {
+// Draw on canvas
+
+const textBaseline: Obj<string> = { "-1": `top`, "0": `middle`, "1": `bottom` }
+const textAlign: Obj<string> = { "-1": `left`, "0": `center`, "1": `right` }
+
+export function drawText({
+  text,
+  color,
+  x,
+  y,
+  w,
+  h,
+  rect = { x: 0, y: 0 },
+  font = `serif`,
+  align,
+  ...rest
+}: drawTextProps) {
   ctx.save()
-  for (const key in props) {
-    ;(ctx as Any)[key] = props[key]
+
+  ctx.fillStyle = color
+
+  if (align) {
+    ctx.textAlign = textAlign[align.x] as any
+    ctx.textAlign = textBaseline[align.y] as any
   }
 
-  if (text) {
-    ctx.font = `${h}px ${font || `serif`}`
-    ctx.fillText(text, x, y)
+  if (rect.x === 0) x += window.innerWidth / 2
+  if (rect.x === 1) x += window.innerWidth
+  if (rect.y === 0) y += window.innerHeight / 2
+  if (rect.y === 1) y += window.innerHeight
+
+  for (const key in rest) {
+    ;(ctx as Any)[key] = (rest as Any)[key]
   }
-  if (color && w) {
-    ctx.fillStyle = color
-    ctx.fillRect(x, y, w, h)
-  }
+
+  ctx.font = `${h}px ${font}`
+  ctx.fillText(text, x, y, w)
+
   ctx.restore()
-}
-
-export function drawBoxMiddle(x: number, y: number, w: number, h: number, color: string) {
-  draw({ x: x - w / 2, y: y - h / 2, w, h, color })
 }
 
 export function drawImage(img: CanvasImageSource, pos: XY, rot: number, scl: XY) {
   ctx.save()
+  // ctx.scale(scl.x, scl.y)
   ctx.drawImage(img, pos.x, pos.y)
   ctx.restore()
 }
+
+// function drawBoxMiddle(x: number, y: number, w: number, h: number, color: string) {
+//   draw({ x: x - w / 2, y: y - h / 2, w, h, color })
+// }
 
 export function file(path: string) {
   return path
@@ -75,12 +99,6 @@ export function file(path: string) {
 export function onresize() {
   ctx.canvas.width = window.innerWidth
   ctx.canvas.height = window.innerHeight
-
-  // scene.camera = new GameObject({
-  //   transform: {
-  //     position: { x: window.innerWidth / 2, y: window.innerHeight / 2 },
-  //   },
-  // })
 }
 
 export function randInt(min: number, max?: number) {

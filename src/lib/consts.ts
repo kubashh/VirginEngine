@@ -42,8 +42,8 @@ const filesTemplate: Any = {
   this.position = {x: rand(window.innerWidth), y: rand(window.innerHeight)}
 }`,
         update: `function() {
-  const x = this.position.x - rand() * 2
-  const y = this.position.y - rand() * 0.3
+  const x = this.position.x - rand(2)
+  const y = this.position.y - rand(0.3)
   this.position = {x: x < 0 ? window.innerWidth : x, y: y < 0 ? window.innerHeight : y}
 }`,
       }),

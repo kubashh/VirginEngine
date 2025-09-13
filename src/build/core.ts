@@ -114,19 +114,32 @@ function loadScene({ name, ...newScene }) {
 scene.load(deepCopy(newScene), name);
 onresize();
 }
-function draw({ text, color, x, y, w, h, font, ...props }) {
+function drawText({
+text,
+color,
+x,
+y,
+w,
+h,
+rect = { x: 0, y: 0 },
+font = \`serif\`,
+...rest
+}) {
 ctx.save();
-for (const key in props) {
-ctx[key] = props[key];
-}
-if (text) {
-ctx.font = \`\${h}px \${font || \`serif\`}\`;
-ctx.fillText(text, x, y);
-}
-if (color && w) {
 ctx.fillStyle = color;
-ctx.fillRect(x, y, w, h);
+if (rect.x === 0)
+x += window.innerWidth / 2;
+if (rect.x === 1)
+x += window.innerWidth;
+if (rect.y === 0)
+y += window.innerHeight / 2;
+if (rect.y === 1)
+y += window.innerHeight;
+for (const key in rest) {
+ctx[key] = rest[key];
 }
+ctx.font = \`\${h}px \${font}\`;
+ctx.fillText(text, x, y, w);
 ctx.restore();
 }
 function drawImage(img, pos, rot, scl) {
@@ -164,10 +177,10 @@ return n < 10 ? String(n) : String.fromCharCode(45 + n);
 class Sprite extends Image {
 gameObject;
 path;
-constructor(props, gameObject) {
+constructor({ path }, gameObject) {
 super();
-this.src = file(props.path);
-this.path = props.path;
+this.src = file(path);
+this.path = path;
 this.gameObject = gameObject;
 }
 render() {
@@ -179,32 +192,23 @@ path: this.path
 };
 }
 }
-var textBaseline = [\`top\`, \`middle\`, \`bottom\`];
-var textAlign = [\`left\`, \`center\`, \`right\`];
 class Text {
 gameObject;
 value;
 color;
-textBaseline;
-textAlign;
 constructor({ value, color }, gameObject) {
 this.gameObject = gameObject;
 this.value = value;
 this.color = color;
-if (gameObject.rect) {
-this.textBaseline = textBaseline[gameObject.rect.x];
-this.textAlign = textAlign[gameObject.rect.y];
-}
 }
 render() {
-draw({
+drawText({
 text: this.value,
 x: this.gameObject.position.x,
 y: this.gameObject.position.y,
 h: this.gameObject.scale.y,
-fillStyle: this.color,
-textBaseline: this.textBaseline,
-textAlign: this.textAlign
+color: this.color,
+rect: this.gameObject.rect
 });
 }
 get props() {
@@ -377,21 +381,44 @@ obj.update?.();
 for (const key in events)
 delete events[key];
 }
-function render() {
-ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+function counter(f) {
+const start = performance.now();
+f();
+return performance.now() - start;
+}
+function renderSprite() {
 for (const obj of gameObjects)
 obj.sprite?.render();
+}
+function renderText() {
 for (const obj of gameObjects)
 obj.text?.render();
-draw({
+}
+function render() {
+ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+const timeSprite = counter(renderSprite);
+const timeText = counter(renderText);
+drawText({
 text: \`\${gameObjects.length}go, \${Log.updates}ups, \${Log.frames}fps\`,
-x: window.innerWidth - 6,
+x: -6,
 y: 6,
 h: 18,
-fillStyle: \`white\`,
+rect: { x: 1, y: -1 },
+color: \`white\`,
 textAlign: \`right\`,
 textBaseline: \`top\`
 });
+const props = {
+x: 6,
+y: 6,
+h: 18,
+rect: { x: -1, y: -1 },
+color: \`white\`,
+textAlign: \`left\`,
+textBaseline: \`top\`
+};
+drawText({ text: \`Sprite: \${timeSprite}ms\`, ...props });
+drawText({ text: \`Text: \${timeText}ms\`, ...props, y: props.y + 18 });
 Log.framesTemp++;
 requestAnimationFrame(render);
 }

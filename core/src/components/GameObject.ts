@@ -21,7 +21,7 @@ export default class GameObject implements TGameObject {
   scale = {} as XY
   rect
 
-  text
+  text?: TText
   sprite?: TSprite
   collider
 
@@ -39,6 +39,7 @@ export default class GameObject implements TGameObject {
     if (rect) this.rect = rect
     if (text) this.text = new Text(text, this)
     if (sprite) this.sprite = new Sprite(sprite, this)
+
     if (collider) this.collider = Collider()
 
     for (const key in rest) {
@@ -91,7 +92,6 @@ export default class GameObject implements TGameObject {
   }
 
   destroy() {
-    // TO DO complite delete, do not delete objects and arrays, !!! DO NOT DELETE functions !!!
     for (const child of this.childs) child.destroy()
 
     const { parent, name } = this

@@ -6,11 +6,12 @@ Simple JS game engine for web games
 
 ### core
 
-- GameObject extends Transform
+- GameObject
+  - extends Transform
+  - .delete() complite delete (do not delete objects and arrays, !!! DO NOT DELETE functions !!!)
 - Sprite.color
-- drawImage to draw
-- drawImage pos, rot, scale
-- Audio, play audio
+- drawImage (pos, rot, scale)
+- Audio, play audio (from string)
 
 ### src
 

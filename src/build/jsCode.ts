@@ -4,23 +4,23 @@ import { config, files } from "../lib/consts"
 import { isCustomProp } from "../lib/util"
 
 function filesToString(data: Any, name?: string, type?: string): any {
-  if (Array.isArray(data)) {
-    return `${data
-      .reduce((prev, e) => {
-        return `${prev}${filesToString(e)},`
-      }, `[`)
-      .slice(0, -1)}]`
-  }
-
   if (typeof data !== `object`)
     return type === `gameObject` && isCustomProp(name!) ? data : JSON.stringify(data)
 
+  if (Array.isArray(data)) {
+    return `[${data
+      .reduce((prev, e) => {
+        return `${prev}${filesToString(e)},`
+      }, ``)
+      .slice(0, -1)}]`
+  }
+
   if (data.type === `img`) return `"${data.src}"`
 
-  return `${Object.keys(data)
+  return `{${Object.keys(data)
     .reduce((prev, key) => {
       return `${prev}${key}:${filesToString(data[key], key, data.type)},`
-    }, `{`)
+    }, ``)
     .slice(0, -1)}}`
 }
 
