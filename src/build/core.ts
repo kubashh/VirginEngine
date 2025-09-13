@@ -161,23 +161,21 @@ function randHex() {
 const n = randInt(16);
 return n < 10 ? String(n) : String.fromCharCode(45 + n);
 }
-class Sprite {
+class Sprite extends Image {
 gameObject;
-src;
-img;
-constructor({ src }, gameObject) {
+path;
+constructor(props, gameObject) {
+super();
+this.src = file(props.path).src;
+this.path = props.path;
 this.gameObject = gameObject;
-this.src = src;
-this.img = new Image;
-this.img.onload = () => {};
-this.img.src = file(src).src;
 }
 render() {
-drawImage(this.img, this.gameObject.position, this.gameObject.rotation, this.gameObject.scale);
+drawImage(this, this.gameObject.position, this.gameObject.rotation, this.gameObject.scale);
 }
 get props() {
 return {
-src: this.src
+path: this.path
 };
 }
 }

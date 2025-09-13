@@ -22,7 +22,7 @@ export default class GameObject implements TGameObject {
   rect
 
   text
-  sprite
+  sprite?: TSprite
   collider
 
   constructor(

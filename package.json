@@ -1,5 +1,5 @@
 {
-  "version": "0.18.3",
+  "version": "0.18.4",
   "private": true,
   "scripts": {
     "dev": "clear && bun src/server.tsx",
@@ -14,7 +14,7 @@
     "terser": "^5.44.0"
   },
   "devDependencies": {
-    "@types/react": "^19.1.12",
+    "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
     "@types/bun": "latest"
   },

@@ -7,7 +7,6 @@ Simple JS game engine for web games
 ### core
 
 - GameObject extends Transform
-- Sprite extends HTMLImageElement
 - Sprite.color
 - drawImage to draw
 - drawImage pos, rot, scale

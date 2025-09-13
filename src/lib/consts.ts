@@ -37,7 +37,7 @@ const filesTemplate: Any = {
       }),
       Child: defaultGameObject({
         scale: { x: 20, y: 20 },
-        sprite: { color: ``, src: `files.Assets.Images.BoxImage` },
+        sprite: { color: ``, path: `files.Assets.Images.BoxImage` },
         start: `function() {
   this.position = {x: rand(window.innerWidth), y: rand(window.innerHeight)}
 }`,

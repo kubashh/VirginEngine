@@ -1,32 +1,24 @@
-import type GameObject from "./GameObject"
 import { drawImage, file } from "../util/basicFunctions"
 
-export default class Sprite implements TSprite {
-  private gameObject: GameObject
+export default class Sprite extends Image implements TSprite {
+  gameObject
+  path
 
-  src: string
-  img
+  constructor(props: { path: string }, gameObject: TGameObject) {
+    super()
 
-  constructor({ src }: { src: string }, gameObject: GameObject) {
+    this.src = file(props.path).src
+    this.path = props.path
     this.gameObject = gameObject
-    this.src = src
-
-    this.img = new Image()
-    this.img.onload = () => {
-      // const width = img.width
-      // const height = img.height
-    }
-
-    this.img.src = file(src).src
   }
 
   render() {
-    drawImage(this.img, this.gameObject.position, this.gameObject.rotation, this.gameObject.scale)
+    drawImage(this, this.gameObject.position, this.gameObject.rotation, this.gameObject.scale)
   }
 
   get props() {
     return {
-      src: this.src,
+      path: this.path,
     }
   }
 }

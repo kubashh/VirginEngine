@@ -1,5 +1,11 @@
 export class Physics implements TPhysics {
-  velocity = 0
+  velocity
 
-  constructor() {}
+  constructor({ velocity }: PhysicsProps) {
+    this.velocity = velocity || 0
+  }
+
+  update() {
+    console.count(`update`)
+  }
 }
