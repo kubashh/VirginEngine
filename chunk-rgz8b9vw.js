@@ -219,7 +219,7 @@ gameObject;
 path;
 constructor(props, gameObject) {
 super();
-this.src = file(props.path).src;
+this.src = file(props.path);
 this.path = props.path;
 this.gameObject = gameObject;
 }
@@ -459,7 +459,7 @@ e.preventDefault();
 });
 window.addEventListener(\`resize\`, onresize);
 onresize();
-run();`;function a1(R,E,O){if(Array.isArray(R))return`${R.reduce((I,C)=>{return`${I}${a1(C)},`},"[").slice(0,-1)}]`;if(typeof R==="object")return`${Object.keys(R).reduce((I,C)=>{return`${I}${C}:${a1(R[C],C,R.type)},`},"{").slice(0,-1)}}`;return O==="gameObject"&&oF(E)?R:JSON.stringify(R)}function Y7(){let R=b6;if(!DO.fullScreen)R=R.split(`
+run();`;function a1(R,E,O){if(Array.isArray(R))return`${R.reduce((I,C)=>{return`${I}${a1(C)},`},"[").slice(0,-1)}]`;if(typeof R!=="object")return O==="gameObject"&&oF(E)?R:JSON.stringify(R);if(R.type==="img")return`"${R.src}"`;return`${Object.keys(R).reduce((I,C)=>{return`${I}${C}:${a1(R[C],C,R.type)},`},"{").slice(0,-1)}}`}function Y7(){let R=b6;if(!DO.fullScreen)R=R.split(`
 `).filter((E)=>!E.includes("!document.fullscreenElement ?")).join(`
 `);return R.replace("`REPLACE_FILES`",a1(YO.value)).replace("`REPLACE_PATH_TO_MAIN_SCENE`",DO.pathToMainScene)}function A6(R){let E=Y7();if(!R)return E;let O=f1(E);if(O.code)return O.code;throw Error(JSON.stringify(O))}function w7(R){return R.replaceAll(`
 `," ").replaceAll(/\s{2,}/g," ").replaceAll("> ",">").replaceAll(" <","<").replaceAll("; ",";").replaceAll(" {","{").replaceAll("{ ","{").replaceAll(' "','"').replaceAll('" ','"')}var Z7=w7(`
