@@ -7,7 +7,7 @@ export default class Sprite extends Image implements TSprite {
   constructor(props: { path: string }, gameObject: TGameObject) {
     super()
 
-    this.src = file(props.path).src
+    this.src = file(props.path)
     this.path = props.path
     this.gameObject = gameObject
   }

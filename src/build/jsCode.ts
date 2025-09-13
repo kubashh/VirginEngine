@@ -12,15 +12,16 @@ function filesToString(data: Any, name?: string, type?: string): any {
       .slice(0, -1)}]`
   }
 
-  if (typeof data === `object`) {
-    return `${Object.keys(data)
-      .reduce((prev, key) => {
-        return `${prev}${key}:${filesToString(data[key], key, data.type)},`
-      }, `{`)
-      .slice(0, -1)}}`
-  }
+  if (typeof data !== `object`)
+    return type === `gameObject` && isCustomProp(name!) ? data : JSON.stringify(data)
 
-  return type === `gameObject` && isCustomProp(name!) ? data : JSON.stringify(data)
+  if (data.type === `img`) return `"${data.src}"`
+
+  return `${Object.keys(data)
+    .reduce((prev, key) => {
+      return `${prev}${key}:${filesToString(data[key], key, data.type)},`
+    }, `{`)
+    .slice(0, -1)}}`
 }
 
 function coreConfig() {

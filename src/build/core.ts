@@ -166,7 +166,7 @@ gameObject;
 path;
 constructor(props, gameObject) {
 super();
-this.src = file(props.path).src;
+this.src = file(props.path);
 this.path = props.path;
 this.gameObject = gameObject;
 }
