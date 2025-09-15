@@ -431,6 +431,7 @@ Log.updates = updates;
 Log.frames = Log.framesTemp;
 updates = 0;
 Log.framesTemp = 0;
+Timer.reset();
 }
 await wait();
 }
@@ -464,7 +465,7 @@ textAlign: \`left\`,
 textBaseline: \`top\`
 };
 let y = 6;
-for (const text of Timer.getAllFormatted()) {
+for (const text of Timer.allFormatted) {
 drawText({ text, y, ...props });
 y += 18;
 }
@@ -480,28 +481,27 @@ for (const obj of gameObjects)
 obj.text?.render();
 }
 var Timer = {
-maxBuffer: 10,
-timers: [{}],
+timers: { Sprite: 0, Text: 0 },
+allFormatted: [],
 measure(...arr) {
-const timer = {};
+const timer = this.timers;
 for (const [name, f] of arr) {
 const start = performance.now();
 f();
-timer[name] = performance.now() - start;
+const end = performance.now() - start;
+if (!this.timers[name])
+this.timers[name] = 0;
+timer[name] += end;
 }
-this.timers.push(timer);
-if (this.timers.length >= this.maxBuffer)
-this.timers.shift();
-},
-getAllFormatted() {
-const obj = this.timers.reduce((prev, v) => Object.entries(v).reduce((prev2, [key, v2]) => ({ ...prev2, [key]: (prev2[key] || 0) + v2 }), prev));
-const all = Object.values(obj).reduce((prev, v) => prev + v, 0);
-return Object.entries(obj).map(([key, value]) => \`\${key}: \${(value * 100 / all || 0).toFixed(2)}%\`);
 },
 reset() {
-this.timers.length = 0;
+const obj = Object.entries(this.timers).reduce((prev, [key, v]) => ({ ...prev, [key]: (prev[key] || 0) + v }), {});
+const all = Object.values(obj).reduce((prev, v) => prev + v, 0);
+this.allFormatted = Object.entries(obj).map(([key, value]) => \`\${key}: \${(value * 100 / all || 0).toFixed(2)}%\`);
+this.timers = {};
 }
 };
+Timer.reset();
 window.addEventListener(\`mousedown\`, () => eventsHover.click = true);
 window.addEventListener(\`mouseup\`, () => delete eventsHover.click);
 window.addEventListener(\`click\`, () => events.click = true);
