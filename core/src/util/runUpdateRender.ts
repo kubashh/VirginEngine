@@ -30,6 +30,7 @@ export async function run() {
       Log.frames = Log.framesTemp
       updates = 0
       Log.framesTemp = 0
+      Timer.reset()
     }
 
     await wait()
@@ -75,7 +76,7 @@ function render() {
   }
 
   let y = 6
-  for (const text of Timer.getAllFormatted()) {
+  for (const text of Timer.allFormatted) {
     drawText({ text, y, ...props })
     y += 18
   }
@@ -94,32 +95,34 @@ function renderText() {
 }
 
 const Timer = {
-  maxBuffer: 10,
-  timers: [{}] as Obj<number>[],
+  timers: { Sprite: 0, Text: 0 } as Obj<number>,
+  allFormatted: [] as string[],
 
   measure(...arr: [string, Void][]) {
-    const timer = {} as Obj<number>
+    const timer = this.timers
 
     for (const [name, f] of arr) {
       const start = performance.now()
       f()
-      timer[name] = performance.now() - start
+      const end = performance.now() - start
+      if (!this.timers[name]) this.timers[name] = 0
+      timer[name] += end
     }
-
-    this.timers.push(timer)
-    if (this.timers.length >= this.maxBuffer) this.timers.shift()
-  },
-
-  getAllFormatted() {
-    const obj = this.timers.reduce((prev, v) =>
-      Object.entries(v).reduce((prev, [key, v]) => ({ ...prev, [key]: (prev[key] || 0) + v }), prev)
-    )
-
-    const all = Object.values(obj).reduce((prev, v) => prev + v, 0)
-    return Object.entries(obj).map(([key, value]) => `${key}: ${((value * 100) / all || 0).toFixed(2)}%`)
   },
 
   reset() {
-    this.timers.length = 0
+    const obj = Object.entries(this.timers).reduce(
+      (prev, [key, v]) => ({ ...prev, [key]: (prev[key] || 0) + v }),
+      {} as Obj<number>
+    )
+
+    const all = Object.values(obj).reduce((prev, v) => prev + v, 0)
+    this.allFormatted = Object.entries(obj).map(
+      ([key, value]) => `${key}: ${((value * 100) / all || 0).toFixed(2)}%`
+    )
+
+    this.timers = {}
   },
 }
+
+Timer.reset()
