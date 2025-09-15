@@ -1,4 +1,4 @@
-import { allowedNameChars, alphabet, ctx, files, scene } from "../values/values"
+import { allowedNameChars, alphabet, Camera, ctx, files, scene } from "../values/values"
 
 // Time
 export async function wait(time?: number) {
@@ -63,10 +63,13 @@ export function drawText({
     ctx.textAlign = textBaseline[align.y] as any
   }
 
-  if (rect.x === 0) x += window.innerWidth / 2
-  if (rect.x === 1) x += window.innerWidth
-  if (rect.y === 0) y += window.innerHeight / 2
-  if (rect.y === 1) y += window.innerHeight
+  x += Camera.xOffset
+  y += Camera.yOffset
+
+  if (rect.x === -1) x -= Camera.xOffset
+  if (rect.x === 1) x += Camera.xOffset
+  if (rect.y === -1) y -= Camera.yOffset
+  if (rect.y === 1) y += Camera.yOffset
 
   for (const key in rest) {
     ;(ctx as Any)[key] = (rest as Any)[key]
@@ -78,17 +81,6 @@ export function drawText({
   ctx.restore()
 }
 
-export function drawImage(img: CanvasImageSource, pos: XY, rot: number, scl: XY) {
-  ctx.save()
-  // ctx.scale(scl.x, scl.y)
-  ctx.drawImage(img, pos.x, pos.y)
-  ctx.restore()
-}
-
-// function drawBoxMiddle(x: number, y: number, w: number, h: number, color: string) {
-//   draw({ x: x - w / 2, y: y - h / 2, w, h, color })
-// }
-
 export function file(path: string) {
   return path
     .split(`.`)
@@ -99,6 +91,8 @@ export function file(path: string) {
 export function onresize() {
   ctx.canvas.width = window.innerWidth
   ctx.canvas.height = window.innerHeight
+  Camera.xOffset = window.innerWidth * 0.5
+  Camera.yOffset = window.innerHeight * 0.5
 }
 
 export function randInt(min: number, max?: number) {

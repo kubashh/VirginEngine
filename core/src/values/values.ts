@@ -34,6 +34,11 @@ export const GameTime = {
   },
 }
 
+export const Camera = {
+  xOffset: 0,
+  yOffset: 0,
+}
+
 // Scene
 class Scene extends GameObject {
   camera = { x: 0, y: 0 }

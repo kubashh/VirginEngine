@@ -54,6 +54,7 @@ child.scale.y = child.scale.y / this.scale.y * y;
 }
 this.s.x = x;
 this.s.y = y;
+this.gameObject.sprite?.bind();
 }
 get props() {
 return {
@@ -134,24 +135,21 @@ if (align) {
 ctx.textAlign = textAlign[align.x];
 ctx.textAlign = textBaseline[align.y];
 }
-if (rect.x === 0)
-x += window.innerWidth / 2;
+x += Camera.xOffset;
+y += Camera.yOffset;
+if (rect.x === -1)
+x -= Camera.xOffset;
 if (rect.x === 1)
-x += window.innerWidth;
-if (rect.y === 0)
-y += window.innerHeight / 2;
+x += Camera.xOffset;
+if (rect.y === -1)
+y -= Camera.yOffset;
 if (rect.y === 1)
-y += window.innerHeight;
+y += Camera.yOffset;
 for (const key in rest) {
 ctx[key] = rest[key];
 }
 ctx.font = \`\${h}px \${font}\`;
 ctx.fillText(text, x, y, w);
-ctx.restore();
-}
-function drawImage(img, pos, rot, scl) {
-ctx.save();
-ctx.drawImage(img, pos.x, pos.y);
 ctx.restore();
 }
 function file(path) {
@@ -160,6 +158,8 @@ return path.split(\`.\`).slice(1).reduce((prev, key) => prev[key], files);
 function onresize() {
 ctx.canvas.width = window.innerWidth;
 ctx.canvas.height = window.innerHeight;
+Camera.xOffset = window.innerWidth * 0.5;
+Camera.yOffset = window.innerHeight * 0.5;
 }
 function randInt(min, max) {
 return Math.floor(rand(min, max));
@@ -184,14 +184,24 @@ return n < 10 ? String(n) : String.fromCharCode(45 + n);
 class Sprite extends Image {
 gameObject;
 path;
+staticDrawProps = { x: 0, y: 0 };
 constructor({ path }, gameObject) {
 super();
+this.gameObject = gameObject;
 this.src = file(path);
 this.path = path;
-this.gameObject = gameObject;
+this.onload = this.bind;
+}
+bind() {
+resizeImage(this, this.gameObject.scale);
+this.onload = () => {};
+this.staticDrawProps = {
+x: Camera.xOffset - this.width * 0.5,
+y: Camera.yOffset - this.height * 0.5
+};
 }
 render() {
-drawImage(this, this.gameObject.position, this.gameObject.rotation, this.gameObject.scale);
+ctx.drawImage(this, this.gameObject.position.x + this.staticDrawProps.x, this.gameObject.position.y + this.staticDrawProps.y);
 }
 get props() {
 return {
@@ -199,10 +209,22 @@ path: this.path
 };
 }
 }
+function resizeImage(image, { x, y }) {
+if (x === 1 && y === 1)
+return;
+const ctx2 = document.createElement(\`canvas\`).getContext(\`2d\`);
+const newWidth = image.width * x;
+const newHeight = image.height * y;
+ctx2.canvas.width = newWidth;
+ctx2.canvas.height = newHeight;
+ctx2.drawImage(image, 0, 0, newWidth, newHeight);
+image.src = ctx2.canvas.toDataURL();
+}
 class Text {
 gameObject;
 value;
 color;
+align = { x: 0, y: 0 };
 constructor({ value, color }, gameObject) {
 this.gameObject = gameObject;
 this.value = value;
@@ -216,7 +238,7 @@ y: this.gameObject.position.y,
 h: this.gameObject.scale.y,
 color: this.color,
 rect: this.gameObject.rect,
-align: { x: 0, y: 0 }
+align: this.align
 });
 }
 get props() {
@@ -327,6 +349,10 @@ this.value = newTime;
 this.ms = 1000 / (60 * this.value);
 this.lastTime = performance.now();
 }
+};
+var Camera = {
+xOffset: 0,
+yOffset: 0
 };
 class Scene extends GameObject {
 camera = { x: 0, y: 0 };

@@ -6,6 +6,8 @@ export default class Text implements TText {
   value
   color
 
+  private align = { x: 0, y: 0 }
+
   constructor({ value, color }: TextProps, gameObject: TGameObject) {
     this.gameObject = gameObject
     this.value = value
@@ -20,7 +22,7 @@ export default class Text implements TText {
       h: this.gameObject.scale.y,
       color: this.color,
       rect: this.gameObject.rect,
-      align: { x: 0, y: 0 },
+      align: this.align,
     })
   }
 

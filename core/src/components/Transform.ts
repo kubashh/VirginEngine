@@ -68,6 +68,8 @@ export default class Transform implements TTransform {
 
     this.s.x = x
     this.s.y = y
+
+    this.gameObject.sprite?.bind()
   }
 
   get props() {

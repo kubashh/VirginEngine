@@ -39,12 +39,12 @@ const filesTemplate: Any = {
         scale: { x: 20, y: 20 },
         sprite: { color: ``, path: `files.Assets.Images.BoxImage` },
         start: `function() {
-  this.position = {x: rand(window.innerWidth), y: rand(window.innerHeight)}
+  this.position = {x: rand(-Camera.xOffset, Camera.xOffset), y: rand(-Camera.yOffset, Camera.yOffset)}
 }`,
         update: `function() {
   const x = this.position.x - rand(2)
   const y = this.position.y - rand(0.3)
-  this.position = {x: x < 0 ? window.innerWidth : x, y: y < 0 ? window.innerHeight : y}
+  this.position = {x: x < -Camera.xOffset ? Camera.xOffset : x, y: y < -Camera.yOffset ? Camera.yOffset : y}
 }`,
       }),
     },

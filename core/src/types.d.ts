@@ -3,6 +3,11 @@ type XY = {
   y: number
 }
 
+type WH = {
+  w: number
+  h: number
+}
+
 type F<T> = () => T
 type Void = F<void>
 
@@ -117,6 +122,7 @@ type TSprite = {
 
   constructor: any
 
+  bind: Void
   render: Void
   props: { path: string }
 }
