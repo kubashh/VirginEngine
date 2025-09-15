@@ -114,6 +114,8 @@ function loadScene({ name, ...newScene }) {
 scene.load(deepCopy(newScene), name);
 onresize();
 }
+var textBaseline = { "-1": \`top\`, "0": \`middle\`, "1": \`bottom\` };
+var textAlign = { "-1": \`left\`, "0": \`center\`, "1": \`right\` };
 function drawText({
 text,
 color,
@@ -123,10 +125,15 @@ w,
 h,
 rect = { x: 0, y: 0 },
 font = \`serif\`,
+align,
 ...rest
 }) {
 ctx.save();
 ctx.fillStyle = color;
+if (align) {
+ctx.textAlign = textAlign[align.x];
+ctx.textAlign = textBaseline[align.y];
+}
 if (rect.x === 0)
 x += window.innerWidth / 2;
 if (rect.x === 1)
@@ -208,7 +215,8 @@ x: this.gameObject.position.x,
 y: this.gameObject.position.y,
 h: this.gameObject.scale.y,
 color: this.color,
-rect: this.gameObject.rect
+rect: this.gameObject.rect,
+align: { x: 0, y: 0 }
 });
 }
 get props() {
@@ -381,23 +389,9 @@ obj.update?.();
 for (const key in events)
 delete events[key];
 }
-function counter(f) {
-const start = performance.now();
-f();
-return performance.now() - start;
-}
-function renderSprite() {
-for (const obj of gameObjects)
-obj.sprite?.render();
-}
-function renderText() {
-for (const obj of gameObjects)
-obj.text?.render();
-}
 function render() {
 ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-const timeSprite = counter(renderSprite);
-const timeText = counter(renderText);
+Timer.measure([\`Sprite\`, renderSprite], [\`Text\`, renderText]);
 drawText({
 text: \`\${gameObjects.length}go, \${Log.updates}ups, \${Log.frames}fps\`,
 x: -6,
@@ -410,18 +404,51 @@ textBaseline: \`top\`
 });
 const props = {
 x: 6,
-y: 6,
 h: 18,
 rect: { x: -1, y: -1 },
 color: \`white\`,
 textAlign: \`left\`,
 textBaseline: \`top\`
 };
-drawText({ text: \`Sprite: \${timeSprite}ms\`, ...props });
-drawText({ text: \`Text: \${timeText}ms\`, ...props, y: props.y + 18 });
+let y = 6;
+for (const text of Timer.getAllFormatted()) {
+drawText({ text, y, ...props });
+y += 18;
+}
 Log.framesTemp++;
 requestAnimationFrame(render);
 }
+function renderSprite() {
+for (const obj of gameObjects)
+obj.sprite?.render();
+}
+function renderText() {
+for (const obj of gameObjects)
+obj.text?.render();
+}
+var Timer = {
+maxBuffer: 10,
+timers: [{}],
+measure(...arr) {
+const timer = {};
+for (const [name, f] of arr) {
+const start = performance.now();
+f();
+timer[name] = performance.now() - start;
+}
+this.timers.push(timer);
+if (this.timers.length >= this.maxBuffer)
+this.timers.shift();
+},
+getAllFormatted() {
+const obj = this.timers.reduce((prev, v) => Object.entries(v).reduce((prev2, [key, v2]) => ({ ...prev2, [key]: (prev2[key] || 0) + v2 }), prev));
+const all = Object.values(obj).reduce((prev, v) => prev + v, 0);
+return Object.entries(obj).map(([key, value]) => \`\${key}: \${(value * 100 / all || 0).toFixed(2)}%\`);
+},
+reset() {
+this.timers.length = 0;
+}
+};
 window.addEventListener(\`mousedown\`, () => eventsHover.click = true);
 window.addEventListener(\`mouseup\`, () => delete eventsHover.click);
 window.addEventListener(\`click\`, () => events.click = true);

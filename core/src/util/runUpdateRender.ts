@@ -46,28 +46,13 @@ function update() {
   for (const key in events) delete events[key]
 }
 
-function counter(f: Void) {
-  const start = performance.now()
-  f()
-  return performance.now() - start
-}
-
-function renderSprite() {
-  for (const obj of gameObjects) obj.sprite?.render()
-}
-
-function renderText() {
-  for (const obj of gameObjects) obj.text?.render()
-}
-
 // Render
 function render() {
   // Clear
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
 
   // Render
-  const timeSprite = counter(renderSprite)
-  const timeText = counter(renderText)
+  Timer.measure([`Sprite`, renderSprite], [`Text`, renderText])
 
   drawText({
     text: `${gameObjects.length}go, ${Log.updates}ups, ${Log.frames}fps`,
@@ -82,7 +67,6 @@ function render() {
 
   const props = {
     x: 6,
-    y: 6,
     h: 18,
     rect: { x: -1, y: -1 },
     color: `white`,
@@ -90,10 +74,52 @@ function render() {
     textBaseline: `top`,
   }
 
-  drawText({ text: `Sprite: ${timeSprite}ms`, ...props })
-  drawText({ text: `Text: ${timeText}ms`, ...props, y: props.y + 18 })
+  let y = 6
+  for (const text of Timer.getAllFormatted()) {
+    drawText({ text, y, ...props })
+    y += 18
+  }
 
   // Recall render
   Log.framesTemp++
   requestAnimationFrame(render)
+}
+
+function renderSprite() {
+  for (const obj of gameObjects) obj.sprite?.render()
+}
+
+function renderText() {
+  for (const obj of gameObjects) obj.text?.render()
+}
+
+const Timer = {
+  maxBuffer: 10,
+  timers: [{}] as Obj<number>[],
+
+  measure(...arr: [string, Void][]) {
+    const timer = {} as Obj<number>
+
+    for (const [name, f] of arr) {
+      const start = performance.now()
+      f()
+      timer[name] = performance.now() - start
+    }
+
+    this.timers.push(timer)
+    if (this.timers.length >= this.maxBuffer) this.timers.shift()
+  },
+
+  getAllFormatted() {
+    const obj = this.timers.reduce((prev, v) =>
+      Object.entries(v).reduce((prev, [key, v]) => ({ ...prev, [key]: (prev[key] || 0) + v }), prev)
+    )
+
+    const all = Object.values(obj).reduce((prev, v) => prev + v, 0)
+    return Object.entries(obj).map(([key, value]) => `${key}: ${((value * 100) / all || 0).toFixed(2)}%`)
+  },
+
+  reset() {
+    this.timers.length = 0
+  },
 }
