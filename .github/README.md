@@ -4,7 +4,7 @@ Simple JS game engine for web games
 
 ## TODO
 
-### core
+### Core
 
 - GameObject
   - extends Transform
@@ -12,7 +12,8 @@ Simple JS game engine for web games
 - Sprite.color
 - drawImage (pos, rot, scale)
 - Audio, play audio (from string)
+- build: bundle CSS to HTML (maybe icon)
 
-### src
+### Editor (src)
 
 - Audio, convert audio files to strings
