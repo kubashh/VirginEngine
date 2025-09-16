@@ -35,7 +35,7 @@ type GameObjectProps = {
 type TransformProps = { position?: XY; rotation?: number; scale?: XY } | undefined
 type TextProps = { value: string; color: string }
 type SpriteProps = { path: string }
-type PhysicsProps = { velocity?: number }
+type PhysicsProps = { gravity: boolean }
 type ColliderProps = {}
 
 type drawTextProps = {
@@ -134,7 +134,8 @@ type TSprite = {
 }
 
 type TPhysics = {
-  velocity: number
+  velocity: XY
+  gravity: boolean
 
   constructor: any
 

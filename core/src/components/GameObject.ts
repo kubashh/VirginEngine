@@ -2,9 +2,9 @@ import Transform from "./Transform"
 import Sprite from "./Sprite"
 import Text from "./Text"
 import Collider from "./Collider"
+import Physics from "./Physics"
 import { gameObjects } from "../values/consts"
 import { deepCopy, isChildKey, randStr } from "../util/basicFunctions"
-import Physics from "./Physics"
 
 const keywords = [`toUpdate`, `toRender`, `parent`, `position`, `rotation`, `scale`]
 

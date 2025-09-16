@@ -1,6 +1,6 @@
 import { allowedNameChars, alphabet, config, currentScene, files, keywords, setUp } from "./consts"
 
-export function deepCopy(obj: Any) {
+export function deepCopy<T>(obj: T): T {
   return JSON.parse(JSON.stringify(obj))
 }
 

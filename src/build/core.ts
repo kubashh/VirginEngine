@@ -254,13 +254,24 @@ this.gameObject = gameObject;
 }
 }
 class Physics {
+static gravitySpeed = 10;
 gameObject;
-velocity;
-constructor({ velocity }, gameObject) {
-this.velocity = velocity || 0;
+velocity = { x: 0, y: 0 };
+gravity;
+constructor({ gravity }, gameObject) {
+this.gravity = gravity;
 this.gameObject = gameObject;
 }
-update() {}
+update() {
+if (this.gravity)
+this.velocity.y -= Physics.gravitySpeed;
+this.gameObject.position.x += this.velocity.x;
+this.gameObject.position.y += this.velocity.y;
+}
+AddForce({ x, y }) {
+this.velocity.x += x;
+this.velocity.y += y;
+}
 }
 var keywords = [\`toUpdate\`, \`toRender\`, \`parent\`, \`position\`, \`rotation\`, \`scale\`];
 class GameObject {

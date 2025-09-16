@@ -12,6 +12,14 @@ type Variable = {
   type?: VTypes
 }
 
+// Types
+
+type TComp = {
+  object: Any
+  deps: string[]
+  del: string[]
+}
+
 // Props
 
 type FileProps = {
