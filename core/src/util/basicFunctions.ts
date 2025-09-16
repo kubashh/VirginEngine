@@ -11,13 +11,13 @@ export function isChildKey(text: string) {
 }
 
 // Deep copy
-export function deepCopy(data: any) {
+export function deepCopy<T>(data: T): T {
   if (Array.isArray(data)) {
     return data.reduce((prev, val) => [...prev, deepCopy(val)], [])
   }
 
   if (typeof data === `object`) {
-    const newObj: Any = {}
+    const newObj: any = {}
 
     for (const key in data) {
       if ([`parent`, `toUpdate`, `toRender`, `gameObject`].includes(key)) continue

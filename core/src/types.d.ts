@@ -140,6 +140,7 @@ type TPhysics = {
   constructor: any
 
   update: Void
+  AddForce: (force: XY) => void
 }
 
 type TCollider = {
