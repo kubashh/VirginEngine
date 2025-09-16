@@ -36,6 +36,7 @@ type TransformProps = { position?: XY; rotation?: number; scale?: XY } | undefin
 type TextProps = { value: string; color: string }
 type SpriteProps = { path: string }
 type PhysicsProps = { velocity?: number }
+type ColliderProps = {}
 
 type drawTextProps = {
   text: string

@@ -19,6 +19,7 @@ const config: Bun.BuildConfig = {
   minify: true,
   target: `browser`,
   sourcemap: `none`,
+  publicPath: `https://kubashh.github.io/virginengine/`,
   define: {
     "process.env.NODE_ENV": `"production"`,
   },

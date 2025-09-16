@@ -7,7 +7,5 @@ export default class Physics implements TPhysics {
     this.gameObject = gameObject
   }
 
-  update() {
-    console.count(`update`)
-  }
+  update() {}
 }

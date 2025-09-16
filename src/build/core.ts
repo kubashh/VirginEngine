@@ -247,11 +247,11 @@ color: this.color
 };
 }
 }
-function Collider() {
-return new Coll;
+class Collider {
+gameObject;
+constructor(props, gameObject) {
+this.gameObject = gameObject;
 }
-class Coll {
-constructor() {}
 }
 class Physics {
 gameObject;
@@ -260,9 +260,7 @@ constructor({ velocity }, gameObject) {
 this.velocity = velocity || 0;
 this.gameObject = gameObject;
 }
-update() {
-console.count(\`update\`);
-}
+update() {}
 }
 var keywords = [\`toUpdate\`, \`toRender\`, \`parent\`, \`position\`, \`rotation\`, \`scale\`];
 class GameObject {
@@ -308,7 +306,7 @@ this.sprite = new Sprite(sprite, this);
 if (physics)
 this.physics = new Physics(physics, this);
 if (collider)
-this.collider = Collider();
+this.collider = new Collider(collider, this);
 for (const key in rest) {
 this[key] = isChildKey(key) ? new GameObject({ ...rest[key], parent: this }, key) : typeof rest[key] === \`function\` ? rest[key].bind(this) : rest[key];
 }

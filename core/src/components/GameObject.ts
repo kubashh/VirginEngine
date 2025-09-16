@@ -56,7 +56,7 @@ export default class GameObject implements TGameObject {
     if (sprite) this.sprite = new Sprite(sprite, this)
     if (physics) this.physics = new Physics(physics, this)
 
-    if (collider) this.collider = Collider()
+    if (collider) this.collider = new Collider(collider, this)
 
     for (const key in rest) {
       ;(this as TGameObject)[key] = isChildKey(key)

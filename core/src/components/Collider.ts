@@ -1,7 +1,7 @@
-export default function Collider(): TCollider {
-  return new Coll()
-}
+export default class Collider implements TCollider {
+  private gameObject
 
-class Coll implements TCollider {
-  constructor() {}
+  constructor(props: ColliderProps, gameObject: TGameObject) {
+    this.gameObject = gameObject
+  }
 }
