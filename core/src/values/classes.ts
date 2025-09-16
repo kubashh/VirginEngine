@@ -1,7 +1,6 @@
 import GameObject from "@/components/GameObject"
 import { events, eventsHover, gameObjects } from "./values"
 
-// Scene
 export class Scene extends GameObject implements TScene {
   camera = { x: 0, y: 0 }
 

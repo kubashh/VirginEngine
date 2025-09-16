@@ -1,4 +1,4 @@
-export class Physics implements TPhysics {
+export default class Physics implements TPhysics {
   private gameObject
   velocity
 

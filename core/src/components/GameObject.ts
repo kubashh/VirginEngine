@@ -4,7 +4,7 @@ import Text from "./Text"
 import Collider from "./Collider"
 import { gameObjects } from "../values/values"
 import { deepCopy, isChildKey, randStr } from "../util/basicFunctions"
-import { Physics } from "./Physics"
+import Physics from "./Physics"
 
 const keywords = [`toUpdate`, `toRender`, `parent`, `position`, `rotation`, `scale`]
 
