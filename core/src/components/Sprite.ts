@@ -1,4 +1,4 @@
-import { Camera, ctx } from "@/values/values"
+import { Camera, ctx } from "@/values/consts"
 import { file } from "../util/basicFunctions"
 
 export default class Sprite extends Image implements TSprite {

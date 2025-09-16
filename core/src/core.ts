@@ -1,4 +1,4 @@
-import { events, eventsHover, files } from "./values/values"
+import { events, eventsHover, files } from "./values/consts"
 import { onresize, randColor } from "./util/basicFunctions"
 import { run } from "./util/runUpdateRender"
 

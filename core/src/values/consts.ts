@@ -40,4 +40,4 @@ export const Camera = {
   yOffset: 0,
 }
 
-export let scene = new Scene({}, ``)
+export const scene = new Scene({}, ``)

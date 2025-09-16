@@ -1,4 +1,4 @@
-import { allowedNameChars, alphabet, Camera, ctx, files, gameObjects, scene } from "../values/values"
+import { allowedNameChars, alphabet, Camera, ctx, files, gameObjects, scene } from "../values/consts"
 
 // Time
 export async function wait(time?: number) {

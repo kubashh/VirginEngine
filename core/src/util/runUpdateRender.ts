@@ -1,5 +1,5 @@
 import { Timer } from "@/values/classes"
-import { ctx, events, gameObjects, GameTime, Log } from "../values/values"
+import { ctx, events, gameObjects, GameTime, Log } from "../values/consts"
 import { drawText, loadScene, wait } from "./basicFunctions"
 
 // Run

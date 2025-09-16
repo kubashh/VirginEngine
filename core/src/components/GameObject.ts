@@ -2,7 +2,7 @@ import Transform from "./Transform"
 import Sprite from "./Sprite"
 import Text from "./Text"
 import Collider from "./Collider"
-import { gameObjects } from "../values/values"
+import { gameObjects } from "../values/consts"
 import { deepCopy, isChildKey, randStr } from "../util/basicFunctions"
 import Physics from "./Physics"
 
