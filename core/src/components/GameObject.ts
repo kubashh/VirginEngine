@@ -4,16 +4,13 @@ import Text from "./Text"
 import Collider from "./Collider"
 import { gameObjects } from "../values/values"
 import { deepCopy, isChildKey, randStr } from "../util/basicFunctions"
+import { Physics } from "./Physics"
 
 const keywords = [`toUpdate`, `toRender`, `parent`, `position`, `rotation`, `scale`]
 
 export default class GameObject implements TGameObject {
   name
   parent
-
-  start
-  update
-  render
 
   transform: TTransform
   position = {} as XY
@@ -23,10 +20,28 @@ export default class GameObject implements TGameObject {
 
   text?: TText
   sprite?: TSprite
+  physics?: TPhysics
+
   collider
 
+  start
+  update
+  render
+
   constructor(
-    { parent, transform, rect, text, sprite, collider, start, update, render, ...rest }: GameObjectProps,
+    {
+      parent,
+      transform,
+      rect,
+      text,
+      sprite,
+      collider,
+      physics,
+      start,
+      update,
+      render,
+      ...rest
+    }: GameObjectProps,
     name: string
   ) {
     gameObjects.push(this)
@@ -39,6 +54,7 @@ export default class GameObject implements TGameObject {
     if (rect) this.rect = rect
     if (text) this.text = new Text(text, this)
     if (sprite) this.sprite = new Sprite(sprite, this)
+    if (physics) this.physics = new Physics(physics, this)
 
     if (collider) this.collider = Collider()
 
@@ -55,10 +71,10 @@ export default class GameObject implements TGameObject {
     if (render) this.render = render
   }
 
-  get childs(): GameObject[] {
+  get childs(): TGameObject[] {
     return Object.keys(this).reduce(
       (prev, key) => (isChildKey(key) ? [...prev, (this as TGameObject)[key]] : prev),
-      [] as GameObject[]
+      [] as TGameObject[]
     )
   }
 

@@ -17,11 +17,14 @@ type Any = Obj<any>
 // Props
 
 type GameObjectProps = {
-  rect: XY
+  rect?: XY
   parent?: TGameObject
   transform: TransformProps
+
   text: TextProps
   sprite: SpriteProps
+  physics: PhysicsProps
+
   start?: Void
   update?: Void
   render?: Void
@@ -29,7 +32,7 @@ type GameObjectProps = {
   [key: string]: any
 }
 
-type TransformProps = { position?: XY; rotation?: number; scale?: XY }
+type TransformProps = { position?: XY; rotation?: number; scale?: XY } | undefined
 type TextProps = { value: string; color: string }
 type SpriteProps = { path: string }
 type PhysicsProps = { velocity?: number }
@@ -76,6 +79,7 @@ type TGameObject = {
 
   text?: TText
   sprite?: TSprite
+  physics?: TPhysics
 
   constructor: any
 
@@ -122,7 +126,8 @@ type TSprite = {
 
   constructor: any
 
-  bind: Void
+  reload: Void
+  resize: Void
   render: Void
   props: { path: string }
 }
@@ -131,6 +136,8 @@ type TPhysics = {
   velocity: number
 
   constructor: any
+
+  update: Void
 }
 
 type TCollider = {
@@ -139,4 +146,15 @@ type TCollider = {
 
 type TAnimation = {
   constructor: any
+}
+
+type TScene = {
+  camera: XY
+
+  constructor: any
+
+  load: (newScene: Any, name: string) => void
+  close: Void
+
+  [key: string]: any
 }

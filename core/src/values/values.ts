@@ -1,4 +1,5 @@
 import GameObject from "../components/GameObject"
+import { Scene } from "./classes"
 
 // Canvas
 export const ctx = (document.body.children[0] as HTMLCanvasElement).getContext(`2d`)!
@@ -37,41 +38,6 @@ export const GameTime = {
 export const Camera = {
   xOffset: 0,
   yOffset: 0,
-}
-
-// Scene
-class Scene extends GameObject {
-  camera = { x: 0, y: 0 }
-
-  constructor(scene: any, name: string) {
-    super(scene, name)
-  }
-
-  load(newScene: Any, name: string) {
-    this.close()
-
-    scene = new Scene(newScene, name)
-
-    for (const obj of gameObjects) obj.start?.()
-
-    // Remove Scene from gameObjects
-    gameObjects.shift()
-  }
-
-  close() {
-    super.destroy()
-
-    // Clear gameObject array
-    gameObjects.length = 0
-
-    // Clear events
-    for (const key in events) delete events[key]
-    for (const key in eventsHover) delete eventsHover[key]
-
-    for (const key in this) {
-      if (![`name`, `objects`, `load`, `close`].includes(key)) delete this[key]
-    }
-  }
 }
 
 export let scene = new Scene({}, ``)

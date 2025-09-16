@@ -12,15 +12,11 @@ this.s = new GSXY(props?.scale || { x: 1, y: 1 });
 gameObject.position = this.position;
 gameObject.rotation = this.rotation;
 gameObject.scale = this.scale;
-if (!props)
-this.readonly = true;
 }
 get position() {
 return this.p;
 }
 set position({ x, y }) {
-if (this.readonly)
-throw alert(\`PROGRAMMER, you can't chage "readOnly" position\`);
 for (const child of this.gameObject.childs) {
 child.position.x += -this.position.x + x;
 child.position.y += -this.position.y + y;
@@ -32,8 +28,6 @@ get rotation() {
 return this.rz;
 }
 set rotation(z) {
-if (this.readonly)
-throw alert(\`PROGRAMMER, you can't chage "readOnly" rotation\`);
 z %= 360;
 if (z < 0)
 z += 360;
@@ -46,15 +40,13 @@ get scale() {
 return this.s;
 }
 set scale({ x, y }) {
-if (this.readonly)
-throw alert(\`PROGRAMMER, you can't chage "readOnly" scale\`);
 for (const child of this.gameObject.childs) {
 child.scale.x = child.scale.x / this.scale.x * x;
 child.scale.y = child.scale.y / this.scale.y * y;
 }
 this.s.x = x;
 this.s.y = y;
-this.gameObject.sprite?.bind();
+this.gameObject.sprite?.reload();
 }
 get props() {
 return {
@@ -160,6 +152,9 @@ ctx.canvas.width = window.innerWidth;
 ctx.canvas.height = window.innerHeight;
 Camera.xOffset = window.innerWidth * 0.5;
 Camera.yOffset = window.innerHeight * 0.5;
+for (const obj of gameObjects) {
+obj.sprite?.resize();
+}
 }
 function randInt(min, max) {
 return Math.floor(rand(min, max));
@@ -190,11 +185,14 @@ super();
 this.gameObject = gameObject;
 this.src = file(path);
 this.path = path;
-this.onload = this.bind;
+this.onload = this.reload;
+this.resize();
 }
-bind() {
+reload() {
 resizeImage(this, this.gameObject.scale);
 this.onload = () => {};
+}
+resize() {
 this.staticDrawProps = {
 x: Camera.xOffset - this.width * 0.5,
 y: Camera.yOffset - this.height * 0.5
@@ -209,16 +207,17 @@ path: this.path
 };
 }
 }
+resizeImage.ctx = document.createElement(\`canvas\`).getContext(\`2d\`);
+resizeImage.ctx.canvas.style.display = \`none\`;
 function resizeImage(image, { x, y }) {
 if (x === 1 && y === 1)
 return;
-const ctx2 = document.createElement(\`canvas\`).getContext(\`2d\`);
 const newWidth = image.width * x;
 const newHeight = image.height * y;
-ctx2.canvas.width = newWidth;
-ctx2.canvas.height = newHeight;
-ctx2.drawImage(image, 0, 0, newWidth, newHeight);
-image.src = ctx2.canvas.toDataURL();
+resizeImage.ctx.canvas.width = newWidth;
+resizeImage.ctx.canvas.height = newHeight;
+resizeImage.ctx.drawImage(image, 0, 0, newWidth, newHeight);
+image.src = resizeImage.ctx.canvas.toDataURL();
 }
 class Text {
 gameObject;
@@ -254,13 +253,21 @@ return new Coll;
 class Coll {
 constructor() {}
 }
+class Physics {
+gameObject;
+velocity;
+constructor({ velocity }, gameObject) {
+this.velocity = velocity || 0;
+this.gameObject = gameObject;
+}
+update() {
+console.count(\`update\`);
+}
+}
 var keywords = [\`toUpdate\`, \`toRender\`, \`parent\`, \`position\`, \`rotation\`, \`scale\`];
 class GameObject {
 name;
 parent;
-start;
-update;
-render;
 transform;
 position = {};
 rotation = 0;
@@ -268,8 +275,24 @@ scale = {};
 rect;
 text;
 sprite;
+physics;
 collider;
-constructor({ parent, transform, rect, text, sprite, collider, start, update, render, ...rest }, name) {
+start;
+update;
+render;
+constructor({
+parent,
+transform,
+rect,
+text,
+sprite,
+collider,
+physics,
+start,
+update,
+render,
+...rest
+}, name) {
 gameObjects.push(this);
 this.name = name;
 this.parent = parent || {};
@@ -282,6 +305,8 @@ if (text)
 this.text = new Text(text, this);
 if (sprite)
 this.sprite = new Sprite(sprite, this);
+if (physics)
+this.physics = new Physics(physics, this);
 if (collider)
 this.collider = Collider();
 for (const key in rest) {
@@ -331,6 +356,66 @@ gameObjects.splice(gameObjects.indexOf(this));
 delete parent[name];
 }
 }
+class Scene extends GameObject {
+camera = { x: 0, y: 0 };
+constructor(scene2, name) {
+super(scene2, name);
+}
+load(newScene, name) {
+this.close();
+newScene = new Scene(newScene, name);
+for (const key in newScene) {
+this[key] = newScene[key];
+}
+for (const obj of gameObjects)
+obj.start?.();
+gameObjects.shift();
+}
+close() {
+super.destroy();
+gameObjects.length = 0;
+for (const key in events)
+delete events[key];
+for (const key in eventsHover)
+delete eventsHover[key];
+for (const key in this) {
+if (![\`name\`, \`objects\`, \`load\`, \`close\`].includes(key))
+delete this[key];
+}
+}
+}
+class Timer {
+timers;
+allFormatted = [];
+static timers = [];
+constructor(labels) {
+this.timers = labels.reduce((prev, str) => ({ ...prev, [str]: 0 }), {});
+this.reset();
+Timer.timers.push(this);
+}
+measure(...arr) {
+const timer = this.timers;
+for (const [name, f] of arr) {
+const start = performance.now();
+f();
+const end = performance.now() - start;
+if (!this.timers[name])
+this.timers[name] = 0;
+timer[name] += end;
+}
+}
+reset() {
+const obj = Object.entries(this.timers).reduce((prev, [key, v]) => ({ ...prev, [key]: (prev[key] || 0) + v }), {});
+const all = Object.values(obj).reduce((prev, v) => prev + v, 0);
+this.allFormatted = Object.entries(obj).map(([key, value]) => \`\${key}: \${(value * 100 / all || 0).toFixed(2)}%\`);
+this.timers = {};
+}
+static reset() {
+for (const timer of this.timers) {
+timer.reset();
+}
+}
+}
 var ctx = document.body.children[0].getContext(\`2d\`);
 var files = \`REPLACE_FILES\`;
 var alphabet = \`ABCDEFGHIJKLMNOPRQSTUWXYZ\`;
@@ -354,31 +439,6 @@ var Camera = {
 xOffset: 0,
 yOffset: 0
 };
-class Scene extends GameObject {
-camera = { x: 0, y: 0 };
-constructor(scene2, name) {
-super(scene2, name);
-}
-load(newScene, name) {
-this.close();
-scene = new Scene(newScene, name);
-for (const obj of gameObjects)
-obj.start?.();
-gameObjects.shift();
-}
-close() {
-super.destroy();
-gameObjects.length = 0;
-for (const key in events)
-delete events[key];
-for (const key in eventsHover)
-delete eventsHover[key];
-for (const key in this) {
-if (![\`name\`, \`objects\`, \`load\`, \`close\`].includes(key))
-delete this[key];
-}
-}
-}
 var scene = new Scene({}, \`\`);
 async function run() {
 loadScene(\`REPLACE_PATH_TO_MAIN_SCENE\`);
@@ -410,15 +470,24 @@ await wait();
 }
 }
 function update() {
-for (const obj of gameObjects) {
+UpdateTimer.measure([\`Physics\`, updatePhysics], [\`Objects\`, updateObjects]);
+clearEvents();
+}
+function updatePhysics() {
+for (const obj of gameObjects)
+obj.physics?.update();
+}
+function updateObjects() {
+for (const obj of gameObjects)
 obj.update?.();
 }
+function clearEvents() {
 for (const key in events)
 delete events[key];
 }
 function render() {
-ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-Timer.measure([\`Sprite\`, renderSprite], [\`Text\`, renderText]);
+clearCtx();
+RenderTimer.measure([\`Sprite\`, renderSprite], [\`Text\`, renderText]);
 drawText({
 text: \`\${gameObjects.length}go, \${Log.updates}ups, \${Log.frames}fps\`,
 x: -6,
@@ -438,12 +507,15 @@ textAlign: \`left\`,
 textBaseline: \`top\`
 };
 let y = 6;
-for (const text of Timer.allFormatted) {
+for (const text of [...RenderTimer.allFormatted, ...UpdateTimer.allFormatted]) {
 drawText({ text, y, ...props });
 y += 18;
 }
 Log.framesTemp++;
 requestAnimationFrame(render);
+}
+function clearCtx() {
+ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 }
 function renderSprite() {
 for (const obj of gameObjects)
@@ -453,28 +525,8 @@ function renderText() {
 for (const obj of gameObjects)
 obj.text?.render();
 }
-var Timer = {
-timers: { Sprite: 0, Text: 0 },
-allFormatted: [],
-measure(...arr) {
-const timer = this.timers;
-for (const [name, f] of arr) {
-const start = performance.now();
-f();
-const end = performance.now() - start;
-if (!this.timers[name])
-this.timers[name] = 0;
-timer[name] += end;
-}
-},
-reset() {
-const obj = Object.entries(this.timers).reduce((prev, [key, v]) => ({ ...prev, [key]: (prev[key] || 0) + v }), {});
-const all = Object.values(obj).reduce((prev, v) => prev + v, 0);
-this.allFormatted = Object.entries(obj).map(([key, value]) => \`\${key}: \${(value * 100 / all || 0).toFixed(2)}%\`);
-this.timers = {};
-}
-};
-Timer.reset();
+var RenderTimer = new Timer([\`Sprite\`, \`Text\`]);
+var UpdateTimer = new Timer([\`Physics\`, \`Objects\`]);
 window.addEventListener(\`mousedown\`, () => eventsHover.click = true);
 window.addEventListener(\`mouseup\`, () => delete eventsHover.click);
 window.addEventListener(\`click\`, () => events.click = true);

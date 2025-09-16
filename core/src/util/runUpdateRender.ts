@@ -1,3 +1,4 @@
+import { Timer } from "@/values/classes"
 import { ctx, events, gameObjects, GameTime, Log } from "../values/values"
 import { drawText, loadScene, wait } from "./basicFunctions"
 
@@ -39,21 +40,29 @@ export async function run() {
 
 // Update
 function update() {
-  for (const obj of gameObjects) {
-    obj.update?.()
-  }
+  UpdateTimer.measure([`Physics`, updatePhysics], [`Objects`, updateObjects])
 
+  clearEvents()
+}
+
+function updatePhysics() {
+  for (const obj of gameObjects) obj.physics?.update()
+}
+
+function updateObjects() {
+  for (const obj of gameObjects) obj.update?.()
+}
+
+function clearEvents() {
   // Clear events, not eventsHover
   for (const key in events) delete events[key]
 }
 
 // Render
 function render() {
-  // Clear
-  ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+  clearCtx()
 
-  // Render
-  Timer.measure([`Sprite`, renderSprite], [`Text`, renderText])
+  RenderTimer.measure([`Sprite`, renderSprite], [`Text`, renderText])
 
   drawText({
     text: `${gameObjects.length}go, ${Log.updates}ups, ${Log.frames}fps`,
@@ -76,7 +85,7 @@ function render() {
   }
 
   let y = 6
-  for (const text of Timer.allFormatted) {
+  for (const text of [...RenderTimer.allFormatted, ...UpdateTimer.allFormatted]) {
     drawText({ text, y, ...props })
     y += 18
   }
@@ -84,6 +93,10 @@ function render() {
   // Recall render
   Log.framesTemp++
   requestAnimationFrame(render)
+}
+
+function clearCtx() {
+  ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
 }
 
 function renderSprite() {
@@ -94,35 +107,5 @@ function renderText() {
   for (const obj of gameObjects) obj.text?.render()
 }
 
-const Timer = {
-  timers: { Sprite: 0, Text: 0 } as Obj<number>,
-  allFormatted: [] as string[],
-
-  measure(...arr: [string, Void][]) {
-    const timer = this.timers
-
-    for (const [name, f] of arr) {
-      const start = performance.now()
-      f()
-      const end = performance.now() - start
-      if (!this.timers[name]) this.timers[name] = 0
-      timer[name] += end
-    }
-  },
-
-  reset() {
-    const obj = Object.entries(this.timers).reduce(
-      (prev, [key, v]) => ({ ...prev, [key]: (prev[key] || 0) + v }),
-      {} as Obj<number>
-    )
-
-    const all = Object.values(obj).reduce((prev, v) => prev + v, 0)
-    this.allFormatted = Object.entries(obj).map(
-      ([key, value]) => `${key}: ${((value * 100) / all || 0).toFixed(2)}%`
-    )
-
-    this.timers = {}
-  },
-}
-
-Timer.reset()
+const RenderTimer = new Timer([`Sprite`, `Text`])
+const UpdateTimer = new Timer([`Physics`, `Objects`])

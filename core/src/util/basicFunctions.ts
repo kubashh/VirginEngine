@@ -1,4 +1,4 @@
-import { allowedNameChars, alphabet, Camera, ctx, files, scene } from "../values/values"
+import { allowedNameChars, alphabet, Camera, ctx, files, gameObjects, scene } from "../values/values"
 
 // Time
 export async function wait(time?: number) {
@@ -93,6 +93,11 @@ export function onresize() {
   ctx.canvas.height = window.innerHeight
   Camera.xOffset = window.innerWidth * 0.5
   Camera.yOffset = window.innerHeight * 0.5
+
+  // Resize sprites staticDrawProps
+  for (const obj of gameObjects) {
+    obj.sprite?.resize()
+  }
 }
 
 export function randInt(min: number, max?: number) {

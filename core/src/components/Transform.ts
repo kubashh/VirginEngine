@@ -5,8 +5,6 @@ export default class Transform implements TTransform {
   private rz = 0
   private s
 
-  private readonly
-
   constructor(props: TransformProps, gameObject: TGameObject) {
     this.gameObject = gameObject
 
@@ -17,8 +15,6 @@ export default class Transform implements TTransform {
     gameObject.position = this.position
     gameObject.rotation = this.rotation
     gameObject.scale = this.scale
-
-    if (!props) this.readonly = true
   }
 
   // Position
@@ -26,8 +22,6 @@ export default class Transform implements TTransform {
     return this.p
   }
   set position({ x, y }) {
-    if (this.readonly) throw alert(`PROGRAMMER, you can't chage "readOnly" position`)
-
     for (const child of this.gameObject.childs) {
       child.position.x += -this.position.x + x
       child.position.y += -this.position.y + y
@@ -42,8 +36,6 @@ export default class Transform implements TTransform {
     return this.rz
   }
   set rotation(z: number) {
-    if (this.readonly) throw alert(`PROGRAMMER, you can't chage "readOnly" rotation`)
-
     z %= 360
     if (z < 0) z += 360
 
@@ -59,8 +51,6 @@ export default class Transform implements TTransform {
     return this.s
   }
   set scale({ x, y }) {
-    if (this.readonly) throw alert(`PROGRAMMER, you can't chage "readOnly" scale`)
-
     for (const child of this.gameObject.childs) {
       child.scale.x = (child.scale.x / this.scale.x) * x
       child.scale.y = (child.scale.y / this.scale.y) * y
@@ -69,7 +59,7 @@ export default class Transform implements TTransform {
     this.s.x = x
     this.s.y = y
 
-    this.gameObject.sprite?.bind()
+    this.gameObject.sprite?.reload()
   }
 
   get props() {

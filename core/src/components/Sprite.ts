@@ -13,12 +13,16 @@ export default class Sprite extends Image implements TSprite {
     this.gameObject = gameObject
     this.src = file(path)
     this.path = path
-    this.onload = this.bind
+    this.onload = this.reload
+    this.resize()
   }
 
-  bind() {
+  reload() {
     resizeImage(this, this.gameObject.scale)
     this.onload = () => {}
+  }
+
+  resize() {
     this.staticDrawProps = {
       x: Camera.xOffset - this.width * 0.5,
       y: Camera.yOffset - this.height * 0.5,
@@ -40,16 +44,17 @@ export default class Sprite extends Image implements TSprite {
   }
 }
 
+resizeImage.ctx = document.createElement(`canvas`).getContext(`2d`)!
+resizeImage.ctx.canvas.style.display = `none`
 function resizeImage(image: HTMLImageElement, { x, y }: XY) {
   if (x === 1 && y === 1) return
 
-  const ctx = document.createElement(`canvas`).getContext(`2d`)!
   const newWidth = image.width * x
   const newHeight = image.height * y
 
-  ctx.canvas.width = newWidth
-  ctx.canvas.height = newHeight
+  resizeImage.ctx.canvas.width = newWidth
+  resizeImage.ctx.canvas.height = newHeight
 
-  ctx.drawImage(image, 0, 0, newWidth, newHeight)
-  image.src = ctx.canvas.toDataURL()
+  resizeImage.ctx.drawImage(image, 0, 0, newWidth, newHeight)
+  image.src = resizeImage.ctx.canvas.toDataURL()
 }
