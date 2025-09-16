@@ -4,6 +4,10 @@ Simple JS game engine for web games
 
 ## TODO
 
+### Build project html
+
+- Optymalize project htmls
+
 ### Core
 
 - GameObject
