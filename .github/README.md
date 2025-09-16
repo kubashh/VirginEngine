@@ -15,4 +15,9 @@ Simple JS game engine for web games
 
 ### Editor (src)
 
-- Audio, convert audio files to strings
+- Audio
+  - grab audio from input
+  - convert audio files to strings
+- Config
+  - optymalizeImg: boolean
+  - optymalizeAudio: boolean
