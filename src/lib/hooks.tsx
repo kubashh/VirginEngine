@@ -14,7 +14,7 @@ export function useArrow(
 
   return [
     <div
-      className="w-6 h-6 text-center justify-self-center rounded-full cursor-pointer hover"
+      className="w-6 h-6 text-center justify-self-center rounded-full cursor-pointer hover:text-zinc-400"
       style={{ transform: `rotate(${open.value ? 90 : 0}deg)` }}
       onClick={() => (open.value = !open.value)}
       children=">"

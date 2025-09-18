@@ -82,7 +82,7 @@ export function AddComponent({ text, onClick }: AddComponentProps) {
     <input
       type="button"
       value={`+ ${text}`}
-      className="mt-3 mb-6 px-3 py-2 cursor-pointer hover"
+      className="mt-3 mb-6 px-3 py-2 cursor-pointer hover:text-zinc-400"
       onClick={onClick}
     />
   )

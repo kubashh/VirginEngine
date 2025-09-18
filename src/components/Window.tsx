@@ -17,7 +17,7 @@ function Header({ name, options }: HeaderProps) {
         Object.keys(options).map((key) => (
           <input
             type="button"
-            className="my-auto mx-2 cursor-pointer hover"
+            className="my-auto mx-2 cursor-pointer hover:text-zinc-400"
             key={key}
             value={key}
             onClick={options[key]}

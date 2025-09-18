@@ -9,7 +9,7 @@ export default function InspectorSection({ text, remove, childs, element }: Insp
           <input
             type="button"
             value="Remove"
-            className="mr-4 ml-auto cursor-pointer hover"
+            className="mr-4 ml-auto cursor-pointer hover:text-zinc-400"
             onClick={remove}
           />
         ) : null}

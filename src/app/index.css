@@ -8,11 +8,3 @@
   --h1: 55vh;
   --h2: 45vh;
 }
-
-/* Hover */
-.hover {
-  transition: color 0.15s;
-}
-.hover:hover {
-  color: #a1a1aa; /* zinc-400 */
-}

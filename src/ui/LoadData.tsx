@@ -4,7 +4,7 @@ import { loadProject, openMainScene } from "../lib/util"
 function LoadDataButton(props: { value: string; onClick: React.MouseEventHandler }) {
   return (
     <input
-      className="mx-auto my-6 border-4 border-zinc-400 px-16 py-4 text-5xl cursor-pointer hover"
+      className="mx-auto my-6 border-4 border-zinc-400 px-16 py-4 text-5xl cursor-pointer hover:text-zinc-400"
       type="button"
       {...props}
     />

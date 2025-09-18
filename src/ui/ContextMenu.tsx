@@ -24,7 +24,7 @@ export default function ContextMenu() {
       {contextMenu.value.slice(2).map(([fn, text, show = true]: any) =>
         show ? (
           <div
-            className="cursor-pointer hover"
+            className="cursor-pointer hover:text-zinc-400"
             key={text}
             onClick={() => {
               fn()
