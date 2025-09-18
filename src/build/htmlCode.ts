@@ -3,6 +3,7 @@ import { jsCode } from "./jsCode"
 
 function minifyHtml(text: string) {
   return text
+    .replaceAll(/\/\*[\s\S]*?\*\//g, ``) // Remove comments
     .replaceAll(`\n`, ` `)
     .replaceAll(/\s{2,}/g, ` `)
     .replaceAll(/ > | >|> /g, `>`)

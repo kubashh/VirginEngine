@@ -25,9 +25,8 @@ const config: Bun.BuildConfig = {
 }
 
 // Helper function to format file sizes
-function formatFileSize(bytes: number): string {
+function formatFileSize(size: number): string {
   const units = [`B`, `KB`, `MB`, `GB`]
-  let size = bytes
   let unitIndex = 0
 
   for (; size >= 1024 && unitIndex < units.length - 1; unitIndex++) {
@@ -37,7 +36,7 @@ function formatFileSize(bytes: number): string {
   return `${size.toFixed(2)} ${units[unitIndex]}`
 }
 
-export function minifyHtml(text: string) {
+function minifyHtml(text: string) {
   return text
     .replaceAll(`\n`, ` `)
     .replaceAll(/\s{2,}/g, ` `)
@@ -48,6 +47,7 @@ export function minifyHtml(text: string) {
     .replaceAll(/ } | }|} /g, `}`)
     .replaceAll(/ " | "|" /g, `"`)
     .replaceAll(/ , | ,|, /g, `,`)
+  // .replaceAll(/\/\*[\s\S]*?\*\//g, ``) // Remove comments
 }
 
 console.log(`\n🚀 Starting build process...\n`)
@@ -62,9 +62,34 @@ const start = performance.now()
 // Build all the HTML files
 const result = await Bun.build(config)
 
-const indexHtml = Bun.file(`${outdir}/index.html`)
-const html = minifyHtml(await indexHtml.text())
-indexHtml.write(html)
+// Minify html code
+const htmlFile = Bun.file(`${outdir}/index.html`)
+let html = minifyHtml(await htmlFile.text())
+
+// Bundle css into html
+const cssArtefact = result.outputs.find((e) => e.path.endsWith(`.css`))
+if (cssArtefact?.path) {
+  const cssFile = Bun.file(cssArtefact.path)
+
+  const cssStart = html.indexOf(`<link rel="stylesheet"`)
+
+  let cssEnd = cssStart
+  for (; cssEnd < html.length; cssEnd++) {
+    if ([`/>`, `">`].includes(html.slice(cssEnd, cssEnd + 2))) {
+      cssEnd += 2
+      break
+    }
+  }
+
+  const slice = html.slice(cssStart, cssEnd)
+  const cssCode = `<style>${minifyHtml(await cssFile.text())}</style>`
+
+  html = html.replace(slice, cssCode)
+  cssFile.delete()
+  result.outputs.splice(result.outputs.indexOf(cssArtefact), 1)
+}
+
+htmlFile.write(html)
 
 // Print the results
 const end = performance.now()
