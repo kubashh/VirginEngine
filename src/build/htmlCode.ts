@@ -1,28 +1,28 @@
 import { config } from "../lib/consts"
 import { jsCode } from "./jsCode"
 
-function optymalizeHtml(text: string) {
+function minifyHtml(text: string) {
   return text
     .replaceAll(`\n`, ` `)
     .replaceAll(/\s{2,}/g, ` `)
-    .replaceAll(`> `, `>`)
-    .replaceAll(` <`, `<`)
-    .replaceAll(`; `, `;`)
-    .replaceAll(` {`, `{`)
-    .replaceAll(`{ `, `{`)
-    .replaceAll(` "`, `"`)
-    .replaceAll(`" `, `"`)
+    .replaceAll(/ > | >|> /g, `>`)
+    .replaceAll(/ < | <|< /g, `<`)
+    .replaceAll(/ ; | ;|; /g, `;`)
+    .replaceAll(/ { | {|{ /g, `{`)
+    .replaceAll(/ } | }|} /g, `}`)
+    .replaceAll(/ " | "|" /g, `"`)
+    .replaceAll(/ , | ,|, /g, `,`)
 }
 
-const html = optymalizeHtml(`
+const html = minifyHtml(`
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="author" content="AUTHOR"/>
     <meta name="description" content="DESCRIPTION"/>
-    <meta name="keywords" content="GAME_NAME,AUTHOR"/>
+    <meta name="keywords" content="GAME_NAME, AUTHOR"/>
 
     <title>GAME_NAME</title>
 
@@ -46,10 +46,12 @@ const html = optymalizeHtml(`
 </html>
 `)
 
+console.log(htmlCode())
+
 export function htmlCode(production?: boolean) {
   return html
     .replaceAll(`AUTHOR`, config.author)
     .replaceAll(`DESCRIPTION`, config.description)
     .replaceAll(`GAME_NAME`, config.gameName)
-    .replaceAll(`SCRIPT`, jsCode(production))
+  // .replaceAll(`SCRIPT`, jsCode(production))
 }

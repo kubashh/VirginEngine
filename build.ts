@@ -30,12 +30,24 @@ function formatFileSize(bytes: number): string {
   let size = bytes
   let unitIndex = 0
 
-  while (size >= 1024 && unitIndex < units.length - 1) {
+  for (; size >= 1024 && unitIndex < units.length - 1; unitIndex++) {
     size /= 1024
-    unitIndex++
   }
 
   return `${size.toFixed(2)} ${units[unitIndex]}`
+}
+
+export function minifyHtml(text: string) {
+  return text
+    .replaceAll(`\n`, ` `)
+    .replaceAll(/\s{2,}/g, ` `)
+    .replaceAll(/ > | >|> /g, `>`)
+    .replaceAll(/ < | <|< /g, `<`)
+    .replaceAll(/ ; | ;|; /g, `;`)
+    .replaceAll(/ { | {|{ /g, `{`)
+    .replaceAll(/ } | }|} /g, `}`)
+    .replaceAll(/ " | "|" /g, `"`)
+    .replaceAll(/ , | ,|, /g, `,`)
 }
 
 console.log(`\n🚀 Starting build process...\n`)
@@ -49,6 +61,12 @@ const start = performance.now()
 
 // Build all the HTML files
 const result = await Bun.build(config)
+
+const indexHtml = Bun.file(`${outdir}/index.html`)
+const html = minifyHtml(await indexHtml.text())
+indexHtml.write(html)
+
+console.log(indexHtml, html)
 
 // Print the results
 const end = performance.now()
