@@ -2,11 +2,11 @@
 
 :root {
   /* Width, Haight */
-  --width1: calc(100vw - var(--width2) - var(--width3));
-  --width2: calc(15vw + 50px);
-  --width3: calc(30vw + 80px);
-  --height1: 55vh;
-  --height2: 45vh;
+  --w1: calc(100vw - var(--w2) - var(--w3));
+  --w2: calc(15vw + 50px);
+  --w3: calc(30vw + 80px);
+  --h1: 55vh;
+  --h2: 45vh;
 }
 
 /* Hover */
