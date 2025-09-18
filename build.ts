@@ -24,32 +24,6 @@ const config: Bun.BuildConfig = {
   },
 }
 
-// Helper function to format file sizes
-function formatFileSize(size: number): string {
-  const units = [`B`, `KB`, `MB`, `GB`]
-  let unitIndex = 0
-
-  for (; size >= 1024 && unitIndex < units.length - 1; unitIndex++) {
-    size /= 1024
-  }
-
-  return `${size.toFixed(2)} ${units[unitIndex]}`
-}
-
-function minifyHtml(text: string) {
-  return text
-    .replaceAll(`\n`, ` `)
-    .replaceAll(/\s{2,}/g, ` `)
-    .replaceAll(/ > | >|> /g, `>`)
-    .replaceAll(/ < | <|< /g, `<`)
-    .replaceAll(/ ; | ;|; /g, `;`)
-    .replaceAll(/ { | {|{ /g, `{`)
-    .replaceAll(/ } | }|} /g, `}`)
-    .replaceAll(/ " | "|" /g, `"`)
-    .replaceAll(/ , | ,|, /g, `,`)
-  // .replaceAll(/\/\*[\s\S]*?\*\//g, ``) // Remove comments
-}
-
 console.log(`Starting build process...\n`)
 
 if (existsSync(outdir)) {
@@ -92,21 +66,12 @@ if (cssArtefact?.path) {
 htmlFile.write(html)
 
 // Print the results
-const end = performance.now()
-const buildTime = (end - start).toFixed(2)
+const buildTime = (performance.now() - start).toFixed(2)
 
 const [outputSize, maxPathLength] = result.outputs.reduce(
   (prev, e) => [prev[0] + e.size, Math.max(prev[1], relative(process.cwd(), e.path).length)],
   [0, 0]
 )
-
-function formatPath(path: string) {
-  path = relative(process.cwd(), path)
-
-  while (path.length < maxPathLength) path += ` `
-
-  return path
-}
 
 const outputTable = result.outputs.reduce(
   (prev, output) => prev + `  ${formatPath(output.path)}   ${formatFileSize(output.size)}\n`,
@@ -117,3 +82,37 @@ console.log(`Output:
 ${outputTable}
 All size: ${formatFileSize(outputSize)}
 Done in ${buildTime}ms\n`)
+
+// Helper function to format file sizes
+function formatFileSize(size: number): string {
+  const units = [`B`, `KB`, `MB`, `GB`]
+  let unitIndex = 0
+
+  for (; size >= 1024 && unitIndex < units.length - 1; unitIndex++) {
+    size /= 1024
+  }
+
+  return `${size.toFixed(2)} ${units[unitIndex]}`
+}
+
+function minifyHtml(text: string) {
+  return text
+    .replaceAll(`\n`, ` `)
+    .replaceAll(/\s{2,}/g, ` `)
+    .replaceAll(/ > | >|> /g, `>`)
+    .replaceAll(/ < | <|< /g, `<`)
+    .replaceAll(/ ; | ;|; /g, `;`)
+    .replaceAll(/ { | {|{ /g, `{`)
+    .replaceAll(/ } | }|} /g, `}`)
+    .replaceAll(/ " | "|" /g, `"`)
+    .replaceAll(/ , | ,|, /g, `,`)
+  // .replaceAll(/\/\*[\s\S]*?\*\//g, ``) // Remove comments
+}
+
+function formatPath(path: string) {
+  path = relative(process.cwd(), path)
+
+  while (path.length < maxPathLength) path += ` `
+
+  return path
+}
