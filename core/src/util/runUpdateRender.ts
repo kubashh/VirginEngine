@@ -4,7 +4,7 @@ import { drawText, loadScene, wait } from "./basicFunctions"
 
 // Run
 export async function run() {
-  loadScene(`REPLACE_PATH_TO_MAIN_SCENE`)
+  loadScene(`REPLACE_PATH_TO_MAIN_SCENE` as any)
 
   GameTime.set(1)
   requestAnimationFrame(render)
@@ -40,22 +40,18 @@ export async function run() {
 
 // Update
 function update() {
-  UpdateTimer.measure([`Physics`, updatePhysics], [`Objects`, updateObjects])
+  UpdateTimer.measure([`Physics`, updatePhysics], [`Nodes`, updateNodes])
 
-  clearEvents()
+  // Clear events, not eventsHover
+  events.clear()
 }
 
 function updatePhysics() {
-  for (const obj of nodes) obj.physics?.update()
+  for (const node of nodes) node.physics?.update()
 }
 
-function updateObjects() {
-  for (const obj of nodes) obj.update?.()
-}
-
-function clearEvents() {
-  // Clear events, not eventsHover
-  for (const key in events) delete events[key]
+function updateNodes() {
+  for (const node of nodes) node.update?.()
 }
 
 // Render
@@ -100,12 +96,12 @@ function clearCtx() {
 }
 
 function renderSprite() {
-  for (const obj of nodes) obj.sprite?.render()
+  for (const node of nodes) node.sprite?.render()
 }
 
 function renderText() {
-  for (const obj of nodes) obj.text?.render()
+  for (const node of nodes) node.text?.render()
 }
 
 const RenderTimer = new Timer([`Sprite`, `Text`])
-const UpdateTimer = new Timer([`Physics`, `Objects`])
+const UpdateTimer = new Timer([`Physics`, `Nodes`])

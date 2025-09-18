@@ -11,8 +11,8 @@ type WH = {
 type F<T> = () => T
 type Void = F<void>
 
-type Obj<T> = Record<string, T>
-type Any = Obj<any>
+type TObj<T> = Record<string, T>
+type Any = TObj<any>
 
 // Props
 
@@ -24,6 +24,9 @@ type NodeProps = {
   text?: TextProps
   sprite?: SpriteProps
   physics?: PhysicsProps
+
+  collider?: ColliderProps
+  animation?: AnimationProps
 
   start?: Void
   update?: Void
@@ -37,6 +40,7 @@ type TextProps = { value: string; color: string }
 type SpriteProps = { path: string }
 type PhysicsProps = { gravity: boolean }
 type ColliderProps = {}
+type AnimationProps = {}
 
 type drawTextProps = {
   text: string
@@ -81,6 +85,7 @@ type TNode = {
   text?: TText
   sprite?: TSprite
   physics?: TPhysics
+  animation?: TAnimation
 
   constructor: any
 

@@ -2,6 +2,7 @@ export default class Physics implements TPhysics {
   static gravitySpeed = 10
 
   private node
+
   velocity = { x: 0, y: 0 }
   gravity
 

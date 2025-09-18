@@ -31,7 +31,7 @@ export function deepCopy<T>(data: T): T {
 }
 
 // Load scene
-export function loadScene({ name, ...newScene }: any) {
+export function loadScene({ name, ...newScene }: Any) {
   scene.load(deepCopy(newScene), name)
 
   onresize()
@@ -39,8 +39,16 @@ export function loadScene({ name, ...newScene }: any) {
 
 // Draw on canvas
 
-const textBaseline: Obj<string> = { "-1": `top`, "0": `middle`, "1": `bottom` }
-const textAlign: Obj<string> = { "-1": `left`, "0": `center`, "1": `right` }
+const textAlign = new Map<number, CanvasTextAlign>([
+  [-1, `left`],
+  [0, `center`],
+  [1, `right`],
+])
+const textBaseline = new Map<number, CanvasTextBaseline>([
+  [-1, `top`],
+  [0, `middle`],
+  [1, `bottom`],
+])
 
 export function drawText({
   text,
@@ -59,17 +67,12 @@ export function drawText({
   ctx.fillStyle = color
 
   if (align) {
-    ctx.textAlign = textAlign[align.x] as any
-    ctx.textAlign = textBaseline[align.y] as any
+    ctx.textAlign = textAlign.get(align.x)!
+    ctx.textBaseline = textBaseline.get(align.y)!
   }
 
-  x += Camera.xOffset
-  y += Camera.yOffset
-
-  if (rect.x === -1) x -= Camera.xOffset
-  if (rect.x === 1) x += Camera.xOffset
-  if (rect.y === -1) y -= Camera.yOffset
-  if (rect.y === 1) y += Camera.yOffset
+  x += (rect.x + 1) * Camera.xOffset
+  y += (rect.y + 1) * Camera.yOffset
 
   for (const key in rest) {
     ;(ctx as Any)[key] = (rest as Any)[key]
@@ -95,9 +98,7 @@ export function onresize() {
   Camera.yOffset = window.innerHeight * 0.5
 
   // Resize sprites staticDrawProps
-  for (const obj of nodes) {
-    obj.sprite?.resize()
-  }
+  for (const node of nodes) node.sprite?.resize()
 }
 
 export function randInt(min: number, max?: number) {

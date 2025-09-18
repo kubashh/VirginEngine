@@ -3,9 +3,9 @@ import { file } from "../util/basicFunctions"
 
 export default class Sprite extends Image implements TSprite {
   private node
-  path
+  private staticDrawProps = {} as XY
 
-  private staticDrawProps = { x: 0, y: 0 }
+  path
 
   constructor({ path }: SpriteProps, node: TNode) {
     super()

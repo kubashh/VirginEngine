@@ -3,6 +3,7 @@ import Sprite from "./Sprite"
 import Text from "./Text"
 import Collider from "./Collider"
 import Physics from "./Physics"
+import Animation from "./Animation"
 import { nodes } from "../values/consts"
 import { deepCopy, isChildKey, randStr } from "../util/basicFunctions"
 
@@ -23,13 +24,27 @@ export default class Node implements TNode {
   physics?: TPhysics
 
   collider
+  animation
 
   start
   update
   render
 
   constructor(
-    { parent, transform, rect, text, sprite, collider, physics, start, update, render, ...rest }: NodeProps,
+    {
+      parent,
+      transform,
+      rect,
+      text,
+      sprite,
+      collider,
+      physics,
+      animation,
+      start,
+      update,
+      render,
+      ...rest
+    }: NodeProps,
     name: string
   ) {
     nodes.push(this)
@@ -45,6 +60,7 @@ export default class Node implements TNode {
     if (physics) this.physics = new Physics(physics, this)
 
     if (collider) this.collider = new Collider(collider, this)
+    if (animation) this.animation = Animation(animation, this)
 
     for (const key in rest) {
       ;(this as TNode)[key] = isChildKey(key)

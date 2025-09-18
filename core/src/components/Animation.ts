@@ -1,7 +1,11 @@
-export default function Animation(): TAnimation {
-  return new Anim()
+export default function Animation(props: AnimationProps, node: TNode): TAnimation {
+  return new Anim(props, node)
 }
 
 class Anim implements TAnimation {
-  constructor() {}
+  private node
+
+  constructor(props: AnimationProps, node: TNode) {
+    this.node = node
+  }
 }

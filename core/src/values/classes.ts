@@ -17,7 +17,7 @@ export class Scene extends Node implements TScene {
       ;(this as TScene)[key] = newScene[key]
     }
 
-    for (const obj of nodes) obj.start?.()
+    for (const node of nodes) node.start?.()
 
     // Remove Scene from nodes
     nodes.shift()
@@ -26,16 +26,13 @@ export class Scene extends Node implements TScene {
   close() {
     super.destroy()
 
-    // Clear nodes array
     nodes.length = 0
 
-    // Clear events
-    for (const key in events) delete events[key]
-    for (const key in eventsHover) delete eventsHover[key]
+    events.clear()
+    eventsHover.clear()
 
-    for (const key in this) {
-      if (![`name`, `objects`, `load`, `close`].includes(key)) delete this[key]
-    }
+    // Clear scene
+    for (const key in this) delete this[key]
   }
 }
 
@@ -45,7 +42,7 @@ export class Timer {
   static timers = [] as Timer[]
 
   constructor(labels: string[]) {
-    this.timers = labels.reduce((prev, str) => ({ ...prev, [str]: 0 }), {} as Obj<number>)
+    this.timers = labels.reduce((prev, str) => ({ ...prev, [str]: 0 }), {} as TObj<number>)
     this.reset()
     Timer.timers.push(this)
   }
@@ -65,7 +62,7 @@ export class Timer {
   reset() {
     const obj = Object.entries(this.timers).reduce(
       (prev, [key, v]) => ({ ...prev, [key]: (prev[key] || 0) + v }),
-      {} as Obj<number>
+      {} as TObj<number>
     )
 
     const all = Object.values(obj).reduce((prev, v) => prev + v, 0)
@@ -80,5 +77,15 @@ export class Timer {
     for (const timer of this.timers) {
       timer.reset()
     }
+  }
+}
+
+export class Obj {
+  constructor(obj?: Object) {
+    Object.assign(this, obj)
+  }
+
+  clear() {
+    for (const key in this) delete this[key]
   }
 }
