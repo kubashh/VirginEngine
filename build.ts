@@ -66,8 +66,6 @@ const indexHtml = Bun.file(`${outdir}/index.html`)
 const html = minifyHtml(await indexHtml.text())
 indexHtml.write(html)
 
-console.log(indexHtml, html)
-
 // Print the results
 const end = performance.now()
 const buildTime = (end - start).toFixed(2)
