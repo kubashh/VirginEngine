@@ -50,10 +50,10 @@ function minifyHtml(text: string) {
   // .replaceAll(/\/\*[\s\S]*?\*\//g, ``) // Remove comments
 }
 
-console.log(`\n🚀 Starting build process...\n`)
+console.log(`Starting build process...\n`)
 
 if (existsSync(outdir)) {
-  console.log(`🗑️ Cleaning previous build at ${outdir}`)
+  console.log(`Cleaning previous build...\n`)
   await rm(outdir, { recursive: true, force: true })
 }
 
@@ -95,10 +95,25 @@ htmlFile.write(html)
 const end = performance.now()
 const buildTime = (end - start).toFixed(2)
 
-const outputTable = result.outputs.map((output) => ({
-  File: relative(process.cwd(), output.path),
-  Size: formatFileSize(output.size),
-}))
+const [outputSize, maxPathLength] = result.outputs.reduce(
+  (prev, e) => [prev[0] + e.size, Math.max(prev[1], relative(process.cwd(), e.path).length)],
+  [0, 0]
+)
 
-console.table(outputTable)
-console.log(`\n✅ Build completed in ${buildTime}ms\n`)
+function formatPath(path: string) {
+  path = relative(process.cwd(), path)
+
+  while (path.length < maxPathLength) path += ` `
+
+  return path
+}
+
+const outputTable = result.outputs.reduce(
+  (prev, output) => prev + `  ${formatPath(output.path)}   ${formatFileSize(output.size)}\n`,
+  ``
+)
+
+console.log(`Output:
+${outputTable}
+All size: ${formatFileSize(outputSize)}
+Done in ${buildTime}ms\n`)
