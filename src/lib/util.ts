@@ -61,9 +61,9 @@ export function openMainScene() {
   openScene(scene)
 }
 
-export function defaultGameObject({ position, rotation, scale, ...rest }: Any = {}) {
+export function defaultNode({ position, rotation, scale, ...rest }: Any = {}) {
   return Object.keys(rest).reduce((prev, key) => ({ [key]: rest[key], ...prev }), {
-    type: `gameObject`,
+    type: `node`,
     transform: {
       position: position || { x: 0, y: 0 },
       rotation: rotation || 0,

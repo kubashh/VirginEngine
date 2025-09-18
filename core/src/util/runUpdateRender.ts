@@ -1,5 +1,5 @@
 import { Timer } from "@/values/classes"
-import { ctx, events, gameObjects, GameTime, Log } from "../values/consts"
+import { ctx, events, nodes, GameTime, Log } from "../values/consts"
 import { drawText, loadScene, wait } from "./basicFunctions"
 
 // Run
@@ -46,11 +46,11 @@ function update() {
 }
 
 function updatePhysics() {
-  for (const obj of gameObjects) obj.physics?.update()
+  for (const obj of nodes) obj.physics?.update()
 }
 
 function updateObjects() {
-  for (const obj of gameObjects) obj.update?.()
+  for (const obj of nodes) obj.update?.()
 }
 
 function clearEvents() {
@@ -65,7 +65,7 @@ function render() {
   RenderTimer.measure([`Sprite`, renderSprite], [`Text`, renderText])
 
   drawText({
-    text: `${gameObjects.length}go, ${Log.updates}ups, ${Log.frames}fps`,
+    text: `${nodes.length}obj, ${Log.updates}ups, ${Log.frames}fps`,
     x: -6,
     y: 6,
     h: 18,
@@ -100,11 +100,11 @@ function clearCtx() {
 }
 
 function renderSprite() {
-  for (const obj of gameObjects) obj.sprite?.render()
+  for (const obj of nodes) obj.sprite?.render()
 }
 
 function renderText() {
-  for (const obj of gameObjects) obj.text?.render()
+  for (const obj of nodes) obj.text?.render()
 }
 
 const RenderTimer = new Timer([`Sprite`, `Text`])

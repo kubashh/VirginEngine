@@ -3,12 +3,12 @@ import Sprite from "./Sprite"
 import Text from "./Text"
 import Collider from "./Collider"
 import Physics from "./Physics"
-import { gameObjects } from "../values/consts"
+import { nodes } from "../values/consts"
 import { deepCopy, isChildKey, randStr } from "../util/basicFunctions"
 
 const keywords = [`toUpdate`, `toRender`, `parent`, `position`, `rotation`, `scale`]
 
-export default class GameObject implements TGameObject {
+export default class Node implements TNode {
   name
   parent
 
@@ -29,25 +29,13 @@ export default class GameObject implements TGameObject {
   render
 
   constructor(
-    {
-      parent,
-      transform,
-      rect,
-      text,
-      sprite,
-      collider,
-      physics,
-      start,
-      update,
-      render,
-      ...rest
-    }: GameObjectProps,
+    { parent, transform, rect, text, sprite, collider, physics, start, update, render, ...rest }: NodeProps,
     name: string
   ) {
-    gameObjects.push(this)
+    nodes.push(this)
 
     this.name = name
-    this.parent = parent || ({} as TGameObject)
+    this.parent = parent || ({} as TNode)
     if (parent) this.parent[this.name] = this
     this.transform = new Transform(transform, this)
 
@@ -59,8 +47,8 @@ export default class GameObject implements TGameObject {
     if (collider) this.collider = new Collider(collider, this)
 
     for (const key in rest) {
-      ;(this as TGameObject)[key] = isChildKey(key)
-        ? new GameObject({ ...rest[key], parent: this }, key)
+      ;(this as TNode)[key] = isChildKey(key)
+        ? new Node({ ...rest[key], parent: this }, key)
         : typeof rest[key] === `function`
         ? rest[key].bind(this)
         : rest[key]
@@ -71,10 +59,10 @@ export default class GameObject implements TGameObject {
     if (render) this.render = render
   }
 
-  get childs(): TGameObject[] {
+  get childs(): TNode[] {
     return Object.keys(this).reduce(
-      (prev, key) => (isChildKey(key) ? [...prev, (this as TGameObject)[key]] : prev),
-      [] as TGameObject[]
+      (prev, key) => (isChildKey(key) ? [...prev, (this as TNode)[key]] : prev),
+      [] as TNode[]
     )
   }
 
@@ -92,19 +80,17 @@ export default class GameObject implements TGameObject {
       if (!(key in newObj) && !keywords.includes(key)) newObj[key] = this[key]
     }
 
-    return deepCopy(newObj)
+    return deepCopy(newObj) as NodeProps
   }
 
   clone(parent = this.parent) {
-    const name = this.name
-
-    let newName = name
-    while (parent[newName]) {
-      newName = `${name}${randStr(5)}`
+    let name = this.name
+    while (parent[name]) {
+      name = `${name.slice(0, -5)}${randStr(5)}`
     }
 
-    const newGameObject = new GameObject({ ...this.props, parent }, newName)
-    newGameObject.start?.bind(newGameObject)()
+    const newNode = new Node({ ...this.props, parent }, name)
+    newNode.start?.bind(newNode)()
   }
 
   destroy() {
@@ -113,7 +99,7 @@ export default class GameObject implements TGameObject {
     const { parent, name } = this
 
     for (const key in this) delete this[key]
-    gameObjects.splice(gameObjects.indexOf(this))
+    nodes.splice(nodes.indexOf(this), 1)
     delete parent[name]
   }
 }

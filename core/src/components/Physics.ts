@@ -1,20 +1,20 @@
 export default class Physics implements TPhysics {
   static gravitySpeed = 10
 
-  private gameObject
+  private node
   velocity = { x: 0, y: 0 }
   gravity
 
-  constructor({ gravity }: PhysicsProps, gameObject: TGameObject) {
+  constructor({ gravity }: PhysicsProps, node: TNode) {
     this.gravity = gravity
-    this.gameObject = gameObject
+    this.node = node
   }
 
   update() {
     if (this.gravity) this.velocity.y -= Physics.gravitySpeed
 
-    this.gameObject.position.x += this.velocity.x
-    this.gameObject.position.y += this.velocity.y
+    this.node.position.x += this.velocity.x
+    this.node.position.y += this.velocity.y
   }
 
   AddForce({ x, y }: XY) {

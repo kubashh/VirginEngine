@@ -6,7 +6,7 @@ Simple JS game engine for web games
 
 ### Core
 
-- GameObject
+- Node
   - extends Transform
   - .delete() complite delete (do not delete objects and arrays, !!! DO NOT DELETE functions !!!)
 - Sprite.color

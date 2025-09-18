@@ -4,8 +4,7 @@ import { config, files } from "../lib/consts"
 import { isCustomProp } from "../lib/util"
 
 function filesToString(data: Any, name?: string, type?: string): any {
-  if (typeof data !== `object`)
-    return type === `gameObject` && isCustomProp(name!) ? data : JSON.stringify(data)
+  if (typeof data !== `object`) return type === `node` && isCustomProp(name!) ? data : JSON.stringify(data)
 
   if (Array.isArray(data)) {
     return `[${data

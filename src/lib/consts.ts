@@ -1,5 +1,5 @@
 import { signal } from "./signals"
-import { defaultGameObject, saveProject } from "./util"
+import { defaultNode, saveProject } from "./util"
 
 export const alphabet = `abcdefghijklmnoprqstuwxyz`
 export const numbers = `0123456789`
@@ -29,13 +29,13 @@ const filesTemplate: Any = {
       name: `DefaultScene`,
       type: `scene`,
       // camera: { scale: 1, aspectRatio: 1, x: 0, y: 0 },
-      Parent: defaultGameObject({
+      Parent: defaultNode({
         start: `function() {
   for(let i = 0; i < 1000; i++)
     this.parent.Child.clone()
 }`,
       }),
-      Child: defaultGameObject({
+      Child: defaultNode({
         scale: { x: 20, y: 20 },
         sprite: { color: ``, path: `files.Assets.Images.BoxImage` },
         start: `function() {

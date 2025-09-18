@@ -2,15 +2,15 @@ import { Camera, ctx } from "@/values/consts"
 import { file } from "../util/basicFunctions"
 
 export default class Sprite extends Image implements TSprite {
-  gameObject
+  private node
   path
 
   private staticDrawProps = { x: 0, y: 0 }
 
-  constructor({ path }: SpriteProps, gameObject: TGameObject) {
+  constructor({ path }: SpriteProps, node: TNode) {
     super()
 
-    this.gameObject = gameObject
+    this.node = node
     this.src = file(path)
     this.path = path
     this.onload = this.reload
@@ -18,7 +18,7 @@ export default class Sprite extends Image implements TSprite {
   }
 
   reload() {
-    resizeImage(this, this.gameObject.scale)
+    resizeImage(this, this.node.scale)
     this.onload = () => {}
   }
 
@@ -32,8 +32,8 @@ export default class Sprite extends Image implements TSprite {
   render() {
     ctx.drawImage(
       this,
-      this.gameObject.position.x + this.staticDrawProps.x,
-      this.gameObject.position.y + this.staticDrawProps.y
+      this.node.position.x + this.staticDrawProps.x,
+      this.node.position.y + this.staticDrawProps.y
     )
   }
 

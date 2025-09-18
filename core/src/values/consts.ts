@@ -1,4 +1,3 @@
-import GameObject from "../components/GameObject"
 import { Scene } from "./classes"
 
 // Canvas
@@ -16,8 +15,8 @@ export const allowedNameChars = `${alphabet}${numbers}_`
 export const events: Obj<boolean> = {}
 export const eventsHover: Obj<boolean> = {}
 
-// gameObjects
-export const gameObjects: GameObject[] = []
+// Nodes
+export const nodes: TNode[] = []
 
 // Log
 export const Log = { updates: 0, frames: 0, framesTemp: 0 }

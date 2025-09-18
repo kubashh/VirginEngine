@@ -1,7 +1,7 @@
 export default class Collider implements TCollider {
-  private gameObject
+  private node
 
-  constructor(props: ColliderProps, gameObject: TGameObject) {
-    this.gameObject = gameObject
+  constructor(props: ColliderProps, node: TNode) {
+    this.node = node
   }
 }

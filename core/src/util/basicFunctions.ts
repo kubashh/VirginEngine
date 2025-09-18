@@ -1,4 +1,4 @@
-import { allowedNameChars, alphabet, Camera, ctx, files, gameObjects, scene } from "../values/consts"
+import { allowedNameChars, alphabet, Camera, ctx, files, nodes, scene } from "../values/consts"
 
 // Time
 export async function wait(time?: number) {
@@ -20,7 +20,7 @@ export function deepCopy<T>(data: T): T {
     const newObj: any = {}
 
     for (const key in data) {
-      if ([`parent`, `toUpdate`, `toRender`, `gameObject`].includes(key)) continue
+      if ([`parent`, `toUpdate`, `toRender`, `node`].includes(key)) continue
       newObj[key] = deepCopy(data[key])
     }
 
@@ -95,7 +95,7 @@ export function onresize() {
   Camera.yOffset = window.innerHeight * 0.5
 
   // Resize sprites staticDrawProps
-  for (const obj of gameObjects) {
+  for (const obj of nodes) {
     obj.sprite?.resize()
   }
 }

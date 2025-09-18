@@ -1,17 +1,12 @@
 import Window from "../components/Window"
-import GameObject from "./GameObject"
+import Node from "./Node"
 import { currentScene, files, inspector } from "../lib/consts"
 
 function HierarchyComponent() {
   currentScene.bind(() => (inspector.value = null))
 
   return (
-    <GameObject
-      object={currentScene.value}
-      old={files.value.Scenes}
-      name={currentScene.value.name}
-      deep={0}
-    />
+    <Node object={currentScene.value} old={files.value.Scenes} name={currentScene.value.name} deep={0} />
   )
 }
 

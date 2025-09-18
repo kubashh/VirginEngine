@@ -16,14 +16,14 @@ type Any = Obj<any>
 
 // Props
 
-type GameObjectProps = {
+type NodeProps = {
   rect?: XY
-  parent?: TGameObject
+  parent?: TNode
   transform: TransformProps
 
-  text: TextProps
-  sprite: SpriteProps
-  physics: PhysicsProps
+  text?: TextProps
+  sprite?: SpriteProps
+  physics?: PhysicsProps
 
   start?: Void
   update?: Void
@@ -64,8 +64,8 @@ type drawProps = {
 
 // Compponents
 
-type TGameObject = {
-  parent: TGameObject
+type TNode = {
+  parent: TNode
   name: string
 
   start?: Void
@@ -84,7 +84,7 @@ type TGameObject = {
 
   constructor: any
 
-  childs: GameObject[]
+  childs: TNode[]
   props: any
   clone: Void
   destroy: Void

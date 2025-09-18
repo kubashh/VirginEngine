@@ -1,6 +1,6 @@
 import FileElement from "../components/FileElement"
 import { contextMenu, currentScene, dragData, keywords, nameInput } from "../lib/consts"
-import { defaultGameObject, isFirstUpperCase } from "../lib/util"
+import { defaultNode, isFirstUpperCase } from "../lib/util"
 import { useArrow } from "../lib/hooks"
 import { setComponents } from "./components/componentsLib"
 
@@ -11,7 +11,7 @@ function getChilds(obj: Any = {}) {
   )
 }
 
-export default function GameObject({ old, name, object, deep = 0 }: GameObjectProps) {
+export default function Node({ old, name, object, deep = 0 }: NodeProps) {
   const main = deep === 0
   const childs = getChilds(object)
   const haveChilds = Object.keys(childs)?.length > 0
@@ -30,7 +30,7 @@ export default function GameObject({ old, name, object, deep = 0 }: GameObjectPr
             (newName: string) => {
               if (Object.keys(object).includes(newName)) return
 
-              object[newName] = defaultGameObject()
+              object[newName] = defaultNode()
 
               open.value = true
               currentScene.refresh()
@@ -73,7 +73,7 @@ export default function GameObject({ old, name, object, deep = 0 }: GameObjectPr
   const onMouseUp = () => {
     const dragDat = dragData.value
 
-    if (!dragDat || dragDat.name === name || dragDat.file.type !== `gameObject`) return
+    if (!dragDat || dragDat.name === name || dragDat.file.type !== `node`) return
 
     for (const key in childs) {
       if (key === dragDat.name) return
@@ -90,7 +90,7 @@ export default function GameObject({ old, name, object, deep = 0 }: GameObjectPr
   const childsElement =
     open.value &&
     Object.entries(childs).map(([key, value]) => (
-      <GameObject old={object} object={value} key={key} name={key} deep={deep + 1} />
+      <Node old={object} object={value} key={key} name={key} deep={deep + 1} />
     ))
 
   return FileElement({

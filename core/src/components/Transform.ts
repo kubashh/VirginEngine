@@ -1,20 +1,20 @@
 export default class Transform implements TTransform {
-  private gameObject
+  private node
 
   private p
   private rz = 0
   private s
 
-  constructor(props: TransformProps, gameObject: TGameObject) {
-    this.gameObject = gameObject
+  constructor(props: TransformProps, node: TNode) {
+    this.node = node
 
     this.p = new GSXY(props?.position)
     if (props?.rotation) this.rotation = props?.rotation
     this.s = new GSXY(props?.scale || { x: 1, y: 1 })
 
-    gameObject.position = this.position
-    gameObject.rotation = this.rotation
-    gameObject.scale = this.scale
+    node.position = this.position
+    node.rotation = this.rotation
+    node.scale = this.scale
   }
 
   // Position
@@ -22,7 +22,7 @@ export default class Transform implements TTransform {
     return this.p
   }
   set position({ x, y }) {
-    for (const child of this.gameObject.childs) {
+    for (const child of this.node.childs) {
       child.position.x += -this.position.x + x
       child.position.y += -this.position.y + y
     }
@@ -39,7 +39,7 @@ export default class Transform implements TTransform {
     z %= 360
     if (z < 0) z += 360
 
-    for (const child of this.gameObject.childs) {
+    for (const child of this.node.childs) {
       child.rotation = child.rotation - this.rotation + z
     }
 
@@ -51,7 +51,7 @@ export default class Transform implements TTransform {
     return this.s
   }
   set scale({ x, y }) {
-    for (const child of this.gameObject.childs) {
+    for (const child of this.node.childs) {
       child.scale.x = (child.scale.x / this.scale.x) * x
       child.scale.y = (child.scale.y / this.scale.y) * y
     }
@@ -59,7 +59,7 @@ export default class Transform implements TTransform {
     this.s.x = x
     this.s.y = y
 
-    this.gameObject.sprite?.reload()
+    this.node.sprite?.reload()
   }
 
   get props() {

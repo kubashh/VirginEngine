@@ -1,15 +1,15 @@
-export async function build() {
+export async function buildCore() {
   await Bun.build({
     entrypoints: [`./core/src/core.ts`],
     outdir: `./src/build`,
     naming: `core.ts`,
   })
 
-  const file = Bun.file(`./src/build/core.ts`)
+  const coreFile = Bun.file(`./src/build/core.ts`)
 
   const js = encode(
     optymalize(
-      (await file.text())
+      (await coreFile.text())
         .split(`\n`)
         .filter((line) => !line.includes("console.log(`Engine:"))
         .join(`\n`)
@@ -18,15 +18,15 @@ export async function build() {
 
   const outText = `export const core = \`${js}\``
 
-  await file.write(outText)
+  await coreFile.write(outText)
 }
 
 export function optymalize(js: string) {
   return js
     .replaceAll(/\/\*[\s\S]*?\*\/|\/\/.*/g, ``) // Remove comments
     .split(`\n`)
-    .map((line) => line.trim()) // Trim lines
-    .filter((line) => line !== ``) // Remove empty lines
+    .map((line) => line.trim())
+    .filter((line) => line !== ``)
     .join(`\n`)
 }
 

@@ -1,23 +1,23 @@
 export const core = `class Transform {
-gameObject;
+node;
 p;
 rz = 0;
 s;
-constructor(props, gameObject) {
-this.gameObject = gameObject;
+constructor(props, node) {
+this.node = node;
 this.p = new GSXY(props?.position);
 if (props?.rotation)
 this.rotation = props?.rotation;
 this.s = new GSXY(props?.scale || { x: 1, y: 1 });
-gameObject.position = this.position;
-gameObject.rotation = this.rotation;
-gameObject.scale = this.scale;
+node.position = this.position;
+node.rotation = this.rotation;
+node.scale = this.scale;
 }
 get position() {
 return this.p;
 }
 set position({ x, y }) {
-for (const child of this.gameObject.childs) {
+for (const child of this.node.childs) {
 child.position.x += -this.position.x + x;
 child.position.y += -this.position.y + y;
 }
@@ -31,7 +31,7 @@ set rotation(z) {
 z %= 360;
 if (z < 0)
 z += 360;
-for (const child of this.gameObject.childs) {
+for (const child of this.node.childs) {
 child.rotation = child.rotation - this.rotation + z;
 }
 this.rz = z;
@@ -40,13 +40,13 @@ get scale() {
 return this.s;
 }
 set scale({ x, y }) {
-for (const child of this.gameObject.childs) {
+for (const child of this.node.childs) {
 child.scale.x = child.scale.x / this.scale.x * x;
 child.scale.y = child.scale.y / this.scale.y * y;
 }
 this.s.x = x;
 this.s.y = y;
-this.gameObject.sprite?.reload();
+this.node.sprite?.reload();
 }
 get props() {
 return {
@@ -95,7 +95,7 @@ return data.reduce((prev, val) => [...prev, deepCopy(val)], []);
 if (typeof data === \`object\`) {
 const newObj = {};
 for (const key in data) {
-if ([\`parent\`, \`toUpdate\`, \`toRender\`, \`gameObject\`].includes(key))
+if ([\`parent\`, \`toUpdate\`, \`toRender\`, \`node\`].includes(key))
 continue;
 newObj[key] = deepCopy(data[key]);
 }
@@ -152,7 +152,7 @@ ctx.canvas.width = window.innerWidth;
 ctx.canvas.height = window.innerHeight;
 Camera.xOffset = window.innerWidth * 0.5;
 Camera.yOffset = window.innerHeight * 0.5;
-for (const obj of gameObjects) {
+for (const obj of nodes) {
 obj.sprite?.resize();
 }
 }
@@ -177,19 +177,19 @@ const n = randInt(16);
 return n < 10 ? String(n) : String.fromCharCode(45 + n);
 }
 class Sprite extends Image {
-gameObject;
+node;
 path;
 staticDrawProps = { x: 0, y: 0 };
-constructor({ path }, gameObject) {
+constructor({ path }, node) {
 super();
-this.gameObject = gameObject;
+this.node = node;
 this.src = file(path);
 this.path = path;
 this.onload = this.reload;
 this.resize();
 }
 reload() {
-resizeImage(this, this.gameObject.scale);
+resizeImage(this, this.node.scale);
 this.onload = () => {};
 }
 resize() {
@@ -199,7 +199,7 @@ y: Camera.yOffset - this.height * 0.5
 };
 }
 render() {
-ctx.drawImage(this, this.gameObject.position.x + this.staticDrawProps.x, this.gameObject.position.y + this.staticDrawProps.y);
+ctx.drawImage(this, this.node.position.x + this.staticDrawProps.x, this.node.position.y + this.staticDrawProps.y);
 }
 get props() {
 return {
@@ -220,23 +220,23 @@ resizeImage.ctx.drawImage(image, 0, 0, newWidth, newHeight);
 image.src = resizeImage.ctx.canvas.toDataURL();
 }
 class Text {
-gameObject;
+node;
 value;
 color;
 align = { x: 0, y: 0 };
-constructor({ value, color }, gameObject) {
-this.gameObject = gameObject;
+constructor({ value, color }, node) {
+this.node = node;
 this.value = value;
 this.color = color;
 }
 render() {
 drawText({
 text: this.value,
-x: this.gameObject.position.x,
-y: this.gameObject.position.y,
-h: this.gameObject.scale.y,
+x: this.node.position.x,
+y: this.node.position.y,
+h: this.node.scale.y,
 color: this.color,
-rect: this.gameObject.rect,
+rect: this.node.rect,
 align: this.align
 });
 }
@@ -248,25 +248,25 @@ color: this.color
 }
 }
 class Collider {
-gameObject;
-constructor(props, gameObject) {
-this.gameObject = gameObject;
+node;
+constructor(props, node) {
+this.node = node;
 }
 }
 class Physics {
 static gravitySpeed = 10;
-gameObject;
+node;
 velocity = { x: 0, y: 0 };
 gravity;
-constructor({ gravity }, gameObject) {
+constructor({ gravity }, node) {
 this.gravity = gravity;
-this.gameObject = gameObject;
+this.node = node;
 }
 update() {
 if (this.gravity)
 this.velocity.y -= Physics.gravitySpeed;
-this.gameObject.position.x += this.velocity.x;
-this.gameObject.position.y += this.velocity.y;
+this.node.position.x += this.velocity.x;
+this.node.position.y += this.velocity.y;
 }
 AddForce({ x, y }) {
 this.velocity.x += x;
@@ -274,7 +274,7 @@ this.velocity.y += y;
 }
 }
 var keywords = [\`toUpdate\`, \`toRender\`, \`parent\`, \`position\`, \`rotation\`, \`scale\`];
-class GameObject {
+class Node {
 name;
 parent;
 transform;
@@ -289,20 +289,8 @@ collider;
 start;
 update;
 render;
-constructor({
-parent,
-transform,
-rect,
-text,
-sprite,
-collider,
-physics,
-start,
-update,
-render,
-...rest
-}, name) {
-gameObjects.push(this);
+constructor({ parent, transform, rect, text, sprite, collider, physics, start, update, render, ...rest }, name) {
+nodes.push(this);
 this.name = name;
 this.parent = parent || {};
 if (parent)
@@ -319,7 +307,7 @@ this.physics = new Physics(physics, this);
 if (collider)
 this.collider = new Collider(collider, this);
 for (const key in rest) {
-this[key] = isChildKey(key) ? new GameObject({ ...rest[key], parent: this }, key) : typeof rest[key] === \`function\` ? rest[key].bind(this) : rest[key];
+this[key] = isChildKey(key) ? new Node({ ...rest[key], parent: this }, key) : typeof rest[key] === \`function\` ? rest[key].bind(this) : rest[key];
 }
 if (start)
 this.start = start;
@@ -347,13 +335,12 @@ newObj[key] = this[key];
 return deepCopy(newObj);
 }
 clone(parent = this.parent) {
-const name = this.name;
-let newName = name;
-while (parent[newName]) {
-newName = \`\${name}\${randStr(5)}\`;
+let name = this.name;
+while (parent[name]) {
+name = \`\${name.slice(0, -5)}\${randStr(5)}\`;
 }
-const newGameObject = new GameObject({ ...this.props, parent }, newName);
-newGameObject.start?.bind(newGameObject)();
+const newNode = new Node({ ...this.props, parent }, name);
+newNode.start?.bind(newNode)();
 }
 destroy() {
 for (const child of this.childs)
@@ -361,11 +348,11 @@ child.destroy();
 const { parent, name } = this;
 for (const key in this)
 delete this[key];
-gameObjects.splice(gameObjects.indexOf(this));
+nodes.splice(nodes.indexOf(this), 1);
 delete parent[name];
 }
 }
-class Scene extends GameObject {
+class Scene extends Node {
 camera = { x: 0, y: 0 };
 constructor(scene2, name) {
 super(scene2, name);
@@ -376,13 +363,13 @@ newScene = new Scene(newScene, name);
 for (const key in newScene) {
 this[key] = newScene[key];
 }
-for (const obj of gameObjects)
+for (const obj of nodes)
 obj.start?.();
-gameObjects.shift();
+nodes.shift();
 }
 close() {
 super.destroy();
-gameObjects.length = 0;
+nodes.length = 0;
 for (const key in events)
 delete events[key];
 for (const key in eventsHover)
@@ -432,7 +419,7 @@ var numbers = \`0123456789\`;
 var allowedNameChars = \`\${alphabet}\${numbers}_\`;
 var events = {};
 var eventsHover = {};
-var gameObjects = [];
+var nodes = [];
 var Log = { updates: 0, frames: 0, framesTemp: 0 };
 var GameTime = {
 ms: 1,
@@ -483,11 +470,11 @@ UpdateTimer.measure([\`Physics\`, updatePhysics], [\`Objects\`, updateObjects]);
 clearEvents();
 }
 function updatePhysics() {
-for (const obj of gameObjects)
+for (const obj of nodes)
 obj.physics?.update();
 }
 function updateObjects() {
-for (const obj of gameObjects)
+for (const obj of nodes)
 obj.update?.();
 }
 function clearEvents() {
@@ -498,7 +485,7 @@ function render() {
 clearCtx();
 RenderTimer.measure([\`Sprite\`, renderSprite], [\`Text\`, renderText]);
 drawText({
-text: \`\${gameObjects.length}go, \${Log.updates}ups, \${Log.frames}fps\`,
+text: \`\${nodes.length}obj, \${Log.updates}ups, \${Log.frames}fps\`,
 x: -6,
 y: 6,
 h: 18,
@@ -527,11 +514,11 @@ function clearCtx() {
 ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 }
 function renderSprite() {
-for (const obj of gameObjects)
+for (const obj of nodes)
 obj.sprite?.render();
 }
 function renderText() {
-for (const obj of gameObjects)
+for (const obj of nodes)
 obj.text?.render();
 }
 var RenderTimer = new Timer([\`Sprite\`, \`Text\`]);

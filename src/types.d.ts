@@ -22,7 +22,7 @@ type FileProps = {
   deep: number
 }
 
-type GameObjectProps = {
+type NodeProps = {
   old?: any
   object: any
   name: string

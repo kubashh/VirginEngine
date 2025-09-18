@@ -1,15 +1,15 @@
 import { drawText } from "../util/basicFunctions"
 
 export default class Text implements TText {
-  private gameObject
+  private node
 
   value
   color
 
   private align = { x: 0, y: 0 }
 
-  constructor({ value, color }: TextProps, gameObject: TGameObject) {
-    this.gameObject = gameObject
+  constructor({ value, color }: TextProps, node: TNode) {
+    this.node = node
     this.value = value
     this.color = color
   }
@@ -17,11 +17,11 @@ export default class Text implements TText {
   render() {
     drawText({
       text: this.value,
-      x: this.gameObject.position.x,
-      y: this.gameObject.position.y,
-      h: this.gameObject.scale.y,
+      x: this.node.position.x,
+      y: this.node.position.y,
+      h: this.node.scale.y,
       color: this.color,
-      rect: this.gameObject.rect,
+      rect: this.node.rect,
       align: this.align,
     })
   }

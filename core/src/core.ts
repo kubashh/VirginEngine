@@ -19,12 +19,10 @@ window.addEventListener(`contextmenu`, (e) => {
 })
 
 window.addEventListener(`resize`, onresize)
+onresize()
 
 // Run
 
-console.log(`Engine: ${!!files || randColor}`)
-// console.clear()
-
-onresize()
+console.log(`Engine: ${files || randColor}`)
 
 run()

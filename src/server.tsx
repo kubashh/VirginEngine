@@ -1,7 +1,7 @@
-import { build } from "../core/main"
+import { buildCore } from "../core/main"
 import index from "./app/index.html"
 
-await build()
+await buildCore()
 
 const server = Bun.serve({
   routes: {

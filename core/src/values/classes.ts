@@ -1,7 +1,7 @@
-import GameObject from "@/components/GameObject"
-import { events, eventsHover, gameObjects } from "./consts"
+import Node from "@/components/Node"
+import { events, eventsHover, nodes } from "./consts"
 
-export class Scene extends GameObject implements TScene {
+export class Scene extends Node implements TScene {
   camera = { x: 0, y: 0 }
 
   constructor(scene: any, name: string) {
@@ -17,17 +17,17 @@ export class Scene extends GameObject implements TScene {
       ;(this as TScene)[key] = newScene[key]
     }
 
-    for (const obj of gameObjects) obj.start?.()
+    for (const obj of nodes) obj.start?.()
 
-    // Remove Scene from gameObjects
-    gameObjects.shift()
+    // Remove Scene from nodes
+    nodes.shift()
   }
 
   close() {
     super.destroy()
 
-    // Clear gameObject array
-    gameObjects.length = 0
+    // Clear nodes array
+    nodes.length = 0
 
     // Clear events
     for (const key in events) delete events[key]

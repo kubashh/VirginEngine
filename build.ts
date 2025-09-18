@@ -3,10 +3,10 @@ import plugin from "bun-plugin-tailwind"
 import { existsSync } from "fs"
 import { rm } from "fs/promises"
 import { relative } from "path"
-import { build } from "./core/main"
+import { buildCore } from "./core/main"
 
 // Build VE core
-await build()
+await buildCore()
 
 // Build HTML
 
