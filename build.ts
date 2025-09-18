@@ -24,10 +24,10 @@ const config: Bun.BuildConfig = {
   },
 }
 
-console.log(`Starting build process...\n`)
+console.log(`Starting build process...`)
 
 if (existsSync(outdir)) {
-  console.log(`Cleaning previous build...\n`)
+  console.log(`Cleaning previous build...`)
   await rm(outdir, { recursive: true, force: true })
 }
 
@@ -77,8 +77,7 @@ const outputTable = result.outputs.reduce(
   (prev, output) => prev + `  ${formatPath(output.path)}   ${formatFileSize(output.size)}\n`,
   ``
 )
-
-console.log(`Output:
+console.log(`\nOutput:
 ${outputTable}
 All size: ${formatFileSize(outputSize)}
 Done in ${buildTime}ms\n`)
