@@ -5,7 +5,17 @@ export const alphabet = `abcdefghijklmnoprqstuwxyz`
 export const numbers = `0123456789`
 export const allowedNameChars = `${alphabet}${numbers}_`
 
-export const keywords = [`type`, `transform`, `position`, `rotation`, `scale`, `text`, `rect`, `sprite`]
+export const keywords = [
+  `type`,
+  `transform`,
+  `position`,
+  `rotation`,
+  `scale`,
+  `text`,
+  `rect`,
+  `sprite`,
+  `physics`,
+]
 
 export const config = {
   gameName: `NameOfGame`,
