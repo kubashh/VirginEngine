@@ -31,10 +31,8 @@ export function deepCopy<T>(data: T): T {
 }
 
 // Load scene
-export function loadScene({ name, ...newScene }: Any) {
-  scene.load(deepCopy(newScene), name)
-
-  onresize()
+export function loadScene(newScene: Any) {
+  scene.load(newScene)
 }
 
 // Draw on canvas

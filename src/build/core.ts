@@ -103,9 +103,8 @@ return newObj;
 }
 return data;
 }
-function loadScene({ name, ...newScene }) {
-scene.load(deepCopy(newScene), name);
-onresize();
+function loadScene(newScene) {
+scene.load(newScene);
 }
 var textAlign = new Map([
 [-1, \`left\`],
@@ -179,6 +178,8 @@ class Sprite extends Image {
 node;
 staticDrawProps = {};
 path;
+w = 0;
+h = 0;
 constructor({ path }, node) {
 super();
 this.node = node;
@@ -189,16 +190,21 @@ this.resize();
 }
 reload() {
 resizeImage(this, this.node.scale);
-this.onload = () => {};
+this.onload = this.resize;
 }
 resize() {
 this.staticDrawProps = {
 x: Camera.xOffset - this.width * 0.5,
 y: Camera.yOffset - this.height * 0.5
 };
+this.w = this.width * this.node.scale.x;
+this.h = this.height * this.node.scale.x;
 }
 render() {
-ctx.drawImage(this, this.node.position.x + this.staticDrawProps.x, this.node.position.y + this.staticDrawProps.y);
+const x = this.staticDrawProps.x - this.node.position.x;
+const y = this.staticDrawProps.y - this.node.position.y;
+if (0 < x + this.w && x - this.w < 2 * Camera.xOffset && 0 < y + this.h && y - this.h < 2 * Camera.yOffset)
+ctx.drawImage(this, x, y);
 }
 get props() {
 return {
@@ -253,7 +259,7 @@ this.node = node;
 }
 }
 class Physics {
-static gravitySpeed = 10;
+static gravitySpeed = 0.6;
 node;
 velocity = { x: 0, y: 0 };
 gravity;
@@ -381,9 +387,10 @@ camera = { x: 0, y: 0 };
 constructor(scene2, name) {
 super(scene2, name);
 }
-load(newScene, name) {
+load({ name, ...newScene }) {
+onresize();
 this.close();
-newScene = new Scene(newScene, name);
+newScene = new Scene(deepCopy(newScene), name);
 for (const key in newScene) {
 this[key] = newScene[key];
 }
@@ -401,9 +408,9 @@ delete this[key];
 }
 }
 class Timer {
+static timers = [];
 timers;
 allFormatted = [];
-static timers = [];
 constructor(labels) {
 this.timers = labels.reduce((prev, str) => ({ ...prev, [str]: 0 }), {});
 this.reset();
@@ -495,7 +502,7 @@ await wait();
 }
 }
 function update() {
-UpdateTimer.measure([\`Physics\`, updatePhysics], [\`Nodes\`, updateNodes]);
+updateTimer.measure([\`Physics\`, updatePhysics], [\`Nodes\`, updateNodes]);
 events.clear();
 }
 function updatePhysics() {
@@ -508,7 +515,7 @@ node.update?.();
 }
 function render() {
 clearCtx();
-RenderTimer.measure([\`Sprite\`, renderSprite], [\`Text\`, renderText]);
+renderTimer.measure([\`Sprite\`, renderSprite], [\`Text\`, renderText]);
 drawText({
 text: \`\${nodes.length}obj, \${Log.updates}ups, \${Log.frames}fps\`,
 x: -6,
@@ -528,7 +535,7 @@ textAlign: \`left\`,
 textBaseline: \`top\`
 };
 let y = 6;
-for (const text of [...RenderTimer.allFormatted, ...UpdateTimer.allFormatted]) {
+for (const text of [...renderTimer.allFormatted, ...updateTimer.allFormatted]) {
 drawText({ text, y, ...props });
 y += 18;
 }
@@ -546,8 +553,8 @@ function renderText() {
 for (const node of nodes)
 node.text?.render();
 }
-var RenderTimer = new Timer([\`Sprite\`, \`Text\`]);
-var UpdateTimer = new Timer([\`Physics\`, \`Nodes\`]);
+var renderTimer = new Timer([\`Sprite\`, \`Text\`]);
+var updateTimer = new Timer([\`Physics\`, \`Nodes\`]);
 window.addEventListener(\`mousedown\`, () => eventsHover.click = true);
 window.addEventListener(\`mouseup\`, () => delete eventsHover.click);
 window.addEventListener(\`click\`, () => events.click = true);

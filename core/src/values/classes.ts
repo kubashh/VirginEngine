@@ -1,5 +1,6 @@
 import Node from "@/components/Node"
 import { events, eventsHover, nodes } from "./consts"
+import { deepCopy, onresize } from "@/util/basicFunctions"
 
 export class Scene extends Node implements TScene {
   camera = { x: 0, y: 0 }
@@ -8,10 +9,12 @@ export class Scene extends Node implements TScene {
     super(scene, name)
   }
 
-  load(newScene: Any, name: string) {
+  load({ name, ...newScene }: Any) {
+    onresize()
+
     this.close()
 
-    newScene = new Scene(newScene, name)
+    newScene = new Scene(deepCopy(newScene), name)
 
     for (const key in newScene) {
       ;(this as TScene)[key] = newScene[key]
@@ -37,9 +40,10 @@ export class Scene extends Node implements TScene {
 }
 
 export class Timer {
-  timers
-  allFormatted = [] as string[]
   static timers = [] as Timer[]
+
+  private timers
+  allFormatted = [] as string[]
 
   constructor(labels: string[]) {
     this.timers = labels.reduce((prev, str) => ({ ...prev, [str]: 0 }), {} as TObj<number>)

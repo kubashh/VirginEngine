@@ -40,7 +40,7 @@ export async function run() {
 
 // Update
 function update() {
-  UpdateTimer.measure([`Physics`, updatePhysics], [`Nodes`, updateNodes])
+  updateTimer.measure([`Physics`, updatePhysics], [`Nodes`, updateNodes])
 
   // Clear events, not eventsHover
   events.clear()
@@ -58,7 +58,7 @@ function updateNodes() {
 function render() {
   clearCtx()
 
-  RenderTimer.measure([`Sprite`, renderSprite], [`Text`, renderText])
+  renderTimer.measure([`Sprite`, renderSprite], [`Text`, renderText])
 
   drawText({
     text: `${nodes.length}obj, ${Log.updates}ups, ${Log.frames}fps`,
@@ -81,7 +81,7 @@ function render() {
   }
 
   let y = 6
-  for (const text of [...RenderTimer.allFormatted, ...UpdateTimer.allFormatted]) {
+  for (const text of [...renderTimer.allFormatted, ...updateTimer.allFormatted]) {
     drawText({ text, y, ...props })
     y += 18
   }
@@ -103,5 +103,5 @@ function renderText() {
   for (const node of nodes) node.text?.render()
 }
 
-const RenderTimer = new Timer([`Sprite`, `Text`])
-const UpdateTimer = new Timer([`Physics`, `Nodes`])
+const renderTimer = new Timer([`Sprite`, `Text`])
+const updateTimer = new Timer([`Physics`, `Nodes`])
