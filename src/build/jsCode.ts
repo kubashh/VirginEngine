@@ -29,12 +29,12 @@ function coreConfig() {
   if (!config.fullScreen)
     trueCore = trueCore
       .split(`\n`)
-      .filter((line) => !line.includes(`!document.fullscreenElement ?`))
+      .filter((line) => !line.startsWith(`!document.fullscreenElement ?`))
       .join(`\n`)
 
   return trueCore
-    .replace("`REPLACE_FILES`", filesToString(files.value))
-    .replace("`REPLACE_PATH_TO_MAIN_SCENE`", config.pathToMainScene)
+    .replace(`"REPLACE_FILES"`, filesToString(files.value))
+    .replace(`"REPLACE_PATH_TO_MAIN_SCENE"`, config.pathToMainScene)
 }
 
 export function jsCode(production?: boolean) {

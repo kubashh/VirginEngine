@@ -449,7 +449,7 @@ delete this[key];
 }
 }
 var ctx = document.body.children[0].getContext(\`2d\`);
-var files = \`REPLACE_FILES\`;
+var files = "REPLACE_FILES";
 var alphabet = \`ABCDEFGHIJKLMNOPRQSTUWXYZ\`;
 var numbers = \`0123456789\`;
 var allowedNameChars = \`\${alphabet}\${numbers}_\`;
@@ -473,7 +473,7 @@ yOffset: 0
 };
 var scene = new Scene({}, \`\`);
 async function run() {
-loadScene(\`REPLACE_PATH_TO_MAIN_SCENE\`);
+loadScene("REPLACE_PATH_TO_MAIN_SCENE");
 GameTime.set(1);
 requestAnimationFrame(render);
 let timer = performance.now();

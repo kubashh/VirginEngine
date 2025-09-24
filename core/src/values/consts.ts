@@ -4,7 +4,7 @@ import { Obj, Scene } from "./classes"
 export const ctx = (document.body.children[0] as HTMLCanvasElement).getContext(`2d`)!
 
 // Files
-export const files: Any = `REPLACE_FILES` as any
+export const files: Any = "REPLACE_FILES" as any
 
 // Alphabet
 export const alphabet = `ABCDEFGHIJKLMNOPRQSTUWXYZ`

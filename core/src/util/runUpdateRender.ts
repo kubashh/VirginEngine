@@ -4,7 +4,7 @@ import { drawText, loadScene, wait } from "./basicFunctions"
 
 // Run
 export async function run() {
-  loadScene(`REPLACE_PATH_TO_MAIN_SCENE` as any)
+  loadScene("REPLACE_PATH_TO_MAIN_SCENE" as any)
 
   GameTime.set(1)
   requestAnimationFrame(render)
