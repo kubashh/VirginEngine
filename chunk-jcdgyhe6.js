@@ -502,7 +502,7 @@ delete this[key];
 }
 }
 var ctx = document.body.children[0].getContext(\`2d\`);
-var files = \`REPLACE_FILES\`;
+var files = "REPLACE_FILES";
 var alphabet = \`ABCDEFGHIJKLMNOPRQSTUWXYZ\`;
 var numbers = \`0123456789\`;
 var allowedNameChars = \`\${alphabet}\${numbers}_\`;
@@ -526,7 +526,7 @@ yOffset: 0
 };
 var scene = new Scene({}, \`\`);
 async function run() {
-loadScene(\`REPLACE_PATH_TO_MAIN_SCENE\`);
+loadScene("REPLACE_PATH_TO_MAIN_SCENE");
 GameTime.set(1);
 requestAnimationFrame(render);
 let timer = performance.now();
@@ -620,8 +620,8 @@ e.preventDefault();
 window.addEventListener(\`resize\`, onresize);
 onresize();
 run();`;function a1(R,E,O){if(typeof R!=="object")return O==="node"&&oF(E)?R:JSON.stringify(R);if(Array.isArray(R))return`[${R.reduce((I,C)=>{return`${I}${a1(C)},`},"").slice(0,-1)}]`;if(R.type==="img")return`"${R.src}"`;return`{${Object.keys(R).reduce((I,C)=>{return`${I}${C}:${a1(R[C],C,R.type)},`},"").slice(0,-1)}}`}function M7(){let R=A6;if(!GO.fullScreen)R=R.split(`
-`).filter((E)=>!E.includes("!document.fullscreenElement ?")).join(`
-`);return R.replace("`REPLACE_FILES`",a1(YO.value)).replace("`REPLACE_PATH_TO_MAIN_SCENE`",GO.pathToMainScene)}function h6(R){let E=M7();if(!R)return E;let O=d1(E);if(O.code)return O.code;throw Error(JSON.stringify(O))}function Y7(R){return R.replaceAll(/\/\*[\s\S]*?\*\//g,"").replaceAll(`
+`).filter((E)=>!E.startsWith("!document.fullscreenElement ?")).join(`
+`);return R.replace('"REPLACE_FILES"',a1(YO.value)).replace('"REPLACE_PATH_TO_MAIN_SCENE"',GO.pathToMainScene)}function h6(R){let E=M7();if(!R)return E;let O=d1(E);if(O.code)return O.code;throw Error(JSON.stringify(O))}function Y7(R){return R.replaceAll(/\/\*[\s\S]*?\*\//g,"").replaceAll(`
 `," ").replaceAll(/\s{2,}/g," ").replaceAll(/ > | >|> /g,">").replaceAll(/ < | <|< /g,"<").replaceAll(/ ; | ;|; /g,";").replaceAll(/ { | {|{ /g,"{").replaceAll(/ } | }|} /g,"}").replaceAll(/ " | "|" /g,'"').replaceAll(/ , | ,|, /g,",")}var w7=Y7(`
 <!DOCTYPE html>
 <html lang="en">
