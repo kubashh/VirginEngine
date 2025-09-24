@@ -1,15 +1,13 @@
 export async function buildCore() {
-  const output = await Bun.build({
+  const { outputs } = await Bun.build({
     entrypoints: [`./core/src/core.ts`],
     outdir: `.`,
     naming: `./src/build/core.ts`,
   })
 
-  const coreFile = Bun.file(output.outputs[0].path)
-
   const js = encode(
     optymalize(
-      (await coreFile.text())
+      (await outputs[0].text())
         .split(`\n`)
         .filter((line) => !line.startsWith("console.log(`Engine:"))
         .join(`\n`)
@@ -18,7 +16,7 @@ export async function buildCore() {
 
   const outText = `export const core = \`${js}\``
 
-  await coreFile.write(outText)
+  await Bun.write(outputs[0].path, outText)
 }
 
 export function optymalize(js: string) {
