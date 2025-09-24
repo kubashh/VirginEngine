@@ -1,26 +1,19 @@
-import clsx from "clsx"
+import InputGrabber from "./InputGrabber"
 
-export default function ImageGrabber({ src, name, className }: ImageGrabberProps) {
+export default function ImageGrabber({ src, name }: ImageGrabberProps) {
   return (
-    <div className={clsx(`flex`, className)}>
-      {name}
-      <label htmlFor={name} className="mr-2 border-1 border-zinc-700 cursor-pointer">
-        <img className="max-w-20" src={src.value} />
-      </label>
-      <input
-        type="file"
-        className="hidden"
-        id={name}
-        accept="image/*"
-        onChange={({ target }) => {
-          if (!target.files) return
-          configureImage(target.files[0], src)
-        }}
-      />
-    </div>
+    <InputGrabber
+      name={name}
+      accept="image/*"
+      img={<img className="max-w-20" src={src.value} />}
+      onFile={(file) => {
+        configureImage(file, src)
+      }}
+    />
   )
 }
 
+// TODO new Promise
 function configureImage(image: File, src: { value: string }) {
   imgToSrc(image, (newSrc) => {
     src.value = newSrc

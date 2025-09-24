@@ -9,8 +9,9 @@ const text = [{ value: ``, color: `white` }, [`rect`], []]
 const rect = [{ x: 0, y: 0 }, [], [`text`]]
 const sprite = [{ color: ``, path: `files.Assets.BoxImage` }, [], []]
 const physics = [{ gravity: true }, [], []]
+const audio = [{ path: `` }, [], []]
 
-const components: Obj<[Any, string[], string[]]> = { text, rect, sprite, physics } as any
+const components: Obj<[Any, string[], string[]]> = { text, rect, sprite, physics, audio } as any
 
 export function setComponents(props: Any) {
   inspector.value = <Components {...props} />

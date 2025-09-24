@@ -15,6 +15,7 @@ export const keywords = [
   `rect`,
   `sprite`,
   `physics`,
+  `audio`,
 ]
 
 export const config = {
@@ -68,6 +69,12 @@ const filesTemplate: Any = {
       BoxImage: {
         type: `img`,
         src: `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAdnJLH8AAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAuIwAALiMBeKU/dgAAAA9JREFUCB0BBAD7/wD///8F/gL+A30ZxgAAAABJRU5ErkJggg==`,
+      },
+    },
+    Audio: {
+      type: `folder`,
+      DAudio: {
+        type: `audio`,
       },
     },
   },

@@ -4,6 +4,8 @@ type Obj<T> = Record<string, T>
 type Any = Obj<any>
 type Void = () => void
 
+type Signal<T> = { value: T }
+
 type VTypes = `boolean` | `number` | `string` | `array` | `object` | `function` | `enum`
 
 type Variable = {
@@ -79,9 +81,15 @@ type WindowProps = {
   children: React.ReactNode
 }
 
+type InputGrabberProps = {
+  name: string
+  accept: string
+  img: React.ReactNode
+  onFile: (file: File) => void
+}
+
 type ImageGrabberProps = {
-  className?: string
-  src: { value: string }
+  src: Signal<string>
   name: string
 }
 

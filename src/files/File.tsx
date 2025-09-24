@@ -1,5 +1,6 @@
 import FileElement from "../components/FileElement"
 import ImageGrabber from "components/ImageGrabber"
+import AudioGrabber from "components/AudioGrabber"
 import { contextMenu, dragData, files, inspector, nameInput } from "../lib/consts"
 import { openScene, isFirstUpperCase } from "../lib/util"
 import { useArrow } from "../lib/hooks"
@@ -13,11 +14,17 @@ function InspectorDisplay({ file, name }: { file: Any; name: string }) {
       <h2 className="text-2xl font-bold">File</h2>
       <div>Type: {file.type}</div>
       <div>Name: {name}</div>
-      {file.type === `img` ? (
+      {(file.type === `img` && (
         <div className="flex">
           Image: <ImageGrabber src={src} name={name} />
         </div>
-      ) : null}
+      )) ||
+        (file.type === `audio` && (
+          <div className="flex">
+            Audio: <AudioGrabber src={src} name={name} />
+          </div>
+        )) ||
+        null}
     </div>
   )
 }
@@ -52,6 +59,7 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
       pageY,
       newArrElement(`New file`, `txt`),
       newArrElement(`New image`, `img`),
+      newArrElement(`New audio`, `audio`),
       newArrElement(`New folder`, `folder`),
       newArrElement(`New scene`, `scene`),
       [

@@ -24,6 +24,7 @@ type NodeProps = {
   text?: TextProps
   sprite?: SpriteProps
   physics?: PhysicsProps
+  audio?: AudioProps
 
   collider?: ColliderProps
   animation?: AnimationProps
@@ -41,6 +42,7 @@ type SpriteProps = { path: string }
 type PhysicsProps = { gravity: boolean }
 type ColliderProps = {}
 type AnimationProps = {}
+type AudioProps = { path: string }
 
 type drawTextProps = {
   text: string
@@ -86,6 +88,7 @@ type TNode = {
   sprite?: TSprite
   physics?: TPhysics
   animation?: TAnimation
+  audio?: TAudio
 
   constructor: any
 
@@ -154,6 +157,12 @@ type TCollider = {
 
 type TAnimation = {
   constructor: any
+}
+
+type TAudio = {
+  constructor: any
+  play: Void
+  pause: Void
 }
 
 type TScene = {

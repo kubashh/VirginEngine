@@ -14,7 +14,7 @@ function filesToString(data: Any, name?: string, type?: string): any {
       .slice(0, -1)}]`
   }
 
-  if (data.type === `img`) return `"${data.src}"`
+  if ([`img`, `audio`].includes(data.type)) return `"${data.src}"`
 
   return `{${Object.keys(data)
     .reduce((prev, key) => {

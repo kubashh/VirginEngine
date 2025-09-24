@@ -6,17 +6,13 @@ Simple JS game engine for web games
 
 ### Core
 
-- Node
-  - extends Transform
-  - .delete() complite delete (do not delete objects and arrays, !!! DO NOT DELETE functions !!!)
+- Node extends Transform
 - Sprite.color
-- Audio, play audio (from string)
 
 ### Editor (src)
 
-- Audio
-  - grab audio from input
-  - convert audio files to strings
-- Config
+- AudioGrabber.img (icon)
+- Imagerabber helper functions to Promise
+- Config.build
   - optymalizeImg: boolean | number (%)
   - optymalizeAudio: boolean | number (%)

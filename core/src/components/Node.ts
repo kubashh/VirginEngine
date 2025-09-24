@@ -4,6 +4,7 @@ import Text from "./Text"
 import Collider from "./Collider"
 import Physics from "./Physics"
 import Animation from "./Animation"
+import AudioElement from "./AudioElement"
 import { nodes } from "../values/consts"
 import { deepCopy, isChildKey, randStr } from "../util/basicFunctions"
 
@@ -25,6 +26,7 @@ export default class Node implements TNode {
 
   collider
   animation
+  audio
 
   start
   update
@@ -40,6 +42,7 @@ export default class Node implements TNode {
       collider,
       physics,
       animation,
+      audio,
       start,
       update,
       render,
@@ -61,6 +64,7 @@ export default class Node implements TNode {
 
     if (collider) this.collider = new Collider(collider, this)
     if (animation) this.animation = Animation(animation, this)
+    if (audio) this.audio = new AudioElement(audio)
 
     for (const key in rest) {
       ;(this as TNode)[key] = isChildKey(key)

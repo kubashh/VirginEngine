@@ -82,98 +82,6 @@ set y(v) {
 this.vy = v;
 }
 }
-async function wait(time) {
-await new Promise((r) => setTimeout(r, time));
-}
-function isChildKey(text) {
-return alphabet.includes(text.at(0));
-}
-function deepCopy(data) {
-if (Array.isArray(data)) {
-return data.reduce((prev, val) => [...prev, deepCopy(val)], []);
-}
-if (typeof data === \`object\`) {
-const newObj = {};
-for (const key in data) {
-if ([\`parent\`, \`toUpdate\`, \`toRender\`, \`node\`].includes(key))
-continue;
-newObj[key] = deepCopy(data[key]);
-}
-return newObj;
-}
-return data;
-}
-function loadScene(newScene) {
-scene.load(newScene);
-}
-var textAlign = new Map([
-[-1, \`left\`],
-[0, \`center\`],
-[1, \`right\`]
-]);
-var textBaseline = new Map([
-[-1, \`top\`],
-[0, \`middle\`],
-[1, \`bottom\`]
-]);
-function drawText({
-text,
-color,
-x,
-y,
-w,
-h,
-rect = { x: 0, y: 0 },
-font = \`serif\`,
-align,
-...rest
-}) {
-ctx.save();
-ctx.fillStyle = color;
-if (align) {
-ctx.textAlign = textAlign.get(align.x);
-ctx.textBaseline = textBaseline.get(align.y);
-}
-x += (rect.x + 1) * Camera.xOffset;
-y += (rect.y + 1) * Camera.yOffset;
-for (const key in rest) {
-ctx[key] = rest[key];
-}
-ctx.font = \`\${h}px \${font}\`;
-ctx.fillText(text, x, y, w);
-ctx.restore();
-}
-function file(path) {
-return path.split(\`.\`).slice(1).reduce((prev, key) => prev[key], files);
-}
-function onresize() {
-ctx.canvas.width = window.innerWidth;
-ctx.canvas.height = window.innerHeight;
-Camera.xOffset = window.innerWidth * 0.5;
-Camera.yOffset = window.innerHeight * 0.5;
-for (const node of nodes)
-node.sprite?.resize();
-}
-function randInt(min, max) {
-return Math.floor(rand(min, max));
-}
-function rand(min = 1, max) {
-return max ? Math.random() * (max - min) + min : Math.random() * min;
-}
-function randStr(n = 1) {
-let str = \`\`;
-for (let i = 0;i < n; i++) {
-str += allowedNameChars.at(randInt(allowedNameChars.length));
-}
-return str;
-}
-function randColor() {
-return \`#\${randHex()}\${randHex()}\${randHex()}\`;
-}
-function randHex() {
-const n = randInt(16);
-return n < 10 ? String(n) : String.fromCharCode(45 + n);
-}
 class Sprite extends Image {
 node;
 staticDrawProps = {};
@@ -301,6 +209,7 @@ sprite;
 physics;
 collider;
 animation;
+audio;
 start;
 update;
 render;
@@ -313,6 +222,7 @@ sprite,
 collider,
 physics,
 animation,
+audio,
 start,
 update,
 render,
@@ -336,6 +246,8 @@ if (collider)
 this.collider = new Collider(collider, this);
 if (animation)
 this.animation = Animation(animation, this);
+if (audio)
+this.audio = new AudioElement(audio);
 for (const key in rest) {
 this[key] = isChildKey(key) ? new Node({ ...rest[key], parent: this }, key) : typeof rest[key] === \`function\` ? rest[key].bind(this) : rest[key];
 }
@@ -384,8 +296,8 @@ delete parent[name];
 }
 class Scene extends Node {
 camera = { x: 0, y: 0 };
-constructor(scene2, name) {
-super(scene2, name);
+constructor(scene, name) {
+super(scene, name);
 }
 load({ name, ...newScene }) {
 onresize();
@@ -472,6 +384,111 @@ xOffset: 0,
 yOffset: 0
 };
 var scene = new Scene({}, \`\`);
+async function wait(time) {
+await new Promise((r) => setTimeout(r, time));
+}
+function isChildKey(text) {
+return alphabet.includes(text.at(0));
+}
+function deepCopy(data) {
+if (Array.isArray(data)) {
+return data.reduce((prev, val) => [...prev, deepCopy(val)], []);
+}
+if (typeof data === \`object\`) {
+const newObj = {};
+for (const key in data) {
+if ([\`parent\`, \`toUpdate\`, \`toRender\`, \`node\`].includes(key))
+continue;
+newObj[key] = deepCopy(data[key]);
+}
+return newObj;
+}
+return data;
+}
+function loadScene(newScene) {
+scene.load(newScene);
+}
+var textAlign = new Map([
+[-1, \`left\`],
+[0, \`center\`],
+[1, \`right\`]
+]);
+var textBaseline = new Map([
+[-1, \`top\`],
+[0, \`middle\`],
+[1, \`bottom\`]
+]);
+function drawText({
+text,
+color,
+x,
+y,
+w,
+h,
+rect = { x: 0, y: 0 },
+font = \`serif\`,
+align,
+...rest
+}) {
+ctx.save();
+ctx.fillStyle = color;
+if (align) {
+ctx.textAlign = textAlign.get(align.x);
+ctx.textBaseline = textBaseline.get(align.y);
+}
+x += (rect.x + 1) * Camera.xOffset;
+y += (rect.y + 1) * Camera.yOffset;
+for (const key in rest) {
+ctx[key] = rest[key];
+}
+ctx.font = \`\${h}px \${font}\`;
+ctx.fillText(text, x, y, w);
+ctx.restore();
+}
+function file(path) {
+return path.split(\`.\`).slice(1).reduce((prev, key) => prev[key], files);
+}
+function onresize() {
+ctx.canvas.width = window.innerWidth;
+ctx.canvas.height = window.innerHeight;
+Camera.xOffset = window.innerWidth * 0.5;
+Camera.yOffset = window.innerHeight * 0.5;
+for (const node of nodes)
+node.sprite?.resize();
+}
+function randInt(min, max) {
+return Math.floor(rand(min, max));
+}
+function rand(min = 1, max) {
+return max ? Math.random() * (max - min) + min : Math.random() * min;
+}
+function randStr(n = 1) {
+let str = \`\`;
+for (let i = 0;i < n; i++) {
+str += allowedNameChars.at(randInt(allowedNameChars.length));
+}
+return str;
+}
+function randColor() {
+return \`#\${randHex()}\${randHex()}\${randHex()}\`;
+}
+function randHex() {
+const n = randInt(16);
+return n < 10 ? String(n) : String.fromCharCode(45 + n);
+}
+class AudioElement extends Audio {
+static canPlay = false;
+constructor({ path }) {
+super(file(path));
+console.log(this.src);
+}
+play() {
+if (!AudioElement.canPlay)
+return;
+super.currentTime = 0;
+super.play();
+}
+}
 async function run() {
 loadScene("REPLACE_PATH_TO_MAIN_SCENE");
 GameTime.set(1);
@@ -558,6 +575,11 @@ var updateTimer = new Timer([\`Physics\`, \`Nodes\`]);
 window.addEventListener(\`mousedown\`, () => eventsHover.click = true);
 window.addEventListener(\`mouseup\`, () => delete eventsHover.click);
 window.addEventListener(\`click\`, () => events.click = true);
+function setAudioElement() {
+AudioElement.canPlay = true;
+window.removeEventListener(\`click\`, setAudioElement);
+}
+window.addEventListener(\`click\`, setAudioElement);
 window.addEventListener(\`keydown\`, ({ key }) => events[key] = eventsHover[key] = true);
 window.addEventListener(\`keyup\`, ({ key }) => delete eventsHover[key]);
 window.addEventListener(\`contextmenu\`, (e) => {
