@@ -1,5 +1,5 @@
 import { signal } from "./signals"
-import { defaultNode, saveProject } from "./util"
+import { deepCopy, defaultNode, saveProject } from "./util"
 
 export const alphabet = `abcdefghijklmnoprqstuwxyz`
 export const numbers = `0123456789`
@@ -25,6 +25,19 @@ export const config = {
   description: `Description`,
   fullScreen: true,
   pathToMainScene: `files.Scenes.DefaultScene`,
+}
+
+export const def = {
+  img: {
+    type: `img`,
+    src: `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAdnJLH8AAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAuIwAALiMBeKU/dgAAAA9JREFUCB0BBAD7/wD///8F/gL+A30ZxgAAAABJRU5ErkJggg==`,
+    quality: 1,
+  },
+  audio: {
+    type: `audio`,
+    src: ``,
+    quality: 1,
+  },
 }
 
 const filesTemplate: Any = {
@@ -66,16 +79,11 @@ const filesTemplate: Any = {
     type: `folder`,
     Images: {
       type: `folder`,
-      BoxImage: {
-        type: `img`,
-        src: `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAdnJLH8AAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAuIwAALiMBeKU/dgAAAA9JREFUCB0BBAD7/wD///8F/gL+A30ZxgAAAABJRU5ErkJggg==`,
-      },
+      BoxImage: deepCopy(def.img),
     },
     Audio: {
       type: `folder`,
-      DAudio: {
-        type: `audio`,
-      },
+      DAudio: deepCopy(def.audio),
     },
   },
 }

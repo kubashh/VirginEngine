@@ -1,50 +1,28 @@
 import FileElement from "../components/FileElement"
 import ImageGrabber from "components/ImageGrabber"
 import AudioGrabber from "components/AudioGrabber"
-import { contextMenu, dragData, files, inspector, nameInput } from "../lib/consts"
-import { openScene, isFirstUpperCase } from "../lib/util"
+import { contextMenu, def, dragData, files, inspector, nameInput } from "../lib/consts"
+import { openScene, isFirstUpperCase, deepCopy } from "../lib/util"
 import { useArrow } from "../lib/hooks"
 import { useSignal } from "lib/signals"
-
-function InspectorDisplay({ file, name }: { file: Any; name: string }) {
-  const src = useSignal(file.src, () => (file.src = src.value))
-
-  return (
-    <div className="m-3">
-      <h2 className="text-2xl font-bold">File</h2>
-      <div>Type: {file.type}</div>
-      <div>Name: {name}</div>
-      {(file.type === `img` && (
-        <div className="flex">
-          Image: <ImageGrabber src={src} name={name} />
-        </div>
-      )) ||
-        (file.type === `audio` && (
-          <div className="flex">
-            Audio: <AudioGrabber src={src} name={name} />
-          </div>
-        )) ||
-        null}
-    </div>
-  )
-}
+import TypeInput from "inspector/TypeInput"
 
 export default function File({ old, file, name, deep = 0, path = `files` }: FileProps) {
   const main = deep === 0
   if (!main) path += `.${name}`
   const isFolder = file.type === `folder`
-  const [arrow, open] = useArrow(main, isFolder, file?.src)
+  const [arrow, open] = useArrow(main, isFolder, file.type === `img` && file?.src)
 
   const onClick = () => {
     inspector.value = <InspectorDisplay file={file} name={name} />
   }
 
   const onContextMenu = ({ pageX, pageY }: MouseEvent) => {
-    const newArrElement = (name: string, type: string) => [
+    const newArrElement = (name: string, type: string, def?: Any) => [
       () =>
         (nameInput.value = [
           (newName: string) => {
-            file[newName] = { type }
+            file[newName] = { type, ...deepCopy(def) }
 
             open.value = true
             files.refresh()
@@ -58,8 +36,8 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
       pageX,
       pageY,
       newArrElement(`New file`, `txt`),
-      newArrElement(`New image`, `img`),
-      newArrElement(`New audio`, `audio`),
+      newArrElement(`New image`, `img`, deepCopy(def.img)),
+      newArrElement(`New audio`, `audio`, deepCopy(def.audio)),
       newArrElement(`New folder`, `folder`),
       newArrElement(`New scene`, `scene`),
       [
@@ -131,4 +109,29 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
     onMouseUp,
     onDoubleClick,
   })
+}
+
+function InspectorDisplay({ file, name }: InspectorDisplayProps) {
+  const src = useSignal(file.src, () => (file.src = src.value))
+
+  return (
+    <div className="m-3">
+      <h2 className="text-2xl font-bold">File</h2>
+      <div>Type: {file.type}</div>
+      <div>Name: {name}</div>
+      {(file.type === `img` && (
+        <div>
+          <ImageGrabber src={src} name={name} />
+          <TypeInput object={file} access="quality" />
+        </div>
+      )) ||
+        (file.type === `audio` && (
+          <div>
+            <AudioGrabber src={src} name={name} />
+            <TypeInput object={file} access="quality" />
+          </div>
+        )) ||
+        null}
+    </div>
+  )
 }

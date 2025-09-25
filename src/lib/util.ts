@@ -175,6 +175,8 @@ export function getType(data: any) {
 
 // export function optymalizeImageSrc(src: string, quality: number) {
 //   return new Promise<string>((resolve) => {
+//     if (quality === 1) return resolve(src)
+
 //     const img = new Image()
 
 //     img.onload = () => {

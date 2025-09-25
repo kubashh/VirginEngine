@@ -12,7 +12,7 @@ Simple JS game engine for web games
 ### Editor (src)
 
 - AudioGrabber.img (icon)
-- Config.build
-  - optymalizeImg: number (0-1)
-  - optymalizeAudio: number (0-1)
+- jsCode:
+  - Image.quality: number (0-1)
+  - Audio.quality: number (0-1)
 - Drag Nodes to files, files to Nodes

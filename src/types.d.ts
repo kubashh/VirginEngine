@@ -82,6 +82,7 @@ type WindowProps = {
 }
 
 type FileGrabberProps = {
+  label: string
   name: string
   accept: string
   img: React.ReactNode
@@ -90,5 +91,10 @@ type FileGrabberProps = {
 
 type ImageGrabberProps = {
   src: Signal<string>
+  name: string
+}
+
+type InspectorDisplayProps = {
+  file: Any
   name: string
 }
