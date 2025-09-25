@@ -1,7 +1,7 @@
-export default function InputGrabber({ name, accept, img, onFile }: InputGrabberProps) {
+export default function FileGrabber({ name, accept, img, onFile }: FileGrabberProps) {
   return (
-    <div className="flex">
-      <label htmlFor={name} className="mr-2 border-1 border-zinc-700 cursor-pointer">
+    <div className="w-full ml-3 flex">
+      <label htmlFor={name} className="w-full h-6 mr-2 border-1 border-zinc-700 cursor-pointer">
         {img}
       </label>
       <input

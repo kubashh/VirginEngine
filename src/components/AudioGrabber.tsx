@@ -1,17 +1,14 @@
-import InputGrabber from "./InputGrabber"
+import FileGrabber from "./FileGrabber"
 
 export default function AudioGrabber({ src, name }: ImageGrabberProps) {
   return (
-    <InputGrabber
+    <FileGrabber
       name={name}
       accept="audio/*"
-      img={`Audio`} // TO DO audio icon
+      img="Select Audio" // TO DO audio icon
       onFile={async (file) => {
         const bytes = await file.bytes()
-
-        const newScr = `data:audio/${file.type};base64,${bufferToBase64(bytes)}`
-        console.log(newScr)
-        src.value = newScr
+        src.value = `data:audio/${file.type};base64,${bufferToBase64(bytes)}`
       }}
     />
   )

@@ -480,7 +480,6 @@ class AudioElement extends Audio {
 static canPlay = false;
 constructor({ path }) {
 super(file(path));
-console.log(this.src);
 }
 play() {
 if (!AudioElement.canPlay)

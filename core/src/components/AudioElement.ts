@@ -5,7 +5,6 @@ export default class AudioElement extends Audio implements TAudio {
 
   constructor({ path }: AudioProps) {
     super(file(path))
-    console.log(this.src)
   }
 
   override play(): any {

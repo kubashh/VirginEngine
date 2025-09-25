@@ -1,8 +1,8 @@
-import InputGrabber from "./InputGrabber"
+import FileGrabber from "./FileGrabber"
 
 export default function ImageGrabber({ src, name }: ImageGrabberProps) {
   return (
-    <InputGrabber
+    <FileGrabber
       name={name}
       accept="image/*"
       img={<img className="h-6" src={src.value} />}

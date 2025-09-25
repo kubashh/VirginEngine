@@ -13,5 +13,6 @@ Simple JS game engine for web games
 
 - AudioGrabber.img (icon)
 - Config.build
-  - optymalizeImg: boolean | number (%)
-  - optymalizeAudio: boolean | number (%)
+  - optymalizeImg: number (0-1)
+  - optymalizeAudio: number (0-1)
+- Drag Nodes to files, files to Nodes

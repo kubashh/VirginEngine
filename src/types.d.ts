@@ -81,7 +81,7 @@ type WindowProps = {
   children: React.ReactNode
 }
 
-type InputGrabberProps = {
+type FileGrabberProps = {
   name: string
   accept: string
   img: React.ReactNode
