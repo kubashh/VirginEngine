@@ -173,27 +173,29 @@ export function getType(data: any) {
 //   })
 // }
 
-// export function optymalizeImageSrc(src: string, quality: number) {
-//   return new Promise<string>((resolve) => {
-//     if (quality === 1) return resolve(src)
+export function optymalizeImageSrc(src: string, quality: number) {
+  const { resolve, promise } = Promise.withResolvers<string>()
 
-//     const img = new Image()
+  if (quality === 1) resolve(src)
 
-//     img.onload = () => {
-//       const canvas = document.createElement(`canvas`)
-//       canvas.width = img.width
-//       canvas.height = img.height
+  const img = new Image()
 
-//       const ctx = canvas.getContext(`2d`)!
-//       ctx.drawImage(img, 0, 0, img.width, img.height)
+  img.onload = () => {
+    const canvas = document.createElement(`canvas`)
+    canvas.width = img.width
+    canvas.height = img.height
 
-//       const newSrc = canvas.toDataURL(`image/jpeg`, quality)
+    const ctx = canvas.getContext(`2d`)!
+    ctx.drawImage(img, 0, 0, img.width, img.height)
 
-//       console.log(src.length, newSrc.length)
+    const newSrc = canvas.toDataURL(`image/jpeg`, quality)
 
-//       resolve(newSrc > src ? newSrc : src)
-//     }
+    console.log(src.length, newSrc.length)
 
-//     img.src = src
-//   })
-// }
+    resolve(newSrc.length < src.length ? newSrc : src)
+  }
+
+  img.src = src
+
+  return promise
+}

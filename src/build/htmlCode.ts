@@ -47,10 +47,10 @@ const html = minifyHtml(`
 </html>
 `)
 
-export function htmlCode(production?: boolean) {
+export async function htmlCode(production?: boolean) {
   return html
     .replaceAll(`AUTHOR`, config.author)
     .replaceAll(`DESCRIPTION`, config.description)
     .replaceAll(`GAME_NAME`, config.gameName)
-    .replaceAll(`SCRIPT`, jsCode(production))
+    .replaceAll(`SCRIPT`, await jsCode(production))
 }
