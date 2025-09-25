@@ -12,7 +12,6 @@ Simple JS game engine for web games
 ### Editor (src)
 
 - AudioGrabber.img (icon)
-- Imagerabber helper functions to Promise
 - Config.build
   - optymalizeImg: boolean | number (%)
   - optymalizeAudio: boolean | number (%)

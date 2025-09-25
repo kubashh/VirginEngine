@@ -92,5 +92,3 @@ type ImageGrabberProps = {
   src: Signal<string>
   name: string
 }
-
-type ImageGrabberCbType = (data: string) => void

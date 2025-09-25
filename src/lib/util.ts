@@ -126,3 +126,72 @@ export function getType(data: any) {
   if ([`"`, `'`, "`"].includes(data[0])) return `string`
   return `string`
 }
+
+// Image
+
+// export function resizeSrcImage(src: string, w: number, h: number) {
+//   return new Promise((resolve) => {
+//     const canvas = document.createElement(`canvas`)
+//     canvas.width = w
+//     canvas.height = h
+//     const ctx = canvas.getContext(`2d`)!
+
+//     const img = new Image()
+
+//     img.onload = () => {
+//       let width = img.width
+//       let height = img.height
+
+//       const aspectRatio = width / height
+
+//       let newWidth = w
+//       let newHeight = h
+
+//       if (width > height) {
+//         newWidth *= aspectRatio
+//       } else {
+//         newHeight *= aspectRatio
+//       }
+
+//       let [x, y] = [0, 0]
+
+//       if (width > height) {
+//         x = (w - newWidth) / 2
+//       } else {
+//         y = (h - newHeight) / 2
+//       }
+
+//       console.log(x, y)
+
+//       ctx.drawImage(img, 0, 0, width, height, x, y, newWidth, newHeight)
+//       const newSrc = canvas.toDataURL()
+
+//       resolve(newSrc)
+//     }
+
+//     img.src = src
+//   })
+// }
+
+// export function optymalizeImageSrc(src: string, quality: number) {
+//   return new Promise<string>((resolve) => {
+//     const img = new Image()
+
+//     img.onload = () => {
+//       const canvas = document.createElement(`canvas`)
+//       canvas.width = img.width
+//       canvas.height = img.height
+
+//       const ctx = canvas.getContext(`2d`)!
+//       ctx.drawImage(img, 0, 0, img.width, img.height)
+
+//       const newSrc = canvas.toDataURL(`image/jpeg`, quality)
+
+//       console.log(src.length, newSrc.length)
+
+//       resolve(newSrc > src ? newSrc : src)
+//     }
+
+//     img.src = src
+//   })
+// }
