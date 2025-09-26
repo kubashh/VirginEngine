@@ -1,11 +1,57 @@
 # Change Log
 
+## 0.20.1
+
+- src.build optymalize img
+- build bundle size -10%
+- src.Test useSignal instead of signal
+
+## 0.20.0
+
+- add Audio (create AudioGrabber, InputGrabber(FileGrabber))
+- update ImageGraber
+
+## 0.19.2
+
+- add core.Physics.gravity
+- update core.build
+
+## 0.19.1
+
+- rename GameObject to Node
+- update events
+
+## 0.19.0
+
+- update ./build
+- ./build: bundle css to html (less bytes to download)
+- shorter css vars names
+- remove css hover class
+
+## 0.18.7
+
+- update ./build
+- minify ./build html
+
 ## 0.18.x
 
 - implement get/set for Transform position/scale
 - add core fn: rand
 - update core.Text
 - create ImageGrabber
+- fix loadFile symbol error
+- fixed config.fullScreen (if false)
+- add License (MIT)
+- update core.build ~15% faster (rewrite function)
+- core.Sprite use only path to image
+- core.Sprite optymalizations
+- optymalize images in build (image is src string insead of object)
+- better time measurement (Timer class)
+- scene as new Scene
+- image resize function
+- optymalize loadImage (~30% faster)
+- remove bun.lock from git
+- fix core types
 
 TODO:
 https://github.com/kubashh/virginengine/commits/main/?after=e8e248083e8707d61f0aea03d519c1f53c8d2a7e+34
