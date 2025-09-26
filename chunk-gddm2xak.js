@@ -51,91 +51,7 @@ Input files:
 `+N(R)+`
 `)}function*Z7(R,E,O){if(O&&typeof process==="object"&&process.env&&typeof process.env.TERSER_DEBUG_DIR==="string")w7(R,E,O,process.env.TERSER_DEBUG_DIR);E=FO(E,{compress:{},ecma:void 0,enclose:!1,ie8:!1,keep_classnames:void 0,keep_fnames:!1,mangle:{},module:!1,nameCache:null,output:null,format:null,parse:{},rename:void 0,safari10:!1,sourceMap:!1,spidermonkey:!1,timings:!1,toplevel:!1,warnings:!1,wrap:!1},!0);var I=E.timings&&{start:Date.now()};if(E.keep_classnames===void 0)E.keep_classnames=E.keep_fnames;if(E.rename===void 0)E.rename=E.compress&&E.mangle;if(E.output&&E.format)throw Error("Please only specify either output or format option, preferrably format.");E.format=E.format||E.output||{},uL("ecma",E,["parse","compress","format"]),uL("ie8",E,["compress","mangle","format"]),uL("keep_classnames",E,["compress","mangle"]),uL("keep_fnames",E,["compress","mangle"]),uL("module",E,["parse","compress","mangle"]),uL("safari10",E,["mangle","format"]),uL("toplevel",E,["compress","mangle"]),uL("warnings",E,["compress"]);var C;if(E.mangle){if(E.mangle=FO(E.mangle,{cache:E.nameCache&&(E.nameCache.vars||{}),eval:!1,ie8:!1,keep_classnames:!1,keep_fnames:!1,module:!1,nth_identifier:hL,properties:!1,reserved:[],safari10:!1,toplevel:!1},!0),E.mangle.properties){if(typeof E.mangle.properties!="object")E.mangle.properties={};if(E.mangle.properties.keep_quoted){if(C=E.mangle.properties.reserved,!Array.isArray(C))C=[];E.mangle.properties.reserved=C}if(E.nameCache&&!("cache"in E.mangle.properties))E.mangle.properties.cache=E.nameCache.props||{}}b6(E.mangle.cache),b6(E.mangle.properties.cache)}if(E.sourceMap)E.sourceMap=FO(E.sourceMap,{asObject:!1,content:null,filename:null,includeSources:!1,root:null,url:null},!0);if(I)I.parse=Date.now();var L;if(R instanceof iR)L=R;else{if(typeof R=="string"||E.parse.spidermonkey&&!Array.isArray(R))R=[R];if(E.parse=E.parse||{},E.parse.toplevel=null,E.parse.spidermonkey)E.parse.toplevel=u.from_mozilla_ast(Object.keys(R).reduce(function(J,Z){if(!J)return R[Z];return J.body=J.body.concat(R[Z].body),J},null));else{delete E.parse.spidermonkey;for(var N in R)if(sE(R,N)){if(E.parse.filename=N,E.parse.toplevel=mC(R[N],E.parse),E.sourceMap&&E.sourceMap.content=="inline"){if(Object.keys(R).length>1)throw Error("inline source map only works with singular input");E.sourceMap.content=Y7(R[N])}}}if(E.parse.toplevel===null)throw Error("no source file given");L=E.parse.toplevel}if(C&&E.mangle.properties.keep_quoted!=="strict")g6(L,C);var G;if(E.mangle&&E.mangle.properties)G=a1(L);if(E.wrap)L=L.wrap_commonjs(E.wrap);if(E.enclose)L=L.wrap_enclose(E.enclose);if(I)I.rename=Date.now();if(I)I.compress=Date.now();if(E.compress)L=new SU(E.compress,{mangle_options:E.mangle}).compress(L);if(I)I.scope=Date.now();if(E.mangle)L.figure_out_scope(E.mangle);if(I)I.mangle=Date.now();if(E.mangle)L.compute_char_frequency(E.mangle),L.mangle_names(E.mangle),L=T6(L,E.mangle);if(I)I.properties=Date.now();if(E.mangle&&E.mangle.properties)L=j6(L,E.mangle.properties,G);if(I)I.format=Date.now();var X={};if(E.format.ast)X.ast=L;if(E.format.spidermonkey)X.ast=L.to_mozilla_ast();let P;if(!sE(E.format,"code")||E.format.code){if(P={...E.format},!P.ast)P._destroy_ast=!0,GE(L,(J)=>{if(J instanceof VR)J.variables=void 0,J.enclosed=void 0,J.parent_scope=void 0;if(J.block_scope)J.block_scope.variables=void 0,J.block_scope.enclosed=void 0,J.block_scope.parent_scope=void 0});if(E.sourceMap){if(E.sourceMap.includeSources&&R instanceof iR)throw Error("original source content unavailable");P.source_map=yield*q6({file:E.sourceMap.filename,orig:E.sourceMap.content,root:E.sourceMap.root,files:E.sourceMap.includeSources?R:null})}delete P.ast,delete P.code,delete P.spidermonkey;var w=hV(P);if(L.print(w),X.code=w.get(),E.sourceMap){if(Object.defineProperty(X,"map",{configurable:!0,enumerable:!0,get(){let J=P.source_map.getEncoded();return X.map=E.sourceMap.asObject?J:JSON.stringify(J)},set(J){Object.defineProperty(X,"map",{value:J,writable:!0})}}),X.decoded_map=P.source_map.getDecoded(),E.sourceMap.url=="inline"){var W=typeof X.map==="object"?JSON.stringify(X.map):X.map;X.code+=`
 //# sourceMappingURL=data:application/json;charset=utf-8;base64,`+M7(W)}else if(E.sourceMap.url)X.code+=`
-//# sourceMappingURL=`+E.sourceMap.url}}if(E.nameCache&&E.mangle){if(E.mangle.cache)E.nameCache.vars=A6(E.mangle.cache);if(E.mangle.properties&&E.mangle.properties.cache)E.nameCache.props=A6(E.mangle.properties.cache)}if(P&&P.source_map)P.source_map.destroy();if(I)I.end=Date.now(),X.timings={parse:0.001*(I.rename-I.parse),rename:0.001*(I.compress-I.rename),compress:0.001*(I.scope-I.compress),scope:0.001*(I.mangle-I.scope),mangle:0.001*(I.properties-I.mangle),properties:0.001*(I.format-I.properties),format:0.001*(I.end-I.format),total:0.001*(I.end-I.start)};return X}function f1(R,E,O){let I=Z7(R,E,O),C,L;do{if(C&&typeof C.then==="function")throw Error("minify_sync cannot be used with the legacy source-map module");L=I.next(C),C=L.value}while(!L.done);return L.value}var k6=`class Transform {
-node;
-p;
-rz = 0;
-s;
-constructor(props, node) {
-this.node = node;
-this.p = new GSXY(props?.position);
-if (props?.rotation)
-this.rotation = props?.rotation;
-this.s = new GSXY(props?.scale || { x: 1, y: 1 });
-node.position = this.position;
-node.rotation = this.rotation;
-node.scale = this.scale;
-}
-get position() {
-return this.p;
-}
-set position({ x, y }) {
-for (const child of this.node.childs) {
-child.position.x += -this.position.x + x;
-child.position.y += -this.position.y + y;
-}
-this.p.x = x;
-this.p.y = y;
-}
-get rotation() {
-return this.rz;
-}
-set rotation(z) {
-z %= 360;
-if (z < 0)
-z += 360;
-for (const child of this.node.childs) {
-child.rotation = child.rotation - this.rotation + z;
-}
-this.rz = z;
-}
-get scale() {
-return this.s;
-}
-set scale({ x, y }) {
-for (const child of this.node.childs) {
-child.scale.x = child.scale.x / this.scale.x * x;
-child.scale.y = child.scale.y / this.scale.y * y;
-}
-this.s.x = x;
-this.s.y = y;
-this.node.sprite?.reload();
-}
-get props() {
-return {
-position: {
-x: this.position.x,
-y: this.position.y
-},
-rotation: this.rotation,
-scale: {
-x: this.scale.x,
-y: this.scale.y
-}
-};
-}
-}
-class GSXY {
-vx;
-vy;
-constructor(props) {
-this.vx = props?.x || 0;
-this.vy = props?.y || 0;
-}
-get x() {
-return this.vx;
-}
-set x(v) {
-this.vx = v;
-}
-get y() {
-return this.vy;
-}
-set y(v) {
-this.vy = v;
-}
-}
-class Sprite extends Image {
+//# sourceMappingURL=`+E.sourceMap.url}}if(E.nameCache&&E.mangle){if(E.mangle.cache)E.nameCache.vars=A6(E.mangle.cache);if(E.mangle.properties&&E.mangle.properties.cache)E.nameCache.props=A6(E.mangle.properties.cache)}if(P&&P.source_map)P.source_map.destroy();if(I)I.end=Date.now(),X.timings={parse:0.001*(I.rename-I.parse),rename:0.001*(I.compress-I.rename),compress:0.001*(I.scope-I.compress),scope:0.001*(I.mangle-I.scope),mangle:0.001*(I.properties-I.mangle),properties:0.001*(I.format-I.properties),format:0.001*(I.end-I.format),total:0.001*(I.end-I.start)};return X}function f1(R,E,O){let I=Z7(R,E,O),C,L;do{if(C&&typeof C.then==="function")throw Error("minify_sync cannot be used with the legacy source-map module");L=I.next(C),C=L.value}while(!L.done);return L.value}var k6=`class Sprite extends Image {
 node;
 staticDrawProps = {};
 path;
@@ -239,23 +155,21 @@ this.velocity.x += x;
 this.velocity.y += y;
 }
 }
-function Animation(props, node) {
-return new Anim(props, node);
-}
-class Anim {
+class Animation {
 node;
 constructor(props, node) {
 this.node = node;
 }
 }
-var keywords = [\`toUpdate\`, \`toRender\`, \`parent\`, \`position\`, \`rotation\`, \`scale\`];
+var keywords = [\`parent\`, \`position\`, \`rotation\`, \`scale\`];
 class Node {
 name;
 parent;
-transform;
-position = {};
-rotation = 0;
-scale = {};
+transform = {
+p: {},
+rz: 0,
+s: {}
+};
 rect;
 text;
 sprite;
@@ -286,7 +200,10 @@ this.name = name;
 this.parent = parent || {};
 if (parent)
 this.parent[this.name] = this;
-this.transform = new Transform(transform, this);
+this.transform.p = new GSXY(transform?.position);
+if (transform?.rotation)
+this.rotation = transform.rotation;
+this.transform.s = new GSXY(transform?.scale || { x: 1, y: 1 });
 if (rect)
 this.rect = rect;
 if (text)
@@ -298,7 +215,7 @@ this.physics = new Physics(physics, this);
 if (collider)
 this.collider = new Collider(collider, this);
 if (animation)
-this.animation = Animation(animation, this);
+this.animation = new Animation(animation, this);
 if (audio)
 this.audio = new AudioElement(audio);
 for (const key in rest) {
@@ -318,7 +235,17 @@ get props() {
 const newObj = {
 start: this?.start,
 update: this?.update,
-transform: this.transform.props,
+transform: {
+position: {
+x: this.position.x,
+y: this.position.y
+},
+rotation: this.rotation,
+scale: {
+x: this.scale.x,
+y: this.scale.y
+}
+},
 rect: this.rect,
 sprite: this.sprite?.props,
 text: this.text?.props
@@ -328,6 +255,41 @@ if (!(key in newObj) && !keywords.includes(key))
 newObj[key] = this[key];
 }
 return deepCopy(newObj);
+}
+get position() {
+return this.transform.p;
+}
+set position({ x, y }) {
+for (const child of this.childs) {
+child.position.x += -this.position.x + x;
+child.position.y += -this.position.y + y;
+}
+this.transform.p.x = x;
+this.transform.p.y = y;
+}
+get rotation() {
+return this.transform.rz;
+}
+set rotation(z) {
+z %= 360;
+if (z < 0)
+z += 360;
+for (const child of this.childs) {
+child.rotation = child.rotation - this.rotation + z;
+}
+this.transform.rz = z;
+}
+get scale() {
+return this.transform.s;
+}
+set scale({ x, y }) {
+for (const child of this.childs) {
+child.scale.x = child.scale.x / this.scale.x * x;
+child.scale.y = child.scale.y / this.scale.y * y;
+}
+this.transform.s.x = x;
+this.transform.s.y = y;
+this.sprite?.reload();
 }
 clone(parent = this.parent) {
 let name = this.name;
@@ -345,6 +307,26 @@ for (const key in this)
 delete this[key];
 nodes.splice(nodes.indexOf(this), 1);
 delete parent[name];
+}
+}
+class GSXY {
+vx;
+vy;
+constructor(props) {
+this.vx = props?.x || 0;
+this.vy = props?.y || 0;
+}
+get x() {
+return this.vx;
+}
+set x(v) {
+this.vx = v;
+}
+get y() {
+return this.vy;
+}
+set y(v) {
+this.vy = v;
 }
 }
 class Scene extends Node {
