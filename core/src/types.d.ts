@@ -155,7 +155,7 @@ type TScene = {
 
   constructor: any
 
-  load: (newScene: Any, name: string) => void
+  load: (newScene: { name: string; [key: string]: any }) => void
   close: Void
 
   [key: string]: any

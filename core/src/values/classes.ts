@@ -3,13 +3,14 @@ import { events, eventsHover, nodes } from "./consts"
 import { deepCopy, onresize } from "@/util/basicFunctions"
 
 export class Scene extends Node implements TScene {
+  // loaded = new Map<number, boolean>() // TODO key: id; if loaded.size === 0 run scene
   camera = { x: 0, y: 0 }
 
   constructor(scene: any, name: string) {
     super(scene, name)
   }
 
-  load({ name, ...newScene }: Any) {
+  load({ name, ...newScene }: { name: string; [key: string]: any }) {
     onresize()
 
     this.close()

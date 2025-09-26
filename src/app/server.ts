@@ -1,5 +1,5 @@
-import { buildCore } from "../core/main"
-import index from "./app/index.html"
+import { buildCore } from "../../core/main"
+import index from "./index.html"
 
 await buildCore()
 

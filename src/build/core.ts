@@ -112,7 +112,11 @@ var keywords = [\`parent\`, \`position\`, \`rotation\`, \`scale\`];
 class Node {
 name;
 parent;
-transform = { p: {}, rz: 0, s: {} };
+transform = {
+p: {},
+rz: 0,
+s: {}
+};
 rect;
 text;
 sprite;
