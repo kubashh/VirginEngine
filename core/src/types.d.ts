@@ -78,7 +78,6 @@ type TNode = {
   update?: Void
   render?: Void
 
-  transform: TTransform
   position: XY
   rotation: number
   scale: XY
@@ -98,20 +97,6 @@ type TNode = {
   destroy: Void
 
   [key: string]: any
-}
-
-type TTransform = {
-  constructor: any
-
-  position: XY
-  rotation: number
-  scale: XY
-
-  props: {
-    position: XY
-    rotation: number
-    scale: XY
-  }
 }
 
 type TText = {

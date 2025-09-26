@@ -6,7 +6,6 @@ Simple JS game engine for web games
 
 ### Core
 
-- Node extends Transform
 - Sprite.color
 
 ### Editor (src)

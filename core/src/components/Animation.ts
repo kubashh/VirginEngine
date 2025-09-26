@@ -1,8 +1,4 @@
-export default function Animation(props: AnimationProps, node: TNode): TAnimation {
-  return new Anim(props, node)
-}
-
-class Anim implements TAnimation {
+export default class Animation implements TAnimation {
   private node
 
   constructor(props: AnimationProps, node: TNode) {

@@ -1,4 +1,3 @@
-import Transform from "./Transform"
 import Sprite from "./Sprite"
 import Text from "./Text"
 import Collider from "./Collider"
@@ -8,16 +7,18 @@ import AudioElement from "./AudioElement"
 import { nodes } from "../values/consts"
 import { deepCopy, isChildKey, randStr } from "../util/basicFunctions"
 
-const keywords = [`toUpdate`, `toRender`, `parent`, `position`, `rotation`, `scale`]
+const keywords = [`parent`, `position`, `rotation`, `scale`]
 
 export default class Node implements TNode {
   name
   parent
 
-  transform: TTransform
-  position = {} as XY
-  rotation = 0
-  scale = {} as XY
+  private transform = {
+    p: {} as XY,
+    rz: 0,
+    s: {} as XY,
+  }
+
   rect
 
   text?: TText
@@ -25,7 +26,7 @@ export default class Node implements TNode {
   physics?: TPhysics
 
   collider
-  animation
+  animation?: TAnimation
   audio
 
   start
@@ -55,7 +56,10 @@ export default class Node implements TNode {
     this.name = name
     this.parent = parent || ({} as TNode)
     if (parent) this.parent[this.name] = this
-    this.transform = new Transform(transform, this)
+
+    this.transform.p = new GSXY(transform?.position)
+    if (transform?.rotation) this.rotation = transform.rotation
+    this.transform.s = new GSXY(transform?.scale || { x: 1, y: 1 })
 
     if (rect) this.rect = rect
     if (text) this.text = new Text(text, this)
@@ -63,7 +67,7 @@ export default class Node implements TNode {
     if (physics) this.physics = new Physics(physics, this)
 
     if (collider) this.collider = new Collider(collider, this)
-    if (animation) this.animation = Animation(animation, this)
+    if (animation) this.animation = new Animation(animation, this)
     if (audio) this.audio = new AudioElement(audio)
 
     for (const key in rest) {
@@ -90,7 +94,17 @@ export default class Node implements TNode {
     const newObj: Any = {
       start: this?.start,
       update: this?.update,
-      transform: this.transform.props,
+      transform: {
+        position: {
+          x: this.position.x,
+          y: this.position.y,
+        },
+        rotation: this.rotation,
+        scale: {
+          x: this.scale.x,
+          y: this.scale.y,
+        },
+      },
       rect: this.rect,
       sprite: this.sprite?.props,
       text: this.text?.props,
@@ -101,6 +115,51 @@ export default class Node implements TNode {
     }
 
     return deepCopy(newObj) as NodeProps
+  }
+
+  // Position
+  get position(): XY {
+    return this.transform.p
+  }
+  set position({ x, y }) {
+    for (const child of this.childs) {
+      child.position.x += -this.position.x + x
+      child.position.y += -this.position.y + y
+    }
+
+    this.transform.p.x = x
+    this.transform.p.y = y
+  }
+
+  // Rotation
+  get rotation() {
+    return this.transform.rz
+  }
+  set rotation(z: number) {
+    z %= 360
+    if (z < 0) z += 360
+
+    for (const child of this.childs) {
+      child.rotation = child.rotation - this.rotation + z
+    }
+
+    this.transform.rz = z
+  }
+
+  // Scale
+  get scale(): XY {
+    return this.transform.s
+  }
+  set scale({ x, y }) {
+    for (const child of this.childs) {
+      child.scale.x = (child.scale.x / this.scale.x) * x
+      child.scale.y = (child.scale.y / this.scale.y) * y
+    }
+
+    this.transform.s.x = x
+    this.transform.s.y = y
+
+    this.sprite?.reload()
   }
 
   clone(parent = this.parent) {
@@ -121,5 +180,29 @@ export default class Node implements TNode {
     for (const key in this) delete this[key]
     nodes.splice(nodes.indexOf(this), 1)
     delete parent[name]
+  }
+}
+
+class GSXY implements XY {
+  private vx
+  private vy
+
+  constructor(props?: XY) {
+    this.vx = props?.x || 0
+    this.vy = props?.y || 0
+  }
+
+  get x() {
+    return this.vx
+  }
+  set x(v: number) {
+    this.vx = v
+  }
+
+  get y() {
+    return this.vy
+  }
+  set y(v: number) {
+    this.vy = v
   }
 }

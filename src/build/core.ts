@@ -1,88 +1,4 @@
-export const core = `class Transform {
-node;
-p;
-rz = 0;
-s;
-constructor(props, node) {
-this.node = node;
-this.p = new GSXY(props?.position);
-if (props?.rotation)
-this.rotation = props?.rotation;
-this.s = new GSXY(props?.scale || { x: 1, y: 1 });
-node.position = this.position;
-node.rotation = this.rotation;
-node.scale = this.scale;
-}
-get position() {
-return this.p;
-}
-set position({ x, y }) {
-for (const child of this.node.childs) {
-child.position.x += -this.position.x + x;
-child.position.y += -this.position.y + y;
-}
-this.p.x = x;
-this.p.y = y;
-}
-get rotation() {
-return this.rz;
-}
-set rotation(z) {
-z %= 360;
-if (z < 0)
-z += 360;
-for (const child of this.node.childs) {
-child.rotation = child.rotation - this.rotation + z;
-}
-this.rz = z;
-}
-get scale() {
-return this.s;
-}
-set scale({ x, y }) {
-for (const child of this.node.childs) {
-child.scale.x = child.scale.x / this.scale.x * x;
-child.scale.y = child.scale.y / this.scale.y * y;
-}
-this.s.x = x;
-this.s.y = y;
-this.node.sprite?.reload();
-}
-get props() {
-return {
-position: {
-x: this.position.x,
-y: this.position.y
-},
-rotation: this.rotation,
-scale: {
-x: this.scale.x,
-y: this.scale.y
-}
-};
-}
-}
-class GSXY {
-vx;
-vy;
-constructor(props) {
-this.vx = props?.x || 0;
-this.vy = props?.y || 0;
-}
-get x() {
-return this.vx;
-}
-set x(v) {
-this.vx = v;
-}
-get y() {
-return this.vy;
-}
-set y(v) {
-this.vy = v;
-}
-}
-class Sprite extends Image {
+export const core = `class Sprite extends Image {
 node;
 staticDrawProps = {};
 path;
@@ -186,23 +102,17 @@ this.velocity.x += x;
 this.velocity.y += y;
 }
 }
-function Animation(props, node) {
-return new Anim(props, node);
-}
-class Anim {
+class Animation {
 node;
 constructor(props, node) {
 this.node = node;
 }
 }
-var keywords = [\`toUpdate\`, \`toRender\`, \`parent\`, \`position\`, \`rotation\`, \`scale\`];
+var keywords = [\`parent\`, \`position\`, \`rotation\`, \`scale\`];
 class Node {
 name;
 parent;
-transform;
-position = {};
-rotation = 0;
-scale = {};
+transform = { p: {}, rz: 0, s: {} };
 rect;
 text;
 sprite;
@@ -233,7 +143,10 @@ this.name = name;
 this.parent = parent || {};
 if (parent)
 this.parent[this.name] = this;
-this.transform = new Transform(transform, this);
+this.transform.p = new GSXY(transform?.position);
+if (transform?.rotation)
+this.rotation = transform.rotation;
+this.transform.s = new GSXY(transform?.scale || { x: 1, y: 1 });
 if (rect)
 this.rect = rect;
 if (text)
@@ -245,7 +158,7 @@ this.physics = new Physics(physics, this);
 if (collider)
 this.collider = new Collider(collider, this);
 if (animation)
-this.animation = Animation(animation, this);
+this.animation = new Animation(animation, this);
 if (audio)
 this.audio = new AudioElement(audio);
 for (const key in rest) {
@@ -265,7 +178,17 @@ get props() {
 const newObj = {
 start: this?.start,
 update: this?.update,
-transform: this.transform.props,
+transform: {
+position: {
+x: this.position.x,
+y: this.position.y
+},
+rotation: this.rotation,
+scale: {
+x: this.scale.x,
+y: this.scale.y
+}
+},
 rect: this.rect,
 sprite: this.sprite?.props,
 text: this.text?.props
@@ -275,6 +198,41 @@ if (!(key in newObj) && !keywords.includes(key))
 newObj[key] = this[key];
 }
 return deepCopy(newObj);
+}
+get position() {
+return this.transform.p;
+}
+set position({ x, y }) {
+for (const child of this.childs) {
+child.position.x += -this.position.x + x;
+child.position.y += -this.position.y + y;
+}
+this.transform.p.x = x;
+this.transform.p.y = y;
+}
+get rotation() {
+return this.transform.rz;
+}
+set rotation(z) {
+z %= 360;
+if (z < 0)
+z += 360;
+for (const child of this.childs) {
+child.rotation = child.rotation - this.rotation + z;
+}
+this.transform.rz = z;
+}
+get scale() {
+return this.transform.s;
+}
+set scale({ x, y }) {
+for (const child of this.childs) {
+child.scale.x = child.scale.x / this.scale.x * x;
+child.scale.y = child.scale.y / this.scale.y * y;
+}
+this.transform.s.x = x;
+this.transform.s.y = y;
+this.sprite?.reload();
 }
 clone(parent = this.parent) {
 let name = this.name;
@@ -292,6 +250,26 @@ for (const key in this)
 delete this[key];
 nodes.splice(nodes.indexOf(this), 1);
 delete parent[name];
+}
+}
+class GSXY {
+vx;
+vy;
+constructor(props) {
+this.vx = props?.x || 0;
+this.vy = props?.y || 0;
+}
+get x() {
+return this.vx;
+}
+set x(v) {
+this.vx = v;
+}
+get y() {
+return this.vy;
+}
+set y(v) {
+this.vy = v;
 }
 }
 class Scene extends Node {
