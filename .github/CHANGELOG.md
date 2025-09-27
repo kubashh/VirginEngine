@@ -6,6 +6,7 @@
 
 - Scene.loaded (if all images and audio loaded run scene)
 - Sprite.color
+- run() `delta += (now - scene.lastTime) / scene.ms` to `... * scene.sth` (performance)
 
 ### Editor (src)
 
@@ -13,21 +14,22 @@
 - jsCode.Image.quality: number (0-1)
 - jsCode.Audio.quality: number (0-1)
 - Drag Nodes to files, files to Nodes
-- Docs (.md to html)
-- config.performanceInfo: enum (`yes`, `dev`, `no`)
-- implement enum (EnumInput)
+- Docs in .md + .md to html
 
 <br />
 
-## 0.20.2 | 0.21.0 | 1.0.0 (in pending)
+## 0.20.3 | 0.21.0 | 1.0.0 (in pending)
+
+## 0.20.2 (27 Sep 2025)
 
 - move TODO to CHANGELOG
 - update Docs
 - core type improvements
-- move GameTime to scene (to set time set scene.time to number)
+- move GameTime to scene (to change game speed set scene.time to number)
 - remove loadScene, now use scene.load
 - src.build remove files types (~1.5% less bundle size)
-- add config.performanceInfo
+- add config.performanceInfo Enum(`yes`, `dev`, `no`)
+- create EnumInput
 
 ## 0.20.1
 

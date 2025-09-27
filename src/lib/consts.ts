@@ -1,3 +1,4 @@
+import { Enum } from "inspector/typeInput/EnumInput"
 import { signal } from "./signals"
 import { deepCopy, defaultNode, saveProject } from "./util"
 
@@ -25,7 +26,7 @@ export const config = {
   description: `Description`,
   fullScreen: true,
   pathToMainScene: `files.Scenes.DefaultScene`,
-  performanceInfo: true,
+  performanceInfo: Enum(`yes`, `dev`, `no`),
 }
 
 export const def = {

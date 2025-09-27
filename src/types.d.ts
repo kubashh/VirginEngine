@@ -14,6 +14,12 @@ type Variable = {
   type?: VTypes
 }
 
+type TEnum = {
+  type: `enum`
+  options: string[]
+  selected: string
+}
+
 // Props
 
 type FileProps = {

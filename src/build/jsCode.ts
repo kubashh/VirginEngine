@@ -23,11 +23,11 @@ let performanceInfo = true
 async function coreConfig(production?: boolean) {
   const arr = filesToString(files.value)
 
-  for (const i in arr) {
-    arr[i] = await arr[i]
-  }
+  for (const i in arr) arr[i] = await arr[i]
 
-  performanceInfo = production ? config.performanceInfo === true : !!config.performanceInfo
+  performanceInfo =
+    config.performanceInfo.selected === `yes` ||
+    ((!production && config.performanceInfo.selected === `dev`) as boolean)
 
   return replacePerformanceInfo(core)
     .split(`\n`)

@@ -3,6 +3,7 @@ import NumberInput from "./typeInput/NumberInput"
 import StringInput from "./typeInput/StringInput"
 import { addSpaceBeforeUpper, getType } from "../lib/util"
 import { type Signal, useSignal } from "../lib/signals"
+import EnumInput from "./typeInput/EnumInput"
 
 function useElement(type: VTypes, sig: Signal<any>) {
   switch (type) {
@@ -19,13 +20,13 @@ function useElement(type: VTypes, sig: Signal<any>) {
     case "function":
       return null
     case `enum`:
-      return null
+      return <EnumInput sig={sig} />
   }
 }
 
 export default function TypeInput({ object, access, type: defType }: TypeInputProps) {
   const sig = useSignal(object[access], () => (object[access] = sig.value))
-  const type = defType || getType(sig.value)
+  const type = defType || sig.value.type || getType(sig.value)
   const element = useElement(type, sig)
 
   return (
