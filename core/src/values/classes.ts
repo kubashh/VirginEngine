@@ -13,6 +13,7 @@ export class Scene extends Node implements TScene {
 
   constructor({ name, ...scene }: SceneProps) {
     super(scene as any, name)
+    this.time = 1
   }
 
   load(newScene: SceneProps) {
@@ -32,15 +33,6 @@ export class Scene extends Node implements TScene {
     nodes.shift()
   }
 
-  get time() {
-    return this.vtime
-  }
-  set time(newTime: number) {
-    this.vtime = newTime
-    this.ms = 1000 / (60 * this.vtime)
-    this.lastTime = performance.now()
-  }
-
   private close() {
     super.destroy()
 
@@ -52,24 +44,37 @@ export class Scene extends Node implements TScene {
     // Clear scene
     for (const key in this) delete this[key]
   }
+
+  get time() {
+    return this.vtime
+  }
+  set time(newTime: number) {
+    this.vtime = newTime
+    this.ms = 1000 / (60 * this.vtime)
+    this.lastTime = performance.now()
+  }
 }
 
 export class Timer {
   static timers = [] as Timer[]
 
+  static reset() {
+    for (const timer of this.timers) timer.reset()
+  }
+
   private timers
   allFormatted = [] as string[]
 
-  constructor(labels: string[]) {
+  constructor(...labels: string[]) {
     this.timers = labels.reduce((prev, str) => ({ ...prev, [str]: 0 }), {} as TObj<number>)
     this.reset()
     Timer.timers.push(this)
   }
 
-  measure(...arr: [string, Void][]) {
+  measure(obj: TObj<Void>) {
     const timer = this.timers
 
-    for (const [name, f] of arr) {
+    for (const [name, f] of Object.entries(obj)) {
       const start = performance.now()
       f()
       const end = performance.now() - start
@@ -90,12 +95,6 @@ export class Timer {
     )
 
     this.timers = {}
-  }
-
-  static reset() {
-    for (const timer of this.timers) {
-      timer.reset()
-    }
   }
 }
 

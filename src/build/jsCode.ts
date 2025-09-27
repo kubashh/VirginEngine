@@ -3,7 +3,40 @@ import { core } from "./core"
 import { config, files } from "../lib/consts"
 import { isCustomProp, optymalizeImageSrc } from "../lib/util"
 
-const typeKeywords = [`scene`, `node`]
+export async function jsCode(production?: boolean) {
+  const validCore = await coreConfig(production)
+
+  if (!production) return validCore
+
+  const out = minify_sync(validCore, {
+    module: true, // size -10%
+  })
+
+  console.log(out.code?.length)
+
+  if (out.code) return out.code
+
+  throw Error(JSON.stringify(out))
+}
+
+let performanceInfo = true
+async function coreConfig(production?: boolean) {
+  const arr = filesToString(files.value)
+
+  for (const i in arr) {
+    arr[i] = await arr[i]
+  }
+
+  performanceInfo = production ? config.performanceInfo === true : !!config.performanceInfo
+
+  return replacePerformanceInfo(core)
+    .split(`\n`)
+    .filter(filterFullScreen)
+    .join(`\n`)
+    .replace(`"REPLACE_FILES"`, arr.join(``))
+    .replace(`"REPLACE_PATH_TO_MAIN_SCENE"`, config.pathToMainScene)
+}
+
 function filesToString(data: Any, name?: string, type?: string): (string | Promise<string>)[] {
   if (typeof data !== `object`)
     return [type === `node` && isCustomProp(name!) ? data : JSON.stringify(data)]
@@ -30,7 +63,7 @@ function filesToString(data: Any, name?: string, type?: string): (string | Promi
   return [
     `{`,
     ...Object.keys(data)
-      .filter((key) => key !== `type` || !typeKeywords.includes(data[key]))
+      .filter((key) => key !== `type`)
       .reduce((prev, key) => {
         return [...prev, `${key}:`, ...filesToString(data[key], key, data.type), `,`]
       }, [] as (string | Promise<string>)[])
@@ -39,36 +72,32 @@ function filesToString(data: Any, name?: string, type?: string): (string | Promi
   ]
 }
 
-async function coreConfig() {
-  let trueCore = core
-
-  if (!config.fullScreen)
-    trueCore = trueCore
-      .split(`\n`)
-      .filter((line) => !line.startsWith(`!document.fullscreenElement ?`))
-      .join(`\n`)
-
-  const arr = filesToString(files.value)
-
-  for (const i in arr) {
-    arr[i] = await arr[i]
-  }
-
-  return trueCore
-    .replace(`"REPLACE_FILES"`, arr.join(``))
-    .replace(`"REPLACE_PATH_TO_MAIN_SCENE"`, config.pathToMainScene)
+function filterFullScreen(line: string) {
+  return config.fullScreen || !line.startsWith(`!document.fullscreenElement ?`)
 }
 
-export async function jsCode(production?: boolean) {
-  const validCore = await coreConfig()
+function replacePerformanceInfo(core: string) {
+  if (performanceInfo) return core
 
-  if (!production) return validCore
-
-  const out = minify_sync(validCore, {
-    module: true, // size -10%
-  })
-
-  if (out.code) return out.code
-
-  throw Error(JSON.stringify(out))
+  return core
+    .replaceAll(
+      `for (const text of [...renderTimer.allFormatted, ...updateTimer.allFormatted]) {
+drawText({ text, ...props });
+props.y += 18;
+}`,
+      ``
+    )
+    .replaceAll(
+      `renderTimer.measure({ Sprite: renderSprite, Text: renderText });`,
+      `renderSprite();renderText();`
+    )
+    .replaceAll(
+      `updateTimer.measure({ Physics: updatePhysics, Nodes: updateNodes });`,
+      `updatePhysics();updateNodes();`
+    )
+    .replaceAll(`Timer.reset();`, ``)
+    .replaceAll(`drawPerformanceInfo();`, ``)
+    .split(`\n`)
+    .filter((line) => !line.includes(`renderTimer`) && !line.includes(`updateTimer`))
+    .join(`\n`)
 }

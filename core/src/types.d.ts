@@ -156,10 +156,13 @@ type TAudio = {
 
 type TScene = {
   camera: XY
+  ms: number
+  lastTime: number
 
   constructor: any
 
   load(newScene: SceneProps): void
+  time: number
 
   [key: string]: any
 }

@@ -6,7 +6,6 @@ import { drawText, wait } from "./basicFunctions"
 export async function run() {
   scene.load("REPLACE_PATH_TO_MAIN_SCENE" as any)
 
-  scene.time = 1
   requestAnimationFrame(render)
 
   let timer = performance.now()
@@ -40,7 +39,7 @@ export async function run() {
 
 // Update
 function update() {
-  updateTimer.measure([`Physics`, updatePhysics], [`Nodes`, updateNodes])
+  updateTimer.measure({ Physics: updatePhysics, Nodes: updateNodes })
 
   // Clear events, not eventsHover
   events.clear()
@@ -58,33 +57,9 @@ function updateNodes() {
 function render() {
   clearCtx()
 
-  renderTimer.measure([`Sprite`, renderSprite], [`Text`, renderText])
+  renderTimer.measure({ Sprite: renderSprite, Text: renderText })
 
-  drawText({
-    text: `${nodes.length}obj, ${Log.updates}ups, ${Log.frames}fps`,
-    x: -6,
-    y: 6,
-    h: 18,
-    rect: { x: 1, y: -1 },
-    color: `white`,
-    textAlign: `right`,
-    textBaseline: `top`,
-  })
-
-  const props = {
-    x: 6,
-    h: 18,
-    rect: { x: -1, y: -1 },
-    color: `white`,
-    textAlign: `left`,
-    textBaseline: `top`,
-  }
-
-  let y = 6
-  for (const text of [...renderTimer.allFormatted, ...updateTimer.allFormatted]) {
-    drawText({ text, y, ...props })
-    y += 18
-  }
+  drawPerformanceInfo()
 
   // Recall render
   Log.framesTemp++
@@ -103,5 +78,30 @@ function renderText() {
   for (const node of nodes) node.text?.render()
 }
 
-const renderTimer = new Timer([`Sprite`, `Text`])
-const updateTimer = new Timer([`Physics`, `Nodes`])
+function drawPerformanceInfo() {
+  const props = {
+    x: 6,
+    y: 6,
+    h: 18,
+    rect: { x: -1, y: -1 },
+    color: `white`,
+    textAlign: `left`,
+    textBaseline: `top`,
+  }
+
+  drawText({
+    ...props,
+    text: `${nodes.length}obj, ${Log.updates}ups, ${Log.frames}fps`,
+    x: -6,
+    rect: { x: 1, y: -1 },
+    textAlign: `right`,
+  })
+
+  for (const text of [...renderTimer.allFormatted, ...updateTimer.allFormatted]) {
+    drawText({ text, ...props })
+    props.y += 18
+  }
+}
+
+const renderTimer = new Timer(`Sprite`, `Text`)
+const updateTimer = new Timer(`Physics`, `Nodes`)

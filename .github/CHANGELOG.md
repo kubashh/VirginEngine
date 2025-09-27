@@ -14,6 +14,8 @@
 - jsCode.Audio.quality: number (0-1)
 - Drag Nodes to files, files to Nodes
 - Docs (.md to html)
+- config.performanceInfo: enum (`yes`, `dev`, `no`)
+- implement enum (EnumInput)
 
 <br />
 
@@ -24,7 +26,8 @@
 - core type improvements
 - move GameTime to scene (to set time set scene.time to number)
 - remove loadScene, now use scene.load
-- src.build remove types `scene` & `node`
+- src.build remove files types (~1.5% less bundle size)
+- add config.performanceInfo
 
 ## 0.20.1
 
@@ -34,12 +37,12 @@
 
 ## 0.20.0
 
-- add Audio (create AudioGrabber, InputGrabber(FileGrabber))
+- add Audio (create `AudioGrabber`, InputGrabber(FileGrabber))
 - update ImageGraber
 
 ## 0.19.2
 
-- add core.Physics.gravity
+- add `core.Physics.gravity`
 - update core.build
 
 ## 0.19.1
@@ -64,7 +67,7 @@
 - implement get/set for Transform position/scale
 - add core fn: rand
 - update core.Text
-- create ImageGrabber
+- create `ImageGrabber`
 - fix loadFile symbol error
 - fixed config.fullScreen (if false)
 - add License (MIT)
@@ -79,10 +82,6 @@
 - remove bun.lock from git
 - fix core types
 
-TODO:
-https://github.com/kubashh/virginengine/commits/main/?after=e8e248083e8707d61f0aea03d519c1f53c8d2a7e+34
-remove unnessesary window if statments; move saveProject to utils; move window events to consts
-
 ## 0.17.x
 
 - move from nextjs to `bun` (bun.serve, bun.build)
@@ -94,8 +93,8 @@ remove unnessesary window if statments; move saveProject to utils; move window e
 - add `README.md`
 - remove git.sh
 - remove nextjs elements (useClient, "use client")
-- add core fns: randInt, randStr, randColor
-- add terser minify_sync for output optymalization
+- add core fns: `randInt` `randStr` `randColor`
+- add `terser minify_sync` for output optymalization
 
 ## 0.16.x
 
@@ -119,8 +118,8 @@ remove unnessesary window if statments; move saveProject to utils; move window e
 
 ## 0.14.x
 
-- use `Bun.build` for building `core`
 - move `core` to `typescript` (add types.d.ts)
+- use `Bun.build` for building `core`
 - build.htmlCode improve readability
 - fix Test.reload
 
@@ -145,7 +144,7 @@ remove unnessesary window if statments; move saveProject to utils; move window e
 
 ## 0.11.x
 
-- seperate core from `src` (frontend app)
+- seperate `core` from `src` (frontend app)
 - bundle core to 1 file
 - export core as string
 - core improvements
@@ -177,7 +176,7 @@ remove unnessesary window if statments; move saveProject to utils; move window e
 - more accurate html tags
 - update css
 - create Test (testing project)
-- rename project from DeathEngine to VirginEngine (virginity under death)
+- rename project from DeathEngine to `VirginEngine` (virginity under death)
 
 ## 0.6.x
 
@@ -250,7 +249,7 @@ remove unnessesary window if statments; move saveProject to utils; move window e
 
 ## 0.0.x
 
-- Init Project with CreateReactApp (js & jsx) and gh-pages
+- Init Project with `CreateReactApp` (`js` & `jsx`) and `gh-pages`
 - Create:
 
   - File

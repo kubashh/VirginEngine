@@ -283,6 +283,7 @@ vtime = 1;
 lastTime = 0;
 constructor({ name, ...scene }) {
 super(scene, name);
+this.time = 1;
 }
 load(newScene) {
 onresize();
@@ -295,14 +296,6 @@ for (const node of nodes)
 node.start?.();
 nodes.shift();
 }
-get time() {
-return this.vtime;
-}
-set time(newTime) {
-this.vtime = newTime;
-this.ms = 1000 / (60 * this.vtime);
-this.lastTime = performance.now();
-}
 close() {
 super.destroy();
 nodes.length = 0;
@@ -311,19 +304,31 @@ eventsHover.clear();
 for (const key in this)
 delete this[key];
 }
+get time() {
+return this.vtime;
+}
+set time(newTime) {
+this.vtime = newTime;
+this.ms = 1000 / (60 * this.vtime);
+this.lastTime = performance.now();
+}
 }
 class Timer {
 static timers = [];
+static reset() {
+for (const timer of this.timers)
+timer.reset();
+}
 timers;
 allFormatted = [];
-constructor(labels) {
+constructor(...labels) {
 this.timers = labels.reduce((prev, str) => ({ ...prev, [str]: 0 }), {});
 this.reset();
 Timer.timers.push(this);
 }
-measure(...arr) {
+measure(obj) {
 const timer = this.timers;
-for (const [name, f] of arr) {
+for (const [name, f] of Object.entries(obj)) {
 const start = performance.now();
 f();
 const end = performance.now() - start;
@@ -337,11 +342,6 @@ const obj = Object.entries(this.timers).reduce((prev, [key, v]) => ({ ...prev, [
 const all = Object.values(obj).reduce((prev, v) => prev + v, 0);
 this.allFormatted = Object.entries(obj).map(([key, value]) => \`\${key}: \${(value * 100 / all || 0).toFixed(2)}%\`);
 this.timers = {};
-}
-static reset() {
-for (const timer of this.timers) {
-timer.reset();
-}
 }
 }
 class Obj {
@@ -470,7 +470,6 @@ super.play();
 }
 async function run() {
 scene.load("REPLACE_PATH_TO_MAIN_SCENE");
-scene.time = 1;
 requestAnimationFrame(render);
 let timer = performance.now();
 let updates = 0;
@@ -498,7 +497,7 @@ await wait();
 }
 }
 function update() {
-updateTimer.measure([\`Physics\`, updatePhysics], [\`Nodes\`, updateNodes]);
+updateTimer.measure({ Physics: updatePhysics, Nodes: updateNodes });
 events.clear();
 }
 function updatePhysics() {
@@ -511,30 +510,8 @@ node.update?.();
 }
 function render() {
 clearCtx();
-renderTimer.measure([\`Sprite\`, renderSprite], [\`Text\`, renderText]);
-drawText({
-text: \`\${nodes.length}obj, \${Log.updates}ups, \${Log.frames}fps\`,
-x: -6,
-y: 6,
-h: 18,
-rect: { x: 1, y: -1 },
-color: \`white\`,
-textAlign: \`right\`,
-textBaseline: \`top\`
-});
-const props = {
-x: 6,
-h: 18,
-rect: { x: -1, y: -1 },
-color: \`white\`,
-textAlign: \`left\`,
-textBaseline: \`top\`
-};
-let y = 6;
-for (const text of [...renderTimer.allFormatted, ...updateTimer.allFormatted]) {
-drawText({ text, y, ...props });
-y += 18;
-}
+renderTimer.measure({ Sprite: renderSprite, Text: renderText });
+drawPerformanceInfo();
 Log.framesTemp++;
 requestAnimationFrame(render);
 }
@@ -549,8 +526,30 @@ function renderText() {
 for (const node of nodes)
 node.text?.render();
 }
-var renderTimer = new Timer([\`Sprite\`, \`Text\`]);
-var updateTimer = new Timer([\`Physics\`, \`Nodes\`]);
+function drawPerformanceInfo() {
+const props = {
+x: 6,
+y: 6,
+h: 18,
+rect: { x: -1, y: -1 },
+color: \`white\`,
+textAlign: \`left\`,
+textBaseline: \`top\`
+};
+drawText({
+...props,
+text: \`\${nodes.length}obj, \${Log.updates}ups, \${Log.frames}fps\`,
+x: -6,
+rect: { x: 1, y: -1 },
+textAlign: \`right\`
+});
+for (const text of [...renderTimer.allFormatted, ...updateTimer.allFormatted]) {
+drawText({ text, ...props });
+props.y += 18;
+}
+}
+var renderTimer = new Timer(\`Sprite\`, \`Text\`);
+var updateTimer = new Timer(\`Physics\`, \`Nodes\`);
 window.addEventListener(\`mousedown\`, () => eventsHover.click = true);
 window.addEventListener(\`mouseup\`, () => delete eventsHover.click);
 window.addEventListener(\`click\`, () => events.click = true);

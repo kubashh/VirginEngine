@@ -25,6 +25,7 @@ export const config = {
   description: `Description`,
   fullScreen: true,
   pathToMainScene: `files.Scenes.DefaultScene`,
+  performanceInfo: true,
 }
 
 export const def = {
