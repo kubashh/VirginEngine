@@ -94,7 +94,7 @@ type TScene = {
 }
 ```
 
-## Objects
+### Objects
 
 ```ts
 type scene = {
@@ -106,7 +106,7 @@ type scene = {
 }
 ```
 
-## Util
+### Util
 
 ```ts
 function wait(time?: number | undefined): Promise<void>
@@ -116,4 +116,20 @@ function randInt(min: number, max?: number | undefined): number
 function rand(min?: number, max?: number | undefined): number
 function randStr(n?: number): string
 function randColor(): string
+```
+
+## Editor
+
+### Config
+
+```ts
+type config = {
+  gameName: string
+  version: string
+  author: string
+  description: string
+  fullScreen: boolean
+  pathToMainScene: string
+  performanceInfo: TEnum
+}
 ```
