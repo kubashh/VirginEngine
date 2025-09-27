@@ -3,6 +3,7 @@ import { core } from "./core"
 import { config, files } from "../lib/consts"
 import { isCustomProp, optymalizeImageSrc } from "../lib/util"
 
+const typeKeywords = [`scene`, `node`]
 function filesToString(data: Any, name?: string, type?: string): (string | Promise<string>)[] {
   if (typeof data !== `object`)
     return [type === `node` && isCustomProp(name!) ? data : JSON.stringify(data)]
@@ -29,6 +30,7 @@ function filesToString(data: Any, name?: string, type?: string): (string | Promi
   return [
     `{`,
     ...Object.keys(data)
+      .filter((key) => key !== `type` || !typeKeywords.includes(data[key]))
       .reduce((prev, key) => {
         return [...prev, `${key}:`, ...filesToString(data[key], key, data.type), `,`]
       }, [] as (string | Promise<string>)[])

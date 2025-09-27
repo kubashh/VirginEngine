@@ -68,6 +68,8 @@ type drawProps = {
   font?: string
 } & Any
 
+type SceneProps = { name: string } & Any
+
 // Compponents
 
 type TNode = {
@@ -92,7 +94,7 @@ type TNode = {
   constructor: any
 
   childs: TNode[]
-  props: any
+  props: NodeProps
   clone: Void
   destroy: Void
 
@@ -123,7 +125,9 @@ type TSprite = {
   reload: Void
   resize: Void
   render: Void
-  props: { path: string }
+  props: {
+    path: string
+  }
 }
 
 type TPhysics = {
@@ -155,8 +159,7 @@ type TScene = {
 
   constructor: any
 
-  load: (newScene: { name: string; [key: string]: any }) => void
-  close: Void
+  load(newScene: SceneProps): void
 
   [key: string]: any
 }

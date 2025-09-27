@@ -1,4 +1,4 @@
-import { allowedNameChars, alphabet, Camera, ctx, files, nodes, scene } from "../values/consts"
+import { allowedNameChars, alphabet, Camera, ctx, files, nodes } from "../values/consts"
 
 // Time
 export async function wait(time?: number) {
@@ -28,11 +28,6 @@ export function deepCopy<T>(data: T): T {
   }
 
   return data
-}
-
-// Load scene
-export function loadScene(newScene: Any) {
-  scene.load(newScene)
 }
 
 // Draw on canvas

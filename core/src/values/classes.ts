@@ -6,16 +6,21 @@ export class Scene extends Node implements TScene {
   // loaded = new Map<number, boolean>() // TODO key: id; if loaded.size === 0 run scene
   camera = { x: 0, y: 0 }
 
-  constructor(scene: any, name: string) {
-    super(scene, name)
+  // Time
+  ms = 1
+  private vtime = 1
+  lastTime = 0
+
+  constructor({ name, ...scene }: SceneProps) {
+    super(scene as any, name)
   }
 
-  load({ name, ...newScene }: { name: string; [key: string]: any }) {
+  load(newScene: SceneProps) {
     onresize()
 
     this.close()
 
-    newScene = new Scene(deepCopy(newScene), name)
+    newScene = new Scene(deepCopy(newScene))
 
     for (const key in newScene) {
       ;(this as TScene)[key] = newScene[key]
@@ -27,7 +32,16 @@ export class Scene extends Node implements TScene {
     nodes.shift()
   }
 
-  close() {
+  get time() {
+    return this.vtime
+  }
+  set time(newTime: number) {
+    this.vtime = newTime
+    this.ms = 1000 / (60 * this.vtime)
+    this.lastTime = performance.now()
+  }
+
+  private close() {
     super.destroy()
 
     nodes.length = 0

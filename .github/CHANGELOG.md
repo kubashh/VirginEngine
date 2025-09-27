@@ -1,5 +1,31 @@
 # Change Log
 
+## TODO
+
+### Core
+
+- Scene.loaded (if all images and audio loaded run scene)
+- Sprite.color
+
+### Editor (src)
+
+- AudioGrabber.img (icon)
+- jsCode.Image.quality: number (0-1)
+- jsCode.Audio.quality: number (0-1)
+- Drag Nodes to files, files to Nodes
+- Docs (.md to html)
+
+<br />
+
+## 0.20.2 | 0.21.0 | 1.0.0 (in pending)
+
+- move TODO to CHANGELOG
+- update Docs
+- core type improvements
+- move GameTime to scene (to set time set scene.time to number)
+- remove loadScene, now use scene.load
+- src.build remove types `scene` & `node`
+
 ## 0.20.1
 
 - src.build optymalize img
@@ -68,7 +94,7 @@ remove unnessesary window if statments; move saveProject to utils; move window e
 - add `README.md`
 - remove git.sh
 - remove nextjs elements (useClient, "use client")
-- add core fns: randInt, randStr, randHex, randColor
+- add core fns: randInt, randStr, randColor
 - add terser minify_sync for output optymalization
 
 ## 0.16.x

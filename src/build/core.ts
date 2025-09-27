@@ -278,19 +278,30 @@ this.vy = v;
 }
 class Scene extends Node {
 camera = { x: 0, y: 0 };
-constructor(scene, name) {
+ms = 1;
+vtime = 1;
+lastTime = 0;
+constructor({ name, ...scene }) {
 super(scene, name);
 }
-load({ name, ...newScene }) {
+load(newScene) {
 onresize();
 this.close();
-newScene = new Scene(deepCopy(newScene), name);
+newScene = new Scene(deepCopy(newScene));
 for (const key in newScene) {
 this[key] = newScene[key];
 }
 for (const node of nodes)
 node.start?.();
 nodes.shift();
+}
+get time() {
+return this.vtime;
+}
+set time(newTime) {
+this.vtime = newTime;
+this.ms = 1000 / (60 * this.vtime);
+this.lastTime = performance.now();
 }
 close() {
 super.destroy();
@@ -351,21 +362,11 @@ var events = new Obj;
 var eventsHover = new Obj;
 var nodes = [];
 var Log = { updates: 0, frames: 0, framesTemp: 0 };
-var GameTime = {
-ms: 1,
-value: 1,
-lastTime: 0,
-set(newTime) {
-this.value = newTime;
-this.ms = 1000 / (60 * this.value);
-this.lastTime = performance.now();
-}
-};
 var Camera = {
 xOffset: 0,
 yOffset: 0
 };
-var scene = new Scene({}, \`\`);
+var scene = new Scene({ name: \`\` });
 async function wait(time) {
 await new Promise((r) => setTimeout(r, time));
 }
@@ -386,9 +387,6 @@ newObj[key] = deepCopy(data[key]);
 return newObj;
 }
 return data;
-}
-function loadScene(newScene) {
-scene.load(newScene);
 }
 var textAlign = new Map([
 [-1, \`left\`],
@@ -471,18 +469,18 @@ super.play();
 }
 }
 async function run() {
-loadScene("REPLACE_PATH_TO_MAIN_SCENE");
-GameTime.set(1);
+scene.load("REPLACE_PATH_TO_MAIN_SCENE");
+scene.time = 1;
 requestAnimationFrame(render);
 let timer = performance.now();
 let updates = 0;
 let delta = 0;
 while (true) {
 const now = performance.now();
-delta += (now - GameTime.lastTime) / GameTime.ms;
+delta += (now - scene.lastTime) / scene.ms;
 if (delta > 60)
 delta = 60;
-GameTime.lastTime = now;
+scene.lastTime = now;
 while (delta >= 1) {
 update();
 updates++;

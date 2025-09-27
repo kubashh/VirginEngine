@@ -1,12 +1,12 @@
 import { Timer } from "@/values/classes"
-import { ctx, events, nodes, GameTime, Log } from "../values/consts"
-import { drawText, loadScene, wait } from "./basicFunctions"
+import { ctx, events, nodes, Log, scene } from "../values/consts"
+import { drawText, wait } from "./basicFunctions"
 
 // Run
 export async function run() {
-  loadScene("REPLACE_PATH_TO_MAIN_SCENE" as any)
+  scene.load("REPLACE_PATH_TO_MAIN_SCENE" as any)
 
-  GameTime.set(1)
+  scene.time = 1
   requestAnimationFrame(render)
 
   let timer = performance.now()
@@ -14,10 +14,10 @@ export async function run() {
   let delta = 0
   while (true) {
     const now = performance.now()
-    delta += (now - GameTime.lastTime) / GameTime.ms
+    delta += (now - scene.lastTime) / scene.ms
     if (delta > 60) delta = 60
 
-    GameTime.lastTime = now
+    scene.lastTime = now
     while (delta >= 1) {
       update()
       updates++
