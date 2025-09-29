@@ -98,7 +98,7 @@
 - add core fns: `randInt` `randStr` `randColor`
 - add `terser minify_sync` for output optymalization
 
-## 0.16.x
+## 0.16.x (27 Aug 2025)
 
 - GameObject.name is string instead of fn (100-1000x faster create GameObject)
 - delete core.Rect
@@ -107,7 +107,7 @@
 - delete `.version` file
 - update nextjs from 15.3.5 to 15.5.2
 
-## 0.15.x
+## 0.15.x (23 Jul 2025)
 
 - core window events improvements
 - export default core components
@@ -118,20 +118,20 @@
   - get props()
   - destroy()
 
-## 0.14.x
+## 0.14.x (17 Jul 2025)
 
 - move `core` to `typescript` (add types.d.ts)
 - use `Bun.build` for building `core`
 - build.htmlCode improve readability
 - fix Test.reload
 
-## 0.13.x
+## 0.13.x (14 Jul 2025)
 
 - move to `nextjs`
 - `tailwindcss` update to `v4`
 - update many components
 
-## 0.12.x
+## 0.12.x (7 Jul 2025)
 
 - move to `typescript` (except core)
 - add types
@@ -144,7 +144,7 @@
 - moving to tailwindcss (2)
 - add GameObject.name
 
-## 0.11.x
+## 0.11.x (1 Jul 2025)
 
 - seperate `core` from `src` (frontend app)
 - bundle core to 1 file
@@ -152,7 +152,7 @@
 - core improvements
 - use `body` as project root instead of main
 
-## 0.10.x
+## 0.10.x (1 Jul 2025)
 
 - move form React 18.3.1 to `React 19.1.0`
 - use `bun` runtime
@@ -160,40 +160,40 @@
 - use export default for React components (2)
 - move meny components
 
-## 0.9.x
+## 0.9.x (28 Jun 2025)
 
 - use classical fn instead of arrow fn
 - use export default for React components
 - use tailwind styles
 
-## 0.8.x
+## 0.8.x (24 Mar 2025)
 
 - create typeInput's
 - create Docs (skielet)
 - use `gh actions` for deploying engine
 - add `tailwindcss v3`
 
-## 0.7.x
+## 0.7.x (24 Mar 2025)
 
 - more accurate html tags
 - update css
 - create Test (testing project)
 - rename project from DeathEngine to `VirginEngine` (virginity under death)
 
-## 0.6.x
+## 0.6.x (21 Mar 2025)
 
 - update ubuild
 - update many editor components
 - update evrything in lib
 - update css
 
-## 0.5.x
+## 0.5.x (6 Mar 2025)
 
 - simplify project
 - update literaly all components
 - finally remove node_modules from git
 
-## 0.4.x
+## 0.4.x (14 Jan 2025)
 
 - create:
 
@@ -208,7 +208,7 @@
     - Sprite
     - Transform
 
-## 0.3.x
+## 0.3.x (28 Dec 2024)
 
 - update build
 - crate:
@@ -216,12 +216,12 @@
   - many fns
   - utils
 
-## 0.2.x
+## 0.2.x (27 Dec 2024)
 
 - create build fn (project)
 - remove node_modules (.gitignore)
 
-## 0.1.x
+## 0.1.x (17 Dec 2024)
 
 - create:
 
@@ -249,7 +249,7 @@
 
 - update Files
 
-## 0.0.x
+## 0.0.x (23 Nov 2024)
 
 - Init Project with `CreateReactApp` (`js` & `jsx`) and `gh-pages`
 - Create:
