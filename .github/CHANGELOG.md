@@ -5,8 +5,24 @@
 ### Core
 
 - Scene.loaded (if all images and audio loaded run scene)
+
+```ts
+async function loadAssets() {
+  const { resolve, promise } = Promise.withResolves()
+
+  for (const e of scene.toLoaded) await a // all images/audio
+
+  await promise
+
+  // or
+
+  await Promise.allSettled(scene.toLoaded)
+}
+```
+
 - Sprite.color
 - run() `delta += (now - scene.lastTime) / scene.ms` to `... * scene.sth` (performance)
+- scene.load => run
 
 ### Editor (src)
 
@@ -15,10 +31,22 @@
 - jsCode.Audio.quality: number (0-1)
 - Drag Nodes to files, files to Nodes
 - Docs in .md + .md to html
+- typed Enum<`string` | `number`>; in build get value
+- Node.rect can contains only Node.rect
+- Node.rect.{x,y} as Enum<number>
+
+### VirginEngine
+
+- VirginEngine to npmjs.com
+- @VirginEngine/wdwh (web dev without html)
+- VirginEngine/docs
+- VirginEngine/releases
 
 <br />
 
 ## 0.20.3 | 0.21.0 | 1.0.0 (in pending)
+
+- move projects from kubashh/virginengine to `VirginEngine/VirginEngine` (kubashh is initiator for VirginEngine project)
 
 ## 0.20.2 (27 Sep 2025)
 
