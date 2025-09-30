@@ -23,7 +23,7 @@ const config: Bun.BuildConfig = {
   },
 }
 
-console.log(`Starting build process...`)
+console.log(`Starting build...`)
 
 rmSync(outdir, { recursive: true, force: true })
 
