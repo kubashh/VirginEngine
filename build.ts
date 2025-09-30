@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 import plugin from "bun-plugin-tailwind"
-import { existsSync, rmSync } from "fs"
+import { rmSync } from "fs"
 import { relative } from "path"
 import { buildCore } from "./core/main"
 
@@ -25,10 +25,7 @@ const config: Bun.BuildConfig = {
 
 console.log(`Starting build process...`)
 
-if (existsSync(outdir)) {
-  console.log(`Cleaning previous build...`)
-  rmSync(outdir, { recursive: true, force: true })
-}
+rmSync(outdir, { recursive: true, force: true })
 
 const start = performance.now()
 
