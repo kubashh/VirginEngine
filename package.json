@@ -6,16 +6,16 @@
     "build": "bun build.ts"
   },
   "dependencies": {
-    "bun-plugin-tailwind": "^0.0.14",
-    "clsx": "^2.1.1",
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1",
-    "tailwindcss": "^4.1.13",
-    "terser": "^5.44.0"
+    "bun-plugin-tailwind": "latest",
+    "clsx": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "tailwindcss": "latest",
+    "terser": "latest"
   },
   "devDependencies": {
-    "@types/react": "^19.1.15",
-    "@types/react-dom": "^19.1.9",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
     "@types/bun": "latest"
   },
   "prettier": {

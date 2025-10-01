@@ -38,7 +38,7 @@ async function loadAssets() {
 ### VirginEngine
 
 - VirginEngine to npmjs.com
-- @VirginEngine/wdwh (web dev without html)
+- implement @VirginEngine/wdwh (web dev without html)
 - VirginEngine/docs
 - VirginEngine/releases
 
