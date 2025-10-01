@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "dev": "bun core/main.ts && wdwh dev",
-    "build": "bun core/main.ts && bun build.ts"
+    "build": "bun core/main.ts && wdwh build"
   },
   "dependencies": {
     "@virgin-engine/wdwh": "latest",
