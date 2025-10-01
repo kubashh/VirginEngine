@@ -1,16 +1,13 @@
 {
-  "version": "0.20.2",
+  "version": "0.21.0",
   "private": true,
   "scripts": {
-    "dev": "clear && bun src/app/server.ts",
-    "build": "bun build.ts"
+    "dev": "bun core/main.ts && wdwh dev",
+    "build": "bun core/main.ts && bun build.ts"
   },
   "dependencies": {
-    "bun-plugin-tailwind": "latest",
+    "@virgin-engine/wdwh": "latest",
     "clsx": "latest",
-    "react": "latest",
-    "react-dom": "latest",
-    "tailwindcss": "latest",
     "terser": "latest"
   },
   "devDependencies": {

@@ -31,3 +31,5 @@ export function optymalize(js: string) {
 function encode(s: string) {
   return s.replaceAll("`", "\\`").replaceAll(`$`, `\\$`)
 }
+
+await buildCore()
