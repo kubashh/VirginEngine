@@ -7,14 +7,15 @@ export const config: Config = {
 
 export const metadata: Metadata = {
   iconPath: `./icon.png`,
-  title: `Example`,
+  title: `VirginEngine test`,
+  description: `VirginEngine simple game engine`,
 }
 
 export default function Page() {
   return (
     <html>
       <head></head>
-      <body className="bg-black text-white">
+      <body className="overflow-hidden select-none bg-black text-white">
         <App />
       </body>
     </html>

@@ -34,11 +34,11 @@ async function loadAssets() {
 - typed Enum<`string` | `number`>; in build get value
 - Node.rect can contains only Node.rect
 - Node.rect.{x,y} as Enum<number>
+- create VE icon
 
 ### VirginEngine
 
 - VirginEngine to npmjs.com
-- implement @VirginEngine/wdwh (web dev without html)
 - VirginEngine/docs
 - VirginEngine/releases
 
