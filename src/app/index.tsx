@@ -7,7 +7,7 @@ export const config: Config = {
 
 export const metadata: Metadata = {
   iconPath: `./icon.png`,
-  title: `VirginEngine test`,
+  title: `VirginEngine`,
   description: `VirginEngine simple game engine`,
 }
 
