@@ -44,9 +44,14 @@ async function loadAssets() {
 
 <br />
 
-## 0.20.3 | 0.21.0 | 1.0.0 (in pending)
+## 0.21.1 | 0.22.0 | 1.0.0 (in pending)
+
+- more strict typescript rules
+
+## 0.21.0
 
 - move projects from kubashh/virginengine to `VirginEngine/VirginEngine` (kubashh is initiator for VirginEngine project)
+- implement @virgin-engine/wdwh (add 1 file (`src/app/index.tsx`), remove 4 files)
 
 ## 0.20.2 (27 Sep 2025)
 

@@ -2,8 +2,8 @@
   "version": "0.21.0",
   "private": true,
   "scripts": {
-    "dev": "bun core/main.ts && wdwh dev",
-    "build": "bun core/main.ts && wdwh build"
+    "dev": "bun core/build.ts && wdwh dev",
+    "build": "bun core/build.ts && wdwh build"
   },
   "dependencies": {
     "@virgin-engine/wdwh": "latest",

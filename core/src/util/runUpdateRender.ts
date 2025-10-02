@@ -1,4 +1,4 @@
-import { Timer } from "@/values/classes"
+import { Timer } from "../values/classes"
 import { ctx, events, nodes, Log, scene } from "../values/consts"
 import { drawText, wait } from "./basicFunctions"
 

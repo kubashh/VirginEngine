@@ -1,6 +1,6 @@
-import Node from "@/components/Node"
+import Node from "../components/Node"
 import { events, eventsHover, nodes } from "./consts"
-import { deepCopy, onresize } from "@/util/basicFunctions"
+import { deepCopy, onresize } from "../util/basicFunctions"
 
 export class Scene extends Node implements TScene {
   // loaded = new Map<number, boolean>() // TODO key: id; if loaded.size === 0 run scene

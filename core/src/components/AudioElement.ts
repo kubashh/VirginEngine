@@ -1,4 +1,4 @@
-import { file } from "@/util/basicFunctions"
+import { file } from "../util/basicFunctions"
 
 export default class AudioElement extends Audio implements TAudio {
   static canPlay = false

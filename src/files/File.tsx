@@ -1,11 +1,11 @@
 import FileElement from "../components/FileElement"
-import ImageGrabber from "components/ImageGrabber"
-import AudioGrabber from "components/AudioGrabber"
+import ImageGrabber from "../components/ImageGrabber"
+import AudioGrabber from "../components/AudioGrabber"
 import { contextMenu, def, dragData, files, inspector, nameInput } from "../lib/consts"
 import { openScene, isFirstUpperCase, deepCopy } from "../lib/util"
 import { useArrow } from "../lib/hooks"
-import { useSignal } from "lib/signals"
-import TypeInput from "inspector/TypeInput"
+import { useSignal } from "../lib/signals"
+import TypeInput from "../inspector/TypeInput"
 
 export default function File({ old, file, name, deep = 0, path = `files` }: FileProps) {
   const main = deep === 0

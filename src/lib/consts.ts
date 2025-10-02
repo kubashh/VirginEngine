@@ -1,4 +1,4 @@
-import { Enum } from "inspector/typeInput/EnumInput"
+import { Enum } from "../inspector/typeInput/EnumInput"
 import { signal } from "./signals"
 import { deepCopy, defaultNode, saveProject } from "./util"
 

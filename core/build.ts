@@ -1,4 +1,4 @@
-export async function buildCore() {
+async function buildCore() {
   const { outputs } = await Bun.build({
     entrypoints: [`./core/src/core.ts`],
     outdir: `.`,
@@ -19,7 +19,7 @@ export async function buildCore() {
   await Bun.write(outputs[0].path, outText)
 }
 
-export function optymalize(js: string) {
+function optymalize(js: string) {
   return js
     .replaceAll(/\/\*[\s\S]*?\*\/|\/\/.*/g, ``) // Remove comments
     .split(`\n`)
@@ -33,3 +33,5 @@ function encode(s: string) {
 }
 
 await buildCore()
+
+export {}
