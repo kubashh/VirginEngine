@@ -14,10 +14,10 @@ type Variable = {
   type?: VTypes
 }
 
-type TEnum = {
+type TEnum<T> = {
   type: `enum`
-  options: string[]
-  selected: string
+  options: T[]
+  selected: T
 }
 
 // Props

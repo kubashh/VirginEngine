@@ -4,9 +4,10 @@ import Transform from "./Transform"
 import { inspector } from "../../lib/consts"
 import { capitalize, deepCopy } from "../../lib/util"
 import { useRefresh } from "../../lib/hooks"
+import { Enum } from "../../inspector/typeInput/EnumInput"
 
 const text = [{ value: ``, color: `white` }, [`rect`], []]
-const rect = [{ x: 0, y: 0 }, [], [`text`]]
+const rect = [{ x: Enum(0, -1, 0, 1), y: Enum(0, -1, 0, 1) }, [], [`text`]]
 const sprite = [{ color: ``, path: `files.Assets.BoxImage` }, [], []]
 const physics = [{ gravity: true }, [], []]
 const audio = [{ path: `` }, [], []]
@@ -33,7 +34,7 @@ function Components({ name, ...props }: Any) {
   )
 }
 
-function Component({ name, refresh, readOnly, ...props }: Any) {
+function Component({ name, refresh, required, ...props }: Any) {
   const remove = () => {
     for (const key of components[name][2]) {
       delete props.object[key]
@@ -43,7 +44,7 @@ function Component({ name, refresh, readOnly, ...props }: Any) {
   }
 
   const addComponent = () => {
-    if (readOnly) return
+    if (required) return
 
     props.object[name] = deepCopy(components[name][0])
     for (const key of components[name][1]) {
@@ -58,7 +59,7 @@ function Component({ name, refresh, readOnly, ...props }: Any) {
       key={name}
       text={capitalize(name)}
       childs={toChilds(props.object, name, components[name][0])}
-      {...{ ...props, remove: !readOnly ? remove : undefined }}
+      {...{ ...props, remove: !required ? remove : undefined }}
     />
   ) : (
     <AddComponent text={capitalize(name)} onClick={addComponent} />

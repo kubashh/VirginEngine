@@ -15,15 +15,12 @@
 - AudioGrabber.img (icon)
 - jsCode.Image.quality: number (0-1)
 - jsCode.Audio.quality: number (0-1)
-- Drag Nodes to files, files to Nodes
-- typed Enum<`string` | `number`>; in build get value
-- Node.rect can contains only Node.rect
-- Node.rect.{x,y} as Enum<number>
+- Drag Nodes to files, files to Nodes (clonning)
+- scr.Node.rect can contains only Node.rect
 - PathInput (for paths, better optymalization for not use file() while running)
 
 ### VirginEngine
 
-- VirginEngine to npmjs.com
 - VirginEngine/docs (.md)
 - VirginEngine/releases (.md)
 - VirginEngine/wdwh add .md imports for creating html or static pages
@@ -38,6 +35,8 @@
 - add core.lerp()
 - wait to load assets before run scene
 - Image optymalizations
+- src.Node.rect.{x,y} as Enum<number>
+- typed Enum<`string` | `number`>
 
 ## 0.21.0
 

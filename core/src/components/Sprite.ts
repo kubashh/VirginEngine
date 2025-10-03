@@ -57,8 +57,6 @@ export default class Sprite implements TSprite {
 resizeImage.ctx = document.createElement(`canvas`).getContext(`2d`)!
 resizeImage.ctx.canvas.style.display = `none`
 function resizeImage(image: HTMLImageElement, { x, y }: XY) {
-  if (x === 1 && y === 1) return
-
   const newWidth = image.width * x
   const newHeight = image.height * y
 

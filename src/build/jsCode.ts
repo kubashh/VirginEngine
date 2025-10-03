@@ -55,9 +55,10 @@ function filesToString(data: Any, name?: string, type?: string): (string | Promi
 
   if (data.type === `img`) {
     return [`"`, optymalizeImageSrc(data.src, data.quality), `"`]
-  }
-  if (data.type === `audio`) {
+  } else if (data.type === `audio`) {
     return [`"${data.src}"`]
+  } else if (data.type === `enum`) {
+    return data.selected
   }
 
   return [

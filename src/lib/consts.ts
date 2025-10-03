@@ -26,7 +26,7 @@ export const config = {
   description: `Description`,
   fullScreen: true,
   pathToMainScene: `files.Scenes.DefaultScene`,
-  performanceInfo: Enum(`yes`, `dev`, `no`),
+  performanceInfo: Enum(`yes`, `yes`, `dev`, `no`),
 }
 
 export const def = {

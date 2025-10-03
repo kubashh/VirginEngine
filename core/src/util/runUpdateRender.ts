@@ -39,9 +39,7 @@ export async function run() {
 }
 
 async function loadAssets() {
-  const toLoad = assetsToLoad(files)
-
-  await Promise.allSettled(Object.values(toLoad))
+  await Promise.allSettled(assetsToLoad(files))
 }
 
 function assetsToLoad(obj: TObj<any>) {

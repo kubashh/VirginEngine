@@ -42,8 +42,6 @@ path: this.path
 resizeImage.ctx = document.createElement(\`canvas\`).getContext(\`2d\`);
 resizeImage.ctx.canvas.style.display = \`none\`;
 function resizeImage(image, { x, y }) {
-if (x === 1 && y === 1)
-return;
 const newWidth = image.width * x;
 const newHeight = image.height * y;
 resizeImage.ctx.canvas.width = newWidth;
@@ -525,8 +523,7 @@ await wait();
 }
 }
 async function loadAssets() {
-const toLoad = assetsToLoad(files);
-await Promise.allSettled(Object.values(toLoad));
+await Promise.allSettled(assetsToLoad(files));
 }
 function assetsToLoad(obj) {
 const toLoad = [];

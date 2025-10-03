@@ -1,23 +1,25 @@
-export default function EnumInput({ sig }: { sig: Signal<TEnum> }) {
+export default function EnumInput<T>({ sig, type }: { sig: Signal<TEnum<T>>; type?: string }) {
   return (
     <select
       className="w-full border-b-1 border-zinc-400 accent-green-600"
-      defaultValue={sig.value.selected}
-      onChange={({ target }) => (sig.value.selected = target.value)}
+      defaultValue={sig.value.selected as string}
+      onChange={({ target }) => {
+        sig.value.selected = type === `number` ? (Number(target.value) as any) : target.value
+      }}
     >
-      {sig.value.options.map((option: string) => (
-        <option key={option} value={option}>
-          {option}
+      {sig.value.options.map((option) => (
+        <option key={option as string} value={option as string}>
+          {option as string}
         </option>
       ))}
     </select>
   )
 }
 
-export function Enum(...options: string[]): TEnum {
+export function Enum<T>(defvalue: T, ...options: T[]): TEnum<T> {
   return {
     type: `enum`,
     options,
-    selected: options[0],
+    selected: defvalue,
   }
 }
