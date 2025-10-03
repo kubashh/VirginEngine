@@ -118,3 +118,10 @@ function randHex() {
   const n = randInt(16)
   return n < 10 ? String(n) : String.fromCharCode(45 + n)
 }
+
+export function lerp(a: XY, b: XY, t: number) {
+  return {
+    x: a.x + (b.x - a.x) * t,
+    y: a.y + (b.y - a.y) * t,
+  }
+}

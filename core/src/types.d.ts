@@ -41,7 +41,7 @@ type TextProps = { value: string; color: string }
 type SpriteProps = { path: string }
 type PhysicsProps = { gravity: boolean }
 type ColliderProps = {}
-type AnimationProps = {}
+type AnimationProps = { frames: TSprite[] }
 type AudioProps = { path: string }
 
 type drawTextProps = {
@@ -119,6 +119,7 @@ type TText = {
 
 type TSprite = {
   path: string
+  img: HTMLImageElement
 
   constructor: any
 
@@ -131,13 +132,14 @@ type TSprite = {
 }
 
 type TPhysics = {
-  velocity: XY
+  velocity: number
+  target: XY
   gravity: boolean
 
   constructor: any
 
   update: Void
-  AddForce: (force: XY) => void
+  addForce: (force: XY) => void
 }
 
 type TCollider = {
@@ -151,7 +153,7 @@ type TAnimation = {
 type TAudio = {
   constructor: any
   play: Void
-  pause: Void
+  stop: Void
 }
 
 type TScene = {

@@ -1,34 +1,37 @@
-export const core = `class Sprite extends Image {
+export const core = `class Sprite {
 node;
-staticDrawProps = {};
+staticDrawProps = { x: 0, y: 0 };
+img;
 path;
 w = 0;
 h = 0;
 constructor({ path }, node) {
-super();
 this.node = node;
-this.src = file(path);
+this.img = file(path);
 this.path = path;
-this.onload = this.reload;
-this.resize();
+this.reload();
 }
 reload() {
-resizeImage(this, this.node.scale);
-this.onload = this.resize;
+if (this.node.scale.x !== 1 && this.node.scale.y !== 1) {
+this.img = this.img.cloneNode();
+resizeImage(this.img, this.node.scale);
+this.img.onload = () => this.resize();
+} else
+this.resize();
 }
 resize() {
 this.staticDrawProps = {
-x: Camera.xOffset - this.width * 0.5,
-y: Camera.yOffset - this.height * 0.5
+x: Camera.xOffset - this.img.width * 0.5,
+y: Camera.yOffset - this.img.height * 0.5
 };
-this.w = this.width * this.node.scale.x;
-this.h = this.height * this.node.scale.x;
+this.w = this.img.width * this.node.scale.x;
+this.h = this.img.height * this.node.scale.x;
 }
 render() {
 const x = this.staticDrawProps.x - this.node.position.x;
 const y = this.staticDrawProps.y - this.node.position.y;
 if (0 < x + this.w && x - this.w < 2 * Camera.xOffset && 0 < y + this.h && y - this.h < 2 * Camera.yOffset)
-ctx.drawImage(this, x, y);
+ctx.drawImage(this.img, x, y);
 }
 get props() {
 return {
@@ -85,28 +88,42 @@ this.node = node;
 class Physics {
 static gravitySpeed = 0.6;
 node;
-velocity = { x: 0, y: 0 };
+velocity = 0;
+target = {};
 gravity;
 constructor({ gravity }, node) {
 this.gravity = gravity;
 this.node = node;
+setTimeout(() => this.target = {
+x: node.position.x,
+y: node.position.y
+});
 }
 update() {
-if (this.gravity)
-this.velocity.y -= Physics.gravitySpeed;
-this.node.position.x += this.velocity.x;
-this.node.position.y += this.velocity.y;
+if (this.gravity) {
+this.velocity -= Physics.gravitySpeed;
+this.target.y += this.velocity;
 }
-AddForce({ x, y }) {
-this.velocity.x += x;
-this.velocity.y += y;
+this.node.position = lerp(this.node.position, this.target, 0.5);
+}
+addForce({ x, y }) {
+this.target.x += x;
+this.target.y += y;
 }
 }
 class Animation {
 node;
+currentFrame = 0;
+frames;
 constructor(props, node) {
 this.node = node;
+this.frames = props.frames;
 }
+update() {}
+start() {
+this.currentFrame = 0;
+}
+stop() {}
 }
 var keywords = [\`parent\`, \`position\`, \`rotation\`, \`scale\`];
 class Node {
@@ -456,19 +473,30 @@ function randHex() {
 const n = randInt(16);
 return n < 10 ? String(n) : String.fromCharCode(45 + n);
 }
-class AudioElement extends Audio {
+function lerp(a, b, t) {
+return {
+x: a.x + (b.x - a.x) * t,
+y: a.y + (b.y - a.y) * t
+};
+}
+class AudioElement {
 static canPlay = false;
+audio;
 constructor({ path }) {
-super(file(path));
+this.audio = file(path);
 }
 play() {
 if (!AudioElement.canPlay)
 return;
-super.currentTime = 0;
-super.play();
+this.audio.currentTime = 0;
+this.audio.play();
+}
+stop() {
+this.audio.pause();
 }
 }
 async function run() {
+await loadAssets();
 scene.load("REPLACE_PATH_TO_MAIN_SCENE");
 requestAnimationFrame(render);
 let timer = performance.now();
@@ -495,6 +523,34 @@ Timer.reset();
 }
 await wait();
 }
+}
+async function loadAssets() {
+const toLoad = assetsToLoad(files);
+await Promise.allSettled(Object.values(toLoad));
+}
+function assetsToLoad(obj) {
+const toLoad = [];
+for (const [key, value] of Object.entries(obj)) {
+if (typeof value === \`object\`)
+toLoad.push(...assetsToLoad(value));
+else if (typeof value === \`string\`) {
+if (value.startsWith(\`data:image/\`)) {
+toLoad.push(new Promise((resolve) => {
+const img = new Image;
+img.src = value;
+img.onload = () => {
+img.onload = null;
+obj[key] = img;
+resolve();
+};
+}));
+} else if (value.startsWith(\`data:audio/\`)) {
+obj[key] = new Audio(value);
+obj[key].onload = null;
+}
+}
+}
+return toLoad;
 }
 function update() {
 updateTimer.measure({ Physics: updatePhysics, Nodes: updateNodes });

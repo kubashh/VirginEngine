@@ -57,7 +57,7 @@ const filesTemplate: Any = {
       // camera: { scale: 1, aspectRatio: 1, x: 0, y: 0 },
       Parent: defaultNode({
         start: `function() {
-  for(let i = 0; i < 1000; i++)
+  for(let i = 0; i < 10; i++)
     this.parent.Child.clone()
 }`,
       }),

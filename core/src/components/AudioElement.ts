@@ -1,16 +1,21 @@
 import { file } from "../util/basicFunctions"
 
-export default class AudioElement extends Audio implements TAudio {
+export default class AudioElement implements TAudio {
   static canPlay = false
+  private audio: HTMLAudioElement
 
   constructor({ path }: AudioProps) {
-    super(file(path))
+    this.audio = file(path)
   }
 
-  override play(): any {
+  play() {
     if (!AudioElement.canPlay) return
 
-    super.currentTime = 0
-    super.play()
+    this.audio.currentTime = 0
+    this.audio.play()
+  }
+
+  stop() {
+    this.audio.pause()
   }
 }

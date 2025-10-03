@@ -1,9 +1,10 @@
 import { Timer } from "../values/classes"
-import { ctx, events, nodes, Log, scene } from "../values/consts"
+import { ctx, events, nodes, Log, scene, files } from "../values/consts"
 import { drawText, wait } from "./basicFunctions"
 
 // Run
 export async function run() {
+  await loadAssets()
   scene.load("REPLACE_PATH_TO_MAIN_SCENE" as any)
 
   requestAnimationFrame(render)
@@ -35,6 +36,40 @@ export async function run() {
 
     await wait()
   }
+}
+
+async function loadAssets() {
+  const toLoad = assetsToLoad(files)
+
+  await Promise.allSettled(Object.values(toLoad))
+}
+
+function assetsToLoad(obj: TObj<any>) {
+  const toLoad: Promise<void>[] = []
+
+  for (const [key, value] of Object.entries(obj)) {
+    if (typeof value === `object`) toLoad.push(...assetsToLoad(value))
+    else if (typeof value === `string`) {
+      if (value.startsWith(`data:image/`)) {
+        toLoad.push(
+          new Promise((resolve) => {
+            const img = new Image()
+            img.src = value
+            img.onload = () => {
+              img.onload = null
+              obj[key] = img
+              resolve()
+            }
+          })
+        )
+      } else if (value.startsWith(`data:audio/`)) {
+        obj[key] = new Audio(value)
+        obj[key].onload = null
+      }
+    }
+  }
+
+  return toLoad
 }
 
 // Update

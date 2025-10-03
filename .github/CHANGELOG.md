@@ -4,25 +4,11 @@
 
 ### Core
 
-- Scene.loaded (if all images and audio loaded run scene)
-
-```ts
-async function loadAssets() {
-  const { resolve, promise } = Promise.withResolves()
-
-  for (const e of scene.toLoaded) await a // all images/audio
-
-  await promise
-
-  // or
-
-  await Promise.allSettled(scene.toLoaded)
-}
-```
-
 - Sprite.color
 - run() `delta += (now - scene.lastTime) / scene.ms` to `... * scene.sth` (performance)
-- scene.load => run
+- Animation.start()
+- Animation.stop()
+- Animation.frames = []
 
 ### Editor (src)
 
@@ -30,23 +16,28 @@ async function loadAssets() {
 - jsCode.Image.quality: number (0-1)
 - jsCode.Audio.quality: number (0-1)
 - Drag Nodes to files, files to Nodes
-- Docs in .md + .md to html
 - typed Enum<`string` | `number`>; in build get value
 - Node.rect can contains only Node.rect
 - Node.rect.{x,y} as Enum<number>
-- create VE icon
+- PathInput (for paths, better optymalization for not use file() while running)
 
 ### VirginEngine
 
 - VirginEngine to npmjs.com
-- VirginEngine/docs
-- VirginEngine/releases
+- VirginEngine/docs (.md)
+- VirginEngine/releases (.md)
+- VirginEngine/wdwh add .md imports for creating html or static pages
 
 <br />
 
-## 0.21.1 | 0.22.0 | 1.0.0 (in pending)
+## 0.22.0.dev (in development)
 
 - more strict typescript rules
+- create VE icon (instead of old DE (Death Engine))
+- Physics.addForce() works
+- add core.lerp()
+- wait to load assets before run scene
+- Image optymalizations
 
 ## 0.21.0
 

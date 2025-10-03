@@ -1,37 +1,38 @@
 import { Camera, ctx } from "../values/consts"
 import { file } from "../util/basicFunctions"
 
-export default class Sprite extends Image implements TSprite {
+export default class Sprite implements TSprite {
   private node
-  private staticDrawProps = {} as XY
+  private staticDrawProps = { x: 0, y: 0 } as XY
+  img: HTMLImageElement
 
   path
   w = 0
   h = 0
 
   constructor({ path }: SpriteProps, node: TNode) {
-    super()
-
     this.node = node
-    this.src = file(path)
+    this.img = file(path)
     this.path = path
-    this.onload = this.reload
-    this.resize()
+    this.reload()
   }
 
   reload() {
-    resizeImage(this, this.node.scale)
-    this.onload = this.resize
+    if (this.node.scale.x !== 1 && this.node.scale.y !== 1) {
+      this.img = this.img.cloneNode() as any
+      resizeImage(this.img, this.node.scale)
+      this.img.onload = () => this.resize()
+    } else this.resize()
   }
 
   resize() {
     this.staticDrawProps = {
-      x: Camera.xOffset - this.width * 0.5,
-      y: Camera.yOffset - this.height * 0.5,
+      x: Camera.xOffset - this.img.width * 0.5,
+      y: Camera.yOffset - this.img.height * 0.5,
     }
 
-    this.w = this.width * this.node.scale.x
-    this.h = this.height * this.node.scale.x
+    this.w = this.img.width * this.node.scale.x
+    this.h = this.img.height * this.node.scale.x
   }
 
   render() {
@@ -43,7 +44,7 @@ export default class Sprite extends Image implements TSprite {
       0 < y + this.h &&
       y - this.h < 2 * Camera.yOffset
     )
-      ctx.drawImage(this, x, y)
+      ctx.drawImage(this.img, x, y)
   }
 
   get props() {
