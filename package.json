@@ -1,5 +1,5 @@
 {
-  "version": "0.22.0.dev",
+  "version": "0.22.0-dev.1",
   "private": true,
   "scripts": {
     "dev": "bun core/build.ts && wdwh dev",
