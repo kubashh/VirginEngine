@@ -40,6 +40,4 @@ function randColor(): string
 
 ## Editor
 
-### Config
-
-[Here](https://github.com/VirginEngine/docs?tab=readme-ov-file#config)
+### Config [Docs](https://github.com/VirginEngine/docs?tab=readme-ov-file#config)

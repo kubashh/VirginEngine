@@ -48,7 +48,7 @@ const scriptTypes: Any = {
   boolean: [false, TypeInput],
   number: [0, TypeInput],
   string: [`""`, TypeInput],
-  array: [`[12, 43, "foo"]`, AdvancedInput, `[`, `]`],
+  array: [`[]`, AdvancedInput, `[`, `]`],
   object: [`{}`, AdvancedInput, `{`, `}`],
   function: [`function() {}`, AdvancedInput, `function(`, `) {`, `}`],
 }

@@ -260,6 +260,7 @@ name = \`\${name.slice(0, -5)}\${randStr(5)}\`;
 }
 const newNode = new Node({ ...this.props, parent }, name);
 newNode.start?.bind(newNode)();
+return newNode;
 }
 destroy() {
 for (const child of this.childs)

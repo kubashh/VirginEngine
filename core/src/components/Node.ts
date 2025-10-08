@@ -162,7 +162,7 @@ export default class Node implements TNode {
     this.sprite?.reload()
   }
 
-  clone(parent = this.parent) {
+  clone(parent = this.parent): TNode {
     let name = this.name
     while (parent[name]) {
       name = `${name.slice(0, -5)}${randStr(5)}`
@@ -170,6 +170,8 @@ export default class Node implements TNode {
 
     const newNode = new Node({ ...this.props, parent }, name)
     newNode.start?.bind(newNode)()
+
+    return newNode
   }
 
   destroy() {

@@ -8,7 +8,7 @@ import { Enum } from "../../inspector/typeInput/EnumInput"
 
 const text = [{ value: ``, color: `white` }, [`rect`], []]
 const rect = [{ x: Enum(0, -1, 0, 1), y: Enum(0, -1, 0, 1) }, [], [`text`]]
-const sprite = [{ color: ``, path: `files.Assets.BoxImage` }, [], []]
+const sprite = [{ color: ``, path: `files.Assets.Images.BoxImage` }, [], []]
 const physics = [{ gravity: true }, [], []]
 const audio = [{ path: `` }, [], []]
 
