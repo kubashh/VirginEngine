@@ -4,7 +4,7 @@
 
 ### Core
 
-- Sprite.color
+- if Sprite.color draw box on canvas
 - run() `delta += (now - scene.lastTime) / scene.ms` to `... * scene.sth` (performance)
 - Animation.start()
 - Animation.stop()
