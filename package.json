@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "dev": "bun core/build.ts && wdwh dev",
-    "build": "bun core/build.ts && wdwh build"
+    "build": "NODE_ENV=production bun core/build.ts && wdwh build"
   },
   "dependencies": {
     "wdwh": "latest",

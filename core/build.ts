@@ -3,6 +3,10 @@ async function buildCore() {
     entrypoints: [`./core/src/core.ts`],
     outdir: `.`,
     naming: `./src/build/core.ts`,
+    minify: process.env.NODE_ENV === `production` && {
+      whitespace: true,
+      syntax: true,
+    },
   })
 
   const js = encode(
@@ -33,5 +37,3 @@ function encode(s: string) {
 }
 
 await buildCore()
-
-export {}
