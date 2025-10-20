@@ -1,19 +1,19 @@
 {
-  "version": "0.22.0-dev.1",
+  "version": "0.22.0-dev",
   "private": true,
   "scripts": {
     "dev": "bun core/build.ts && wdwh dev",
     "build": "NODE_ENV=production bun core/build.ts && wdwh build"
   },
   "dependencies": {
-    "wdwh": "latest",
     "clsx": "latest",
     "terser": "latest"
   },
   "devDependencies": {
     "@types/react": "latest",
     "@types/react-dom": "latest",
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "wdwh": "latest"
   },
   "prettier": {
     "semi": false,

@@ -1,4 +1,4 @@
-/// <reference path="../../node_modules/@virgin-engine/wdwh/index.d.ts" />
+/// <reference path="../../node_modules/wdwh/index.d.ts" />
 
 import App from "./App"
 
