@@ -1,7 +1,7 @@
 export default function EnumInput<T>({ sig, type }: { sig: Signal<TEnum<T>>; type?: string }) {
   return (
     <select
-      className="w-full border-b-1 border-zinc-400 accent-green-600"
+      className="w-full border-b border-zinc-400 accent-green-600"
       defaultValue={sig.value.selected as string}
       onChange={({ target }) => {
         sig.value.selected = type === `number` ? (Number(target.value) as any) : target.value

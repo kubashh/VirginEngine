@@ -1,5 +1,5 @@
+import { type Signal, useSignal } from "@kubashh/signal"
 import { numbers } from "../../lib/consts"
-import { type Signal, useSignal } from "../../lib/signals"
 
 export default function NumberInput({ sig }: { sig: Signal<number> }) {
   const buf = useSignal(String(sig.value))
@@ -7,7 +7,7 @@ export default function NumberInput({ sig }: { sig: Signal<number> }) {
   return (
     <input
       type="text"
-      className="w-full border-b-1 border-zinc-400 accent-green-600"
+      className="w-full border-b border-zinc-400 accent-green-600"
       value={buf.value}
       onChange={({ target: { value } }) => {
         let dot = false

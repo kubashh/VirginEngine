@@ -32,7 +32,7 @@ export default function Inspector() {
   return (
     <Window
       name="Inspenctor"
-      className="row-span-2 w-(--w3) border-l-1 border-zinc-400"
+      className="row-span-2 w-(--w3) border-l border-zinc-400"
       headerOptions={editorOpctions}
     >
       <div className="p-2 overflow-y-scroll">

@@ -16,7 +16,7 @@ function DocsContent() {
 
 export default function Docs() {
   return (
-    <Window name="Docs" className="row-span-2 w-(--w1) border-r-1 border-zinc-400">
+    <Window name="Docs" className="row-span-2 w-(--w1) border-r border-zinc-400">
       <DocsContent />
     </Window>
   )

@@ -1,4 +1,4 @@
-import { type Signal } from "../../lib/signals"
+import { type Signal } from "@kubashh/signal"
 
 export default function BooleanInput({ sig }: { sig: Signal<boolean> }) {
   return (
