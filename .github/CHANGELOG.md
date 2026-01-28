@@ -9,6 +9,7 @@
 - Animation.start()
 - Animation.stop()
 - Animation.frames = []
+- Collider.collide() // polygon
 
 ### Editor (src)
 
@@ -27,7 +28,7 @@
 
 <br />
 
-## 0.22.0.dev (in development)
+## 0.22.0-dev (in development)
 
 - more strict typescript rules
 - create VE icon (instead of old DE (Death Engine))
@@ -37,6 +38,7 @@
 - Image optymalizations
 - src.Node.rect.{x,y} as Enum<number>
 - typed Enum<`string` | `number`>
+- implement `@kubashh/signal` => less code in codespace
 
 ## 0.21.0
 

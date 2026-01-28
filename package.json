@@ -1,6 +1,6 @@
 {
   "version": "0.22.0-dev",
-  "private": true,
+  "license": "MIT",
   "scripts": {
     "dev": "bun core/build.ts && wdwh dev",
     "build": "NODE_ENV=production bun core/build.ts && wdwh build"
@@ -10,14 +10,12 @@
     "terser": "latest"
   },
   "devDependencies": {
-    "@types/react": "latest",
-    "@types/react-dom": "latest",
+    "@kubashh/signal": "latest",
     "@types/bun": "latest",
     "wdwh": "latest"
   },
   "prettier": {
     "semi": false,
     "printWidth": 108
-  },
-  "license": "MIT"
+  }
 }

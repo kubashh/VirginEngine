@@ -1,6 +1,6 @@
 import clsx from "clsx"
+import { useSignal } from "@kubashh/signal"
 import Window from "../components/Window"
-import { useSignal } from "../lib/signals"
 import { testScene } from "../lib/consts"
 import { test } from "../build/build"
 
@@ -31,7 +31,7 @@ export default function Test() {
       <div className="flex justify-center bg-zinc-950">
         <iframe
           title="scene"
-          className={clsx(`box-content border-x-1 border-zinc-400`, aspectRatio.value)}
+          className={clsx(`box-content border-x border-zinc-400`, aspectRatio.value)}
           srcDoc={testScene.value}
         />
       </div>

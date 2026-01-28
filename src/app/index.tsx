@@ -2,9 +2,12 @@
 
 import App from "./App"
 
-export const config: Config = {
+export const config: WdwhConfig = {
   outdir: `./dist`,
   bundleCss: true,
+  // hashFiles: false,
+  cleanPrev: true,
+  // external: [],
 }
 
 export const metadata: Metadata = {
