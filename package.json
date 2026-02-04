@@ -6,13 +6,13 @@
     "build": "NODE_ENV=production bun core/build.ts && wdwh build"
   },
   "dependencies": {
-    "clsx": "latest",
-    "terser": "latest"
+    "clsx": "^2.1.1",
+    "terser": "^5.46.0"
   },
   "devDependencies": {
-    "@kubashh/signal": "latest",
-    "@types/bun": "latest",
-    "wdwh": "latest"
+    "@kubashh/signal": "^1.1.1",
+    "@types/bun": "^1.3.8",
+    "wdwh": "^1.8.0"
   },
   "prettier": {
     "semi": false,
