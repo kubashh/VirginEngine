@@ -4,7 +4,7 @@ Simple JS game engine for web games
 
 ## Engine
 
-### Components [Docs](https://github.com/VirginEngine/docs?tab=readme-ov-file#components)
+### Components
 
 - `Node` (GameObject, 90% done)
 - `Animation` (1% done)

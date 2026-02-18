@@ -58,7 +58,7 @@ function assetsToLoad(obj: TObj<any>) {
               obj[key] = img
               resolve()
             }
-          })
+          }),
         )
       } else if (value.startsWith(`data:audio/`)) {
         obj[key] = new Audio(value)

@@ -1,3 +1,5 @@
+/// <reference types="bun-types" />
+
 const { outputs } = await Bun.build({
   entrypoints: [`./core/src/core.ts`],
   outdir: `.`,
@@ -13,8 +15,8 @@ const js = encode(
     (await outputs[0].text())
       .split(`\n`)
       .filter((line) => !line.startsWith("console.log(`Engine:"))
-      .join(`\n`)
-  )
+      .join(`\n`),
+  ),
 )
 
 const outText = `export const core = \`${js}\``

@@ -4,7 +4,7 @@ import { type Signal, useSignal } from "@kubashh/signal"
 export function useArrow(
   main = false,
   haveChilds = true,
-  src?: string
+  src?: string,
 ): [React.ReactNode, Signal<boolean>] {
   const open = useSignal(main)
 

@@ -18,7 +18,7 @@ export default class Physics implements TPhysics {
         (this.target = {
           x: node.position.x,
           y: node.position.y,
-        })
+        }),
     )
   }
 

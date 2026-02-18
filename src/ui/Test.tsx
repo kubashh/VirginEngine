@@ -19,7 +19,7 @@ export default function Test() {
       headerOptions={{
         ...Object.entries(opctions).reduce(
           (old, [key, value]) => ({ ...old, [key]: () => (aspectRatio.value = value) }),
-          {}
+          {},
         ),
         Restart: () => {
           testScene.value = `.`

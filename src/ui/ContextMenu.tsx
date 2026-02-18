@@ -32,7 +32,7 @@ export default function ContextMenu() {
             }}
             children={text}
           />
-        ) : null
+        ) : null,
       )}
     </div>
   ) : null

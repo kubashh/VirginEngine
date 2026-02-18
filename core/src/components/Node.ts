@@ -49,7 +49,7 @@ export default class Node implements TNode {
       render,
       ...rest
     }: NodeProps,
-    name: string
+    name: string,
   ) {
     nodes.push(this)
 
@@ -74,8 +74,8 @@ export default class Node implements TNode {
       ;(this as TNode)[key] = isChildKey(key)
         ? new Node({ ...rest[key], parent: this }, key)
         : typeof rest[key] === `function`
-        ? rest[key].bind(this)
-        : rest[key]
+          ? rest[key].bind(this)
+          : rest[key]
     }
 
     if (start) this.start = start
@@ -86,7 +86,7 @@ export default class Node implements TNode {
   get childs(): TNode[] {
     return Object.keys(this).reduce(
       (prev, key) => (isChildKey(key) ? [...prev, (this as TNode)[key]] : prev),
-      [] as TNode[]
+      [] as TNode[],
     )
   }
 
