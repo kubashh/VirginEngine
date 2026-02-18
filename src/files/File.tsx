@@ -95,7 +95,7 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
       ([key, value]) =>
         isFirstUpperCase(key) && (
           <File old={file} file={value} name={key} key={key} deep={deep + 1} path={path} />
-        )
+        ),
     )
 
   return FileElement({

@@ -86,12 +86,12 @@ export class Timer {
   reset() {
     const obj = Object.entries(this.timers).reduce(
       (prev, [key, v]) => ({ ...prev, [key]: (prev[key] || 0) + v }),
-      {} as TObj<number>
+      {} as TObj<number>,
     )
 
     const all = Object.values(obj).reduce((prev, v) => prev + v, 0)
     this.allFormatted = Object.entries(obj).map(
-      ([key, value]) => `${key}: ${((value * 100) / all || 0).toFixed(2)}%`
+      ([key, value]) => `${key}: ${((value * 100) / all || 0).toFixed(2)}%`,
     )
 
     this.timers = {}

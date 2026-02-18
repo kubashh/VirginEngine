@@ -65,9 +65,12 @@ function filesToString(data: Any, name?: string, type?: string): (string | Promi
     `{`,
     ...Object.keys(data)
       .filter((key) => key !== `type`)
-      .reduce((prev, key) => {
-        return [...prev, `${key}:`, ...filesToString(data[key], key, data.type), `,`]
-      }, [] as (string | Promise<string>)[])
+      .reduce(
+        (prev, key) => {
+          return [...prev, `${key}:`, ...filesToString(data[key], key, data.type), `,`]
+        },
+        [] as (string | Promise<string>)[],
+      )
       .slice(0, -1),
     `}`,
   ]
@@ -86,15 +89,15 @@ function replacePerformanceInfo(core: string) {
 drawText({ text, ...props });
 props.y += 18;
 }`,
-      ``
+      ``,
     )
     .replaceAll(
       `renderTimer.measure({ Sprite: renderSprite, Text: renderText });`,
-      `renderSprite();renderText();`
+      `renderSprite();renderText();`,
     )
     .replaceAll(
       `updateTimer.measure({ Physics: updatePhysics, Nodes: updateNodes });`,
-      `updatePhysics();updateNodes();`
+      `updatePhysics();updateNodes();`,
     )
     .replaceAll(`Timer.reset();`, ``)
     .replaceAll(`drawPerformanceInfo();`, ``)

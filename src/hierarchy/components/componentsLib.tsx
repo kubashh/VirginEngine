@@ -75,7 +75,7 @@ function toChilds(object: Any, name: string, obj: Any) {
         access: e,
       },
     ],
-    [] as { object: Any; access: string }[]
+    [] as { object: Any; access: string }[],
   )
 }
 

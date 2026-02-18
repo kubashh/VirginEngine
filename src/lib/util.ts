@@ -38,7 +38,7 @@ export function addSpaceBeforeUpper(text: string) {
     .split(``)
     .reduce(
       (prev, char) => `${prev}${char === char.toUpperCase() ? ` ` : ``}${char}`,
-      text[0].toUpperCase()
+      text[0].toUpperCase(),
     )
 }
 
