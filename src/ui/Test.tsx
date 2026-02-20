@@ -1,5 +1,5 @@
 import clsx from "clsx"
-import { useSignal } from "@kubashh/signal"
+import { useSignal } from "wdwh/signal"
 import Window from "../components/Window"
 import { testScene } from "../lib/consts"
 import { test } from "../build/build"

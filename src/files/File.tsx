@@ -1,4 +1,4 @@
-import { useSignal } from "@kubashh/signal"
+import { useSignal } from "wdwh/signal"
 import FileElement from "../components/FileElement"
 import ImageGrabber from "../components/ImageGrabber"
 import AudioGrabber from "../components/AudioGrabber"

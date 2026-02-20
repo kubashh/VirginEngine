@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { type Signal, useSignal } from "@kubashh/signal"
+import { type Signal, useSignal } from "wdwh/signal"
 
 export function useArrow(
   main = false,
