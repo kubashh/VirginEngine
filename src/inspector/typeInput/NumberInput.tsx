@@ -1,4 +1,4 @@
-import { type Signal, useSignal } from "@kubashh/signal"
+import { type Signal, useSignal } from "wdwh/signal"
 import { numbers } from "../../lib/consts"
 
 export default function NumberInput({ sig }: { sig: Signal<number> }) {

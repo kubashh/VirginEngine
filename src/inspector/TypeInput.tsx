@@ -1,4 +1,4 @@
-import { type Signal, useSignal } from "@kubashh/signal"
+import { type Signal, useSignal } from "wdwh/signal"
 import BooleanInput from "./typeInput/BooleanInput"
 import NumberInput from "./typeInput/NumberInput"
 import StringInput from "./typeInput/StringInput"

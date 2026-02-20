@@ -1,6 +1,6 @@
 # VirginEngine
 
-Simple JS game engine for web games
+Simple JS game engine for 2D web games
 
 ## Engine
 

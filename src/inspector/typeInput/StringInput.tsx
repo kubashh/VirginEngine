@@ -1,4 +1,4 @@
-import { type Signal } from "@kubashh/signal"
+import { type Signal } from "wdwh/signal"
 
 export default function StringInput({ sig }: { sig: Signal<string> }) {
   return (

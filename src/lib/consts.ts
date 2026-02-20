@@ -1,4 +1,4 @@
-import { signal } from "@kubashh/signal"
+import { signal } from "wdwh/signal"
 import { Enum } from "../inspector/typeInput/EnumInput"
 import { deepCopy, defaultNode, saveProject } from "./util"
 
