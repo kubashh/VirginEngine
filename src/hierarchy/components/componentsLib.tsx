@@ -1,9 +1,9 @@
+import { useRefresh } from "wdwh/hooks"
 import InspectorSection from "../../inspector/InspectorSection"
 import Script from "./Script"
 import Transform from "./Transform"
 import { inspector } from "../../lib/consts"
 import { capitalize, deepCopy } from "../../lib/util"
-import { useRefresh } from "../../lib/hooks"
 import { Enum } from "../../inspector/typeInput/EnumInput"
 
 const text = [{ value: ``, color: `white` }, [`rect`], []]
