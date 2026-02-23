@@ -1,4 +1,3 @@
-import { useState } from "react"
 import { type Signal, useSignal } from "wdwh/signal"
 
 export function useArrow(
@@ -21,13 +20,4 @@ export function useArrow(
     />,
     open,
   ]
-}
-
-export function useRefresh() {
-  const f = useState(false)[1]
-  return () => f((prev) => !prev)
-}
-
-export function useConst(value: any) {
-  return useState(value)[0]
 }

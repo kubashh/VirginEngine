@@ -1,13 +1,12 @@
-/// <reference path="../../node_modules/wdwh/index.d.ts" />
+/// <reference path="../../node_modules/wdwh/config.d.ts" />
 
 import App from "./App"
 
 export const config: WdwhConfig = {
   outdir: `./dist`,
   bundleCss: true,
-  // hashFiles: false,
+  hashFiles: true,
   cleanPrev: true,
-  // external: [],
 }
 
 export const metadata: Metadata = {
