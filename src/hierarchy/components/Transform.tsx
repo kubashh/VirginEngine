@@ -1,4 +1,4 @@
-import InspectorSection from "../../inspector/InspectorSection"
+import InspectorSection from "../../inspector/InspectorSection";
 
 export default function Transform({ object }: TransformProps) {
   return (
@@ -19,5 +19,5 @@ export default function Transform({ object }: TransformProps) {
         ]}
       />
     </>
-  )
+  );
 }

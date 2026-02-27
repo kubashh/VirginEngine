@@ -1,21 +1,21 @@
-import { file } from "../util/basicFunctions"
+import { file } from "../util/basicFunctions";
 
 export default class AudioElement implements TAudio {
-  static canPlay = false
-  private audio: HTMLAudioElement
+  static canPlay = false;
+  private audio: HTMLAudioElement;
 
   constructor({ path }: AudioProps) {
-    this.audio = file(path)
+    this.audio = file(path);
   }
 
   play() {
-    if (!AudioElement.canPlay) return
+    if (!AudioElement.canPlay) return;
 
-    this.audio.currentTime = 0
-    this.audio.play()
+    this.audio.currentTime = 0;
+    this.audio.play();
   }
 
   stop() {
-    this.audio.pause()
+    this.audio.pause();
   }
 }

@@ -4,7 +4,7 @@ export default function EnumInput<T>({ sig, type }: { sig: Signal<TEnum<T>>; typ
       className="w-full border-b border-zinc-400 accent-green-600"
       defaultValue={sig.value.selected as string}
       onChange={({ target }) => {
-        sig.value.selected = type === `number` ? (Number(target.value) as any) : target.value
+        sig.value.selected = type === `number` ? (Number(target.value) as any) : target.value;
       }}
     >
       {sig.value.options.map((option) => (
@@ -13,7 +13,7 @@ export default function EnumInput<T>({ sig, type }: { sig: Signal<TEnum<T>>; typ
         </option>
       ))}
     </select>
-  )
+  );
 }
 
 export function Enum<T>(defvalue: T, ...options: T[]): TEnum<T> {
@@ -21,5 +21,5 @@ export function Enum<T>(defvalue: T, ...options: T[]): TEnum<T> {
     type: `enum`,
     options,
     selected: defvalue,
-  }
+  };
 }

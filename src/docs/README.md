@@ -14,106 +14,106 @@
 
 ```ts
 type TNode = {
-  parent: TNode
-  name: string
+  parent: TNode;
+  name: string;
 
-  start?: Void
-  update?: Void
-  render?: Void
+  start?: Void;
+  update?: Void;
+  render?: Void;
 
-  position: XY
-  rotation: number
-  scale: XY
-  rect?: XY
+  position: XY;
+  rotation: number;
+  scale: XY;
+  rect?: XY;
 
-  text?: TText
-  sprite?: TSprite
-  physics?: TPhysics
-  animation?: TAnimation
-  audio?: TAudio
+  text?: TText;
+  sprite?: TSprite;
+  physics?: TPhysics;
+  animation?: TAnimation;
+  audio?: TAudio;
 
-  childs: TNode[]
-  props: any
-  clone: Void
-  destroy: Void
+  childs: TNode[];
+  props: any;
+  clone: Void;
+  destroy: Void;
 
-  [key: string]: any
-}
+  [key: string]: any;
+};
 
 type TText = {
-  value: string
-  color: string
+  value: string;
+  color: string;
 
-  textBaseline?: string
-  textAlign?: string
+  textBaseline?: string;
+  textAlign?: string;
 
-  render: Void
+  render: Void;
 
   props: {
-    value: string
-  }
-}
+    value: string;
+  };
+};
 
 type TSprite = {
-  path: string
+  path: string;
 
-  reload: Void
-  resize: Void
-  render: Void
+  reload: Void;
+  resize: Void;
+  render: Void;
   props: {
-    path: string
-  }
-}
+    path: string;
+  };
+};
 
 type TPhysics = {
-  velocity: XY
-  gravity: boolean
+  velocity: XY;
+  gravity: boolean;
 
-  update: Void
-  AddForce: (force: XY) => void
-}
+  update: Void;
+  AddForce: (force: XY) => void;
+};
 
-type TCollider = {}
+type TCollider = {};
 
-type TAnimation = {}
+type TAnimation = {};
 
 type TAudio = {
-  play: Void
-  pause: Void
-}
+  play: Void;
+  pause: Void;
+};
 
 type TScene = {
-  camera: XY
+  camera: XY;
 
-  load: (newScene: { name: string; [key: string]: any }) => void
-  close: Void
+  load: (newScene: { name: string; [key: string]: any }) => void;
+  close: Void;
 
-  [key: string]: any
-}
+  [key: string]: any;
+};
 ```
 
 ### Objects
 
 ```ts
 type scene = {
-  camera: XY
+  camera: XY;
 
-  load(newScene: SceneProps): void
+  load(newScene: SceneProps): void;
 
-  [key: string]: any
-}
+  [key: string]: any;
+};
 ```
 
 ### Util
 
 ```ts
-function wait(time?: number | undefined): Promise<void>
-function deepCopy<T>(data: T): T
-function file(path: string): any
-function randInt(min: number, max?: number | undefined): number
-function rand(min?: number, max?: number | undefined): number
-function randStr(n?: number): string
-function randColor(): string
+function wait(time?: number | undefined): Promise<void>;
+function deepCopy<T>(data: T): T;
+function file(path: string): any;
+function randInt(min: number, max?: number | undefined): number;
+function rand(min?: number, max?: number | undefined): number;
+function randStr(n?: number): string;
+function randColor(): string;
 ```
 
 ## Editor
@@ -122,12 +122,12 @@ function randColor(): string
 
 ```ts
 type config = {
-  gameName: string
-  version: string
-  author: string
-  description: string
-  fullScreen: boolean
-  pathToMainScene: string
-  performanceInfo: TEnum
-}
+  gameName: string;
+  version: string;
+  author: string;
+  description: string;
+  fullScreen: boolean;
+  pathToMainScene: string;
+  performanceInfo: TEnum;
+};
 ```

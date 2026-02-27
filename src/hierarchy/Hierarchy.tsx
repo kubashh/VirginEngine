@@ -1,13 +1,13 @@
-import Window from "../components/Window"
-import Node from "./Node"
-import { currentScene, files, inspector } from "../lib/consts"
+import Window from "../components/Window";
+import Node from "./Node";
+import { currentScene, files, inspector } from "../lib/consts";
 
 function HierarchyComponent() {
-  currentScene.bind(() => (inspector.value = null))
+  currentScene.bind(() => (inspector.value = null));
 
   return (
     <Node object={currentScene.value} old={files.value.Scenes} name={currentScene.value.name} deep={0} />
-  )
+  );
 }
 
 export default function Hierarchy() {
@@ -17,5 +17,5 @@ export default function Hierarchy() {
         <HierarchyComponent />
       </div>
     </Window>
-  )
+  );
 }

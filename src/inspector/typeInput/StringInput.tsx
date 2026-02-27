@@ -1,4 +1,4 @@
-import { type Signal } from "wdwh/signal"
+import { type Signal } from "wdwh/signal";
 
 export default function StringInput({ sig }: { sig: Signal<string> }) {
   return (
@@ -8,5 +8,5 @@ export default function StringInput({ sig }: { sig: Signal<string> }) {
       value={sig.value}
       onChange={({ target }) => (sig.value = target.value)}
     />
-  )
+  );
 }

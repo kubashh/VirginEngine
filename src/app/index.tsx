@@ -1,19 +1,11 @@
-/// <reference path="../../node_modules/wdwh/config.d.ts" />
-
-import App from "./App"
-
-export const config: WdwhConfig = {
-  outdir: `./dist`,
-  bundleCss: true,
-  hashFiles: true,
-  cleanPrev: true,
-}
+import { type Metadata } from "wdwh";
+import App from "./App";
 
 export const metadata: Metadata = {
   iconPath: `./icon.png`,
   title: `VirginEngine`,
   description: `VirginEngine simple game engine`,
-}
+};
 
 export default function Page() {
   return (
@@ -23,5 +15,5 @@ export default function Page() {
         <App />
       </body>
     </html>
-  )
+  );
 }

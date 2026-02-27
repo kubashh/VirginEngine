@@ -1,7 +1,7 @@
 export default class Collider implements TCollider {
-  private node
+  private node;
 
   constructor(props: ColliderProps, node: TNode) {
-    this.node = node
+    this.node = node;
   }
 }

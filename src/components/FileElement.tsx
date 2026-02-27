@@ -7,5 +7,5 @@ export default function FileElement({ deep, arrow, name, childsElement, ...rest 
       </div>
       {childsElement}
     </>
-  )
+  );
 }

@@ -1,5 +1,5 @@
-import { config } from "../lib/consts"
-import { jsCode } from "./jsCode"
+import { config } from "../lib/consts";
+import { jsCode } from "./jsCode";
 
 function minifyHtml(text: string) {
   return text
@@ -12,7 +12,7 @@ function minifyHtml(text: string) {
     .replaceAll(/ { | {|{ /g, `{`)
     .replaceAll(/ } | }|} /g, `}`)
     .replaceAll(/ " | "|" /g, `"`)
-    .replaceAll(/ , | ,|, /g, `,`)
+    .replaceAll(/ , | ,|, /g, `,`);
 }
 
 const html = minifyHtml(`
@@ -45,12 +45,12 @@ const html = minifyHtml(`
     </script>
   </body>
 </html>
-`)
+`);
 
 export async function htmlCode(production?: boolean) {
   return html
     .replaceAll(`AUTHOR`, config.author)
     .replaceAll(`DESCRIPTION`, config.description)
     .replaceAll(`GAME_NAME`, config.gameName)
-    .replaceAll(`SCRIPT`, await jsCode(production))
+    .replaceAll(`SCRIPT`, await jsCode(production));
 }

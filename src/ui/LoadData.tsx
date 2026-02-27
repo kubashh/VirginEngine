@@ -1,5 +1,5 @@
-import { setUp } from "../lib/consts"
-import { loadProject, openMainScene } from "../lib/util"
+import { setUp } from "../lib/consts";
+import { loadProject, openMainScene } from "../lib/util";
 
 function LoadDataButton(props: { value: string; onClick: React.MouseEventHandler }) {
   return (
@@ -8,16 +8,16 @@ function LoadDataButton(props: { value: string; onClick: React.MouseEventHandler
       type="button"
       {...props}
     />
-  )
+  );
 }
 
 export default function LoadData() {
-  setUp.bind()
+  setUp.bind();
 
   return !setUp.value ? (
     <div className="absolute z-1 w-screen h-screen flex flex-col justify-center bg-[#000a]">
       <LoadDataButton value="Load Project" onClick={loadProject} />
       <LoadDataButton value="New project" onClick={openMainScene} />
     </div>
-  ) : null
+  ) : null;
 }
