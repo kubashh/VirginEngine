@@ -1,4 +1,4 @@
-import { type Signal } from "wdwh/signal"
+import { type Signal } from "wdwh/signal";
 
 export default function BooleanInput({ sig }: { sig: Signal<boolean> }) {
   return (
@@ -8,5 +8,5 @@ export default function BooleanInput({ sig }: { sig: Signal<boolean> }) {
       checked={sig.value}
       onChange={({ target }) => (sig.value = target.checked)}
     />
-  )
+  );
 }

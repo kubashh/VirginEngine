@@ -1,4 +1,4 @@
-import FileGrabber from "./FileGrabber"
+import FileGrabber from "./FileGrabber";
 
 export default function ImageGrabber({ src, name }: ImageGrabberProps) {
   return (
@@ -9,17 +9,17 @@ export default function ImageGrabber({ src, name }: ImageGrabberProps) {
       img={<img className="h-6" src={src.value} />}
       onFile={async (file) => (src.value = await imgToSrc(file))}
     />
-  )
+  );
 }
 
 function imgToSrc(image: File) {
   return new Promise<string>((resolve) => {
-    const reader = new FileReader()
+    const reader = new FileReader();
 
     reader.onload = () => {
-      resolve(String(reader.result))
-    }
+      resolve(String(reader.result));
+    };
 
-    reader.readAsDataURL(image)
-  })
+    reader.readAsDataURL(image);
+  });
 }

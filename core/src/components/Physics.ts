@@ -1,17 +1,17 @@
-import { lerp } from "../util/basicFunctions"
+import { lerp } from "../util/basicFunctions";
 
 export default class Physics implements TPhysics {
-  static gravitySpeed = 0.6
+  static gravitySpeed = 0.6;
 
-  private node
+  private node;
 
-  velocity = 0
-  target = {} as XY
-  gravity
+  velocity = 0;
+  target = {} as XY;
+  gravity;
 
   constructor({ gravity }: PhysicsProps, node: TNode) {
-    this.gravity = gravity
-    this.node = node
+    this.gravity = gravity;
+    this.node = node;
 
     setTimeout(
       () =>
@@ -19,20 +19,20 @@ export default class Physics implements TPhysics {
           x: node.position.x,
           y: node.position.y,
         }),
-    )
+    );
   }
 
   update() {
     if (this.gravity) {
-      this.velocity -= Physics.gravitySpeed
-      this.target.y += this.velocity
+      this.velocity -= Physics.gravitySpeed;
+      this.target.y += this.velocity;
     }
 
-    this.node.position = lerp(this.node.position, this.target, 0.5)
+    this.node.position = lerp(this.node.position, this.target, 0.5);
   }
 
   addForce({ x, y }: XY) {
-    this.target.x += x
-    this.target.y += y
+    this.target.x += x;
+    this.target.y += y;
   }
 }

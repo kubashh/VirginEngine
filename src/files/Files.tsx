@@ -1,12 +1,12 @@
-import Window from "../components/Window"
-import File from "./File"
-import { files } from "../lib/consts"
+import Window from "../components/Window";
+import File from "./File";
+import { files } from "../lib/consts";
 
 const FilesComponent = () => {
-  files.bind()
+  files.bind();
 
-  return <File file={files.value} name="files" deep={0} old />
-}
+  return <File file={files.value} name="files" deep={0} old />;
+};
 
 export default function Files() {
   return (
@@ -15,5 +15,5 @@ export default function Files() {
         <FilesComponent />
       </div>
     </Window>
-  )
+  );
 }

@@ -1,10 +1,10 @@
-import { signal } from "wdwh/signal"
-import { Enum } from "../inspector/typeInput/EnumInput"
-import { deepCopy, defaultNode, saveProject } from "./util"
+import { signal } from "wdwh/signal";
+import { Enum } from "../inspector/typeInput/EnumInput";
+import { deepCopy, defaultNode, saveProject } from "./util";
 
-export const alphabet = `abcdefghijklmnoprqstuwxyz`
-export const numbers = `0123456789`
-export const allowedNameChars = `${alphabet}${numbers}_`
+export const alphabet = `abcdefghijklmnoprqstuwxyz`;
+export const numbers = `0123456789`;
+export const allowedNameChars = `${alphabet}${numbers}_`;
 
 export const keywords = [
   `type`,
@@ -17,7 +17,7 @@ export const keywords = [
   `sprite`,
   `physics`,
   `audio`,
-]
+];
 
 export const config = {
   gameName: `NameOfGame`,
@@ -27,7 +27,7 @@ export const config = {
   fullScreen: true,
   pathToMainScene: `files.Scenes.DefaultScene`,
   performanceInfo: Enum(`dev`, `yes`, `dev`, `no`),
-}
+};
 
 export const def = {
   img: {
@@ -40,7 +40,7 @@ export const def = {
     src: ``,
     quality: 1,
   },
-}
+};
 
 const filesTemplate: Any = {
   type: `folder`,
@@ -88,35 +88,35 @@ const filesTemplate: Any = {
       DAudio: deepCopy(def.audio),
     },
   },
-}
+};
 
 export const editor = {
   selectedElement: {
     type: ``,
     value: ``,
   },
-}
+};
 
-export const currentScene = signal<Any>(filesTemplate.Scenes.MainScene)
-export const inspector = signal<React.ReactNode>(null)
-export const nameInput = signal<[((arg: string) => void)?, string?, boolean?]>([])
-export const dragData = signal<Any | null>(null)
-export const testScene = signal(``)
-export const files = signal<Any>(filesTemplate)
-export const contextMenu = signal<[number?, number?, ...any]>([])
-export const setUp = signal(false)
+export const currentScene = signal<Any>(filesTemplate.Scenes.MainScene);
+export const inspector = signal<React.ReactNode>(null);
+export const nameInput = signal<[((arg: string) => void)?, string?, boolean?]>([]);
+export const dragData = signal<Any | null>(null);
+export const testScene = signal(``);
+export const files = signal<Any>(filesTemplate);
+export const contextMenu = signal<[number?, number?, ...any]>([]);
+export const setUp = signal(false);
 
 // Set global events
 
 function preventDefault(e: Event) {
-  e.preventDefault()
+  e.preventDefault();
 }
 
-window.addEventListener(`contextmenu`, preventDefault)
+window.addEventListener(`contextmenu`, preventDefault);
 
 window.addEventListener(`keydown`, (e) => {
   if (e.ctrlKey && e.key === `s`) {
-    e.preventDefault()
-    saveProject()
+    e.preventDefault();
+    saveProject();
   }
-})
+});

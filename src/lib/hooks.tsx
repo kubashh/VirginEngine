@@ -1,15 +1,15 @@
-import { type Signal, useSignal } from "wdwh/signal"
+import { type Signal, useSignal } from "wdwh/signal";
 
 export function useArrow(
   main = false,
   haveChilds = true,
   src?: string,
 ): [React.ReactNode, Signal<boolean>] {
-  const open = useSignal(main)
+  const open = useSignal(main);
 
-  if (src) return [<img className="w-6 max-h-6 p-0.5" src={src} />, open]
+  if (src) return [<img className="w-6 max-h-6 p-0.5" src={src} />, open];
 
-  if (!haveChilds) return [<div className="w-6 h-6" />, open]
+  if (!haveChilds) return [<div className="w-6 h-6" />, open];
 
   return [
     <div
@@ -19,5 +19,5 @@ export function useArrow(
       children=">"
     />,
     open,
-  ]
+  ];
 }

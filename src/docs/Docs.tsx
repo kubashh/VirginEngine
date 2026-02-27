@@ -1,4 +1,4 @@
-import Window from "../components/Window"
+import Window from "../components/Window";
 
 function DocsContent() {
   return (
@@ -11,7 +11,7 @@ function DocsContent() {
         https://github.com/kubashh/VirginEngine/blob/main/docs/README.md
       </a>
     </div>
-  )
+  );
 }
 
 export default function Docs() {
@@ -19,5 +19,5 @@ export default function Docs() {
     <Window name="Docs" className="row-span-2 w-(--w1) border-r border-zinc-400">
       <DocsContent />
     </Window>
-  )
+  );
 }

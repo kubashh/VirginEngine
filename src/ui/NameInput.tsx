@@ -1,48 +1,48 @@
-import { useEffect, useRef } from "react"
-import { nameInput } from "../lib/consts"
-import { capitalize, isValidName } from "../lib/util"
+import { useEffect, useRef } from "react";
+import { nameInput } from "../lib/consts";
+import { capitalize, isValidName } from "../lib/util";
 
 function useNameInput(ref: React.RefObject<HTMLInputElement | null>) {
-  nameInput.bind()
-  const [cb, text = ``, lowerCase = false] = nameInput.value
+  nameInput.bind();
+  const [cb, text = ``, lowerCase = false] = nameInput.value;
 
   const ret = () => {
     if (cb && isValidName(text)) {
-      cb(lowerCase ? `${text[0].toLowerCase()}${text.slice(1)}` : text)
+      cb(lowerCase ? `${text[0].toLowerCase()}${text.slice(1)}` : text);
     }
-    nameInput.value = []
-  }
+    nameInput.value = [];
+  };
 
   useEffect(() => {
-    if (!ref) return
+    if (!ref) return;
 
     function handler({ target }: MouseEvent) {
-      if (ref.current && !ref.current.contains(target as Node)) ret()
+      if (ref.current && !ref.current.contains(target as Node)) ret();
     }
 
-    document.addEventListener(`mousedown`, handler)
+    document.addEventListener(`mousedown`, handler);
 
-    return () => document.removeEventListener(`mousedown`, handler)
-  })
+    return () => document.removeEventListener(`mousedown`, handler);
+  });
 
   return cb
     ? {
         value: text,
         onChange: ({ target }: { target: { value: string } }) => {
-          const value = capitalize(target.value)
+          const value = capitalize(target.value);
 
-          if (!isValidName(value)) return
+          if (!isValidName(value)) return;
 
-          nameInput.value = [cb, value, lowerCase]
+          nameInput.value = [cb, value, lowerCase];
         },
         onKeyDown: ({ key }: React.KeyboardEvent<HTMLInputElement>) => key === `Enter` && ret(),
       }
-    : null
+    : null;
 }
 
 export default function NameInput() {
-  const ref = useRef<HTMLInputElement>(null)
-  const props = useNameInput(ref)
+  const ref = useRef<HTMLInputElement>(null);
+  const props = useNameInput(ref);
 
   return (
     props && (
@@ -54,5 +54,5 @@ export default function NameInput() {
         autoFocus
       />
     )
-  )
+  );
 }

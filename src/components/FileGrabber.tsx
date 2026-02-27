@@ -11,9 +11,9 @@ export default function FileGrabber({ label, name, accept, img, onFile }: FileGr
         id={name}
         accept={accept}
         onChange={({ target }) => {
-          if (target.files) onFile(target.files[0])
+          if (target.files) onFile(target.files[0]);
         }}
       />
     </div>
-  )
+  );
 }

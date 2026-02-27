@@ -1,4 +1,4 @@
-import clsx from "clsx"
+import clsx from "clsx";
 
 export default function Window({ name, headerOptions, className, children }: WindowProps) {
   return (
@@ -6,7 +6,7 @@ export default function Window({ name, headerOptions, className, children }: Win
       <Header name={name} options={headerOptions} />
       {children}
     </section>
-  )
+  );
 }
 
 function Header({ name, options }: HeaderProps) {
@@ -24,5 +24,5 @@ function Header({ name, options }: HeaderProps) {
           />
         ))}
     </div>
-  )
+  );
 }

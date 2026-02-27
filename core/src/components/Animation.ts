@@ -1,13 +1,13 @@
 export default class Animation implements TAnimation {
-  private node
+  private node;
 
-  currentFrame = 0
-  frames
+  currentFrame = 0;
+  frames;
 
   constructor(props: AnimationProps, node: TNode) {
-    this.node = node
+    this.node = node;
 
-    this.frames = props.frames
+    this.frames = props.frames;
   }
 
   update() {
@@ -15,7 +15,7 @@ export default class Animation implements TAnimation {
   }
 
   start() {
-    this.currentFrame = 0
+    this.currentFrame = 0;
   }
 
   stop() {}

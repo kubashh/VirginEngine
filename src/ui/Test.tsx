@@ -1,16 +1,16 @@
-import clsx from "clsx"
-import { useSignal } from "wdwh/signal"
-import Window from "../components/Window"
-import { testScene } from "../lib/consts"
-import { test } from "../build/build"
+import clsx from "clsx";
+import { useSignal } from "wdwh/signal";
+import Window from "../components/Window";
+import { testScene } from "../lib/consts";
+import { test } from "../build/build";
 
-const opctions = { "16/9": `aspect-[16/9]`, "1/1": `aspect-square`, "9/16": `aspect-[9/16]` }
+const opctions = { "16/9": `aspect-[16/9]`, "1/1": `aspect-square`, "9/16": `aspect-[9/16]` };
 
 export default function Test() {
-  testScene.bind(() => console.clear())
-  const aspectRatio = useSignal(opctions[`16/9`])
+  testScene.bind(() => console.clear());
+  const aspectRatio = useSignal(opctions[`16/9`]);
 
-  if (!testScene.value) return
+  if (!testScene.value) return;
 
   return (
     <Window
@@ -22,8 +22,8 @@ export default function Test() {
           {},
         ),
         Restart: () => {
-          testScene.value = `.`
-          setTimeout(test)
+          testScene.value = `.`;
+          setTimeout(test);
         },
         Exit: () => (testScene.value = ``),
       }}
@@ -36,5 +36,5 @@ export default function Test() {
         />
       </div>
     </Window>
-  )
+  );
 }

@@ -1,8 +1,8 @@
-import Window from "../components/Window"
-import InspectorSection from "./InspectorSection"
-import { config, inspector } from "../lib/consts"
-import { loadProject, saveProject } from "../lib/util"
-import { build, test } from "../build/build"
+import Window from "../components/Window";
+import InspectorSection from "./InspectorSection";
+import { config, inspector } from "../lib/consts";
+import { loadProject, saveProject } from "../lib/util";
+import { build, test } from "../build/build";
 
 function Config() {
   return (
@@ -12,7 +12,7 @@ function Config() {
         .filter((key) => key !== `type`)
         .map((key) => ({ text: key, object: config, access: key }))}
     />
-  )
+  );
 }
 
 const editorOpctions = {
@@ -21,11 +21,11 @@ const editorOpctions = {
   Build: build,
   Load: loadProject,
   Config: () => (inspector.value = <Config />),
-}
+};
 
 function InspectorComponent() {
-  inspector.bind()
-  return inspector.value
+  inspector.bind();
+  return inspector.value;
 }
 
 export default function Inspector() {
@@ -39,5 +39,5 @@ export default function Inspector() {
         <InspectorComponent />
       </div>
     </Window>
-  )
+  );
 }

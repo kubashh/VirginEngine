@@ -1,4 +1,4 @@
-import TypeInput from "./TypeInput"
+import TypeInput from "./TypeInput";
 
 export default function InspectorSection({ text, remove, childs, element }: InspectorSectionProps) {
   return (
@@ -19,5 +19,5 @@ export default function InspectorSection({ text, remove, childs, element }: Insp
       ))}
       {element}
     </div>
-  )
+  );
 }
