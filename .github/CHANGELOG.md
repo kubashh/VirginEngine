@@ -39,7 +39,7 @@
 - src.Node.rect.{x,y} as Enum<number>
 - typed Enum<`string` | `number`>
 - implement `wdwh/signal` => less code in codespace
-- update `wdwh@1.8.x` => `wdwh@1.10.x`
+- update `wdwh@1.8.x` => `wdwh@1.12.x`
 
 ## 0.21.0 (3 Oct 2025)
 

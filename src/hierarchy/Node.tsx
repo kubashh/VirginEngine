@@ -1,5 +1,5 @@
 import FileElement from "../components/FileElement";
-import { contextMenu, currentScene, dragData, keywords, nameInput } from "../lib/consts";
+import { contextMenuSignal, currentScene, dragData, keywords, nameInputSignal } from "../lib/consts";
 import { defaultNode, isFirstUpperCase } from "../lib/util";
 import { useArrow } from "../lib/hooks";
 import { setComponents } from "./components/componentsLib";
@@ -21,12 +21,12 @@ export default function Node({ old, name, object, deep = 0 }: NodeProps) {
   const onClick = () => !main && setComponents({ old, object, name });
 
   const onContextMenu = ({ pageX, pageY }: MouseEvent) => {
-    contextMenu.value = [
+    contextMenuSignal.set([
       pageX,
       pageY,
       [
         () => {
-          nameInput.value = [
+          nameInputSignal.set([
             (newName: string) => {
               if (Object.keys(object).includes(newName)) return;
 
@@ -35,13 +35,13 @@ export default function Node({ old, name, object, deep = 0 }: NodeProps) {
               open.value = true;
               currentScene.refresh();
             },
-          ];
+          ]);
         },
         `New Object`,
       ],
       [
         () => {
-          nameInput.value = [
+          nameInputSignal.set([
             (newName: string) => {
               if (name === newName || old[newName]) return;
 
@@ -50,7 +50,7 @@ export default function Node({ old, name, object, deep = 0 }: NodeProps) {
               currentScene.refresh();
             },
             name,
-          ];
+          ]);
         },
         `Rename`,
         !main,
@@ -63,7 +63,7 @@ export default function Node({ old, name, object, deep = 0 }: NodeProps) {
         `Delete`,
         !main,
       ],
-    ];
+    ]);
   };
 
   const onMouseDown = () => {

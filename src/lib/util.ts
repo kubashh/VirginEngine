@@ -1,4 +1,4 @@
-import { allowedNameChars, alphabet, config, currentScene, files, keywords, setUp } from "./consts";
+import { allowedNameChars, alphabet, config, currentScene, files, keywords, setUpSignal } from "./consts";
 
 export function deepCopy<T>(obj: T): T {
   return JSON.parse(JSON.stringify(obj));
@@ -51,7 +51,7 @@ export function openScene(scene: Any) {
 }
 
 export function openMainScene() {
-  setUp.value = true;
+  setUpSignal.set(true);
 
   const scene = config.pathToMainScene
     .split(`.`)

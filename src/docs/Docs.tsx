@@ -6,9 +6,9 @@ function DocsContent() {
       Visit:
       <a
         className="ml-2 hover:text-zinc-400"
-        href="https://github.com/VirginEngine/VirginEngine?tab=readme-ov-file"
+        href="https://github.com/kubashh/VirginEngine?tab=readme-ov-file"
       >
-        https://github.com/kubashh/VirginEngine/blob/main/docs/README.md
+        https://github.com/kubashh/VirginEngine?tab=readme-ov-file
       </a>
     </div>
   );

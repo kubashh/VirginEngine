@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { signal } from "wdwh/signal";
+import { signal } from "../lib/oldSignal";
 import { dragData } from "../lib/consts";
 
 const mouse = signal<{ left: number; top: number } | undefined>(undefined);

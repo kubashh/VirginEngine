@@ -1,4 +1,5 @@
-import { signal } from "wdwh/signal";
+import { createSignal } from "wdwh/signal";
+import { signal } from "./oldSignal";
 import { Enum } from "../inspector/typeInput/EnumInput";
 import { deepCopy, defaultNode, saveProject } from "./util";
 
@@ -97,14 +98,14 @@ export const editor = {
   },
 };
 
-export const currentScene = signal<Any>(filesTemplate.Scenes.MainScene);
-export const inspector = signal<React.ReactNode>(null);
-export const nameInput = signal<[((arg: string) => void)?, string?, boolean?]>([]);
-export const dragData = signal<Any | null>(null);
-export const testScene = signal(``);
-export const files = signal<Any>(filesTemplate);
-export const contextMenu = signal<[number?, number?, ...any]>([]);
-export const setUp = signal(false);
+export const currentScene = signal<Any>(filesTemplate.Scenes.MainScene); // TODO make createSignal
+export const inspectorSignal = createSignal<React.ReactNode>(null);
+export const nameInputSignal = createSignal<[((arg: string) => void)?, string?, boolean?]>([]);
+export const dragData = signal<Any | null>(null); // TODO create better type
+export const testSceneSignal = createSignal(``);
+export const files = signal<Any>(filesTemplate); // TODO split into object and refresh signal
+export const contextMenuSignal = createSignal<[number?, number?, ...any]>([]);
+export const setUpSignal = createSignal(false);
 
 // Set global events
 

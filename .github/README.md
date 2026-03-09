@@ -18,26 +18,26 @@ Simple JS game engine for 2D web games
 
 ```ts
 type scene = {
-  camera: XY
+  camera: XY;
 
-  load(newScene: SceneProps): void
+  load(newScene: SceneProps): void;
 
-  [key: string]: any
-}
+  [key: string]: any;
+};
 ```
 
 ### Util
 
 ```ts
-function wait(time?: number | undefined): Promise<void>
-function deepCopy<T>(data: T): T
-function file(path: string): any
-function randInt(min: number, max?: number | undefined): number
-function rand(min?: number, max?: number | undefined): number
-function randStr(n?: number): string
-function randColor(): string
+function wait(time?: number | undefined): Promise<void>;
+function deepCopy<T>(data: T): T;
+function file(path: string): any;
+function randInt(min: number, max?: number | undefined): number;
+function rand(min?: number, max?: number | undefined): number;
+function randStr(n?: number): string;
+function randColor(): string;
 ```
 
 ## Editor
 
-### Config [Docs](https://github.com/VirginEngine/docs?tab=readme-ov-file#config)
+### Config [Docs](https://github.com/kubashh/VirginEngine/blob/main/src/docs/README.md)

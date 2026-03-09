@@ -1,4 +1,4 @@
-import { type Signal } from "wdwh/signal";
+import { type Signal } from "../../lib/oldSignal";
 
 export default function BooleanInput({ sig }: { sig: Signal<boolean> }) {
   return (
