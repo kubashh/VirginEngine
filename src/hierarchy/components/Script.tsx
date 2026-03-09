@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { useConst, useRefresh } from "wdwh/hooks";
 import InspectorSection from "../../inspector/InspectorSection";
 import TypeInput from "../../inspector/TypeInput";
-import { nameInput } from "../../lib/consts";
+import { nameInputSignal } from "../../lib/consts";
 import { capitalize, getType, isCustomProp, isOccupied } from "../../lib/util";
 import { AddComponent } from "./componentsLib";
 
@@ -59,7 +59,7 @@ function AddScript({ object, value, refresh }: AddScriptProps) {
     <AddComponent
       text={capitalize(value)}
       onClick={() =>
-        (nameInput.value = [
+        nameInputSignal.set([
           (text: string) => {
             if (isOccupied(object, text)) return;
 

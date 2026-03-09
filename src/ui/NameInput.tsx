@@ -1,16 +1,15 @@
 import { useEffect, useRef } from "react";
-import { nameInput } from "../lib/consts";
+import { nameInputSignal } from "../lib/consts";
 import { capitalize, isValidName } from "../lib/util";
 
 function useNameInput(ref: React.RefObject<HTMLInputElement | null>) {
-  nameInput.bind();
-  const [cb, text = ``, lowerCase = false] = nameInput.value;
+  const [cb, text = ``, lowerCase = false] = nameInputSignal.use();
 
   const ret = () => {
     if (cb && isValidName(text)) {
       cb(lowerCase ? `${text[0].toLowerCase()}${text.slice(1)}` : text);
     }
-    nameInput.value = [];
+    nameInputSignal.set([]);
   };
 
   useEffect(() => {
@@ -33,7 +32,7 @@ function useNameInput(ref: React.RefObject<HTMLInputElement | null>) {
 
           if (!isValidName(value)) return;
 
-          nameInput.value = [cb, value, lowerCase];
+          nameInputSignal.set([cb, value, lowerCase]);
         },
         onKeyDown: ({ key }: React.KeyboardEvent<HTMLInputElement>) => key === `Enter` && ret(),
       }

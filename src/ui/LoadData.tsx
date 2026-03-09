@@ -1,4 +1,4 @@
-import { setUp } from "../lib/consts";
+import { setUpSignal } from "../lib/consts";
 import { loadProject, openMainScene } from "../lib/util";
 
 function LoadDataButton(props: { value: string; onClick: React.MouseEventHandler }) {
@@ -12,9 +12,9 @@ function LoadDataButton(props: { value: string; onClick: React.MouseEventHandler
 }
 
 export default function LoadData() {
-  setUp.bind();
+  const setUp = setUpSignal.use();
 
-  return !setUp.value ? (
+  return !setUp ? (
     <div className="absolute z-1 w-screen h-screen flex flex-col justify-center bg-[#000a]">
       <LoadDataButton value="Load Project" onClick={loadProject} />
       <LoadDataButton value="New project" onClick={openMainScene} />

@@ -1,9 +1,9 @@
-import { useSignal } from "wdwh/signal";
+import { useSignal } from "../lib/oldSignal";
 import FileElement from "../components/FileElement";
 import ImageGrabber from "../components/ImageGrabber";
 import AudioGrabber from "../components/AudioGrabber";
 import TypeInput from "../inspector/TypeInput";
-import { contextMenu, def, dragData, files, inspector, nameInput } from "../lib/consts";
+import { contextMenuSignal, def, dragData, files, inspectorSignal, nameInputSignal } from "../lib/consts";
 import { openScene, isFirstUpperCase, deepCopy } from "../lib/util";
 import { useArrow } from "../lib/hooks";
 
@@ -14,13 +14,13 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
   const [arrow, open] = useArrow(main, isFolder, file.type === `img` && file?.src);
 
   const onClick = () => {
-    inspector.value = <InspectorDisplay file={file} name={name} />;
+    inspectorSignal.set(<InspectorDisplay file={file} name={name} />);
   };
 
   const onContextMenu = ({ pageX, pageY }: MouseEvent) => {
     const newArrElement = (name: string, type: string, def?: Any) => [
       () =>
-        (nameInput.value = [
+        nameInputSignal.set([
           (newName: string) => {
             file[newName] = { type, ...deepCopy(def) };
 
@@ -32,7 +32,7 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
       isFolder,
     ];
 
-    contextMenu.value = [
+    contextMenuSignal.set([
       pageX,
       pageY,
       newArrElement(`New file`, `txt`),
@@ -42,7 +42,7 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
       newArrElement(`New scene`, `scene`),
       [
         () =>
-          (nameInput.value = [
+          nameInputSignal.set([
             (newName: string) => {
               if (name === newName) return;
 
@@ -64,7 +64,7 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
         `Delete`,
         !main,
       ],
-    ];
+    ]);
   };
 
   const onMouseDown = () => {

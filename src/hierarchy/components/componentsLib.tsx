@@ -2,7 +2,7 @@ import { useRefresh } from "wdwh/hooks";
 import InspectorSection from "../../inspector/InspectorSection";
 import Script from "./Script";
 import Transform from "./Transform";
-import { inspector } from "../../lib/consts";
+import { inspectorSignal } from "../../lib/consts";
 import { capitalize, deepCopy } from "../../lib/util";
 import { Enum } from "../../inspector/typeInput/EnumInput";
 
@@ -15,7 +15,7 @@ const audio = [{ path: `` }, [], []];
 const components: Obj<[Any, string[], string[]]> = { text, rect, sprite, physics, audio } as any;
 
 export function setComponents(props: Any) {
-  inspector.value = <Components {...props} />;
+  inspectorSignal.set(<Components {...props} />);
 }
 
 function Components({ name, ...props }: Any) {

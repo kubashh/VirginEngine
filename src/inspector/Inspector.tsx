@@ -1,8 +1,16 @@
 import Window from "../components/Window";
 import InspectorSection from "./InspectorSection";
-import { config, inspector } from "../lib/consts";
+import { config, inspectorSignal } from "../lib/consts";
 import { loadProject, saveProject } from "../lib/util";
 import { build, test } from "../build/build";
+
+const editorOpctions = {
+  Test: test,
+  Save: saveProject,
+  Build: build,
+  Load: loadProject,
+  Config: () => inspectorSignal.set(<Config />),
+};
 
 function Config() {
   return (
@@ -13,19 +21,6 @@ function Config() {
         .map((key) => ({ text: key, object: config, access: key }))}
     />
   );
-}
-
-const editorOpctions = {
-  Test: test,
-  Save: saveProject,
-  Build: build,
-  Load: loadProject,
-  Config: () => (inspector.value = <Config />),
-};
-
-function InspectorComponent() {
-  inspector.bind();
-  return inspector.value;
 }
 
 export default function Inspector() {
@@ -40,4 +35,9 @@ export default function Inspector() {
       </div>
     </Window>
   );
+}
+
+function InspectorComponent() {
+  const inspector = inspectorSignal.use();
+  return inspector;
 }

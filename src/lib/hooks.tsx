@@ -1,4 +1,4 @@
-import { type Signal, useSignal } from "wdwh/signal";
+import { type Signal, useSignal } from "./oldSignal";
 
 export function useArrow(
   main = false,

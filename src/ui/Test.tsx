@@ -1,16 +1,17 @@
 import clsx from "clsx";
-import { useSignal } from "wdwh/signal";
+import { createSignal } from "wdwh/signal";
 import Window from "../components/Window";
-import { testScene } from "../lib/consts";
+import { testSceneSignal } from "../lib/consts";
 import { test } from "../build/build";
 
 const opctions = { "16/9": `aspect-[16/9]`, "1/1": `aspect-square`, "9/16": `aspect-[9/16]` };
+const aspectRatioSignal = createSignal(opctions[`16/9`]);
 
 export default function Test() {
-  testScene.bind(() => console.clear());
-  const aspectRatio = useSignal(opctions[`16/9`]);
+  const testScene = testSceneSignal.use();
+  const aspectRatio = aspectRatioSignal.use();
 
-  if (!testScene.value) return;
+  if (!testScene) return;
 
   return (
     <Window
@@ -18,21 +19,25 @@ export default function Test() {
       className="absolute z-1 w-screen h-screen"
       headerOptions={{
         ...Object.entries(opctions).reduce(
-          (old, [key, value]) => ({ ...old, [key]: () => (aspectRatio.value = value) }),
+          (old, [key, value]) => ({ ...old, [key]: () => aspectRatioSignal.set(value) }),
           {},
         ),
         Restart: () => {
-          testScene.value = `.`;
+          testSceneSignal.set(`.`);
           setTimeout(test);
+          console.clear();
         },
-        Exit: () => (testScene.value = ``),
+        Exit: () => {
+          testSceneSignal.set(``);
+          console.clear();
+        },
       }}
     >
       <div className="flex justify-center bg-zinc-950">
         <iframe
           title="scene"
-          className={clsx(`box-content border-x border-zinc-400`, aspectRatio.value)}
-          srcDoc={testScene.value}
+          className={clsx(`box-content border-x border-zinc-400`, aspectRatio)}
+          srcDoc={testScene}
         />
       </div>
     </Window>

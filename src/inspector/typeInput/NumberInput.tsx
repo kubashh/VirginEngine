@@ -1,4 +1,4 @@
-import { type Signal, useSignal } from "wdwh/signal";
+import { type Signal, useSignal } from "../../lib/oldSignal";
 import { numbers } from "../../lib/consts";
 
 export default function NumberInput({ sig }: { sig: Signal<number> }) {

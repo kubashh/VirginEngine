@@ -1,5 +1,5 @@
 import { htmlCode } from "./htmlCode";
-import { config, testScene } from "../lib/consts";
+import { config, testSceneSignal } from "../lib/consts";
 import { downloadFile } from "../lib/util";
 
 export async function build() {
@@ -7,5 +7,5 @@ export async function build() {
 }
 
 export async function test() {
-  testScene.value = await htmlCode();
+  testSceneSignal.set(await htmlCode());
 }
