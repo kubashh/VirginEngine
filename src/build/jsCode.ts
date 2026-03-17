@@ -21,7 +21,7 @@ export async function jsCode(production?: boolean) {
 
 let performanceInfo = true;
 async function coreConfig(production?: boolean) {
-  const arr = filesToString(files.value);
+  const arr = filesToString(files);
 
   for (const i in arr) arr[i] = await arr[i];
 

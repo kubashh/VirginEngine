@@ -1,5 +1,5 @@
 import FileElement from "../components/FileElement";
-import { contextMenuSignal, currentScene, dragData, keywords, nameInputSignal } from "../lib/consts";
+import { contextMenuSignal, currentScene, dragDataSignal, keywords, nameInputSignal } from "../lib/consts";
 import { defaultNode, isFirstUpperCase } from "../lib/util";
 import { useArrow } from "../lib/hooks";
 import { setComponents } from "./components/componentsLib";
@@ -67,20 +67,20 @@ export default function Node({ old, name, object, deep = 0 }: NodeProps) {
   };
 
   const onMouseDown = () => {
-    if (!main) dragData.value = { from: `hierarchy`, old, file: object, name };
+    if (!main) dragDataSignal.set({ from: `hierarchy`, old, file: object, name });
   };
 
   const onMouseUp = () => {
-    const dragDat = dragData.value;
+    const dragDat = dragDataSignal.get();
 
-    if (!dragDat || dragDat.name === name || dragDat.file.type !== `node`) return;
+    if (dragDat.name === name || dragDat.file.type !== `node`) return;
 
     for (const key in childs) {
       if (key === dragDat.name) return;
     }
 
     object[dragDat.name] = dragDat.file;
-    if (dragDat.from === `hierarchy` && dragDat.old) {
+    if (dragDat.from === `hierarchy`) {
       delete dragDat.old[dragDat.name];
     }
 

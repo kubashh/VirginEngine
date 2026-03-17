@@ -17,21 +17,21 @@
 - jsCode.Image.quality: number (0-1)
 - jsCode.Audio.quality: number (0-1)
 - Drag Nodes to files, files to Nodes (clonning)
-- scr.Node.rect can contains only Node.rect
+- DragData: avoid duble refresh of component
+- src.Node.rect can contains only Node.rect
 - PathInput (for paths, better optymalization for not use file() while running)
 
 ### VirginEngine
 
 - VirginEngine/docs (.md)
 - VirginEngine/releases (.md)
-- VirginEngine/wdwh add .md imports for creating html or static pages
 
 <br />
 
 ## 0.22.0-dev (in development)
 
 - more strict typescript rules
-- create VE icon (instead of old DE (Death Engine))
+- create VE icon (instead of old DE (Death Engine - previous project name))
 - Physics.addForce() works
 - add core.lerp()
 - wait to load assets before run scene

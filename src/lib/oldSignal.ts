@@ -1,23 +1,6 @@
-import { useState } from "react";
+import { useConst, useRefresh } from "wdwh/hooks";
 
-type Void = () => void;
-
-export type Signal<T> = {
-  refresh: Void;
-  bind: (fn?: Void) => void;
-  value: T;
-};
-
-function useConst<T>(v: T) {
-  return useState<T>(v)[0];
-}
-
-function useRefresh() {
-  const f = useState(false)[1];
-  return () => f((prev) => !prev);
-}
-
-class Sig<T> implements Signal<T> {
+export class Signal<T> {
   private v: T;
   refresh: Void = () => {
     throw Error(`Refresh not bind!`);
@@ -46,12 +29,8 @@ class Sig<T> implements Signal<T> {
   }
 }
 
-export function signal<T>(v: T): Signal<T> {
-  return new Sig(v);
-}
-
-export function useSignal<T>(v: T, f?: Void): Signal<T> {
-  const sig = useConst(new Sig(v));
+export function useSignal<T>(v: T, f?: Void) {
+  const sig = useConst(new Signal(v));
   sig.bind(f);
   return sig;
 }

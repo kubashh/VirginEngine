@@ -1,5 +1,5 @@
 import { createSignal } from "wdwh/signal";
-import { signal } from "./oldSignal";
+import { Signal } from "./oldSignal";
 import { Enum } from "../inspector/typeInput/EnumInput";
 import { deepCopy, defaultNode, saveProject } from "./util";
 
@@ -98,12 +98,13 @@ export const editor = {
   },
 };
 
-export const currentScene = signal<Any>(filesTemplate.Scenes.MainScene); // TODO make createSignal
+export const currentScene = new Signal<Any>(filesTemplate.Scenes.MainScene); // TODO make createSignal
+export const files = filesTemplate;
+export const refreshFiles = { refresh() {} };
 export const inspectorSignal = createSignal<React.ReactNode>(null);
 export const nameInputSignal = createSignal<[((arg: string) => void)?, string?, boolean?]>([]);
-export const dragData = signal<Any | null>(null); // TODO create better type
+export const dragDataSignal = createSignal<TDragData>({ name: ``, from: ``, file: {}, old: {} });
 export const testSceneSignal = createSignal(``);
-export const files = signal<Any>(filesTemplate); // TODO split into object and refresh signal
 export const contextMenuSignal = createSignal<[number?, number?, ...any]>([]);
 export const setUpSignal = createSignal(false);
 

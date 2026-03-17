@@ -20,6 +20,15 @@ type TEnum<T> = {
   selected: T;
 };
 
+// Signals
+
+type TDragData = {
+  name: string; // label
+  from: `` | `hierarchy` | `files`;
+  file: Any;
+  old: Any;
+};
+
 // Props
 
 type FileProps = {

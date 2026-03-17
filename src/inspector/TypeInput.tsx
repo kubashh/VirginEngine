@@ -7,17 +7,17 @@ import { addSpaceBeforeUpper, getType } from "../lib/util";
 
 function useElement(type: VTypes, sig: Signal<any>) {
   switch (type) {
-    case "boolean":
+    case `boolean`:
       return <BooleanInput sig={sig} />;
-    case "number":
+    case `number`:
       return <NumberInput sig={sig} />;
-    case "string":
+    case `string`:
       return <StringInput sig={sig} />;
-    case "array":
+    case `array`:
       return null;
-    case "object":
+    case `object`:
       return null;
-    case "function":
+    case `function`:
       return null;
     case `enum`:
       return <EnumInput sig={sig} />;
