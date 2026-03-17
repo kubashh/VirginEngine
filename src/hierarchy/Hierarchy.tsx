@@ -5,9 +5,7 @@ import { currentScene, files, inspectorSignal } from "../lib/consts";
 function HierarchyComponent() {
   currentScene.bind(() => inspectorSignal.set(null));
 
-  return (
-    <Node object={currentScene.value} old={files.value.Scenes} name={currentScene.value.name} deep={0} />
-  );
+  return <Node object={currentScene.value} old={files.Scenes} name={currentScene.value.name} deep={0} />;
 }
 
 export default function Hierarchy() {

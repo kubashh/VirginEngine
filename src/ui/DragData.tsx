@@ -1,26 +1,15 @@
 import { useEffect } from "react";
-import { signal } from "../lib/oldSignal";
-import { dragData } from "../lib/consts";
+import { createSignal } from "wdwh/signal";
+import { dragDataSignal } from "../lib/consts";
 
-const mouse = signal<{ left: number; top: number } | undefined>(undefined);
-
-function handleMouseMove({ clientX, clientY, buttons }: MouseEvent) {
-  if (buttons !== 1) return;
-  console.log(`Render`);
-  mouse.value = { left: clientX + 3, top: clientY + 3 };
-}
-
-function handleMouseUp() {
-  dragData.value = null;
-  mouse.value = undefined;
-}
+const mouseSignal = createSignal<{ left: number; top: number } | null>(null); // null
 
 export default function DragData() {
-  dragData.bind();
-  mouse.bind();
+  const dragData = dragDataSignal.use();
+  const mouse = mouseSignal.use();
 
   useEffect(() => {
-    if (!dragData.value) return;
+    if (!dragData.name) return;
 
     window.addEventListener(`mousemove`, handleMouseMove);
     window.addEventListener(`mouseup`, handleMouseUp);
@@ -31,9 +20,20 @@ export default function DragData() {
     };
   });
 
-  return mouse.value ? (
-    <div className="absolute z-1 bg-[#000a]" style={mouse.value}>
-      {dragData.value?.name}
+  return mouse ? (
+    <div className="absolute z-1 bg-[#000a]" style={mouse}>
+      {dragData.name}
     </div>
   ) : null;
+}
+
+function handleMouseMove({ clientX, clientY, buttons }: MouseEvent) {
+  if (buttons !== 1) return;
+  console.log(`Render`);
+  mouseSignal.set({ left: clientX + 3, top: clientY + 3 });
+}
+
+function handleMouseUp() {
+  dragDataSignal.set({ name: ``, from: ``, file: {}, old: {} });
+  mouseSignal.set(null);
 }

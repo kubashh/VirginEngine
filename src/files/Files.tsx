@@ -1,11 +1,12 @@
 import Window from "../components/Window";
 import File from "./File";
-import { files } from "../lib/consts";
+import { files, refreshFiles } from "../lib/consts";
+import { useRefresh } from "wdwh/hooks";
 
 const FilesComponent = () => {
-  files.bind();
+  refreshFiles.refresh = useRefresh();
 
-  return <File file={files.value} name="files" deep={0} old />;
+  return <File file={files} name="files" deep={0} old />;
 };
 
 export default function Files() {

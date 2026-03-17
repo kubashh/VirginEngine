@@ -16,9 +16,9 @@
     "@types/react": "latest",
     "bun-plugin-tailwind": "^0.1.2",
     "tailwindcss": "^4.2.1",
-    "terser": "^5.46.0",
+    "terser": "^5.46.1",
     "typescript": "latest",
-    "wdwh": "^1.12.11"
+    "wdwh": "^1.12.12"
   },
   "wdwh": {
     "cleanPrev": true

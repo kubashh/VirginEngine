@@ -56,7 +56,7 @@ export function openMainScene() {
   const scene = config.pathToMainScene
     .split(`.`)
     .slice(1)
-    .reduce((prev, key) => prev[key], files.value);
+    .reduce((prev, key) => prev[key], files);
 
   openScene(scene);
 }
@@ -85,7 +85,7 @@ export function isOccupied(obj: Any, name: string) {
 
 // SaveFile
 export function saveProject() {
-  downloadFile(`${config.gameName}.virginengine`, JSON.stringify({ config, files: files.value }));
+  downloadFile(`${config.gameName}.virginengine`, JSON.stringify({ config, files }));
 }
 
 // LoadFile
@@ -106,7 +106,7 @@ export function loadProject() {
         const data = JSON.parse(target.result);
 
         clearAssign(config, data.config);
-        clearAssign(files.value, data.files);
+        clearAssign(files, data.files);
 
         openMainScene();
       };

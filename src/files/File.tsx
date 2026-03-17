@@ -3,7 +3,14 @@ import FileElement from "../components/FileElement";
 import ImageGrabber from "../components/ImageGrabber";
 import AudioGrabber from "../components/AudioGrabber";
 import TypeInput from "../inspector/TypeInput";
-import { contextMenuSignal, def, dragData, files, inspectorSignal, nameInputSignal } from "../lib/consts";
+import {
+  contextMenuSignal,
+  def,
+  dragDataSignal,
+  inspectorSignal,
+  nameInputSignal,
+  refreshFiles,
+} from "../lib/consts";
 import { openScene, isFirstUpperCase, deepCopy } from "../lib/util";
 import { useArrow } from "../lib/hooks";
 
@@ -22,10 +29,10 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
       () =>
         nameInputSignal.set([
           (newName: string) => {
-            file[newName] = { type, ...deepCopy(def) };
+            file[newName] = { type, ...deepCopy(def || {}) };
 
             open.value = true;
-            files.refresh();
+            refreshFiles.refresh();
           },
         ]),
       name,
@@ -48,7 +55,7 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
 
               delete old[name];
               old[newName] = file;
-              files.refresh();
+              refreshFiles.refresh();
             },
             name,
           ]),
@@ -59,7 +66,7 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
       [
         () => {
           delete old[name];
-          files.refresh();
+          refreshFiles.refresh();
         },
         `Delete`,
         !main,
@@ -68,22 +75,20 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
   };
 
   const onMouseDown = () => {
-    if (!main) dragData.value = { from: `files`, old, file, name };
+    if (!main) dragDataSignal.set({ from: `files`, old, file, name });
   };
 
   const onMouseUp = () => {
     if (!isFolder) return;
 
-    const dragDat = dragData.value;
+    const dragDat = dragDataSignal.get();
 
-    if (dragDat?.from !== `files` || dragDat.name === name || file[dragDat.name]) return;
+    if (dragDat.from !== `files` || dragDat.name === name || file[dragDat.name]) return;
 
     file[dragDat.name] = dragDat.file;
-    if (dragDat.old) {
-      delete dragDat.old[dragDat.name];
-    }
+    delete dragDat.old[dragDat.name];
 
-    files.refresh();
+    refreshFiles.refresh();
   };
 
   const onDoubleClick = () => file.type === `scene` && openScene(file);
