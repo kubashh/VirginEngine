@@ -5,7 +5,7 @@ type Any = Obj<any>;
 type Void = () => void;
 
 // to delete
-type OldSignal<T> = { value: T };
+type deprecated_Signal<T> = { value: T };
 
 type VTypes = `boolean` | `number` | `string` | `array` | `object` | `function` | `enum`;
 
@@ -26,7 +26,7 @@ type TEnum<T> = {
 type TDragData = {
   name: string; // label
   from: `` | `hierarchy` | `files`;
-  file: Any;
+  file: TFile;
   old: Any;
 };
 
@@ -34,7 +34,7 @@ type TDragData = {
 
 type FileProps = {
   old?: any;
-  file: any;
+  file: TFile;
   name: string;
   path?: string;
   deep: number;
@@ -114,3 +114,10 @@ type InspectorDisplayProps = {
   file: Any;
   name: string;
 };
+
+// Rest
+
+// TODO better type
+type TFile = {
+  type: `none` | `folder` | `node` | `scene` | `img` | `audio`;
+} & Record<string, any>;

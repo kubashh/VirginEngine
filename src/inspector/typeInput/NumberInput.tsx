@@ -1,8 +1,7 @@
-import { useSignal } from "../../lib/oldSignal";
-import { numbers } from "../../lib/consts";
+import { deprecated_useSignal } from "../../lib/deprecated_Signal";
 
-export default function NumberInput({ sig }: { sig: OldSignal<number> }) {
-  const buf = useSignal(String(sig.value));
+export default function NumberInput({ sig }: { sig: deprecated_Signal<number> }) {
+  const buf = deprecated_useSignal(String(sig.value));
 
   return (
     <input
@@ -12,8 +11,8 @@ export default function NumberInput({ sig }: { sig: OldSignal<number> }) {
       onChange={({ target: { value } }) => {
         let dot = false;
         for (const char of value) {
-          // Is includes allow chars
-          if (!`${numbers}-.`.includes(char)) return;
+          // Is char allowed
+          if (!/[0-9\-.]/.test(char)) return;
 
           // Double dot check
           if (char === `.`) {

@@ -1,26 +1,32 @@
 import { useEffect } from "react";
-import { dragDataSignal } from "../lib/consts";
+import { dragDataSignal, EMPTY_FILE } from "../lib/consts";
 
 export default function DragData() {
+  return (
+    <div id="drag-data" className="absolute z-1 bg-[#000a]">
+      <DragDataValue />
+    </div>
+  );
+}
+
+function DragDataValue() {
   const dragData = dragDataSignal.use();
 
   useEffect(() => {
     if (!dragData.name) return;
 
     window.addEventListener(`mousemove`, handleMouseMove);
+    window.addEventListener(`mousedown`, handleMouseMove);
     window.addEventListener(`mouseup`, handleMouseUp);
 
     return () => {
       window.removeEventListener(`mousemove`, handleMouseMove);
+      window.removeEventListener(`mousedown`, handleMouseMove);
       window.removeEventListener(`mouseup`, handleMouseUp);
     };
   });
 
-  return dragData.name ? (
-    <div id="drag-data" className="absolute z-1 bg-[#000a]">
-      {dragData.name}
-    </div>
-  ) : null;
+  return dragData.name;
 }
 
 function handleMouseMove({ clientX, clientY, buttons }: MouseEvent) {
@@ -34,5 +40,5 @@ function handleMouseMove({ clientX, clientY, buttons }: MouseEvent) {
 }
 
 function handleMouseUp() {
-  dragDataSignal.set({ name: ``, from: ``, file: {}, old: {} });
+  dragDataSignal.set({ name: ``, from: ``, file: EMPTY_FILE, old: {} });
 }

@@ -2,6 +2,21 @@ import { useEffect, useRef } from "react";
 import { nameInputSignal } from "../lib/consts";
 import { capitalize, isValidName } from "../lib/util";
 
+export default function NameInput() {
+  const ref = useRef<HTMLInputElement>(null);
+  const props = useNameInput(ref);
+
+  return props ? (
+    <input
+      ref={ref}
+      type="text"
+      className="absolute z-1 text-4xl translate-x-[calc(50vw-50%)] translate-y-[calc(50vh-50%)]"
+      {...props}
+      autoFocus
+    />
+  ) : null;
+}
+
 function useNameInput(ref: React.RefObject<HTMLInputElement | null>) {
   const [cb, text = ``, lowerCase = false] = nameInputSignal.use();
 
@@ -24,34 +39,17 @@ function useNameInput(ref: React.RefObject<HTMLInputElement | null>) {
     return () => document.removeEventListener(`mousedown`, handler);
   });
 
-  return cb
-    ? {
-        value: text,
-        onChange: ({ target }: { target: { value: string } }) => {
-          const value = capitalize(target.value);
-
-          if (!isValidName(value)) return;
-
-          nameInputSignal.set([cb, value, lowerCase]);
-        },
-        onKeyDown: ({ key }: React.KeyboardEvent<HTMLInputElement>) => key === `Enter` && ret(),
-      }
-    : null;
-}
-
-export default function NameInput() {
-  const ref = useRef<HTMLInputElement>(null);
-  const props = useNameInput(ref);
-
   return (
-    props && (
-      <input
-        ref={ref}
-        type="text"
-        className="absolute z-1 text-4xl translate-x-[calc(50vw-50%)] translate-y-[calc(50vh-50%)]"
-        {...props}
-        autoFocus
-      />
-    )
+    cb && {
+      value: text,
+      onChange: ({ target }: { target: { value: string } }) => {
+        const value = capitalize(target.value);
+
+        if (!isValidName(value)) return;
+
+        nameInputSignal.set([cb, value, lowerCase]);
+      },
+      onKeyDown: ({ key }: React.KeyboardEvent<HTMLInputElement>) => key === `Enter` && ret(),
+    }
   );
 }
