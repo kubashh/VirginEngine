@@ -1,6 +1,6 @@
 import { useConst, useRefresh } from "wdwh/hooks";
 
-export class Signal<T> {
+class Signal<T> {
   private v: T;
   refresh: Void = () => {
     throw Error(`Refresh not bind!`);

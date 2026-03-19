@@ -1,5 +1,4 @@
-import { createSignal } from "wdwh/signal";
-import { Signal } from "./oldSignal";
+import { createSignal } from "wdwh";
 import { Enum } from "../inspector/typeInput/EnumInput";
 import { deepCopy, defaultNode, saveProject } from "./util";
 
@@ -30,7 +29,7 @@ export const config = {
   performanceInfo: Enum(`dev`, `yes`, `dev`, `no`),
 };
 
-export const def = {
+export const defaultAssets = {
   img: {
     type: `img`,
     src: `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAdnJLH8AAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAuIwAALiMBeKU/dgAAAA9JREFUCB0BBAD7/wD///8F/gL+A30ZxgAAAABJRU5ErkJggg==`,
@@ -82,11 +81,11 @@ const filesTemplate: Any = {
     type: `folder`,
     Images: {
       type: `folder`,
-      BoxImage: deepCopy(def.img),
+      BoxImage: deepCopy(defaultAssets.img),
     },
     Audio: {
       type: `folder`,
-      DAudio: deepCopy(def.audio),
+      DAudio: deepCopy(defaultAssets.audio),
     },
   },
 };
@@ -98,7 +97,8 @@ export const editor = {
   },
 };
 
-export const currentScene = new Signal<Any>(filesTemplate.Scenes.MainScene); // TODO make createSignal
+export const currentSceneSignal = createSignal<Any>(filesTemplate.Scenes.MainScene); // TODO make createSignal
+export const refreshCurrentScene = { refresh() {} };
 export const files = filesTemplate;
 export const refreshFiles = { refresh() {} };
 export const inspectorSignal = createSignal<React.ReactNode>(null);
@@ -109,12 +109,9 @@ export const contextMenuSignal = createSignal<[number?, number?, ...any]>([]);
 export const setUpSignal = createSignal(false);
 
 // Set global events
-
-function preventDefault(e: Event) {
+window.addEventListener(`contextmenu`, (e) => {
   e.preventDefault();
-}
-
-window.addEventListener(`contextmenu`, preventDefault);
+});
 
 window.addEventListener(`keydown`, (e) => {
   if (e.ctrlKey && e.key === `s`) {

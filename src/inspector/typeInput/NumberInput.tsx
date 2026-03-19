@@ -1,7 +1,7 @@
-import { type Signal, useSignal } from "../../lib/oldSignal";
+import { useSignal } from "../../lib/oldSignal";
 import { numbers } from "../../lib/consts";
 
-export default function NumberInput({ sig }: { sig: Signal<number> }) {
+export default function NumberInput({ sig }: { sig: OldSignal<number> }) {
   const buf = useSignal(String(sig.value));
 
   return (

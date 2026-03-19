@@ -1,4 +1,4 @@
-export default function EnumInput<T>({ sig, type }: { sig: Signal<TEnum<T>>; type?: string }) {
+export default function EnumInput<T>({ sig, type }: { sig: OldSignal<TEnum<T>>; type?: string }) {
   return (
     <select
       className="w-full border-b border-zinc-400 accent-green-600"

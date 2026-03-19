@@ -1,5 +1,11 @@
 import FileElement from "../components/FileElement";
-import { contextMenuSignal, currentScene, dragDataSignal, keywords, nameInputSignal } from "../lib/consts";
+import {
+  contextMenuSignal,
+  dragDataSignal,
+  keywords,
+  nameInputSignal,
+  refreshCurrentScene,
+} from "../lib/consts";
 import { defaultNode, isFirstUpperCase } from "../lib/util";
 import { useArrow } from "../lib/hooks";
 import { setComponents } from "./components/componentsLib";
@@ -33,7 +39,7 @@ export default function Node({ old, name, object, deep = 0 }: NodeProps) {
               object[newName] = defaultNode();
 
               open.value = true;
-              currentScene.refresh();
+              refreshCurrentScene.refresh();
             },
           ]);
         },
@@ -47,7 +53,7 @@ export default function Node({ old, name, object, deep = 0 }: NodeProps) {
 
               delete old[name];
               old[newName] = object;
-              currentScene.refresh();
+              refreshCurrentScene.refresh();
             },
             name,
           ]);
@@ -58,7 +64,7 @@ export default function Node({ old, name, object, deep = 0 }: NodeProps) {
       [
         () => {
           delete old[name];
-          currentScene.refresh();
+          refreshCurrentScene.refresh();
         },
         `Delete`,
         !main,
@@ -84,7 +90,7 @@ export default function Node({ old, name, object, deep = 0 }: NodeProps) {
       delete dragDat.old[dragDat.name];
     }
 
-    currentScene.refresh();
+    refreshCurrentScene.refresh();
   };
 
   const childsElement =

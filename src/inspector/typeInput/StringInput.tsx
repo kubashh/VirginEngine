@@ -1,6 +1,4 @@
-import { type Signal } from "../../lib/oldSignal";
-
-export default function StringInput({ sig }: { sig: Signal<string> }) {
+export default function StringInput({ sig }: { sig: OldSignal<string> }) {
   return (
     <input
       type="text"

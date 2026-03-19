@@ -1,10 +1,10 @@
-import { type Signal, useSignal } from "./oldSignal";
+import { useSignal } from "./oldSignal";
 
 export function useArrow(
   main = false,
   haveChilds = true,
   src?: string,
-): [React.ReactNode, Signal<boolean>] {
+): [React.ReactNode, OldSignal<boolean>] {
   const open = useSignal(main);
 
   if (src) return [<img className="w-6 max-h-6 p-0.5" src={src} />, open];

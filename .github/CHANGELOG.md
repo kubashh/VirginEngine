@@ -10,6 +10,7 @@
 - Animation.stop()
 - Animation.frames = []
 - Collider.collide() // polygon
+- Scene.load() instead of scene.load()
 
 ### Editor (src)
 
@@ -17,7 +18,6 @@
 - jsCode.Image.quality: number (0-1)
 - jsCode.Audio.quality: number (0-1)
 - Drag Nodes to files, files to Nodes (clonning)
-- DragData: avoid duble refresh of component
 - src.Node.rect can contains only Node.rect
 - PathInput (for paths, better optymalization for not use file() while running)
 
@@ -38,8 +38,10 @@
 - Image optymalizations
 - src.Node.rect.{x,y} as Enum<number>
 - typed Enum<`string` | `number`>
-- implement `wdwh/signal` => less code in codespace
 - update `wdwh@1.8.x` => `wdwh@1.12.x`
+  - implement `wdwh/signal` => less code in codespace
+  - implement `wdwh` `clsx` instead of looked clsx
+- DragData: avoid duble refresh of component
 
 ## 0.21.0 (3 Oct 2025)
 

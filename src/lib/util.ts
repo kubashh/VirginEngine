@@ -1,4 +1,12 @@
-import { allowedNameChars, alphabet, config, currentScene, files, keywords, setUpSignal } from "./consts";
+import {
+  allowedNameChars,
+  alphabet,
+  config,
+  currentSceneSignal,
+  files,
+  keywords,
+  setUpSignal,
+} from "./consts";
 
 export function deepCopy<T>(obj: T): T {
   return JSON.parse(JSON.stringify(obj));
@@ -46,10 +54,6 @@ export function isCustomProp(text: string) {
   return !isFirstUpperCase(text) && !keywords.includes(text);
 }
 
-export function openScene(scene: Any) {
-  currentScene.value = scene;
-}
-
 export function openMainScene() {
   setUpSignal.set(true);
 
@@ -58,7 +62,7 @@ export function openMainScene() {
     .slice(1)
     .reduce((prev, key) => prev[key], files);
 
-  openScene(scene);
+  currentSceneSignal.set(scene);
 }
 
 export function defaultNode({ position, rotation, scale, ...rest }: Any = {}) {

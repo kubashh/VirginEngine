@@ -1,11 +1,11 @@
-import { type Signal, useSignal } from "../lib/oldSignal";
+import { useSignal } from "../lib/oldSignal";
 import BooleanInput from "./typeInput/BooleanInput";
 import NumberInput from "./typeInput/NumberInput";
 import StringInput from "./typeInput/StringInput";
 import EnumInput from "./typeInput/EnumInput";
 import { addSpaceBeforeUpper, getType } from "../lib/util";
 
-function useElement(type: VTypes, sig: Signal<any>) {
+function useElement(type: VTypes, sig: OldSignal<any>) {
   switch (type) {
     case `boolean`:
       return <BooleanInput sig={sig} />;
