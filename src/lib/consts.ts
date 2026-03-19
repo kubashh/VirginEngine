@@ -2,10 +2,6 @@ import { createSignal } from "wdwh";
 import { Enum } from "../inspector/typeInput/EnumInput";
 import { deepCopy, defaultNode, saveProject } from "./util";
 
-export const alphabet = `abcdefghijklmnoprqstuwxyz`;
-export const numbers = `0123456789`;
-export const allowedNameChars = `${alphabet}${numbers}_`;
-
 export const keywords = [
   `type`,
   `transform`,
@@ -18,6 +14,7 @@ export const keywords = [
   `physics`,
   `audio`,
 ];
+export const EMPTY_FILE: TFile = { type: `none` };
 
 export const config = {
   gameName: `NameOfGame`,
@@ -42,7 +39,7 @@ export const defaultAssets = {
   },
 };
 
-const filesTemplate: Any = {
+const filesTemplate: TFile = {
   type: `folder`,
   Scenes: {
     type: `folder`,
@@ -97,13 +94,13 @@ export const editor = {
   },
 };
 
-export const currentSceneSignal = createSignal<Any>(filesTemplate.Scenes.MainScene); // TODO make createSignal
-export const refreshCurrentScene = { refresh() {} };
+export const hierarchySignal = createSignal<Any>(filesTemplate.Scenes.MainScene); // TODO make createSignal
+export const refreshHierarchy = { refresh() {} };
 export const files = filesTemplate;
 export const refreshFiles = { refresh() {} };
 export const inspectorSignal = createSignal<React.ReactNode>(null);
 export const nameInputSignal = createSignal<[((arg: string) => void)?, string?, boolean?]>([]);
-export const dragDataSignal = createSignal<TDragData>({ name: ``, from: ``, file: {}, old: {} });
+export const dragDataSignal = createSignal<TDragData>({ name: ``, from: ``, file: EMPTY_FILE, old: {} });
 export const testSceneSignal = createSignal(``);
 export const contextMenuSignal = createSignal<[number?, number?, ...any]>([]);
 export const setUpSignal = createSignal(false);

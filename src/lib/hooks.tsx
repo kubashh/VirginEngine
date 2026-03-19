@@ -1,11 +1,11 @@
-import { useSignal } from "./oldSignal";
+import { deprecated_useSignal } from "./deprecated_Signal";
 
 export function useArrow(
   main = false,
   haveChilds = true,
   src?: string,
-): [React.ReactNode, OldSignal<boolean>] {
-  const open = useSignal(main);
+): [React.ReactNode, deprecated_Signal<boolean>] {
+  const open = deprecated_useSignal(main);
 
   if (src) return [<img className="w-6 max-h-6 p-0.5" src={src} />, open];
 

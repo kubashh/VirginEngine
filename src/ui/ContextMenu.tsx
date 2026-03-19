@@ -19,7 +19,7 @@ export default function ContextMenu() {
     <div
       ref={ref}
       className="absolute z-1 border-4 border-zinc-800 px-2 py-0.5 bg-black"
-      style={{ inset: `${contextMenu[1]}px auto auto ${contextMenu[0]}px` }}
+      style={{ top: `${contextMenu[1]}px`, left: `${contextMenu[0]}px` }}
     >
       {contextMenu.slice(2).map(([fn, text, show = true]: any) =>
         show ? (

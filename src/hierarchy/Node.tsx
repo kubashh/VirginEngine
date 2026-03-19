@@ -4,15 +4,15 @@ import {
   dragDataSignal,
   keywords,
   nameInputSignal,
-  refreshCurrentScene,
+  refreshHierarchy,
 } from "../lib/consts";
-import { defaultNode, isFirstUpperCase } from "../lib/util";
+import { defaultNode, isCapitalized } from "../lib/util";
 import { useArrow } from "../lib/hooks";
 import { setComponents } from "./components/componentsLib";
 
 function getChilds(obj: Any = {}) {
   return Object.keys(obj).reduce(
-    (prev, key) => (!keywords.includes(key) && isFirstUpperCase(key) ? { [key]: obj[key], ...prev } : prev),
+    (prev, key) => (!keywords.includes(key) && isCapitalized(key) ? { [key]: obj[key], ...prev } : prev),
     {},
   );
 }
@@ -39,7 +39,7 @@ export default function Node({ old, name, object, deep = 0 }: NodeProps) {
               object[newName] = defaultNode();
 
               open.value = true;
-              refreshCurrentScene.refresh();
+              refreshHierarchy.refresh();
             },
           ]);
         },
@@ -53,7 +53,7 @@ export default function Node({ old, name, object, deep = 0 }: NodeProps) {
 
               delete old[name];
               old[newName] = object;
-              refreshCurrentScene.refresh();
+              refreshHierarchy.refresh();
             },
             name,
           ]);
@@ -64,7 +64,7 @@ export default function Node({ old, name, object, deep = 0 }: NodeProps) {
       [
         () => {
           delete old[name];
-          refreshCurrentScene.refresh();
+          refreshHierarchy.refresh();
         },
         `Delete`,
         !main,
@@ -90,7 +90,7 @@ export default function Node({ old, name, object, deep = 0 }: NodeProps) {
       delete dragDat.old[dragDat.name];
     }
 
-    refreshCurrentScene.refresh();
+    refreshHierarchy.refresh();
   };
 
   const childsElement =

@@ -1,4 +1,4 @@
-export default function BooleanInput({ sig }: { sig: OldSignal<boolean> }) {
+export default function BooleanInput({ sig }: { sig: deprecated_Signal<boolean> }) {
   return (
     <input
       type="checkbox"

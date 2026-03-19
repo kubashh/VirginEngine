@@ -1,12 +1,4 @@
-import {
-  allowedNameChars,
-  alphabet,
-  config,
-  currentSceneSignal,
-  files,
-  keywords,
-  setUpSignal,
-} from "./consts";
+import { config, hierarchySignal, files, keywords, setUpSignal } from "./consts";
 
 export function deepCopy<T>(obj: T): T {
   return JSON.parse(JSON.stringify(obj));
@@ -26,32 +18,28 @@ export function downloadFile(name: string, text: string) {
   });
 }
 
-export function isFirstUpperCase(text: string) {
-  return alphabet.toUpperCase().includes(text[0]);
-}
-
 export function isValidName(name: string) {
-  if (name.length === 0 || !isFirstUpperCase(name)) return false;
-
-  for (const c of name) {
-    if (!allowedNameChars.includes(c.toLowerCase())) return false;
-  }
-
-  return true;
+  return isCapitalized(name) && /^[a-z0-9_]+$/i.test(name);
 }
 
-export function addSpaceBeforeUpper(text: string) {
-  return text
-    .slice(1)
-    .split(``)
-    .reduce(
-      (prev, char) => `${prev}${char === char.toUpperCase() ? ` ` : ``}${char}`,
-      text[0].toUpperCase(),
-    );
+export function camelToTitleCase(text: string) {
+  if (!text) return "";
+
+  return capitalize(
+    text.replace(/([a-z])([A-Z])/g, `$1 $2`), // "someUglyText" → "some Ugly Text"
+  );
 }
 
 export function isCustomProp(text: string) {
-  return !isFirstUpperCase(text) && !keywords.includes(text);
+  return !isCapitalized(text) && !keywords.includes(text);
+}
+
+export function isCapitalized(name: string) {
+  return /^[A-Z]/.test(name);
+}
+
+export function capitalize(str: string) {
+  return str.replace(/^./, (char) => char.toUpperCase());
 }
 
 export function openMainScene() {
@@ -62,7 +50,7 @@ export function openMainScene() {
     .slice(1)
     .reduce((prev, key) => prev[key], files);
 
-  currentSceneSignal.set(scene);
+  hierarchySignal.set(scene);
 }
 
 export function defaultNode({ position, rotation, scale, ...rest }: Any = {}) {
@@ -74,12 +62,6 @@ export function defaultNode({ position, rotation, scale, ...rest }: Any = {}) {
       scale: scale || { x: 1, y: 1 },
     },
   });
-}
-
-export function capitalize(text: string) {
-  return text.length === 0 || text[0] === text[0].toUpperCase()
-    ? text
-    : `${text[0].toUpperCase()}${text.slice(1)}`;
 }
 
 export function isOccupied(obj: Any, name: string) {

@@ -29,7 +29,7 @@ class Signal<T> {
   }
 }
 
-export function useSignal<T>(v: T, f?: Void) {
+export function deprecated_useSignal<T>(v: T, f?: Void) {
   const sig = useConst(new Signal(v));
   sig.bind(f);
   return sig;

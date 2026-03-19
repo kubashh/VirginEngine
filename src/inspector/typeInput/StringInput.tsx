@@ -1,4 +1,4 @@
-export default function StringInput({ sig }: { sig: OldSignal<string> }) {
+export default function StringInput({ sig }: { sig: deprecated_Signal<string> }) {
   return (
     <input
       type="text"

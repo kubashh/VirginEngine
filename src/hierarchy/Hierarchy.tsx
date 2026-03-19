@@ -2,11 +2,11 @@ import { useEffect } from "react";
 import { useRefresh } from "wdwh/hooks";
 import Window from "../components/Window";
 import Node from "./Node";
-import { currentSceneSignal, files, inspectorSignal, refreshCurrentScene } from "../lib/consts";
+import { hierarchySignal, files, inspectorSignal, refreshHierarchy } from "../lib/consts";
 
 function HierarchyComponent() {
-  const currentScene = currentSceneSignal.use();
-  refreshCurrentScene.refresh = useRefresh();
+  const currentScene = hierarchySignal.use();
+  refreshHierarchy.refresh = useRefresh();
 
   // Close inspector
   useEffect(() => {

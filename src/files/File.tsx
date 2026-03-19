@@ -1,36 +1,33 @@
-import { useSignal } from "../lib/oldSignal";
 import FileElement from "../components/FileElement";
-import ImageGrabber from "../components/ImageGrabber";
-import AudioGrabber from "../components/AudioGrabber";
-import TypeInput from "../inspector/TypeInput";
+import InspectorDisplay from "./InspectorDisplay";
 import {
   contextMenuSignal,
-  currentSceneSignal,
+  hierarchySignal,
   defaultAssets,
   dragDataSignal,
   inspectorSignal,
   nameInputSignal,
   refreshFiles,
 } from "../lib/consts";
-import { isFirstUpperCase, deepCopy } from "../lib/util";
+import { isCapitalized, deepCopy } from "../lib/util";
 import { useArrow } from "../lib/hooks";
 
 export default function File({ old, file, name, deep = 0, path = `files` }: FileProps) {
-  const main = deep === 0;
-  if (!main) path += `.${name}`;
+  const isMain = deep === 0;
+  if (!isMain) path += `.${name}`;
   const isFolder = file.type === `folder`;
-  const [arrow, open] = useArrow(main, isFolder, file.type === `img` && file?.src);
+  const [arrow, open] = useArrow(isMain, isFolder, file.type === `img` && file?.src);
 
   const onClick = () => {
     inspectorSignal.set(<InspectorDisplay file={file} name={name} />);
   };
 
   const onContextMenu = ({ pageX, pageY }: MouseEvent) => {
-    const newArrElement = (name: string, type: string, def?: Any) => [
+    const newArrElement = (name: string, type: string, defValue: Any = {}) => [
       () =>
         nameInputSignal.set([
           (newName: string) => {
-            file[newName] = { type, ...deepCopy(def || {}) };
+            file[newName] = { type, ...deepCopy(defValue) };
 
             open.value = true;
             refreshFiles.refresh();
@@ -61,7 +58,7 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
             name,
           ]),
         `Rename`,
-        !main,
+        !isMain,
       ],
       [() => navigator.clipboard.writeText(path), `Copy path`],
       [
@@ -70,40 +67,41 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
           refreshFiles.refresh();
         },
         `Delete`,
-        !main,
+        !isMain,
       ],
     ]);
   };
 
   const onMouseDown = () => {
-    if (!main) dragDataSignal.set({ from: `files`, old, file, name });
+    if (!isMain) dragDataSignal.set({ from: `files`, old, file, name });
   };
 
   const onMouseUp = () => {
     if (!isFolder) return;
 
-    const dragDat = dragDataSignal.get();
+    const dragData = dragDataSignal.get();
 
-    if (dragDat.from !== `files` || dragDat.name === name || file[dragDat.name]) return;
+    if (dragData.from !== `files` || dragData.name === name || file[dragData.name]) return;
 
-    file[dragDat.name] = dragDat.file;
-    delete dragDat.old[dragDat.name];
+    file[dragData.name] = dragData.file;
+    delete dragData.old[dragData.name];
 
     refreshFiles.refresh();
   };
 
-  const onDoubleClick = () => file.type === `scene` && currentSceneSignal.set(file);
+  const onDoubleClick = () => file.type === `scene` && hierarchySignal.set(file);
 
   const childsElement =
     open.value &&
     file.type !== `scene` &&
     Object.entries(file).map(
       ([key, value]) =>
-        isFirstUpperCase(key) && (
+        isCapitalized(key) && (
           <File old={file} file={value} name={key} key={key} deep={deep + 1} path={path} />
         ),
     );
 
+  // this is JSX
   return FileElement({
     deep,
     name,
@@ -115,29 +113,4 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
     onMouseUp,
     onDoubleClick,
   });
-}
-
-function InspectorDisplay({ file, name }: InspectorDisplayProps) {
-  const src = useSignal(file.src, () => (file.src = src.value));
-
-  return (
-    <div className="m-3">
-      <h2 className="text-2xl font-bold">File</h2>
-      <div>Type: {file.type}</div>
-      <div>Name: {name}</div>
-      {(file.type === `img` && (
-        <div>
-          <ImageGrabber src={src} name={name} />
-          <TypeInput object={file} access="quality" />
-        </div>
-      )) ||
-        (file.type === `audio` && (
-          <div>
-            <AudioGrabber src={src} name={name} />
-            <TypeInput object={file} access="quality" />
-          </div>
-        )) ||
-        null}
-    </div>
-  );
 }
