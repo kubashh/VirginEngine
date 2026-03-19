@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { clsx } from "wdwh";
 
 export default function Window({ name, headerOptions, className, children }: WindowProps) {
   return (

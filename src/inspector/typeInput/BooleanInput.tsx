@@ -1,6 +1,4 @@
-import { type Signal } from "../../lib/oldSignal";
-
-export default function BooleanInput({ sig }: { sig: Signal<boolean> }) {
+export default function BooleanInput({ sig }: { sig: OldSignal<boolean> }) {
   return (
     <input
       type="checkbox"

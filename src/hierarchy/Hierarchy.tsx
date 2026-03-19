@@ -1,11 +1,19 @@
+import { useEffect } from "react";
+import { useRefresh } from "wdwh/hooks";
 import Window from "../components/Window";
 import Node from "./Node";
-import { currentScene, files, inspectorSignal } from "../lib/consts";
+import { currentSceneSignal, files, inspectorSignal, refreshCurrentScene } from "../lib/consts";
 
 function HierarchyComponent() {
-  currentScene.bind(() => inspectorSignal.set(null));
+  const currentScene = currentSceneSignal.use();
+  refreshCurrentScene.refresh = useRefresh();
 
-  return <Node object={currentScene.value} old={files.Scenes} name={currentScene.value.name} deep={0} />;
+  // Close inspector
+  useEffect(() => {
+    inspectorSignal.set(null);
+  }, [currentScene]);
+
+  return <Node object={currentScene} old={files.Scenes} name={currentScene.name} deep={0} />;
 }
 
 export default function Hierarchy() {

@@ -18,11 +18,11 @@ export class Scene extends Node implements TScene {
 
   load(newScene: SceneProps) {
     onresize();
-
     this.close();
 
     newScene = new Scene(deepCopy(newScene));
 
+    // Object.assign(this, newScene); // maybe later, need copy class methods
     for (const key in newScene) {
       (this as TScene)[key] = newScene[key];
     }
@@ -41,8 +41,11 @@ export class Scene extends Node implements TScene {
     events.clear();
     eventsHover.clear();
 
-    // Clear scene
-    for (const key in this) delete this[key];
+    // // Clear scene --- this breaks loading scenes!!!
+    // for (const key in this) {
+    //   console.log(key);
+    //   delete this[key];
+    // }
   }
 
   get time() {

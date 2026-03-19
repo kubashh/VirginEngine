@@ -4,7 +4,8 @@ type Obj<T> = Record<string, T>;
 type Any = Obj<any>;
 type Void = () => void;
 
-type Signal<T> = { value: T };
+// to delete
+type OldSignal<T> = { value: T };
 
 type VTypes = `boolean` | `number` | `string` | `array` | `object` | `function` | `enum`;
 
@@ -105,7 +106,7 @@ type FileGrabberProps = {
 };
 
 type ImageGrabberProps = {
-  src: Signal<string>;
+  src: OldSignal<string>;
   name: string;
 };
 

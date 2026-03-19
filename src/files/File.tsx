@@ -5,13 +5,14 @@ import AudioGrabber from "../components/AudioGrabber";
 import TypeInput from "../inspector/TypeInput";
 import {
   contextMenuSignal,
-  def,
+  currentSceneSignal,
+  defaultAssets,
   dragDataSignal,
   inspectorSignal,
   nameInputSignal,
   refreshFiles,
 } from "../lib/consts";
-import { openScene, isFirstUpperCase, deepCopy } from "../lib/util";
+import { isFirstUpperCase, deepCopy } from "../lib/util";
 import { useArrow } from "../lib/hooks";
 
 export default function File({ old, file, name, deep = 0, path = `files` }: FileProps) {
@@ -43,8 +44,8 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
       pageX,
       pageY,
       newArrElement(`New file`, `txt`),
-      newArrElement(`New image`, `img`, deepCopy(def.img)),
-      newArrElement(`New audio`, `audio`, deepCopy(def.audio)),
+      newArrElement(`New image`, `img`, deepCopy(defaultAssets.img)),
+      newArrElement(`New audio`, `audio`, deepCopy(defaultAssets.audio)),
       newArrElement(`New folder`, `folder`),
       newArrElement(`New scene`, `scene`),
       [
@@ -91,7 +92,7 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
     refreshFiles.refresh();
   };
 
-  const onDoubleClick = () => file.type === `scene` && openScene(file);
+  const onDoubleClick = () => file.type === `scene` && currentSceneSignal.set(file);
 
   const childsElement =
     open.value &&
