@@ -11,6 +11,7 @@
 - Animation.frames = []
 - Collider.collide() // polygon
 - Scene.load() instead of scene.load()
+- WebGL, WebGL2, WebGPU for render
 
 ### Editor (src)
 
@@ -20,6 +21,8 @@
 - Drag Nodes to files, files to Nodes (clonning)
 - src.Node.rect can contains only Node.rect
 - PathInput (for paths, better optymalization for not use file() while running)
+- implement localforage as storage
+- Sprite: use sprite or color (good for prototyping)
 
 ### VirginEngine
 
