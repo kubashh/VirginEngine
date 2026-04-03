@@ -18,5 +18,5 @@ export default function AudioGrabber({ src, name }: ImageGrabberProps) {
 function bufferToBase64(bytes: Uint8Array) {
   const buf = [];
   for (const b of bytes) buf.push(String.fromCharCode(b));
-  return window.btoa(buf.join(``));
+  return btoa(buf.join(``));
 }

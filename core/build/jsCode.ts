@@ -1,12 +1,12 @@
 import { minify_sync } from "terser";
 import { core } from "./core";
-import { config, files } from "../lib/consts";
-import { isCustomProp, optymalizeImageSrc } from "../lib/util";
+import { keywords, optymalizeImageSrc } from "./util";
+import type { Build, BuildConfig } from "./build";
 
-export async function jsCode(production?: boolean) {
-  const validCore = await coreConfig(production);
+export async function jsCode(options: Build) {
+  const validCore = await coreConfig(options);
 
-  if (!production) return validCore;
+  if (!options.production) return validCore;
 
   const out = minify_sync(validCore, {
     module: true, // size -10%
@@ -20,18 +20,17 @@ export async function jsCode(production?: boolean) {
 }
 
 let performanceInfo = true;
-async function coreConfig(production?: boolean) {
+async function coreConfig({ config, files, production }: Build) {
   const arr = filesToString(files);
 
   for (const i in arr) arr[i] = await arr[i];
 
   performanceInfo =
-    config.performanceInfo.selected === `yes` ||
-    ((!production && config.performanceInfo.selected === `dev`) as boolean);
+    config.performanceInfo === `yes` || ((!production && config.performanceInfo === `dev`) as boolean);
 
   return replacePerformanceInfo(core)
     .split(`\n`)
-    .filter(filterFullScreen)
+    .filter((line) => filterFullScreen(config, line))
     .join(`\n`)
     .replace(`"REPLACE_FILES"`, arr.join(``))
     .replace(`"REPLACE_PATH_TO_MAIN_SCENE"`, config.pathToMainScene);
@@ -76,7 +75,11 @@ function filesToString(data: Any, name?: string, type?: string): (string | Promi
   ];
 }
 
-function filterFullScreen(line: string) {
+function isCustomProp(text: string) {
+  return !/^[A-Z]/.test(text) && !keywords.includes(text);
+}
+
+function filterFullScreen(config: BuildConfig, line: string) {
   return config.fullScreen || !line.startsWith(`!document.fullscreenElement ?`);
 }
 

@@ -1,36 +1,60 @@
-import { useConst, useRefresh } from "wdwh/hooks";
+import { useState, useSyncExternalStore } from "react";
+import { useConst } from "wdwh/hooks";
 
-class Signal<T> {
-  private v: T;
-  refresh: Void = () => {
-    throw Error(`Refresh not bind!`);
+type Listener = () => void;
+
+export type Signal<T> = {
+  get(): T;
+  set(newValueOrFn: T | ((prev: T) => T)): void;
+  subscribe(listener: Listener): () => void;
+  use(): T;
+};
+
+export function useCreateSignal<T>(defaultValue: T): Signal<T> {
+  let value = defaultValue;
+  const listeners = useConst(new Set<Listener>());
+
+  function get() {
+    return value;
+  }
+
+  function subscribe(listener: Listener) {
+    listeners.add(listener);
+    return () => listeners.delete(listener);
+  }
+
+  return {
+    get,
+
+    set(newValueOrFn) {
+      const newValue =
+        typeof newValueOrFn === "function" ? (newValueOrFn as (prev: T) => T)(value) : newValueOrFn;
+
+      if (Object.is(value, newValue)) return;
+
+      value = newValue;
+      listeners.forEach((l) => l());
+    },
+
+    subscribe,
+
+    use() {
+      return useSyncExternalStore(subscribe, get);
+    },
   };
-
-  constructor(v: T) {
-    this.v = v;
-  }
-
-  bind(fn?: Void) {
-    if (fn) {
-      const refresh = useRefresh();
-      this.refresh = () => {
-        fn();
-        refresh();
-      };
-    } else this.refresh = useRefresh();
-  }
-
-  get value() {
-    return this.v;
-  }
-  set value(v: T) {
-    this.v = v;
-    this.refresh?.();
-  }
 }
 
-export function deprecated_useSignal<T>(v: T, f?: Void) {
-  const sig = useConst(new Signal(v));
-  sig.bind(f);
-  return sig;
+export function deprecated_useSignal<T>(defaultValue: T, fn?: Void) {
+  const [value, setValue] = useState(defaultValue);
+
+  return {
+    get() {
+      return value;
+    },
+
+    set(newValue: T) {
+      setValue(newValue);
+      fn?.();
+    },
+  };
 }

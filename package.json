@@ -3,14 +3,13 @@
   "version": "0.22.0-dev",
   "license": "MIT",
   "scripts": {
-    "dev": "bun core/build.ts && wdwh dev",
-    "build": "bun core/build.ts -p && wdwh build"
+    "dev": "bun core/buildBuild.ts && wdwh dev",
+    "build": "bun core/buildBuild.ts --production && wdwh build"
   },
   "dependencies": {
     "localforage": "^1.10.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
-    "terser": "^5.46.1",
     "wdwh": "^1.12.15"
   },
   "devDependencies": {
@@ -18,6 +17,7 @@
     "@types/react": "latest",
     "bun-plugin-tailwind": "^0.1.2",
     "tailwindcss": "^4.2.2",
+    "terser": "^5.46.1",
     "typescript": "^6.0.2"
   },
   "wdwh": {

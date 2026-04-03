@@ -4,7 +4,7 @@ import ImageGrabber from "../components/ImageGrabber";
 import TypeInput from "../inspector/TypeInput";
 
 export default function InspectorDisplay({ file, name }: InspectorDisplayProps) {
-  const src = deprecated_useSignal(file.src, () => (file.src = src.value));
+  const src = deprecated_useSignal(file.src, () => (file.src = src.get()));
 
   return (
     <div className="m-3">

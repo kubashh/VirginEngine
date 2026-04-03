@@ -29,7 +29,7 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
           (newName: string) => {
             file[newName] = { type, ...deepCopy(defValue) };
 
-            open.value = true;
+            open.set(true);
             refreshFiles.refresh();
           },
         ]),
@@ -92,7 +92,7 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
   const onDoubleClick = () => file.type === `scene` && hierarchySignal.set(file);
 
   const childsElement =
-    open.value &&
+    open.get() &&
     file.type !== `scene` &&
     Object.entries(file).map(
       ([key, value]) =>

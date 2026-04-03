@@ -2,12 +2,12 @@ import Window from "../components/Window";
 import InspectorSection from "./InspectorSection";
 import { config, inspectorSignal } from "../lib/consts";
 import { loadProject, saveProject } from "../lib/util";
-import { build, test } from "../build/build";
+import { buildProject, test } from "../build/build";
 
 const editorOpctions = {
   Test: test,
   Save: saveProject,
-  Build: build,
+  Build: buildProject,
   Load: loadProject,
   Config: () => inspectorSignal.set(<Config />),
 };
