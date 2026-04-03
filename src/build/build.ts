@@ -1,11 +1,11 @@
-import { htmlCode } from "./htmlCode";
-import { config, testSceneSignal } from "../lib/consts";
+import { config, files, testSceneSignal } from "../lib/consts";
 import { downloadFile } from "../lib/util";
+import { build } from "./core";
 
-export async function build() {
-  downloadFile(`${config.gameName}.html`, await htmlCode(true));
+export async function buildProject() {
+  downloadFile(`${config.gameName}.html`, await build({ ...config, config, files }));
 }
 
 export async function test() {
-  testSceneSignal.set(await htmlCode());
+  testSceneSignal.set(await build({ ...config, config, files, production: false }));
 }

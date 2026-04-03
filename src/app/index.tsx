@@ -2,9 +2,9 @@ import type { Metadata } from "wdwh";
 import App from "./App";
 
 export const metadata: Metadata = {
-  title: `Example`,
+  title: `Virgin Engine`,
   iconPath: `./icon.png`,
-  description: `Example project created with wdwh framework`,
+  description: `Virgin Engine - simple 2D TS game engine`,
 };
 
 export default function Page() {

@@ -5,7 +5,7 @@ type Any = Obj<any>;
 type Void = () => void;
 
 // to delete
-type deprecated_Signal<T> = { value: T };
+type deprecated_Signal<T> = { get: () => T; set: (newValue: T) => void };
 
 type VTypes = `boolean` | `number` | `string` | `array` | `object` | `function` | `enum`;
 

@@ -38,7 +38,7 @@ export default function Node({ old, name, object, deep = 0 }: NodeProps) {
 
               object[newName] = defaultNode();
 
-              open.value = true;
+              open.set(true);
               refreshHierarchy.refresh();
             },
           ]);
@@ -94,7 +94,7 @@ export default function Node({ old, name, object, deep = 0 }: NodeProps) {
   };
 
   const childsElement =
-    open.value &&
+    open.get() &&
     Object.entries(childs).map(([key, value]) => (
       <Node old={object} object={value} key={key} name={key} deep={deep + 1} />
     ));

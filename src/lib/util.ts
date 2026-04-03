@@ -1,4 +1,4 @@
-// import localforage from "localforage";
+import localforage from "localforage";
 import { config, hierarchySignal, files, keywords, setUpSignal } from "./consts";
 
 export function deepCopy<T>(obj: T): T {
@@ -72,7 +72,8 @@ export function isOccupied(obj: Any, name: string) {
 
 // SaveFile
 export function saveProject() {
-  // TODO localforage.setItem(config.gameName, JSON.stringify({ config, files }));
+  // TODO
+  localforage.setItem(config.gameName, JSON.stringify({ config, files }));
   downloadFile(`${config.gameName}.virginengine`, JSON.stringify({ config, files }));
 }
 

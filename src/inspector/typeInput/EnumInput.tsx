@@ -2,12 +2,12 @@ export default function EnumInput<T>({ sig, type }: { sig: deprecated_Signal<TEn
   return (
     <select
       className="w-full border-b border-zinc-400 accent-green-600"
-      defaultValue={sig.value.selected as string}
+      defaultValue={sig.get().selected as string}
       onChange={({ target }) => {
-        sig.value.selected = type === `number` ? (Number(target.value) as any) : target.value;
+        sig.get().selected = type === `number` ? (Number(target.value) as any) : target.value;
       }}
     >
-      {sig.value.options.map((option) => (
+      {sig.get().options.map((option) => (
         <option key={option as string} value={option as string}>
           {option as string}
         </option>
