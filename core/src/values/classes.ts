@@ -1,6 +1,6 @@
 import Node from "../components/Node";
 import { events, eventsHover, nodes } from "./consts";
-import { deepCopy, onresize } from "../util/basicFunctions";
+import { clearObject, deepCopy, onresize } from "../util/basicFunctions";
 
 export class Scene extends Node implements TScene {
   // loaded = new Map<number, boolean>() // TODO key: id; if loaded.size === 0 run scene
@@ -38,8 +38,8 @@ export class Scene extends Node implements TScene {
 
     nodes.length = 0;
 
-    events.clear();
-    eventsHover.clear();
+    clearObject(events);
+    clearObject(eventsHover);
 
     // // Clear scene --- this breaks loading scenes!!!
     // for (const key in this) {
@@ -98,15 +98,5 @@ export class Timer {
     );
 
     this.timers = {};
-  }
-}
-
-export class Obj {
-  constructor(obj?: Object) {
-    Object.assign(this, obj);
-  }
-
-  clear() {
-    for (const key in this) delete this[key];
   }
 }

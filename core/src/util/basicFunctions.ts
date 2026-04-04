@@ -125,3 +125,9 @@ export function lerp(a: XY, b: XY, t: number) {
     y: a.y + (b.y - a.y) * t,
   };
 }
+
+export function clearObject(obj: any) {
+  for (const key in obj) {
+    delete obj[key];
+  }
+}

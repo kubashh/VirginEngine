@@ -1,7 +1,7 @@
 import { minify_sync } from "terser";
 import { core } from "./core";
 import { keywords, optymalizeImageSrc } from "./util";
-import type { Build, BuildConfig } from "./build";
+import type { Build } from "./build";
 
 export async function jsCode(options: Build) {
   const validCore = await coreConfig(options);
@@ -19,21 +19,18 @@ export async function jsCode(options: Build) {
   throw Error(JSON.stringify(out));
 }
 
-let performanceInfo = true;
-async function coreConfig({ config, files, production }: Build) {
-  const arr = filesToString(files);
+async function coreConfig(build: Build) {
+  const arr = filesToString(build.files);
 
   for (const i in arr) arr[i] = await arr[i];
 
-  performanceInfo =
-    config.performanceInfo === `yes` || ((!production && config.performanceInfo === `dev`) as boolean);
-
-  return replacePerformanceInfo(core)
+  return replacePerformanceInfo(build, core)
     .split(`\n`)
-    .filter((line) => filterFullScreen(config, line))
+    .filter((line) => filterFullScreen(build, line))
     .join(`\n`)
-    .replace(`"REPLACE_FILES"`, arr.join(``))
-    .replace(`"REPLACE_PATH_TO_MAIN_SCENE"`, config.pathToMainScene);
+    .replace(`REPLACE_FILES`, arr.join(``))
+    .replace(`REPLACE_PATH_TO_MAIN_SCENE`, build.pathToMainScene)
+    .replace(`REPLACE_CANVAS_ID`, build.hydrate || `canvas`);
 }
 
 function filesToString(data: Any, name?: string, type?: string): (string | Promise<string>)[] {
@@ -79,12 +76,12 @@ function isCustomProp(text: string) {
   return !/^[A-Z]/.test(text) && !keywords.includes(text);
 }
 
-function filterFullScreen(config: BuildConfig, line: string) {
-  return config.fullScreen || !line.startsWith(`!document.fullscreenElement ?`);
+function filterFullScreen(build: Build, line: string) {
+  return build.fullScreen || !line.startsWith(`!document.fullscreenElement ?`);
 }
 
-function replacePerformanceInfo(core: string) {
-  if (performanceInfo) return core;
+function replacePerformanceInfo(build: Build, core: string) {
+  if (build.performanceInfo) return core;
 
   return core
     .replaceAll(

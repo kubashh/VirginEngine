@@ -30303,8 +30303,8 @@ nodes.shift();
 close() {
 super.destroy();
 nodes.length = 0;
-events.clear();
-eventsHover.clear();
+clearObject(events);
+clearObject(eventsHover);
 }
 get time() {
 return this.vtime;
@@ -30346,22 +30346,13 @@ this.allFormatted = Object.entries(obj).map(([key, value]) => \`\${key}: \${(val
 this.timers = {};
 }
 }
-class Obj {
-constructor(obj) {
-Object.assign(this, obj);
-}
-clear() {
-for (const key in this)
-delete this[key];
-}
-}
-var ctx = document.body.children[0].getContext(\`2d\`);
-var files = "REPLACE_FILES";
+var ctx = document.getElementById("REPLACE_CANVAS_ID").getContext("2d");
+var files = REPLACE_FILES;
 var alphabet = \`ABCDEFGHIJKLMNOPRQSTUWXYZ\`;
 var numbers = \`0123456789\`;
 var allowedNameChars = \`\${alphabet}\${numbers}_\`;
-var events = new Obj;
-var eventsHover = new Obj;
+var events = {};
+var eventsHover = {};
 var nodes = [];
 var Log = { updates: 0, frames: 0, framesTemp: 0 };
 var Camera = {
@@ -30464,6 +30455,11 @@ x: a.x + (b.x - a.x) * t,
 y: a.y + (b.y - a.y) * t
 };
 }
+function clearObject(obj) {
+for (const key in obj) {
+delete obj[key];
+}
+}
 class AudioElement {
 static canPlay = false;
 audio;
@@ -30482,7 +30478,7 @@ this.audio.pause();
 }
 async function run() {
 await loadAssets();
-scene.load("REPLACE_PATH_TO_MAIN_SCENE");
+scene.load(REPLACE_PATH_TO_MAIN_SCENE);
 requestAnimationFrame(render);
 let timer = performance.now();
 let updates = 0;
@@ -30538,7 +30534,7 @@ return toLoad;
 }
 function update() {
 updateTimer.measure({ Physics: updatePhysics, Nodes: updateNodes });
-events.clear();
+clearObject(events);
 }
 function updatePhysics() {
 for (const node of nodes)
@@ -30653,15 +30649,13 @@ async function jsCode(options) {
     return out.code;
   throw Error(JSON.stringify(out));
 }
-var performanceInfo = true;
-async function coreConfig({ config, files, production }) {
-  const arr = filesToString(files);
+async function coreConfig(build) {
+  const arr = filesToString(build.files);
   for (const i in arr)
     arr[i] = await arr[i];
-  performanceInfo = config.performanceInfo === `yes` || !production && config.performanceInfo === `dev`;
-  return replacePerformanceInfo(core).split(`
-`).filter((line) => filterFullScreen(config, line)).join(`
-`).replace(`"REPLACE_FILES"`, arr.join(``)).replace(`"REPLACE_PATH_TO_MAIN_SCENE"`, config.pathToMainScene);
+  return replacePerformanceInfo(build, core).split(`
+`).filter((line) => filterFullScreen(build, line)).join(`
+`).replace(`REPLACE_FILES`, arr.join(``)).replace(`REPLACE_PATH_TO_MAIN_SCENE`, build.pathToMainScene).replace(`REPLACE_CANVAS_ID`, build.hydrate || `canvas`);
 }
 function filesToString(data, name, type) {
   if (typeof data !== `object`)
@@ -30693,11 +30687,11 @@ function filesToString(data, name, type) {
 function isCustomProp(text) {
   return !/^[A-Z]/.test(text) && !keywords.includes(text);
 }
-function filterFullScreen(config, line) {
-  return config.fullScreen || !line.startsWith(`!document.fullscreenElement ?`);
+function filterFullScreen(build, line) {
+  return build.fullScreen || !line.startsWith(`!document.fullscreenElement ?`);
 }
-function replacePerformanceInfo(core2) {
-  if (performanceInfo)
+function replacePerformanceInfo(build, core2) {
+  if (build.performanceInfo)
     return core2;
   return core2.replaceAll(`for (const text of [...renderTimer.allFormatted, ...updateTimer.allFormatted]) {
 drawText({ text, ...props });
@@ -30708,52 +30702,47 @@ props.y += 18;
 }
 
 // core/build/build.ts
-var html = minifyHtml(`
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta name="author" content="AUTHOR"/>
-    <meta name="description" content="DESCRIPTION"/>
-    <meta name="keywords" content="GAME_NAME, AUTHOR"/>
-
-    <title>GAME_NAME</title>
-  </head>
-  <body style="background-color: black; margin: 0; overflow: hidden">
-    <canvas></canvas>
-    <script>
-      SCRIPT
-    </script>
-  </body>
-</html>
-`);
-function minifyHtml(text) {
-  return text.replaceAll(/\/\*[\s\S]*?\*\//g, ``).replaceAll(`
-`, ` `).replaceAll(/\s{2,}/g, ` `).replaceAll(/ > | >|> /g, `>`).replaceAll(/ < | <|< /g, `<`).replaceAll(/ ; | ;|; /g, `;`).replaceAll(/ { | {|{ /g, `{`).replaceAll(/ } | }|} /g, `}`).replaceAll(/ " | "|" /g, `"`).replaceAll(/ , | ,|, /g, `,`);
-}
-
 class Build {
+  static htmlTemplate = `<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport"content="width=device-width,initial-scale=1.0"/><meta name="author"content="AUTHOR"/><meta name="description"content="DESCRIPTION"/><title>GAME_NAME</title></head><body style="background-color:black;margin:0;overflow:hidden"><canvas id="canvas"></canvas><script>SCRIPT;</script></body></html>`;
   author;
   description;
   gameName;
-  config;
+  performanceInfo;
+  pathToMainScene;
+  fullScreen;
   files;
   production;
+  hydrate;
   constructor(options) {
     this.author = options.author;
     this.description = options.description;
     this.gameName = options.gameName;
-    this.config = options.config;
+    this.performanceInfo = options.performanceInfo;
+    this.pathToMainScene = options.pathToMainScene;
+    this.fullScreen = options.fullScreen;
     this.files = options.files;
     this.production = options.production !== false;
+    this.hydrate = options.hydrate;
+  }
+  js() {
+    return jsCode(this);
+  }
+  async html() {
+    return this.basicHtml().replaceAll(`SCRIPT`, await this.js());
+  }
+  basicHtml() {
+    return Build.htmlTemplate.replaceAll(`AUTHOR`, this.author).replaceAll(`DESCRIPTION`, this.description).replaceAll(`GAME_NAME`, this.gameName);
+  }
+  async separated() {
+    return {
+      js: ``,
+      html: ``
+    };
   }
 }
 async function build(options) {
   const build2 = new Build(options);
-  if (options.production === undefined)
-    options.production = true;
-  return html.replaceAll(`AUTHOR`, options.author).replaceAll(`DESCRIPTION`, options.description).replaceAll(`GAME_NAME`, options.gameName).replaceAll(`SCRIPT`, await jsCode(build2));
+  return build2.hydrate ? await build2.js() : await build2.html();
 }
 export {
   build,
