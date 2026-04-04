@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "bun core/buildBuild.ts && wdwh dev",
-    "build": "bun core/buildBuild.ts --production && wdwh build"
+    "build": "bun core/buildBuild.ts && wdwh build"
   },
   "dependencies": {
     "localforage": "^1.10.0",

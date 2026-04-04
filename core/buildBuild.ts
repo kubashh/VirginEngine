@@ -1,10 +1,5 @@
 /// <reference types="bun-types" />
 
-const minifyOpt = process.argv[2] === `--production` && {
-  whitespace: true,
-  // syntax: true,
-};
-
 // Build build
 build();
 
@@ -15,7 +10,11 @@ async function build() {
     entrypoints: [`./core/build/build.ts`],
     outdir: `.`,
     naming: `./src/build/core.ts`,
-    minify: minifyOpt,
+    minify: {
+      whitespace: true,
+      identifiers: true,
+      // syntax: true,
+    },
     target: `bun`,
   });
 
@@ -31,15 +30,12 @@ async function build() {
 async function buildEngineCore() {
   const { outputs } = await Bun.build({
     entrypoints: [`./core/src/core.ts`],
-    minify: minifyOpt,
+    minify: {},
     target: `bun`,
   });
   let text = await outputs[0].text();
 
-  text = text
-    .split(`\n`)
-    .filter((line) => !line.startsWith("console.log(`Engine:"))
-    .join(`\n`);
+  text = text.replace(/^.*console\.log\(`Engine:.*\n?/gm, ``);
 
   return encode(optymalize(text));
 }
