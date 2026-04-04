@@ -11,7 +11,25 @@ await build(`./core/src/core.ts`, `./core/build/core.ts`, (text: string) => {
 });
 
 // Build build
+const htmlTemplate = `\`${minifyHtml(await Bun.file(`./core/build/template.html`).text())}\``;
+
+function minifyHtml(text: string) {
+  return text
+    .replaceAll(/\/\*[\s\S]*?\*\//g, ``) // Remove comments
+    .replaceAll(`\n`, ` `)
+    .replaceAll(/\s{2,}/g, ` `)
+    .replaceAll(/ > | >|> /g, `>`)
+    .replaceAll(/ < | <|< /g, `<`)
+    .replaceAll(/ ; | ;|; /g, `;`)
+    .replaceAll(/ { | {|{ /g, `{`)
+    .replaceAll(/ } | }|} /g, `}`)
+    .replaceAll(/ " | "|" /g, `"`)
+    .replaceAll(/ , | ,|, /g, `,`)
+    .replaceAll(`: `, `:`); // color: red; => color:red;
+}
+
 await build(`./core/build/build.ts`, `./src/build/core.js`, (text: string) => {
+  text = text.replace(`REPLACE_HTML_TEMPLATE`, htmlTemplate);
   return `// @bun\n// @ts-ignore\n${text}`;
 });
 

@@ -1,11 +1,11 @@
 import { Timer } from "../values/classes";
 import { ctx, events, nodes, Log, scene, files } from "../values/consts";
-import { drawText, wait } from "./basicFunctions";
+import { clearObject, drawText, wait } from "./basicFunctions";
 
 // Run
 export async function run() {
   await loadAssets();
-  scene.load("REPLACE_PATH_TO_MAIN_SCENE" as any);
+  scene.load(REPLACE_PATH_TO_MAIN_SCENE);
 
   requestAnimationFrame(render);
 
@@ -75,7 +75,7 @@ function update() {
   updateTimer.measure({ Physics: updatePhysics, Nodes: updateNodes });
 
   // Clear events, not eventsHover
-  events.clear();
+  clearObject(events);
 }
 
 function updatePhysics() {

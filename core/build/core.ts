@@ -315,8 +315,8 @@ nodes.shift();
 close() {
 super.destroy();
 nodes.length = 0;
-events.clear();
-eventsHover.clear();
+clearObject(events);
+clearObject(eventsHover);
 }
 get time() {
 return this.vtime;
@@ -358,22 +358,13 @@ this.allFormatted = Object.entries(obj).map(([key, value]) => \`\${key}: \${(val
 this.timers = {};
 }
 }
-class Obj {
-constructor(obj) {
-Object.assign(this, obj);
-}
-clear() {
-for (const key in this)
-delete this[key];
-}
-}
-var ctx = document.body.children[0].getContext(\`2d\`);
-var files = "REPLACE_FILES";
+var ctx = document.getElementById("REPLACE_CANVAS_ID").getContext("2d");
+var files = REPLACE_FILES;
 var alphabet = \`ABCDEFGHIJKLMNOPRQSTUWXYZ\`;
 var numbers = \`0123456789\`;
 var allowedNameChars = \`\${alphabet}\${numbers}_\`;
-var events = new Obj;
-var eventsHover = new Obj;
+var events = {};
+var eventsHover = {};
 var nodes = [];
 var Log = { updates: 0, frames: 0, framesTemp: 0 };
 var Camera = {
@@ -476,6 +467,11 @@ x: a.x + (b.x - a.x) * t,
 y: a.y + (b.y - a.y) * t
 };
 }
+function clearObject(obj) {
+for (const key in obj) {
+delete obj[key];
+}
+}
 class AudioElement {
 static canPlay = false;
 audio;
@@ -494,7 +490,7 @@ this.audio.pause();
 }
 async function run() {
 await loadAssets();
-scene.load("REPLACE_PATH_TO_MAIN_SCENE");
+scene.load(REPLACE_PATH_TO_MAIN_SCENE);
 requestAnimationFrame(render);
 let timer = performance.now();
 let updates = 0;
@@ -550,7 +546,7 @@ return toLoad;
 }
 function update() {
 updateTimer.measure({ Physics: updatePhysics, Nodes: updateNodes });
-events.clear();
+clearObject(events);
 }
 function updatePhysics() {
 for (const node of nodes)

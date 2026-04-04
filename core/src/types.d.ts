@@ -1,3 +1,5 @@
+// Types
+
 type XY = {
   x: number;
   y: number;
@@ -168,3 +170,11 @@ type TScene = {
 
   [key: string]: any;
 };
+
+// Global declarations
+
+declare const REPLACE_FILES: Any;
+declare const REPLACE_PATH_TO_MAIN_SCENE: any;
+// declare const REPLACE_CANVAS_ID: string;
+
+declare const REPLACE_HTML_TEMPLATE: string;
