@@ -1,7 +1,7 @@
 import { jsCode } from "./jsCode";
 
 export class Build implements BuildOptions {
-  static htmlTemplate = REPLACE_HTML_TEMPLATE;
+  static htmlTemplate = `REPLACE_HTML_TEMPLATE`;
 
   author: string;
   description: string;

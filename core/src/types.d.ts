@@ -175,6 +175,3 @@ type TScene = {
 
 declare const REPLACE_FILES: Any;
 declare const REPLACE_PATH_TO_MAIN_SCENE: any;
-// declare const REPLACE_CANVAS_ID: string;
-
-declare const REPLACE_HTML_TEMPLATE: string;

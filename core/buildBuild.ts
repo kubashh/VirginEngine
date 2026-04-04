@@ -1,17 +1,63 @@
 /// <reference types="bun-types" />
 
-// Build core
-await build(`./core/src/core.ts`, `./core/build/core.ts`, (text: string) => {
+const minifyOpt = process.argv[2] === `--production` && {
+  whitespace: true,
+  // syntax: true,
+};
+
+// Build build
+build();
+
+async function build() {
+  const htmlTemplate = minifyHtml(await Bun.file(`./core/build/template.html`).text());
+
+  const { outputs } = await Bun.build({
+    entrypoints: [`./core/build/build.ts`],
+    outdir: `.`,
+    naming: `./src/build/core.ts`,
+    minify: minifyOpt,
+    target: `bun`,
+  });
+
+  let js = await outputs[0].text();
+  js = js
+    .replace(`REPLACE_HTML_TEMPLATE`, htmlTemplate)
+    .replace(`REPLACE_CORE`, await buildEngineCore())
+    .replace(`// @bun\n`, `// @bun\n// @ts-nocheck\n`);
+  await Bun.write(outputs[0].path, js);
+  return js;
+}
+
+async function buildEngineCore() {
+  const { outputs } = await Bun.build({
+    entrypoints: [`./core/src/core.ts`],
+    minify: minifyOpt,
+    target: `bun`,
+  });
+  let text = await outputs[0].text();
+
   text = text
     .split(`\n`)
     .filter((line) => !line.startsWith("console.log(`Engine:"))
     .join(`\n`);
-  text = encode(optymalize(text));
-  return `export const core = \`${text}\``;
-});
 
-// Build build
-const htmlTemplate = `\`${minifyHtml(await Bun.file(`./core/build/template.html`).text())}\``;
+  return encode(optymalize(text));
+}
+
+// Helpers
+
+function optymalize(js: string) {
+  return js
+    .replaceAll(/\/\*[\s\S]*?\*\/|\/\/.*/g, ``) // Remove comments
+    .split(`\n`)
+    .map((line) => line.trim())
+    .filter((line) => line !== ``)
+    .join(`\n`);
+}
+
+function encode(js: string) {
+  return js.replaceAll("`", "\\`").replaceAll(`$`, `\\$`);
+}
 
 function minifyHtml(text: string) {
   return text
@@ -26,39 +72,4 @@ function minifyHtml(text: string) {
     .replaceAll(/ " | "|" /g, `"`)
     .replaceAll(/ , | ,|, /g, `,`)
     .replaceAll(`: `, `:`); // color: red; => color:red;
-}
-
-await build(`./core/build/build.ts`, `./src/build/core.js`, (text: string) => {
-  text = text.replace(`REPLACE_HTML_TEMPLATE`, htmlTemplate);
-  return `// @bun\n// @ts-ignore\n${text}`;
-});
-
-// Helpers
-async function build(entry: string, outpath: string, cb: (text: string) => string) {
-  const { outputs } = await Bun.build({
-    entrypoints: [entry],
-    outdir: `.`,
-    naming: outpath,
-    minify: process.argv.includes(`-p`) && {
-      whitespace: true,
-      syntax: true,
-    },
-    target: `bun`,
-  });
-
-  const js = await outputs[0].text();
-  await Bun.write(outputs[0].path, cb(js));
-}
-
-function optymalize(js: string) {
-  return js
-    .replaceAll(/\/\*[\s\S]*?\*\/|\/\/.*/g, ``) // Remove comments
-    .split(`\n`)
-    .map((line) => line.trim())
-    .filter((line) => line !== ``)
-    .join(`\n`);
-}
-
-function encode(s: string) {
-  return s.replaceAll("`", "\\`").replaceAll(`$`, `\\$`);
 }
