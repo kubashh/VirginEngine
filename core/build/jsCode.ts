@@ -1,12 +1,14 @@
 import { minify_sync } from "terser";
-import { core } from "./core";
+// import { core } from "./core";
 import { keywords, optymalizeImageSrc } from "./util";
 import type { Build } from "./build";
 
-export async function jsCode(options: Build) {
-  const validCore = await coreConfig(options);
+const core = `REPLACE_CORE`;
 
-  if (!options.production) return validCore;
+export async function jsCode(build: Build) {
+  const validCore = await coreConfig(build);
+
+  if (!build.production) return validCore;
 
   const out = minify_sync(validCore, {
     module: true, // size -10%
@@ -24,13 +26,16 @@ async function coreConfig(build: Build) {
 
   for (const i in arr) arr[i] = await arr[i];
 
-  return replacePerformanceInfo(build, core)
-    .split(`\n`)
-    .filter((line) => filterFullScreen(build, line))
-    .join(`\n`)
-    .replace(`REPLACE_FILES`, arr.join(``))
-    .replace(`REPLACE_PATH_TO_MAIN_SCENE`, build.pathToMainScene)
-    .replace(`REPLACE_CANVAS_ID`, build.hydrate || `canvas`);
+  return (
+    replacePerformanceInfo(build, core)
+      .split(`\n`)
+      // Remove fullscreen if not needed
+      .filter((line) => build.fullScreen || !line.startsWith(`!document.fullscreenElement ?`))
+      .join(`\n`)
+      .replace(`REPLACE_FILES`, arr.join(``))
+      .replace(`REPLACE_PATH_TO_MAIN_SCENE`, build.pathToMainScene)
+      .replace(`REPLACE_CANVAS_ID`, build.hydrate || `canvas`)
+  );
 }
 
 function filesToString(data: Any, name?: string, type?: string): (string | Promise<string>)[] {
@@ -74,10 +79,6 @@ function filesToString(data: Any, name?: string, type?: string): (string | Promi
 
 function isCustomProp(text: string) {
   return !/^[A-Z]/.test(text) && !keywords.includes(text);
-}
-
-function filterFullScreen(build: Build, line: string) {
-  return build.fullScreen || !line.startsWith(`!document.fullscreenElement ?`);
 }
 
 function replacePerformanceInfo(build: Build, core: string) {
