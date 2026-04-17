@@ -44,7 +44,7 @@ function InputDefault({ object, access }: StringInputProps) {
 }
 
 // Types
-const scriptTypes: Any = {
+const scriptTypes: TObj = {
   boolean: [false, TypeInput],
   number: [0, TypeInput],
   string: [`""`, TypeInput],

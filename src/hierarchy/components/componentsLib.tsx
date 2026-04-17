@@ -12,13 +12,13 @@ const sprite = [{ color: ``, path: `files.Assets.Images.BoxImage` }, [], []];
 const physics = [{ gravity: true }, [], []];
 const audio = [{ path: `` }, [], []];
 
-const components: Obj<[Any, string[], string[]]> = { text, rect, sprite, physics, audio } as any;
+const components: TObj<[TObj, string[], string[]]> = { text, rect, sprite, physics, audio } as any;
 
-export function setComponents(props: Any) {
+export function setComponents(props: TObj) {
   inspectorSignal.set(<Components {...props} />);
 }
 
-function Components({ name, ...props }: Any) {
+function Components({ name, ...props }: TObj) {
   const refresh = useRefresh();
   props = { ...props, refresh };
 
@@ -34,7 +34,7 @@ function Components({ name, ...props }: Any) {
   );
 }
 
-function Component({ name, refresh, required, ...props }: Any) {
+function Component({ name, refresh, required, ...props }: TObj) {
   const remove = () => {
     for (const key of components[name][2]) {
       delete props.object[key];
@@ -66,7 +66,7 @@ function Component({ name, refresh, required, ...props }: Any) {
   );
 }
 
-function toChilds(object: Any, name: string, obj: Any) {
+function toChilds(object: TObj, name: string, obj: TObj) {
   return Object.keys(obj).reduce(
     (prev, e) => [
       ...prev,
@@ -75,7 +75,7 @@ function toChilds(object: Any, name: string, obj: Any) {
         access: e,
       },
     ],
-    [] as { object: Any; access: string }[],
+    [] as { object: TObj; access: string }[],
   );
 }
 

@@ -1,6 +1,6 @@
 import FileGrabber from "./FileGrabber";
 
-export default function AudioGrabber({ src, name }: ImageGrabberProps) {
+export default function AudioGrabber({ srcSignal, name }: ImageGrabberProps) {
   return (
     <FileGrabber
       label="Audio"
@@ -9,7 +9,7 @@ export default function AudioGrabber({ src, name }: ImageGrabberProps) {
       img="Select Audio" // TO DO audio icon
       onFile={async (file) => {
         const bytes = await file.bytes();
-        src.value = `data:audio/${file.type};base64,${bufferToBase64(bytes)}`;
+        srcSignal.set(`data:audio/${file.type};base64,${bufferToBase64(bytes)}`);
       }}
     />
   );

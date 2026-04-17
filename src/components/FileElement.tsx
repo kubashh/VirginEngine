@@ -1,4 +1,4 @@
-export default function FileElement({ deep, arrow, name, childsElement, ...rest }: Any) {
+export default function FileElement({ deep, arrow, name, childsElement, ...rest }: TObj) {
   return (
     <>
       <div className="flex" style={{ marginLeft: deep * 8 }}>

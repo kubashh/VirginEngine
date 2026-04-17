@@ -9,12 +9,12 @@
 - Animation.start()
 - Animation.stop()
 - Animation.frames = []
-- Collider.collide() // polygon
+- Collider.collide() // polygon or external
 - Scene.load() instead of scene.load()
 - WebGL, WebGL2, WebGPU for render
 - add static + server export build-in
-- style optymalization (whitespaces)
-- core define values comptime
+- implement events: onClick, onHover, onMouseExit...
+- pack/unpack js object <==> files
 
 ### Editor (src)
 
@@ -27,10 +27,10 @@
 - implement localforage as storage
 - Sprite: use sprite or color (good for prototyping)
 - StringInput remove `"` `"` from strings in editor
-- LoadData: performance hit (60% of one CPU core)
+- LoadData: performance hit (60% of one CPU core) + fix
 - implement wdwh signals instead of `deprecated_useSignal`
-- remove util: optymalizeImageSrc and others unused
 - make utils shered between core and src
+- Grab image when run error: `Uncaught SyntaxError: expected expression, got '}'`
 
 ### VirginEngine
 
