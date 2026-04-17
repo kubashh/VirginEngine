@@ -10,7 +10,7 @@ import { defaultNode, isCapitalized } from "../lib/util";
 import { useArrow } from "../lib/hooks";
 import { setComponents } from "./components/componentsLib";
 
-function getChilds(obj: Any = {}) {
+function getChilds(obj: TObj = {}) {
   return Object.keys(obj).reduce(
     (prev, key) => (!keywords.includes(key) && isCapitalized(key) ? { [key]: obj[key], ...prev } : prev),
     {},

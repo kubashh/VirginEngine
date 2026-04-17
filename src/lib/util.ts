@@ -13,7 +13,7 @@ export function downloadFile(name: string, text: string) {
   });
 }
 
-function createElement({ name, ...props }: Any) {
+function createElement({ name, ...props }: TObj) {
   const element = document.createElement(name);
   for (const key in props) element[key] = props[key];
   element.click();
@@ -24,8 +24,6 @@ export function isValidName(name: string) {
 }
 
 export function camelToTitleCase(text: string) {
-  if (!text) return "";
-
   return capitalize(
     text.replace(/([a-z])([A-Z])/g, `$1 $2`), // "someUglyText" → "some Ugly Text"
   );
@@ -54,7 +52,7 @@ export function openMainScene() {
   hierarchySignal.set(scene);
 }
 
-export function defaultNode({ position, rotation, scale, ...rest }: Any = {}) {
+export function defaultNode({ position, rotation, scale, ...rest }: TObj = {}) {
   return Object.keys(rest).reduce((prev, key) => ({ [key]: rest[key], ...prev }), {
     type: `node`,
     transform: {
@@ -65,7 +63,7 @@ export function defaultNode({ position, rotation, scale, ...rest }: Any = {}) {
   });
 }
 
-export function isOccupied(obj: Any, name: string) {
+export function isOccupied(obj: TObj, name: string) {
   for (const key in obj) if (key === name) return true;
   return false;
 }
@@ -78,7 +76,7 @@ export function saveProject() {
 }
 
 // LoadFile
-function clearAssign(old: Any, obj: Any) {
+function clearAssign(old: TObj, obj: TObj) {
   for (const key in old) delete old[key];
   for (const key in obj) old[key] = obj[key];
 }

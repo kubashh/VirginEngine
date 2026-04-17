@@ -94,7 +94,7 @@ export const editor = {
   },
 };
 
-export const hierarchySignal = createSignal<Any>(filesTemplate.Scenes.MainScene); // TODO make createSignal
+export const hierarchySignal = createSignal<TObj>(filesTemplate.Scenes.MainScene); // TODO make createSignal
 export const refreshHierarchy = { refresh() {} };
 export const files = filesTemplate;
 export const refreshFiles = { refresh() {} };

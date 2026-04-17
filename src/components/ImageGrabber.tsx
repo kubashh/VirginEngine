@@ -1,13 +1,13 @@
 import FileGrabber from "./FileGrabber";
 
-export default function ImageGrabber({ src, name }: ImageGrabberProps) {
+export default function ImageGrabber({ srcSignal, name }: ImageGrabberProps) {
   return (
     <FileGrabber
       label="Image"
       name={name}
       accept="image/*"
-      img={<img className="h-6" src={src.value} />}
-      onFile={async (file) => (src.value = await imgToSrc(file))}
+      img={<img className="h-6" src={srcSignal.get()} />}
+      onFile={async (file) => srcSignal.set(await imgToSrc(file))}
     />
   );
 }

@@ -1,4 +1,4 @@
-import { deprecated_useSignal } from "../lib/deprecated_Signal";
+import { deprecated_useSignal } from "../lib/deprecated_Signal"; // TODO delete and use useInlineSignal
 import BooleanInput from "./typeInput/BooleanInput";
 import NumberInput from "./typeInput/NumberInput";
 import StringInput from "./typeInput/StringInput";

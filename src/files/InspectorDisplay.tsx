@@ -1,29 +1,37 @@
-import { deprecated_useSignal } from "../lib/deprecated_Signal";
+import { useEffect } from "react";
+import { useInlineSignal } from "wdwh";
 import AudioGrabber from "../components/AudioGrabber";
 import ImageGrabber from "../components/ImageGrabber";
 import TypeInput from "../inspector/TypeInput";
 
 export default function InspectorDisplay({ file, name }: InspectorDisplayProps) {
-  const src = deprecated_useSignal(file.src, () => (file.src = src.get()));
-
   return (
     <div className="m-3">
       <h2 className="text-2xl font-bold">File</h2>
       <div>Type: {file.type}</div>
       <div>Name: {name}</div>
-      {(file.type === `img` && (
-        <div>
-          <ImageGrabber src={src} name={name} />
-          <TypeInput object={file} access="quality" />
-        </div>
-      )) ||
-        (file.type === `audio` && (
-          <div>
-            <AudioGrabber src={src} name={name} />
-            <TypeInput object={file} access="quality" />
-          </div>
-        )) ||
-        null}
+      <InspectorImgAudioGrabber file={file} name={name} />
+    </div>
+  );
+}
+
+function InspectorImgAudioGrabber({ file, name }: InspectorDisplayProps) {
+  const srcSignal = useInlineSignal(file.src);
+  const src = srcSignal.use();
+  useEffect(() => {
+    file.src = src;
+  }, [src]);
+
+  if (![`img`, `audio`].includes(file.type)) return null;
+
+  return (
+    <div>
+      {file.type === `img` ? (
+        <ImageGrabber srcSignal={srcSignal} name={name} />
+      ) : (
+        <AudioGrabber srcSignal={srcSignal} name={name} />
+      )}
+      <TypeInput object={file} access="quality" />
     </div>
   );
 }

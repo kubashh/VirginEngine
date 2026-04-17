@@ -23,7 +23,7 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
   };
 
   const onContextMenu = ({ pageX, pageY }: MouseEvent) => {
-    const newArrElement = (name: string, type: string, defValue: Any = {}) => [
+    const newArrElement = (name: string, type: string, defValue: TObj = {}) => [
       () =>
         nameInputSignal.set([
           (newName: string) => {

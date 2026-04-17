@@ -1,8 +1,7 @@
 // Simple
-
-type Obj<T> = Record<string, T>;
-type Any = Obj<any>;
+type TObj<T = any> = Record<string, T>;
 type Void = () => void;
+type Signal<T> = { get(): T; set(arg: T): void };
 
 // to delete
 type deprecated_Signal<T> = { get: () => T; set: (newValue: T) => void };
@@ -10,7 +9,7 @@ type deprecated_Signal<T> = { get: () => T; set: (newValue: T) => void };
 type VTypes = `boolean` | `number` | `string` | `array` | `object` | `function` | `enum`;
 
 type Variable = {
-  object: Obj;
+  object: TObj;
   access: string;
   type?: VTypes;
 };
@@ -27,7 +26,7 @@ type TDragData = {
   name: string; // label
   from: `` | `hierarchy` | `files`;
   file: TFile;
-  old: Any;
+  old: TObj;
 };
 
 // Props
@@ -55,28 +54,28 @@ type InspectorSectionProps = {
 };
 
 type TypeInputProps = {
-  object: Obj;
+  object: TObj;
   access: string;
   type?: VTypes;
 };
 
 type StringInputProps = {
-  object: Obj;
+  object: TObj;
   access: string;
 };
 
 type TransformProps = {
-  object: Obj;
+  object: TObj;
 };
 
 type AddScriptProps = {
-  object: Obj;
+  object: TObj;
   value: string;
   refresh: Void;
 };
 
 type ScriptProps = {
-  object: Obj;
+  object: TObj;
   refresh: Void;
 };
 
@@ -106,12 +105,12 @@ type FileGrabberProps = {
 };
 
 type ImageGrabberProps = {
-  src: OldSignal<string>;
+  srcSignal: Signal<string>;
   name: string;
 };
 
 type InspectorDisplayProps = {
-  file: Any;
+  file: TObj;
   name: string;
 };
 
