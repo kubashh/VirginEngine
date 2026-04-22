@@ -1,23 +1,27 @@
-import { deprecated_useSignal } from "./deprecated_Signal";
+import { useCreateSignal, type Signal } from "wdwh";
 
 export function useArrow(
   main = false,
   haveChilds = true,
   src?: string,
-): [React.ReactNode, deprecated_Signal<boolean>] {
-  const open = deprecated_useSignal(main);
+): Signal<boolean> & { component: React.ReactNode } {
+  const openSignal = useCreateSignal(main);
 
-  if (src) return [<img className="w-6 max-h-6 p-0.5" src={src} />, open];
-
-  if (!haveChilds) return [<div className="w-6 h-6" />, open];
-
-  return [
+  const component = src ? (
+    <img className="w-6 max-h-6 p-0.5" src={src} />
+  ) : haveChilds ? (
     <div
       className="w-6 h-6 text-center justify-self-center rounded-full cursor-pointer hover:text-zinc-400"
-      style={{ transform: `rotate(${open.get() ? 90 : 0}deg)` }}
-      onClick={() => open.set(!open.get())}
+      style={{ transform: `rotate(${openSignal.get() ? 90 : 0}deg)` }}
+      onClick={() => openSignal.set(!openSignal.get())}
       children=">"
-    />,
-    open,
-  ];
+    />
+  ) : (
+    <div className="w-6 h-6" />
+  );
+
+  return {
+    ...openSignal,
+    component,
+  };
 }

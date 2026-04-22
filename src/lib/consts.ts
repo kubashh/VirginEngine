@@ -1,6 +1,7 @@
 import { createSignal } from "wdwh";
 import { Enum } from "../inspector/typeInput/EnumInput";
 import { deepCopy, defaultNode, saveProject } from "./util";
+import { boxSprite } from "../assets/assets";
 
 export const keywords = [
   `type`,
@@ -29,7 +30,7 @@ export const config = {
 export const defaultAssets = {
   img: {
     type: `img`,
-    src: `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAdnJLH8AAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAuIwAALiMBeKU/dgAAAA9JREFUCB0BBAD7/wD///8F/gL+A30ZxgAAAABJRU5ErkJggg==`,
+    src: boxSprite,
     quality: 1,
   },
   audio: {
@@ -62,12 +63,12 @@ const filesTemplate: TFile = {
         scale: { x: 20, y: 20 },
         sprite: { color: ``, path: `files.Assets.Images.BoxImage` },
         start: `function() {
-  this.position = {x: rand(-Camera.xOffset, Camera.xOffset), y: rand(-Camera.yOffset, Camera.yOffset)}
+  this.position = { x: rand(-Camera.xOffset, Camera.xOffset), y: rand(-Camera.yOffset, Camera.yOffset) }
 }`,
         update: `function() {
   const x = this.position.x - rand(2)
   const y = this.position.y - rand(0.3)
-  this.position = {x: x < -Camera.xOffset ? Camera.xOffset : x, y: y < -Camera.yOffset ? Camera.yOffset : y}
+  this.position = { x: x < -Camera.xOffset ? Camera.xOffset : x, y: y < -Camera.yOffset ? Camera.yOffset : y }
 }`,
       }),
     },
@@ -94,7 +95,9 @@ export const editor = {
   },
 };
 
-export const hierarchySignal = createSignal<TObj>(filesTemplate.Scenes.MainScene); // TODO make createSignal
+export const hierarchySignal = createSignal<TObj>(filesTemplate.Scenes.MainScene, () => {
+  inspectorSignal.set(null); // Close inspector
+});
 export const refreshHierarchy = { refresh() {} };
 export const files = filesTemplate;
 export const refreshFiles = { refresh() {} };

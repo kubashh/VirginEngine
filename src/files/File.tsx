@@ -11,12 +11,13 @@ import {
 } from "../lib/consts";
 import { isCapitalized, deepCopy } from "../lib/util";
 import { useArrow } from "../lib/hooks";
+import { audioIconSrc } from "../assets/assets";
 
 export default function File({ old, file, name, deep = 0, path = `files` }: FileProps) {
   const isMain = deep === 0;
   if (!isMain) path += `.${name}`;
   const isFolder = file.type === `folder`;
-  const [arrow, open] = useArrow(isMain, isFolder, file.type === `img` && file?.src);
+  const arrowSignal = useArrow(isMain, isFolder, getSrcFromFile(file));
 
   const onClick = () => {
     inspectorSignal.set(<InspectorDisplay file={file} name={name} />);
@@ -29,7 +30,7 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
           (newName: string) => {
             file[newName] = { type, ...deepCopy(defValue) };
 
-            open.set(true);
+            arrowSignal.set(true);
             refreshFiles.refresh();
           },
         ]),
@@ -91,26 +92,32 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
 
   const onDoubleClick = () => file.type === `scene` && hierarchySignal.set(file);
 
-  const childsElement =
-    open.get() &&
-    file.type !== `scene` &&
-    Object.entries(file).map(
-      ([key, value]) =>
-        isCapitalized(key) && (
-          <File old={file} file={value} name={key} key={key} deep={deep + 1} path={path} />
-        ),
+  function ChildsElement() {
+    return (
+      file.type !== `scene` &&
+      Object.entries(file).map(
+        ([key, value]) =>
+          isCapitalized(key) && (
+            <File old={file} file={value} name={key} key={key} deep={deep + 1} path={path} />
+          ),
+      )
     );
+  }
 
   // this is JSX
   return FileElement({
     deep,
     name,
-    arrow,
-    childsElement,
+    arrowSignal,
+    ChildsElement,
     onClick,
     onContextMenu,
     onMouseDown,
     onMouseUp,
     onDoubleClick,
   });
+}
+
+function getSrcFromFile(file: TFile) {
+  return (file.type === `img` && file?.src) || (file.type === `audio` && audioIconSrc);
 }

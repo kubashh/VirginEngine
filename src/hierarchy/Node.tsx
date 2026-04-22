@@ -22,7 +22,7 @@ export default function Node({ old, name, object, deep = 0 }: NodeProps) {
   const childs = getChilds(object);
   const haveChilds = Object.keys(childs)?.length > 0;
 
-  const [arrow, open] = useArrow(main, haveChilds);
+  const arrowSignal = useArrow(main, haveChilds);
 
   const onClick = () => !main && setComponents({ old, object, name });
 
@@ -38,7 +38,7 @@ export default function Node({ old, name, object, deep = 0 }: NodeProps) {
 
               object[newName] = defaultNode();
 
-              open.set(true);
+              arrowSignal.set(true);
               refreshHierarchy.refresh();
             },
           ]);
@@ -93,17 +93,17 @@ export default function Node({ old, name, object, deep = 0 }: NodeProps) {
     refreshHierarchy.refresh();
   };
 
-  const childsElement =
-    open.get() &&
-    Object.entries(childs).map(([key, value]) => (
+  function ChildsElement() {
+    return Object.entries(childs).map(([key, value]) => (
       <Node old={object} object={value} key={key} name={key} deep={deep + 1} />
     ));
+  }
 
   return FileElement({
     deep,
     name,
-    arrow,
-    childsElement,
+    arrowSignal,
+    ChildsElement,
     onClick,
     onContextMenu,
     onMouseDown,

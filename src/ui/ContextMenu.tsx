@@ -4,7 +4,6 @@ import { contextMenuSignal } from "../lib/consts";
 export default function ContextMenu() {
   const ref = useRef<HTMLDivElement>(null);
   const contextMenu = contextMenuSignal.use();
-
   useEffect(() => {
     function handler({ target }: { target: any }) {
       if (ref.current && !ref.current.contains(target)) contextMenuSignal.set([]);

@@ -1,3 +1,10 @@
+// Declare
+
+module "*.png" {
+  const src: string;
+  export default src;
+}
+
 // Simple
 type TObj<T = any> = Record<string, T>;
 type Void = () => void;
