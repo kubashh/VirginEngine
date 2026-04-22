@@ -1,4 +1,4 @@
-import { deprecated_useSignal } from "../lib/deprecated_Signal"; // TODO delete and use useInlineSignal
+import { useCreateSignal, type Signal } from "wdwh";
 import BooleanInput from "./typeInput/BooleanInput";
 import NumberInput from "./typeInput/NumberInput";
 import StringInput from "./typeInput/StringInput";
@@ -6,7 +6,7 @@ import EnumInput from "./typeInput/EnumInput";
 import { camelToTitleCase, getType } from "../lib/util";
 
 export default function TypeInput({ object, access, type: defType }: TypeInputProps) {
-  const sig = deprecated_useSignal(object[access], () => {
+  const sig = useCreateSignal(object[access], () => {
     object[access] = sig.get();
   });
   const type = defType || sig.get().type || getType(sig.get());
@@ -24,7 +24,7 @@ export default function TypeInput({ object, access, type: defType }: TypeInputPr
   );
 }
 
-function useElement(type: VTypes, sig: deprecated_Signal<any>) {
+function useElement(type: VTypes, sig: Signal<any>) {
   switch (type) {
     case `boolean`:
       return <BooleanInput sig={sig} />;

@@ -28,7 +28,6 @@
 - Sprite: use sprite or color (good for prototyping)
 - StringInput remove `"` `"` from strings in editor
 - LoadData: performance hit (60% of one CPU core) + fix
-- implement wdwh signals instead of `deprecated_useSignal`
 - make utils shered between core and src
 - Grab image when run error: `Uncaught SyntaxError: expected expression, got '}'`
 
@@ -53,6 +52,7 @@
   - implement `wdwh/signal` => less code in codespace
   - implement `wdwh` `clsx` instead of looked clsx
 - DragData: avoid duble refresh of component
+- Implemented useCreateSignal (removed deprecated_useSignal)
 
 ## 0.21.0 (3 Oct 2025)
 

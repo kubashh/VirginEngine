@@ -1,5 +1,4 @@
-import { useEffect } from "react";
-import { useInlineSignal } from "wdwh";
+import { useCreateSignal } from "wdwh";
 import AudioGrabber from "../components/AudioGrabber";
 import ImageGrabber from "../components/ImageGrabber";
 import TypeInput from "../inspector/TypeInput";
@@ -16,11 +15,10 @@ export default function InspectorDisplay({ file, name }: InspectorDisplayProps) 
 }
 
 function InspectorImgAudioGrabber({ file, name }: InspectorDisplayProps) {
-  const srcSignal = useInlineSignal(file.src);
-  const src = srcSignal.use();
-  useEffect(() => {
+  const srcSignal = useCreateSignal(file.src, () => {
     file.src = src;
-  }, [src]);
+  });
+  const src = srcSignal.use();
 
   if (![`img`, `audio`].includes(file.type)) return null;
 

@@ -1,8 +1,8 @@
-import { useInlineSignal } from "wdwh";
+import { useState } from "react";
+import { type Signal } from "wdwh";
 
-export default function NumberInput({ sig }: { sig: deprecated_Signal<number> }) {
-  const bufSignal = useInlineSignal(String(sig.get()));
-  const buf = bufSignal.use();
+export default function NumberInput({ sig }: { sig: Signal<number> }) {
+  const [buf, setBuf] = useState(String(sig.get()));
 
   return (
     <input
@@ -26,11 +26,11 @@ export default function NumberInput({ sig }: { sig: deprecated_Signal<number> })
 
         if (num || num === 0) {
           sig.set(num);
-          bufSignal.set(String(num));
+          setBuf(String(num));
           return;
         }
 
-        bufSignal.set(value);
+        setBuf(value);
       }}
     />
   );

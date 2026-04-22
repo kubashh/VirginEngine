@@ -10,13 +10,13 @@
     "localforage": "^1.10.0",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
-    "wdwh": "^1.12.16"
+    "wdwh": "^1.12.17"
   },
   "devDependencies": {
-    "@types/bun": "^1.3.12",
+    "@types/bun": "^1.3.13",
     "@types/react": "latest",
     "bun-plugin-tailwind": "^0.1.2",
-    "tailwindcss": "^4.2.2",
+    "tailwindcss": "^4.2.4",
     "terser": "^5.46.1",
     "typescript": "^6.0.3"
   },

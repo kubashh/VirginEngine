@@ -1,4 +1,5 @@
 import FileGrabber from "./FileGrabber";
+import { audioIconSrc } from "../assets/assets";
 
 export default function AudioGrabber({ srcSignal, name }: ImageGrabberProps) {
   return (
@@ -6,7 +7,8 @@ export default function AudioGrabber({ srcSignal, name }: ImageGrabberProps) {
       label="Audio"
       name={name}
       accept="audio/*"
-      img="Select Audio" // TO DO audio icon
+      img={<img src={audioIconSrc} className="h-6" />}
+      // "Select Audio" // TO DO audio icon
       onFile={async (file) => {
         const bytes = await file.bytes();
         srcSignal.set(`data:audio/${file.type};base64,${bufferToBase64(bytes)}`);
