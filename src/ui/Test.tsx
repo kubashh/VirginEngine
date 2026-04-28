@@ -26,7 +26,7 @@ export default function Test() {
   const testScene = testSceneSignal.use();
 
   return testScene ? (
-    <Window name="Test" className="absolute z-1 w-screen h-screen" headerOptions={headerOptions}>
+    <Window name="Test" className="w-screen h-screen" headerOptions={headerOptions}>
       <div className="flex justify-center bg-zinc-950">
         <TestScreen />
       </div>

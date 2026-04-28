@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import localforage from "localforage";
 import { createSignal } from "wdwh";
-import { setUpSignal } from "../lib/consts";
+import Button from "../components/Button";
+import { popupMenuSignal, setUpSignal } from "../lib/consts";
 import { loadProject, openMainScene } from "../lib/util";
 
 const projectsSignal = createSignal<string[]>([]);
@@ -11,11 +12,11 @@ export default function LoadData() {
   const setUp = setUpSignal.use();
 
   return !setUp ? (
-    <div className="absolute z-1 w-screen h-screen flex flex-col justify-center bg-[#000a]">
+    <div className="w-screen h-screen flex flex-col justify-center bg-[#000a]">
       <br className="mt-32" />
       <Projects />
-      <LoadDataButton value="Load Project" onClick={loadProject} />
-      <LoadDataButton value="New project" onClick={openMainScene} />
+      <LoadDataButton label="Load project from local files" onClick={loadProject} />
+      <LoadDataButton label="New project" onClick={openMainScene} />
     </div>
   ) : null;
 }
@@ -43,8 +44,31 @@ function Project({ name }: { name: string }) {
   return (
     <LoadDataRow>
       <input type="text" defaultValue={name} className="border-none" />
-      <div className="hover:text-zinc-400 cursor-pointer">Load</div>
-      <div className="hover:text-zinc-400 cursor-pointer">Delete</div>
+      <Button
+        label="Load"
+        className="hover:text-zinc-400 cursor-pointer"
+        onClick={async () => {
+          const data: string | null = await localforage.getItem(name);
+          if (data) {
+            loadProject(JSON.parse(data));
+          }
+        }}
+      />
+      <Button
+        label="Delete"
+        className="hover:text-zinc-400 cursor-pointer"
+        onClick={() => {
+          popupMenuSignal.set({
+            label: `Would you delete project "${name}"?`,
+            options: {
+              Yes: () => {
+                localforage.removeItem(name);
+                projectsSignal.set((prev) => prev.filter((n) => n !== name)); // Optymisticly update projects
+              },
+            },
+          });
+        }}
+      />
     </LoadDataRow>
   );
 }
@@ -58,11 +82,10 @@ function LoadDataRow({ children }: { children: React.ReactNode }) {
   );
 }
 
-function LoadDataButton(props: { value: string; onClick: React.MouseEventHandler }) {
+function LoadDataButton(props: { label: string; onClick: React.MouseEventHandler }) {
   return (
-    <input
-      className="mx-auto my-6 border-4 border-zinc-400 px-16 py-4 text-5xl hover:text-zinc-400 cursor-pointer"
-      type="button"
+    <Button
+      className="mx-auto my-6 border-4 border-zinc-400 px-8 py-3 text-3xl hover:text-zinc-400"
       {...props}
     />
   );

@@ -4,6 +4,7 @@ import Inspector from "../inspector/Inspector";
 import Files from "../files/Files";
 import LoadData from "../ui/LoadData";
 import ContextMenu from "../ui/ContextMenu";
+import PopupMenu from "../ui/PopupMenu";
 import NameInput from "../ui/NameInput";
 import DragData from "../ui/DragData";
 import Test from "../ui/Test";
@@ -11,9 +12,10 @@ import Test from "../ui/Test";
 export default function App() {
   return (
     <>
-      <header>
+      <header className="*:absolute *:z-1">
         <LoadData />
         <ContextMenu />
+        <PopupMenu />
         <NameInput />
         <DragData />
         <Test />

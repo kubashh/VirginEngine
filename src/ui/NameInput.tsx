@@ -10,7 +10,7 @@ export default function NameInput() {
     <input
       ref={ref}
       type="text"
-      className="absolute z-1 text-4xl translate-x-[calc(50vw-50%)] translate-y-[calc(50vh-50%)]"
+      className="text-4xl translate-x-[calc(50vw-50%)] translate-y-[calc(50vh-50%)]"
       {...props}
       autoFocus
     />

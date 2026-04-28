@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import Button from "../components/Button";
 import { contextMenuSignal } from "../lib/consts";
 
 export default function ContextMenu() {
@@ -17,19 +18,19 @@ export default function ContextMenu() {
   return contextMenu.length > 2 ? (
     <div
       ref={ref}
-      className="absolute z-1 border-4 border-zinc-800 px-2 py-0.5 bg-black"
+      className="border-4 border-zinc-800 px-2 py-0.5 bg-black"
       style={{ top: `${contextMenu[1]}px`, left: `${contextMenu[0]}px` }}
     >
       {contextMenu.slice(2).map(([fn, text, show = true]: any) =>
         show ? (
-          <div
-            className="cursor-pointer hover:text-zinc-400"
+          <Button
             key={text}
+            label={text}
+            className="hover:text-zinc-400"
             onClick={() => {
               fn();
               contextMenuSignal.set([]);
             }}
-            children={text}
           />
         ) : null,
       )}

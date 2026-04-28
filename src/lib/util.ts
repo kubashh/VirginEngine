@@ -69,38 +69,47 @@ export function isOccupied(obj: TObj, name: string) {
 }
 
 // SaveFile
-export function saveProject() {
-  // TODO
+export function saveProject(inFile?: any) {
   localforage.setItem(config.gameName, JSON.stringify({ config, files }));
-  downloadFile(`${config.gameName}.virginengine`, JSON.stringify({ config, files }));
+  if (inFile === true) {
+    downloadFile(`${config.gameName}.virginengine`, JSON.stringify({ config, files }));
+  }
 }
 
 // LoadFile
+export function loadProject(data?: any) {
+  if (data) {
+    loadProjectHelper(data);
+  } else {
+    createElement({
+      name: `input`,
+      type: `file`,
+      accept: `.virginengine`,
+      onchange: ({ target }: { target: any }) => {
+        const reader = new FileReader();
+
+        reader.onload = ({ target }: { target: any }) => {
+          const data = JSON.parse(target.result);
+
+          loadProjectHelper(data);
+        };
+
+        reader.readAsText(target.files[0]);
+      },
+    });
+  }
+}
+
+function loadProjectHelper(data: any) {
+  clearAssign(config, data.config);
+  clearAssign(files, data.files);
+
+  openMainScene();
+}
+
 function clearAssign(old: TObj, obj: TObj) {
   for (const key in old) delete old[key];
   for (const key in obj) old[key] = obj[key];
-}
-
-export function loadProject() {
-  createElement({
-    name: `input`,
-    type: `file`,
-    accept: `.virginengine`,
-    onchange: ({ target }: { target: any }) => {
-      const reader = new FileReader();
-
-      reader.onload = ({ target }: { target: any }) => {
-        const data = JSON.parse(target.result);
-
-        clearAssign(config, data.config);
-        clearAssign(files, data.files);
-
-        openMainScene();
-      };
-
-      reader.readAsText(target.files[0]);
-    },
-  });
 }
 
 // Type

@@ -17,7 +17,7 @@ export const keywords = [
 ];
 export const EMPTY_FILE: TFile = { type: `none` };
 
-export const config = {
+export const config: TConfig = {
   gameName: `NameOfGame`,
   version: `0.0.0`,
   author: `YourNick`,
@@ -106,6 +106,7 @@ export const nameInputSignal = createSignal<[((arg: string) => void)?, string?, 
 export const dragDataSignal = createSignal<TDragData>({ name: ``, from: ``, file: EMPTY_FILE, old: {} });
 export const testSceneSignal = createSignal(``);
 export const contextMenuSignal = createSignal<[number?, number?, ...any]>([]);
+export const popupMenuSignal = createSignal<TPopupMenu>({ label: `` });
 export const setUpSignal = createSignal(false);
 
 // Set global events

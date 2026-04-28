@@ -1,4 +1,5 @@
 import { useCreateSignal, type Signal } from "wdwh";
+import Button from "../components/Button";
 
 export function useArrow(
   main = false,
@@ -10,11 +11,11 @@ export function useArrow(
   const component = src ? (
     <img className="w-6 max-h-6 p-0.5" src={src} />
   ) : haveChilds ? (
-    <div
-      className="w-6 h-6 text-center justify-self-center rounded-full cursor-pointer hover:text-zinc-400"
+    <Button
+      label=">"
+      className="w-6 h-6 text-center justify-self-center rounded-full hover:text-zinc-400"
       style={{ transform: `rotate(${openSignal.get() ? 90 : 0}deg)` }}
       onClick={() => openSignal.set(!openSignal.get())}
-      children=">"
     />
   ) : (
     <div className="w-6 h-6" />

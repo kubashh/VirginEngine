@@ -10,9 +10,6 @@ type TObj<T = any> = Record<string, T>;
 type Void = () => void;
 type Signal<T> = { get(): T; set(arg: T): void };
 
-// to delete
-type deprecated_Signal<T> = { get: () => T; set: (newValue: T) => void };
-
 type VTypes = `boolean` | `number` | `string` | `array` | `object` | `function` | `enum`;
 
 type Variable = {
@@ -93,12 +90,12 @@ type AddComponentProps = {
 
 type HeaderProps = {
   name: string;
-  options?: Record<string, Void>;
+  options?: TObj<Void>;
 };
 
 type WindowProps = {
   name: string;
-  headerOptions?: Record<string, Void>;
+  headerOptions?: TObj<Void>;
   className?: string;
   children: React.ReactNode;
 };
@@ -126,4 +123,19 @@ type InspectorDisplayProps = {
 // TODO better type
 type TFile = {
   type: `none` | `folder` | `node` | `scene` | `img` | `audio`;
-} & Record<string, any>;
+} & TObj<any>;
+
+type TConfig = {
+  gameName: string;
+  version: string;
+  author: string;
+  description: string;
+  fullScreen: boolean;
+  pathToMainScene: string;
+  performanceInfo: TEnum<string>;
+};
+
+type TPopupMenu = {
+  label: string;
+  options?: TObj<Void>;
+};
