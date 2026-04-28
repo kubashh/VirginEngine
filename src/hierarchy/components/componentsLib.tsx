@@ -5,6 +5,7 @@ import Transform from "./Transform";
 import { inspectorSignal } from "../../lib/consts";
 import { capitalize, deepCopy } from "../../lib/util";
 import { Enum } from "../../inspector/typeInput/EnumInput";
+import Button from "../../components/Button";
 
 const text = [{ value: ``, color: `white` }, [`rect`], []];
 const rect = [{ x: Enum(0, -1, 0, 1), y: Enum(0, -1, 0, 1) }, [], [`text`]];
@@ -81,11 +82,6 @@ function toChilds(object: TObj, name: string, obj: TObj) {
 
 export function AddComponent({ text, onClick }: AddComponentProps) {
   return (
-    <input
-      type="button"
-      value={`+ ${text}`}
-      className="mt-3 mb-6 px-3 py-2 cursor-pointer hover:text-zinc-400"
-      onClick={onClick}
-    />
+    <Button label={`+ ${text}`} className="mt-3 mb-6 px-3 py-2 hover:text-zinc-400" onClick={onClick} />
   );
 }

@@ -11,14 +11,13 @@
 - Animation.frames = []
 - Collider.collide() // polygon or external
 - Scene.load() instead of scene.load()
-- WebGL, WebGL2, WebGPU for render
+- WebGL, WebGL2 for render
 - add static + server export build-in
-- implement events: onClick, onHover, onMouseExit...
+- Node: implement events: onClick, onHover, onMouseExit...
 - pack/unpack js object <==> files
 
 ### Editor (src)
 
-- AudioGrabber.img (icon)
 - jsCode.Image.quality: number (0-1)
 - jsCode.Audio.quality: number (0-1)
 - Drag Nodes to files, files to Nodes (clonning)
@@ -27,9 +26,10 @@
 - implement localforage as storage
 - Sprite: use sprite or color (good for prototyping)
 - StringInput remove `"` `"` from strings in editor
-- LoadData: performance hit (60% of one CPU core) + fix
+- LoadData: just works
 - make utils shered between core and src
 - Grab image when run error: `Uncaught SyntaxError: expected expression, got '}'`
+- Row/Column
 
 ### VirginEngine
 
@@ -53,6 +53,8 @@
   - implement `wdwh` `clsx` instead of looked clsx
 - DragData: avoid duble refresh of component
 - Implemented useCreateSignal (removed deprecated_useSignal)
+- fixed unnecessary showing of editor.DragData when click
+- Loading/Saving projects in InexedDB works (no files needed)
 
 ## 0.21.0 (3 Oct 2025)
 
@@ -70,40 +72,40 @@
 - add config.performanceInfo Enum(`yes`, `dev`, `no`)
 - create EnumInput
 
-## 0.20.1
+## 0.20.1 (x x 2025)
 
 - src.build optymalize img
 - build bundle size -10%
 - src.Test useSignal instead of signal
 
-## 0.20.0
+## 0.20.0 (x x 2025)
 
 - add Audio (create `AudioGrabber`, InputGrabber(FileGrabber))
 - update ImageGraber
 
-## 0.19.2
+## 0.19.2 (x x 2025)
 
 - add `core.Physics.gravity`
 - update core.build
 
-## 0.19.1
+## 0.19.1 (x x 2025)
 
 - rename GameObject to Node
 - update events
 
-## 0.19.0
+## 0.19.0 (x x 2025)
 
 - update ./build
 - ./build: bundle css to html (less bytes to download)
 - shorter css vars names
 - remove css hover class
 
-## 0.18.1
+## 0.18.1 (x x 2025)
 
 - update ./build
 - minify ./build html
 
-## 0.18.0
+## 0.18.0 (x x 2025)
 
 - implement get/set for Transform position/scale
 - add core fn: rand
@@ -123,7 +125,7 @@
 - remove bun.lock from git
 - fix core types
 
-## 0.17.0
+## 0.17.0 (x x 2025)
 
 - move from nextjs to `bun` (bun.serve, bun.build)
 - remove core.bun.lock

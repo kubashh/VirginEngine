@@ -3,7 +3,7 @@ import { dragDataSignal, EMPTY_FILE } from "../lib/consts";
 
 export default function DragData() {
   return (
-    <div id="drag-data" className="absolute z-1 bg-[#000a]">
+    <div id="drag-data" className="bg-[#000a]">
       <DragDataValue />
     </div>
   );
@@ -16,12 +16,12 @@ function DragDataValue() {
     if (!dragData.name) return;
 
     window.addEventListener(`mousemove`, handleMouseMove);
-    window.addEventListener(`mousedown`, handleMouseMove);
+    window.addEventListener(`mousedown`, onMouseDown);
     window.addEventListener(`mouseup`, handleMouseUp);
 
     return () => {
       window.removeEventListener(`mousemove`, handleMouseMove);
-      window.removeEventListener(`mousedown`, handleMouseMove);
+      window.removeEventListener(`mousedown`, onMouseDown);
       window.removeEventListener(`mouseup`, handleMouseUp);
     };
   });
@@ -35,8 +35,16 @@ function handleMouseMove({ clientX, clientY, buttons }: MouseEvent) {
   const follower = document.getElementById(`drag-data`);
   if (!follower) return;
 
+  follower.style.display = ``;
   follower.style.left = clientX + 3 + `px`;
   follower.style.top = clientY + 3 + `px`;
+}
+
+function onMouseDown() {
+  const follower = document.getElementById(`drag-data`);
+  if (!follower) return;
+
+  follower.style.display = `none`; // disable unnecessary showing
 }
 
 function handleMouseUp() {

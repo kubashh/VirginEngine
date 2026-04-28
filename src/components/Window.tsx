@@ -1,4 +1,5 @@
 import { clsx } from "wdwh";
+import Button from "./Button";
 
 export default function Window({ name, headerOptions, className, children }: WindowProps) {
   return (
@@ -15,11 +16,10 @@ function Header({ name, options }: HeaderProps) {
       <span className="mr-auto font-bold">{name}</span>
       {options &&
         Object.keys(options).map((key) => (
-          <input
-            type="button"
-            className="my-auto mx-2 cursor-pointer hover:text-zinc-400"
+          <Button
             key={key}
-            value={key}
+            label={key}
+            className="my-auto mx-2 hover:text-zinc-400"
             onClick={options[key]}
           />
         ))}
