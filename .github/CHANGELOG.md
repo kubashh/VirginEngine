@@ -26,7 +26,6 @@
 - implement localforage as storage
 - Sprite: use sprite or color (good for prototyping)
 - StringInput remove `"` `"` from strings in editor
-- LoadData: just works
 - make utils shered between core and src
 - Grab image when run error: `Uncaught SyntaxError: expected expression, got '}'`
 - Row/Column
@@ -38,7 +37,9 @@
 
 <br />
 
-## 0.22.0-dev (in development)
+## 0.22.1-dev (in development)
+
+## 0.22.0 (30 Apr 2026)
 
 - more strict typescript rules
 - create VE icon (instead of old DE (Death Engine - previous project name))
@@ -55,6 +56,8 @@
 - Implemented useCreateSignal (removed deprecated_useSignal)
 - fixed unnecessary showing of editor.DragData when click
 - Loading/Saving projects in InexedDB works (no files needed)
+- Modernized LoadData, add project modified date
+- display engine version
 
 ## 0.21.0 (3 Oct 2025)
 

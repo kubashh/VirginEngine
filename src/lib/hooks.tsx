@@ -1,11 +1,7 @@
 import { useCreateSignal, type Signal } from "wdwh";
 import Button from "../components/Button";
 
-export function useArrow(
-  main = false,
-  haveChilds = true,
-  src?: string,
-): Signal<boolean> & { component: React.ReactNode } {
+export function useArrow(main = false, haveChilds = true, src?: string): Arrow {
   const openSignal = useCreateSignal(main);
 
   const component = src ? (
@@ -26,3 +22,5 @@ export function useArrow(
     component,
   };
 }
+
+type Arrow = Signal<boolean> & { component: React.ReactNode };
