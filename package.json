@@ -1,6 +1,6 @@
 {
   "name": "virgin-engine",
-  "version": "0.22.0-dev",
+  "version": "0.22.0",
   "license": "MIT",
   "scripts": {
     "dev": "bun core/buildBuild.ts && wdwh dev",

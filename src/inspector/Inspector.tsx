@@ -1,14 +1,14 @@
 import Window from "../components/Window";
 import InspectorSection from "./InspectorSection";
-import { config, inspectorSignal } from "../lib/consts";
-import { loadProject, saveProject } from "../lib/util";
+import { config, inspectorSignal, setUpSignal } from "../lib/consts";
+import { saveProject } from "../lib/util";
 import { buildProject, test } from "../build/build";
 
 const editorOpctions = {
   Test: test,
   Save: saveProject,
   Build: buildProject,
-  Load: loadProject,
+  Load: () => setUpSignal.set(false),
   Config: () => inspectorSignal.set(<Config />),
 };
 

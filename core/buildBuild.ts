@@ -21,6 +21,7 @@ async function build() {
   let js = await outputs[0].text();
   js = js
     .replace(`REPLACE_HTML_TEMPLATE`, htmlTemplate)
+    .replace(`REPLACE_VIRGINE_ENGINE_VERSION`, (await Bun.file(`./package.json`).json()).version)
     .replace(`REPLACE_CORE`, await buildEngineCore())
     .replace(`// @bun\n`, `// @bun\n// @ts-nocheck\n`);
   await Bun.write(outputs[0].path, js);

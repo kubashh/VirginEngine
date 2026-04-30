@@ -70,15 +70,21 @@ export function isOccupied(obj: TObj, name: string) {
 
 // SaveFile
 export function saveProject(inFile?: any) {
-  localforage.setItem(config.gameName, JSON.stringify({ config, files }));
+  localforage.setItem(config.gameName, getProjectObject());
   if (inFile === true) {
-    downloadFile(`${config.gameName}.virginengine`, JSON.stringify({ config, files }));
+    downloadFile(`${config.gameName}.virginengine`, getProjectObject());
   }
+}
+
+function getProjectObject() {
+  return JSON.stringify({ config, files, modifiedDate: Date.now() } satisfies TProject);
 }
 
 // LoadFile
 export function loadProject(data?: any) {
-  if (data) {
+  if (data?.config) {
+    // data is valid, do not load externaly
+    // .config bacosuse of event passed in data variable
     loadProjectHelper(data);
   } else {
     createElement({
@@ -113,12 +119,12 @@ function clearAssign(old: TObj, obj: TObj) {
 }
 
 // Type
-export function getType(data: any) {
+export function getType(data: any): VTypes {
   if (typeof data !== `string`) return typeof data as VTypes;
 
   if (Array.isArray(data) || data[0] === `[`) return `array`;
-  if (data[0] === `{`) return `object`;
-  if (data.indexOf(`function`) === 0) return `function`;
+  if (data.startsWith(`{`)) return `object`;
+  if (data.startsWith(`function`)) return `function`;
   if ([`"`, `'`, "`"].includes(data[0])) return `string`;
   return `string`;
 }

@@ -2,6 +2,7 @@ import { createSignal } from "wdwh";
 import { Enum } from "../inspector/typeInput/EnumInput";
 import { deepCopy, defaultNode, saveProject } from "./util";
 import { boxSprite } from "../assets/assets";
+import { virginEngineVersion } from "../build/core";
 
 export const keywords = [
   `type`,
@@ -93,6 +94,7 @@ export const editor = {
     type: ``,
     value: ``,
   },
+  engineVersion: virginEngineVersion,
 };
 
 export const hierarchySignal = createSignal<TObj>(filesTemplate.Scenes.MainScene, () => {
@@ -120,3 +122,6 @@ window.addEventListener(`keydown`, (e) => {
     saveProject();
   }
 });
+
+// Set title
+document.title = `Virgine Engine v${virginEngineVersion}`;

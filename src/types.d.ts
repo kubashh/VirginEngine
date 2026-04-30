@@ -139,3 +139,9 @@ type TPopupMenu = {
   label: string;
   options?: TObj<Void>;
 };
+
+type TProject = {
+  files: TFile;
+  config: TConfig;
+  modifiedDate: number;
+};

@@ -1,5 +1,4 @@
 import { minify_sync } from "terser";
-// import { core } from "./core";
 import { keywords, optymalizeImageSrc } from "./util";
 import type { Build } from "./build";
 
