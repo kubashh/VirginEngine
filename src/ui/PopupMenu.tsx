@@ -26,13 +26,13 @@ export default function PopupMenu() {
 
 function PopupMenuOptions({ options }: { options?: TObj<Void> }) {
   return options
-    ? Object.entries(options).map(([key, value]) => (
+    ? Object.entries(options).map(([label, cb]) => (
         <Button
-          label={key}
-          key={key}
+          label={label}
+          key={label}
           className="border-4 border-zinc-600 px-6 py-2 text-3xl rounded-2xl hover:text-zinc-400"
           onClick={() => {
-            value();
+            cb();
             popupMenuSignal.set({ label: ``, options: {} });
           }}
         />

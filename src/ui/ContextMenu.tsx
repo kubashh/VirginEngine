@@ -18,7 +18,7 @@ export default function ContextMenu() {
   return contextMenu.length > 2 ? (
     <div
       ref={ref}
-      className="border-4 border-zinc-800 px-2 py-0.5 bg-black"
+      className="border-4 border-zinc-800 px-2 py-0.5 flex flex-col rounded-sm bg-black [&>*:not(:last-child)]:border-b"
       style={{ top: `${contextMenu[1]}px`, left: `${contextMenu[0]}px` }}
     >
       {contextMenu.slice(2).map(([fn, text, show = true]: any) =>
@@ -26,7 +26,7 @@ export default function ContextMenu() {
           <Button
             key={text}
             label={text}
-            className="hover:text-zinc-400"
+            className="border-zinc-400 hover:text-zinc-400"
             onClick={() => {
               fn();
               contextMenuSignal.set([]);

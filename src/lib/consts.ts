@@ -123,5 +123,5 @@ window.addEventListener(`keydown`, (e) => {
   }
 });
 
-// Set title
+// Set title, because wdwh doesn't support string templates for metadata (src/app/index.tsx)
 document.title = `Virgine Engine v${virginEngineVersion}`;

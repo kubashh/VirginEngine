@@ -29,6 +29,7 @@
 - make utils shered between core and src
 - Grab image when run error: `Uncaught SyntaxError: expected expression, got '}'`
 - Row/Column
+- LoadData sorting by: name, date modified
 
 ### VirginEngine
 
