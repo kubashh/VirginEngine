@@ -1,5 +1,5 @@
-import { useEffect } from "react";
 import localforage from "localforage";
+import { useEffect } from "react";
 import { createSignal } from "wdwh";
 import Button from "../components/Button";
 import { popupMenuSignal, setUpSignal } from "../lib/consts";
@@ -9,8 +9,8 @@ const SECOND = 1000;
 const MINUTE = 60 * 1000;
 const HOUR = 60 * 60 * 1000;
 const DAY = 24 * 60 * 60 * 1000;
-const MONTH = DAY * 30;
-const YEAR = DAY * 365;
+const MONTH = 30 * DAY;
+const YEAR = 365 * DAY;
 
 const projectsSignal = createSignal<TLDProject[]>([]);
 
@@ -47,25 +47,23 @@ function Projects() {
 
 function Project({ name, modifiedDateSignal }: TLDProject) {
   return (
-    <div className="w-[80%] mx-auto my-3 border-2 border-zinc-400 shadow-5xl px-16 py-4 text-xl rounded-xl flex justify-between gap-32 bg-zinc-900">
+    <div className="w-[80%] mx-auto my-3 border-2 border-zinc-400 shadow-5xl px-16 py-4 text-xl rounded-xl flex justify-between gap-32 font-semibold *:drop-shadow-[0_0_14px_rgba(236,72,153,1)]">
       {/* nth-1:w-[]"> */}
       <input type="text" defaultValue={name} className="border-none" />
-      <div>
+      <div className="w-40">
         <ModifiedData modifiedDateSignal={modifiedDateSignal} />
       </div>
       <Button
         label="Load"
-        className="hover:text-zinc-400 cursor-pointer"
+        className="hover:text-zinc-400"
         onClick={async () => {
-          const data: string | null = await localforage.getItem(name);
-          if (data) {
-            loadProject(JSON.parse(data));
-          }
+          const data = await localforage.getItem<string>(name);
+          loadProject(JSON.parse(data || ``));
         }}
       />
       <Button
         label="Delete"
-        className="hover:text-zinc-400 cursor-pointer"
+        className="hover:text-zinc-400"
         onClick={() =>
           popupMenuSignal.set({
             label: `Would you delete project "${name}"?`,
@@ -89,7 +87,10 @@ function ModifiedData({ modifiedDateSignal }: { modifiedDateSignal: Signal<strin
 
 function LoadDataButton(props: { label: string; onClick: React.MouseEventHandler }) {
   return (
-    <Button className="mt-6 border-4 border-zinc-400 px-8 py-3 text-3xl hover:text-zinc-400" {...props} />
+    <Button
+      className="mt-6 border-2 border-zinc-400 px-12 py-4 text-2xl rounded-xl hover:text-zinc-400"
+      {...props}
+    />
   );
 }
 
@@ -129,12 +130,17 @@ function getTimeoutEnd(ms: number) {
 function timeAgo(timestamp: number) {
   const diff = Date.now() - timestamp;
 
-  if (diff < MINUTE) return `${Math.floor(diff / SECOND)} seconds ago`;
-  if (diff < HOUR) return `${Math.floor(diff / MINUTE)} minutes ago`;
-  if (diff < DAY) return `${Math.floor(diff / HOUR)} hours ago`;
-  if (diff < MONTH) return `${Math.floor(diff / DAY)} days ago`;
-  if (diff < YEAR) return `${Math.floor(diff / MONTH)} months ago`;
-  return `${Math.floor(diff / YEAR)} years ago`;
+  if (diff < MINUTE) return timeAgoHealper(`second`, Math.floor(diff / SECOND));
+  if (diff < HOUR) return timeAgoHealper(`minute`, Math.floor(diff / MINUTE));
+  if (diff < DAY) return timeAgoHealper(`hour`, Math.floor(diff / HOUR));
+  if (diff < MONTH) return timeAgoHealper(`day`, Math.floor(diff / DAY));
+  if (diff < YEAR) return timeAgoHealper(`month`, Math.floor(diff / MONTH));
+  return timeAgoHealper(`year`, Math.floor(diff / YEAR));
+}
+
+function timeAgoHealper(label: string, time: number) {
+  if (time === 1) return `${time} ${label} ago`;
+  return `${time} ${label}s ago`;
 }
 
 type TLDProject = {
