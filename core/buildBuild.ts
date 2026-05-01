@@ -16,12 +16,15 @@ async function build() {
       // syntax: true,
     },
     target: `bun`,
+    define: {
+      REPLACE_HTML_TEMPLATE: JSON.stringify(htmlTemplate),
+      REPLACE_VIRGINE_ENGINE_VERSION: JSON.stringify((await Bun.file(`./package.json`).json()).version),
+      // REPLACE_CORE: await buildEngineCore(), // do not works, why?? it copyies only first line!
+    },
   });
 
   let js = await outputs[0].text();
   js = js
-    .replace(`REPLACE_HTML_TEMPLATE`, htmlTemplate)
-    .replace(`REPLACE_VIRGINE_ENGINE_VERSION`, (await Bun.file(`./package.json`).json()).version)
     .replace(`REPLACE_CORE`, await buildEngineCore())
     .replace(`// @bun\n`, `// @bun\n// @ts-nocheck\n`);
   await Bun.write(outputs[0].path, js);
@@ -31,14 +34,13 @@ async function build() {
 async function buildEngineCore() {
   const { outputs } = await Bun.build({
     entrypoints: [`./core/src/core.ts`],
-    minify: {},
     target: `bun`,
   });
   let text = await outputs[0].text();
 
   text = text.replace(/^.*console\.log\(`Engine:.*\n?/gm, ``);
 
-  return encode(optymalize(text));
+  return `\`${encode(optymalize(text))}\``;
 }
 
 // Helpers

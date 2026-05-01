@@ -39,6 +39,8 @@
 
 ## 0.22.1-dev (in development)
 
+- LoadData: update modified date dynamicly; performance benefits
+
 ## 0.22.0 (30 Apr 2026)
 
 - more strict typescript rules

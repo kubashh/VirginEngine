@@ -1,9 +1,9 @@
 import { jsCode } from "./jsCode";
 
-export const virginEngineVersion = `REPLACE_VIRGINE_ENGINE_VERSION`;
+export const virginEngineVersion = REPLACE_VIRGINE_ENGINE_VERSION;
 
 export class Build implements BuildOptions {
-  static htmlTemplate = `REPLACE_HTML_TEMPLATE`;
+  static htmlTemplate = REPLACE_HTML_TEMPLATE;
 
   author: string;
   description: string;
