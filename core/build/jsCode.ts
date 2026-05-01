@@ -2,7 +2,7 @@ import { minify_sync } from "terser";
 import { keywords, optymalizeImageSrc } from "./util";
 import type { Build } from "./build";
 
-const core = `REPLACE_CORE`;
+const core = REPLACE_CORE;
 
 export async function jsCode(build: Build) {
   const validCore = await coreConfig(build);

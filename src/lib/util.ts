@@ -174,3 +174,9 @@ export function getType(data: any): VTypes {
 //     img.src = src
 //   })
 // }
+
+export function wait(ms: number) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}

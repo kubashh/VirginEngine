@@ -8,7 +8,7 @@ module "*.png" {
 // Simple
 type TObj<T = any> = Record<string, T>;
 type Void = () => void;
-type Signal<T> = { get(): T; set(arg: T): void };
+type Signal<T> = { get(): T; set(arg: T): void; use(): T };
 
 type VTypes = `boolean` | `number` | `string` | `array` | `object` | `function` | `enum`;
 
