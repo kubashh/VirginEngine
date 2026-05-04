@@ -18,10 +18,10 @@ export default function LoadData() {
   const setUp = setUpSignal.use();
 
   return !setUp ? (
-    <section className="w-screen h-screen flex flex-col bg-[#000a] overflow-x-scroll">
+    <section className="w-screen h-screen flex flex-col bg-[#000b] overflow-x-scroll">
       <div className="mt-16 mb-12 text-5xl font-semibold self-center">Load Project</div>
       <Projects />
-      <div className="mx-auto mb-12 flex gap-32 justify-between">
+      <div className="mx-4 sm:mx-20 xl:mx-32 mb-12 flex justify-between *:first:mr-8 *:bg-[#000a]">
         <LoadDataButton label="Load project from local files" onClick={loadProject} />
         <LoadDataButton label="New project" onClick={openMainScene} />
       </div>
@@ -47,10 +47,9 @@ function Projects() {
 
 function Project({ name, modifiedDateSignal }: TLDProject) {
   return (
-    <div className="w-[80%] mx-auto my-3 border-2 border-zinc-400 shadow-5xl px-16 py-4 text-xl rounded-xl flex justify-between gap-32 font-semibold *:drop-shadow-[0_0_14px_rgba(236,72,153,1)]">
-      {/* nth-1:w-[]"> */}
-      <input type="text" defaultValue={name} className="border-none" />
-      <div className="w-40">
+    <div className="mx-4 sm:mx-20 xl:mx-32 mb-5 border-2 border-zinc-400 shadow-5xl px-3 sm:px-8 py-2 sm:py-4 rounded-xl flex justify-between font-semibold bg-[#000a] *:drop-shadow-[0_0_14px_rgba(236,72,153,1)] text-sm sm:text-base xl:text-xl">
+      <input type="text" defaultValue={name} className="w-20 sm:w-40 xl:w-60 border-none" />
+      <div className="w-26 sm:w-30 xl:w-36 flex items-center">
         <ModifiedData modifiedDateSignal={modifiedDateSignal} />
       </div>
       <Button
@@ -66,7 +65,7 @@ function Project({ name, modifiedDateSignal }: TLDProject) {
         className="hover:text-zinc-400"
         onClick={() =>
           popupMenuSignal.set({
-            label: `Would you delete project "${name}"?`,
+            label: `Delete project "${name}"?`,
             options: {
               Yes: () => {
                 localforage.removeItem(name);
@@ -88,7 +87,7 @@ function ModifiedData({ modifiedDateSignal }: { modifiedDateSignal: Signal<strin
 function LoadDataButton(props: { label: string; onClick: React.MouseEventHandler }) {
   return (
     <Button
-      className="mt-6 border-2 border-zinc-400 px-12 py-4 text-2xl rounded-xl hover:text-zinc-400"
+      className="w-full border-2 border-zinc-400 px-3 sm:px-8 py-2 sm:py-4 text-sm sm:text-base xl:text-xl font-bold rounded-xl hover:text-zinc-400"
       {...props}
     />
   );
@@ -108,7 +107,12 @@ async function getSetProjects() {
 
   function timeout(project: TLDProject, ms: number) {
     project.timeoutId = setTimeout(() => {
-      timeout(project, getTimeoutEnd(project.modifiedDate));
+      const diff = Date.now() - project.modifiedDate;
+      let time = HOUR; // it is enought
+      if (diff < MINUTE) time = SECOND;
+      else if (diff < HOUR) time = MINUTE;
+
+      timeout(project, time);
       project.modifiedDateSignal.set(timeAgo(project.modifiedDate));
     }, ms);
   }
@@ -116,15 +120,9 @@ async function getSetProjects() {
   projects.forEach(async (project) => {
     const projectBuf = await localforage.getItem<string>(project.name);
     project.modifiedDate = JSON.parse(projectBuf!).modifiedDate;
+    sortByData();
     timeout(project, 0);
   });
-}
-
-function getTimeoutEnd(ms: number) {
-  const diff = Date.now() - ms;
-  if (diff < MINUTE) return SECOND;
-  if (diff < HOUR) return MINUTE;
-  return HOUR; // it is enought
 }
 
 function timeAgo(timestamp: number) {
@@ -141,6 +139,10 @@ function timeAgo(timestamp: number) {
 function timeAgoHealper(label: string, time: number) {
   if (time === 1) return `${time} ${label} ago`;
   return `${time} ${label}s ago`;
+}
+
+function sortByData() {
+  projectsSignal.set((projects) => [...projects.sort((a, b) => b.modifiedDate - a.modifiedDate)]); // same as toSorted in this case
 }
 
 type TLDProject = {
