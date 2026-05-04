@@ -1,7 +1,7 @@
 import localforage from "localforage";
 import { useEffect } from "react";
 import { createSignal } from "wdwh";
-import Button from "../components/Button";
+import { Button } from "wdwh/components";
 import { popupMenuSignal, setUpSignal } from "../lib/consts";
 import { loadProject, openMainScene } from "../lib/util";
 
@@ -137,7 +137,7 @@ function timeAgo(timestamp: number) {
 }
 
 function timeAgoHealper(label: string, time: number) {
-  if (time === 1) return `${time} ${label} ago`;
+  if (time === 1) return `1 ${label} ago`;
   return `${time} ${label}s ago`;
 }
 

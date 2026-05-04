@@ -6,10 +6,13 @@ import { buildProject, test } from "../build/build";
 
 const editorOpctions = {
   Test: test,
-  Save: saveProject,
-  Build: buildProject,
   Load: () => setUpSignal.set(false),
   Config: () => inspectorSignal.set(<Config />),
+  File: {
+    Save: saveProject,
+    SaveToFile: () => saveProject(true),
+    Build: buildProject,
+  },
 };
 
 function Config() {

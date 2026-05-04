@@ -1,11 +1,11 @@
 import { useRefresh } from "wdwh/hooks";
+import { Button } from "wdwh/components";
 import InspectorSection from "../../inspector/InspectorSection";
 import Script from "./Script";
 import Transform from "./Transform";
 import { inspectorSignal } from "../../lib/consts";
 import { capitalize, deepCopy } from "../../lib/util";
 import { Enum } from "../../inspector/typeInput/EnumInput";
-import Button from "../../components/Button";
 
 const text = [{ value: ``, color: `white` }, [`rect`], []];
 const rect = [{ x: Enum(0, -1, 0, 1), y: Enum(0, -1, 0, 1) }, [], [`text`]];

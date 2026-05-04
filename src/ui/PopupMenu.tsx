@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import Button from "../components/Button";
+import { Button } from "wdwh/components";
 import { popupMenuSignal } from "../lib/consts";
 
 export default function PopupMenu() {

@@ -36,7 +36,7 @@ type TDragData = {
 // Props
 
 type FileProps = {
-  old?: any;
+  old: any;
   file: TFile;
   name: string;
   path?: string;
@@ -44,7 +44,7 @@ type FileProps = {
 };
 
 type NodeProps = {
-  old?: any;
+  old: any;
   object: any;
   name: string;
   deep: number;
@@ -86,26 +86,6 @@ type ScriptProps = {
 type AddComponentProps = {
   text: string;
   onClick: Void;
-};
-
-type HeaderProps = {
-  name: string;
-  options?: TObj<Void>;
-};
-
-type WindowProps = {
-  name: string;
-  headerOptions?: TObj<Void>;
-  className?: string;
-  children: React.ReactNode;
-};
-
-type FileGrabberProps = {
-  label: string;
-  name: string;
-  accept: string;
-  img: React.ReactNode;
-  onFile: (file: File) => void;
 };
 
 type ImageGrabberProps = {

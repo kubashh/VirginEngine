@@ -41,8 +41,9 @@
 ## 0.22.1-dev (in development)
 
 - LoadData: update modified date dynamicly, performance benefits, modern design
-- Engine requiers width >920px (editor) >300px (before >700px) (LoadData), height >400px (technically any height)
+- Engine requiers width >722px (before >920px) (editor) >300px (before >700px) (LoadData), height >400px (technically any height)
 - LoadData: sort projects by last modified date
+- implement Window header nested options (dropdown menu)
 
 ## 0.22.0 (30 Apr 2026)
 
