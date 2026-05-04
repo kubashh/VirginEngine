@@ -110,6 +110,9 @@ export const testSceneSignal = createSignal(``);
 export const contextMenuSignal = createSignal<[number?, number?, ...any]>([]);
 export const popupMenuSignal = createSignal<TPopupMenu>({ label: `` });
 export const setUpSignal = createSignal(false);
+export const cursorPointerSignal = createSignal(false, () => {
+  document.body.style.cursor = cursorPointerSignal.get() ? `pointer` : ``;
+});
 
 // Set global events
 window.addEventListener(`contextmenu`, (e) => {

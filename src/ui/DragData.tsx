@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import { dragDataSignal, EMPTY_FILE } from "../lib/consts";
+import { cursorPointerSignal, dragDataSignal, EMPTY_FILE } from "../lib/consts";
 
 export default function DragData() {
   return (
-    <div id="drag-data" className="bg-[#000a]">
+    <div id="drag-data" className="font-bold bg-[#000a] cursor-pointer">
       <DragDataValue />
     </div>
   );
@@ -11,6 +11,7 @@ export default function DragData() {
 
 function DragDataValue() {
   const dragData = dragDataSignal.use();
+  cursorPointerSignal.set(!!dragData.name);
 
   useEffect(() => {
     if (!dragData.name) return;

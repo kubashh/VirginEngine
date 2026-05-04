@@ -29,7 +29,7 @@
 - make utils shered between core and src
 - Grab image when run error: `Uncaught SyntaxError: expected expression, got '}'`
 - Row/Column
-- LoadData sorting by: name, date modified
+- Editor width <920px layout (mobile)
 
 ### VirginEngine
 
@@ -40,7 +40,9 @@
 
 ## 0.22.1-dev (in development)
 
-- LoadData: update modified date dynamicly; performance benefits
+- LoadData: update modified date dynamicly, performance benefits, modern design
+- Engine requiers width >920px (editor) >300px (before >700px) (LoadData), height >400px (technically any height)
+- LoadData: sort projects by last modified date
 
 ## 0.22.0 (30 Apr 2026)
 
