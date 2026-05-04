@@ -17,3 +17,11 @@ export default function FileGrabber({ label, name, accept, img, onFile }: FileGr
     </div>
   );
 }
+
+type FileGrabberProps = {
+  label: string;
+  name: string;
+  accept: string;
+  img: React.ReactNode;
+  onFile: (file: File) => void;
+};

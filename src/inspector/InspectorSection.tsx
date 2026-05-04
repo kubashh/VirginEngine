@@ -1,4 +1,4 @@
-import Button from "../components/Button";
+import { Button } from "wdwh/components";
 import TypeInput from "./TypeInput";
 
 export default function InspectorSection({ text, remove, childs, element }: InspectorSectionProps) {

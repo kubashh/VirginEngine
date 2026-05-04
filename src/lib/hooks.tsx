@@ -1,5 +1,5 @@
 import { useCreateSignal, type Signal } from "wdwh";
-import Button from "../components/Button";
+import { Button } from "wdwh/components";
 
 export function useArrow(main = false, haveChilds = true, src?: string): Arrow {
   const openSignal = useCreateSignal(main);
