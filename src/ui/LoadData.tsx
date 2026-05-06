@@ -1,9 +1,9 @@
 import localforage from "localforage";
 import { useEffect } from "react";
 import { createSignal } from "wdwh";
-import { Button } from "wdwh/components";
-import { popupMenuSignal, setUpSignal } from "../lib/consts";
-import { loadProject, openMainScene } from "../lib/util";
+import { Button, TextInput } from "wdwh/components";
+import { config, nameInputSignal, popupMenuSignal, setUpSignal } from "../lib/consts";
+import { loadProject, openMainScene, saveProject } from "../lib/util";
 
 const SECOND = 1000;
 const MINUTE = 60 * 1000;
@@ -23,7 +23,18 @@ export default function LoadData() {
       <Projects />
       <div className="mx-4 sm:mx-20 xl:mx-32 mb-12 flex justify-between *:first:mr-8 *:bg-[#000a]">
         <LoadDataButton label="Load project from local files" onClick={loadProject} />
-        <LoadDataButton label="New project" onClick={openMainScene} />
+        <LoadDataButton
+          label="New project"
+          onClick={() => {
+            nameInputSignal.set([
+              (projectName) => {
+                config.gameName = projectName;
+                saveProject();
+                openMainScene();
+              },
+            ]);
+          }}
+        />
       </div>
     </section>
   ) : null;
@@ -48,7 +59,18 @@ function Projects() {
 function Project({ name, modifiedDateSignal }: TLDProject) {
   return (
     <div className="mx-4 sm:mx-20 xl:mx-32 mb-5 border-2 border-zinc-400 shadow-5xl px-3 sm:px-8 py-2 sm:py-4 rounded-xl flex justify-between font-semibold bg-[#000a] *:drop-shadow-[0_0_14px_rgba(236,72,153,1)] text-sm sm:text-base xl:text-xl">
-      <input type="text" defaultValue={name} className="w-20 sm:w-40 xl:w-60 border-none" />
+      <TextInput
+        defaultValue={name}
+        allow={/^[a-zA-Z0-9\s:.'!?&_-]+$/}
+        className="w-20 sm:w-40 xl:w-60 border-none"
+        onChange={async (newName) => {
+          const data = await localforage.getItem(name);
+          await localforage.removeItem(name);
+          await localforage.setItem(newName, data);
+          projectsSignal.set((prev) => prev.map((p) => (p.name === name ? { ...p, name: newName } : p)));
+          console.log(name, newName);
+        }}
+      />
       <div className="w-26 sm:w-30 xl:w-36 flex items-center">
         <ModifiedData modifiedDateSignal={modifiedDateSignal} />
       </div>
@@ -142,7 +164,7 @@ function timeAgoHealper(label: string, time: number) {
 }
 
 function sortByData() {
-  projectsSignal.set((projects) => [...projects.sort((a, b) => b.modifiedDate - a.modifiedDate)]); // same as toSorted in this case
+  projectsSignal.set((projects) => projects.toSorted((a, b) => b.modifiedDate - a.modifiedDate)); // create new array to trigger update
 }
 
 type TLDProject = {

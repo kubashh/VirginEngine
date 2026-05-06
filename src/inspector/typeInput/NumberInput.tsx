@@ -1,18 +1,16 @@
 import { useState } from "react";
 import { type Signal } from "wdwh";
+import { TextInput } from "wdwh/components";
 
 export default function NumberInput({ sig }: { sig: Signal<number> }) {
   const [buf, setBuf] = useState(String(sig.get()));
 
   return (
-    <input
-      type="text"
+    <TextInput
       className="w-full border-b border-zinc-400 accent-green-600"
       value={buf}
-      onChange={({ target: { value } }) => {
-        // Is char allowed
-        if (!/^[0-9\-.]*$/.test(value)) return;
-
+      allow={/^[0-9\-.]*$/}
+      onChange={(value) => {
         // Double dot check
         if (value.includes(`.`, value.indexOf(`.`) + 1)) {
           return;

@@ -83,7 +83,7 @@ export default function Script({ object, refresh }: ScriptProps) {
           <InspectorSection
             key={key}
             text={key}
-            element={scriptTypes[getType(object[key])][1]({
+            children={scriptTypes[getType(object[key])][1]({
               object,
               access: key,
             })}

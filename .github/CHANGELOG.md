@@ -23,7 +23,6 @@
 - Drag Nodes to files, files to Nodes (clonning)
 - src.Node.rect can contains only Node.rect
 - PathInput (for paths, better optymalization for not use file() while running)
-- implement localforage as storage
 - Sprite: use sprite or color (good for prototyping)
 - StringInput remove `"` `"` from strings in editor
 - make utils shered between core and src
@@ -44,6 +43,7 @@
 - Engine requiers width >722px (before >920px) (editor) >300px (before >700px) (LoadData), height >400px (technically any height)
 - LoadData: sort projects by last modified date
 - implement Window header nested options (dropdown menu)
+- LoadData: change projects names works only via LoadData (not with config like before)
 
 ## 0.22.0 (30 Apr 2026)
 

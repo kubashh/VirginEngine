@@ -18,9 +18,9 @@ const editorOpctions = {
 function Config() {
   return (
     <InspectorSection
-      text="Config"
+      text={`Config (${config.gameName})`}
       childs={Object.keys(config)
-        .filter((key) => key !== `type`)
+        .filter((key) => key !== `type` && key !== `gameName`)
         .map((key) => ({ text: key, object: config, access: key }))}
     />
   );
