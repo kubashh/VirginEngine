@@ -54,7 +54,7 @@ type InspectorSectionProps = {
   text: string;
   remove?: Void;
   childs?: Variable[];
-  element?: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 type TypeInputProps = {

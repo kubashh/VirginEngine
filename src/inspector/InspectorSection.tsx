@@ -1,7 +1,7 @@
 import { Button } from "wdwh/components";
 import TypeInput from "./TypeInput";
 
-export default function InspectorSection({ text, remove, childs, element }: InspectorSectionProps) {
+export default function InspectorSection({ text, remove, childs, children }: InspectorSectionProps) {
   return (
     <div className="mt-4 border-b-2 border-zinc-950 pb-2">
       <div className="flex">
@@ -13,7 +13,7 @@ export default function InspectorSection({ text, remove, childs, element }: Insp
       {childs?.map((props) => (
         <TypeInput key={props.access} {...props} />
       ))}
-      {element}
+      {children}
     </div>
   );
 }
