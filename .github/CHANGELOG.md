@@ -20,7 +20,7 @@
 
 - jsCode.Image.quality: number (0-1)
 - jsCode.Audio.quality: number (0-1)
-- Drag Nodes to files, files to Nodes (clonning)
+- Drag Nodes to files, files to Nodes (clonning or like Unity prefab)
 - src.Node.rect can contains only Node.rect
 - PathInput (for paths, better optymalization for not use file() while running)
 - Sprite: use sprite or color (good for prototyping)
@@ -29,6 +29,8 @@
 - Grab image when run error: `Uncaught SyntaxError: expected expression, got '}'`
 - Row/Column
 - Editor width <920px layout (mobile)
+- Img/Audio tests
+- LoadData new project set config (author, description...)
 
 ### VirginEngine
 
@@ -44,6 +46,7 @@
 - LoadData: sort projects by last modified date
 - implement Window header nested options (dropdown menu)
 - LoadData: change projects names works only via LoadData (not with config like before)
+- Editor: change scroolbar look
 
 ## 0.22.0 (30 Apr 2026)
 

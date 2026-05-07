@@ -1,7 +1,7 @@
 import { clsx, createSignal } from "wdwh";
 import Window from "../components/Window";
 import { testSceneSignal } from "../lib/consts";
-import { test } from "../build/build";
+import { testProjects } from "../lib/util";
 
 const opctions = { "16/9": `aspect-[16/9]`, "1/1": `aspect-square`, "9/16": `aspect-[9/16]` };
 const aspectRatioSignal = createSignal(opctions[`16/9`]);
@@ -13,7 +13,7 @@ const headerOptions = {
   ),
   Restart: () => {
     testSceneSignal.set(`.`);
-    setTimeout(test);
+    setTimeout(testProjects);
     console.clear();
   },
   Exit: () => {

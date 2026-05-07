@@ -12,7 +12,7 @@ const FilesComponent = () => {
 export default function Files() {
   return (
     <Window name="Files" className="w-(--w2) h-(--h2)">
-      <div className="overflow-y-scroll">
+      <div className="scrollbar-y">
         <FilesComponent />
       </div>
     </Window>

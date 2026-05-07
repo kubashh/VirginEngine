@@ -18,7 +18,7 @@ export default function LoadData() {
   const setUp = setUpSignal.use();
 
   return !setUp ? (
-    <section className="w-screen h-screen flex flex-col bg-[#000b] overflow-x-scroll">
+    <section className="w-screen h-screen flex flex-col bg-[#000b] scrollbar-y">
       <div className="mt-16 mb-12 text-5xl font-semibold self-center">Load Project</div>
       <Projects />
       <div className="mx-4 sm:mx-20 xl:mx-32 mb-12 flex justify-between *:first:mr-8 *:bg-[#000a]">

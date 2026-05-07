@@ -1,5 +1,6 @@
 import localforage from "localforage";
-import { config, hierarchySignal, files, keywords, setUpSignal } from "./consts";
+import { config, hierarchySignal, files, keywords, setUpSignal, testSceneSignal } from "./consts";
+import { build } from "../build/core";
 
 export function deepCopy<T>(obj: T): T {
   return JSON.parse(JSON.stringify(obj));
@@ -175,8 +176,31 @@ export function getType(data: any): VTypes {
 //   })
 // }
 
+// Wait
 export function wait(ms: number) {
   return new Promise((resolve) => {
     setTimeout(resolve, ms);
   });
+}
+
+// Build/Test Project
+export async function buildProject() {
+  downloadFile(`${config.gameName}.html`, await build(getBuildConfig(true)));
+}
+
+export async function testProjects() {
+  testSceneSignal.set(await build(getBuildConfig(false)));
+}
+
+function getBuildConfig(production: boolean) {
+  const performanceInfo =
+    config.performanceInfo.selected === `yes` || (!production && config.performanceInfo.selected === `dev`);
+
+  return {
+    ...config,
+    performanceInfo,
+    config,
+    files,
+    production,
+  };
 }
