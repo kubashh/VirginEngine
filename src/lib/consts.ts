@@ -19,12 +19,12 @@ export const keywords = [
 export const EMPTY_FILE: TFile = { type: `none` };
 
 export const config: TConfig = {
-  gameName: `NameOfGame`,
+  gameName: ``,
   version: `0.0.0`,
   author: `YourNick`,
   description: `Description`,
   fullScreen: true,
-  pathToMainScene: `files.Scenes.DefaultScene`,
+  pathToMainScene: `files.Scenes.MainScene`,
   performanceInfo: Enum(`dev`, `yes`, `dev`, `no`),
 };
 
@@ -47,11 +47,10 @@ const filesTemplate: TFile = {
     type: `folder`,
 
     MenuScene: { type: `scene`, name: `MenuScene` },
-    MainScene: { type: `scene`, name: `MainScene` },
 
-    // Default Scene
-    DefaultScene: {
-      name: `DefaultScene`,
+    // Main Scene
+    MainScene: {
+      name: `MainScene`,
       type: `scene`,
       // camera: { scale: 1, aspectRatio: 1, x: 0, y: 0 },
       Parent: defaultNode({

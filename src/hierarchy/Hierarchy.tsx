@@ -13,7 +13,7 @@ function HierarchyComponent() {
 export default function Hierarchy() {
   return (
     <Window name="Hierarchy" className="w-(--w2) h-(--h1) border-b border-zinc-400">
-      <div className="overflow-y-scroll">
+      <div className="scrollbar-y">
         <HierarchyComponent />
       </div>
     </Window>

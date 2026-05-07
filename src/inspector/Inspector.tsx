@@ -1,11 +1,10 @@
 import Window from "../components/Window";
 import InspectorSection from "./InspectorSection";
 import { config, inspectorSignal, setUpSignal } from "../lib/consts";
-import { saveProject } from "../lib/util";
-import { buildProject, test } from "../build/build";
+import { buildProject, saveProject, testProjects } from "../lib/util";
 
 const editorOpctions = {
-  Test: test,
+  Test: testProjects,
   Load: () => setUpSignal.set(false),
   Config: () => inspectorSignal.set(<Config />),
   File: {
@@ -33,7 +32,7 @@ export default function Inspector() {
       className="row-span-2 w-(--w3) border-l border-zinc-400"
       headerOptions={editorOpctions}
     >
-      <div className="p-2 overflow-y-scroll">
+      <div className="p-2 scrollbar-y">
         <InspectorComponent />
       </div>
     </Window>
