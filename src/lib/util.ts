@@ -1,6 +1,6 @@
 import localforage from "localforage";
+import { build } from "../core";
 import { config, hierarchySignal, files, keywords, setUpSignal, testSceneSignal } from "./consts";
-import { build } from "../build/core";
 
 export function deepCopy<T>(obj: T): T {
   return JSON.parse(JSON.stringify(obj));

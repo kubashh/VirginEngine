@@ -26,7 +26,7 @@ export default function Node({ old, name, object, deep = 0 }: NodeProps) {
 
   const onClick = () => !main && setComponents({ old, object, name });
 
-  const onContextMenu = ({ pageX, pageY }: MouseEvent) => {
+  const onContextMenu: React.MouseEventHandler<HTMLDivElement> = ({ pageX, pageY }) => {
     contextMenuSignal.set([
       pageX,
       pageY,

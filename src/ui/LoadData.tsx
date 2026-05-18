@@ -53,7 +53,7 @@ function Projects() {
     };
   }, []);
 
-  return <>{...projects.map((project) => <Project {...project} />)}</>;
+  return <>{...projects.map((project) => <Project key={project.name} {...project} />)}</>;
 }
 
 function Project({ name, modifiedDateSignal }: TLDProject) {
