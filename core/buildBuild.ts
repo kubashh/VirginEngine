@@ -9,7 +9,7 @@ async function build() {
   const { outputs } = await Bun.build({
     entrypoints: [`./core/build/build.ts`],
     outdir: `.`,
-    naming: `./src/build/core.ts`,
+    naming: `./src/core.ts`,
     minify: {
       whitespace: true,
       identifiers: true,

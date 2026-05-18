@@ -1,8 +1,8 @@
 import { createSignal } from "wdwh";
+import { virginEngineVersion } from "../core";
 import { Enum } from "../inspector/typeInput/EnumInput";
 import { deepCopy, defaultNode, saveProject } from "./util";
 import { boxSprite } from "../assets/assets";
-import { virginEngineVersion } from "../build/core";
 
 export const keywords = [
   `type`,

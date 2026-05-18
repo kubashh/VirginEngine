@@ -23,7 +23,7 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
     inspectorSignal.set(<InspectorDisplay file={file} name={name} />);
   };
 
-  const onContextMenu = ({ pageX, pageY }: MouseEvent) => {
+  const onContextMenu: React.MouseEventHandler<HTMLDivElement> = ({ pageX, pageY }) => {
     const newArrElement = (name: string, type: string, defValue: TObj = {}) => [
       () =>
         nameInputSignal.set([
