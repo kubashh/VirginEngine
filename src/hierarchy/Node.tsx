@@ -27,26 +27,24 @@ export default function Node({ old, name, object, deep = 0 }: NodeProps) {
   const onClick = () => !main && setComponents({ old, object, name });
 
   const onContextMenu: React.MouseEventHandler<HTMLDivElement> = ({ pageX, pageY }) => {
-    contextMenuSignal.set([
-      pageX,
-      pageY,
-      [
-        () => {
-          nameInputSignal.set([
-            (newName: string) => {
-              if (Object.keys(object).includes(newName)) return;
+    contextMenuSignal.set({
+      x: pageX,
+      y: pageY,
+      "New Object": () => {
+        nameInputSignal.set([
+          (newName: string) => {
+            if (Object.keys(object).includes(newName)) return;
 
-              object[newName] = defaultNode();
+            object[newName] = defaultNode();
 
-              arrowSignal.set(true);
-              refreshHierarchy.refresh();
-            },
-          ]);
-        },
-        `New Object`,
-      ],
-      [
-        () => {
+            arrowSignal.set(true);
+            refreshHierarchy.refresh();
+          },
+        ]);
+      },
+      Rename:
+        !main &&
+        (() => {
           nameInputSignal.set([
             (newName: string) => {
               if (name === newName || old[newName]) return;
@@ -57,19 +55,14 @@ export default function Node({ old, name, object, deep = 0 }: NodeProps) {
             },
             name,
           ]);
-        },
-        `Rename`,
-        !main,
-      ],
-      [
-        () => {
+        }),
+      Delete:
+        !main &&
+        (() => {
           delete old[name];
           refreshHierarchy.refresh();
-        },
-        `Delete`,
-        !main,
-      ],
-    ]);
+        }),
+    });
   };
 
   const onMouseDown = () => {
