@@ -24,8 +24,9 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
   };
 
   const onContextMenu: React.MouseEventHandler<HTMLDivElement> = ({ pageX, pageY }) => {
-    const newArrElement = (name: string, type: string, defValue: TObj = {}) => [
-      () =>
+    const newArrElement = (type: string, defValue: TObj = {}): Void | false =>
+      isFolder &&
+      (() =>
         nameInputSignal.set([
           (newName: string) => {
             file[newName] = { type, ...deepCopy(defValue) };
@@ -33,21 +34,19 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
             arrowSignal.set(true);
             refreshFiles.refresh();
           },
-        ]),
-      name,
-      isFolder,
-    ];
+        ]));
 
-    contextMenuSignal.set([
-      pageX,
-      pageY,
-      newArrElement(`New file`, `txt`),
-      newArrElement(`New image`, `img`, deepCopy(defaultAssets.img)),
-      newArrElement(`New audio`, `audio`, deepCopy(defaultAssets.audio)),
-      newArrElement(`New folder`, `folder`),
-      newArrElement(`New scene`, `scene`),
-      [
-        () =>
+    contextMenuSignal.set({
+      x: pageX,
+      y: pageY,
+      "New file": newArrElement(`txt`),
+      "New image": newArrElement(`img`, deepCopy(defaultAssets.img)),
+      "New audio": newArrElement(`audio`, deepCopy(defaultAssets.audio)),
+      "New folder": newArrElement(`folder`),
+      "New scene": newArrElement(`scene`),
+      Rename:
+        !isMain &&
+        (() =>
           nameInputSignal.set([
             (newName: string) => {
               if (name === newName) return;
@@ -57,20 +56,14 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
               refreshFiles.refresh();
             },
             name,
-          ]),
-        `Rename`,
-        !isMain,
-      ],
-      [() => navigator.clipboard.writeText(path), `Copy path`],
-      [
-        () => {
+          ])),
+      Delete:
+        !isMain &&
+        (() => {
           delete old[name];
           refreshFiles.refresh();
-        },
-        `Delete`,
-        !isMain,
-      ],
-    ]);
+        }),
+    });
   };
 
   const onMouseDown = () => {

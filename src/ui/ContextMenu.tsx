@@ -7,7 +7,7 @@ export default function ContextMenu() {
   const contextMenu = contextMenuSignal.use();
   useEffect(() => {
     function handler({ target }: { target: any }) {
-      if (ref.current && !ref.current.contains(target)) contextMenuSignal.set([]);
+      if (ref.current && !ref.current.contains(target)) contextMenuSignal.set(null);
     }
 
     document.addEventListener(`mousedown`, handler);
@@ -15,21 +15,21 @@ export default function ContextMenu() {
     return () => document.removeEventListener(`mousedown`, handler);
   }, [ref]);
 
-  return contextMenu.length > 2 ? (
+  return contextMenu !== null ? (
     <div
       ref={ref}
-      className="border-4 border-zinc-800 px-2 py-0.5 flex flex-col rounded-sm bg-black [&>*:not(:last-child)]:border-b"
-      style={{ top: `${contextMenu[1]}px`, left: `${contextMenu[0]}px` }}
+      className="border-4 border-zinc-800 px-2 py-0.5 flex flex-col rounded-sm bg-zinc-900 [&>*:not(:last-child)]:border-b"
+      style={{ top: `${contextMenu.y}px`, left: `${contextMenu.x}px` }}
     >
-      {contextMenu.slice(2).map(([fn, text, show = true]: any) =>
-        show ? (
+      {Object.entries(contextMenu).map(([text, fn]) =>
+        typeof fn === `function` ? (
           <Button
             key={text}
             label={text}
             className="border-zinc-400 hover:text-zinc-400"
             onClick={() => {
               fn();
-              contextMenuSignal.set([]);
+              contextMenuSignal.set(null);
             }}
           />
         ) : null,
