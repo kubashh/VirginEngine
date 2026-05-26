@@ -7,13 +7,15 @@ import { inspectorSignal } from "../../lib/consts";
 import { capitalize, deepCopy } from "../../lib/util";
 import { Enum } from "../../inspector/typeInput/EnumInput";
 
-const text = [{ value: ``, color: `white` }, [`rect`], []];
+// to one object { deps: [], remove: [] }
+// const text2 = {value: ``, color: }
+const text: TComponent = [{ value: ``, color: `white` }, [`rect`]];
 const rect = [{ x: Enum(0, -1, 0, 1), y: Enum(0, -1, 0, 1) }, [], [`text`]];
-const sprite = [{ color: ``, path: `files.Assets.Images.BoxImage` }, [], []];
-const physics = [{ gravity: true }, [], []];
-const audio = [{ path: `` }, [], []];
+const sprite = [{ color: ``, path: `files.Assets.Images.BoxImage` }];
+const physics = [{ gravity: true }];
+const audio = [{ path: `` }];
 
-const components: TObj<[TObj, string[], string[]]> = { text, rect, sprite, physics, audio } as any;
+const components: TObj<TComponent> = { text, rect, sprite, physics, audio } as any;
 
 export function setComponents(props: TObj) {
   inspectorSignal.set(<Components {...props} />);
@@ -37,8 +39,10 @@ function Components({ name, ...props }: TObj) {
 
 function Component({ name, refresh, required, ...props }: TObj) {
   const remove = () => {
-    for (const key of components[name][2]) {
-      delete props.object[key];
+    if (components[name][2]) {
+      for (const key of components[name][2]) {
+        delete props.object[key];
+      }
     }
     delete props.object[name];
     refresh();
@@ -48,8 +52,10 @@ function Component({ name, refresh, required, ...props }: TObj) {
     if (required) return;
 
     props.object[name] = deepCopy(components[name][0]);
-    for (const key of components[name][1]) {
-      if (!props.object[key]) props.object[key] = deepCopy(components[key][0]);
+    if (components[name][1]) {
+      for (const key of components[name][1]) {
+        if (!props.object[key]) props.object[key] = deepCopy(components[key][0]);
+      }
     }
 
     refresh();
@@ -60,7 +66,7 @@ function Component({ name, refresh, required, ...props }: TObj) {
       key={name}
       text={capitalize(name)}
       childs={toChilds(props.object, name, components[name][0])}
-      {...{ ...props, remove: !required ? remove : undefined }}
+      {...{ ...props, onRemove: !required ? remove : undefined }}
     />
   ) : (
     <AddComponent text={capitalize(name)} onClick={addComponent} />
@@ -85,3 +91,10 @@ export function AddComponent({ text, onClick }: AddComponentProps) {
     <Button label={`+ ${text}`} className="mt-3 mb-6 px-3 py-2 hover:text-zinc-400" onClick={onClick} />
   );
 }
+
+type TComponent = [any, string[]?, string[]?];
+//  {
+//   deps?: string[];
+//   remove?: string[];
+//   [key: string]: any;
+// };

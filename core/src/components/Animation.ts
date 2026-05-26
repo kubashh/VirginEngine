@@ -10,8 +10,11 @@ export default class Animation implements TAnimation {
     this.frames = props.frames;
   }
 
-  update() {
-    // draw this.frames[this.currentFrame]
+  render() {
+    this.frames[this.currentFrame].render();
+
+    this.currentFrame++;
+    if (this.currentFrame >= this.frames.length) this.currentFrame = 0;
   }
 
   start() {

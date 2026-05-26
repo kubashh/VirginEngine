@@ -87,7 +87,7 @@ export default function Script({ object, refresh }: ScriptProps) {
               object,
               access: key,
             })}
-            remove={() => {
+            onRemove={() => {
               delete object[key];
               refresh();
             }}

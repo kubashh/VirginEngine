@@ -1,5 +1,5 @@
 import localforage from "localforage";
-import { build } from "../core";
+import { build } from "./core";
 import { config, hierarchySignal, files, keywords, setUpSignal, testSceneSignal } from "./consts";
 
 export function deepCopy<T>(obj: T): T {
