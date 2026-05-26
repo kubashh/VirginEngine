@@ -52,7 +52,7 @@ type NodeProps = {
 
 type InspectorSectionProps = {
   text: string;
-  remove?: Void;
+  onRemove?: Void;
   childs?: Variable[];
   children?: React.ReactNode;
 };
