@@ -33,6 +33,13 @@ type TDragData = {
   old: TObj;
 };
 
+type TNameInput = { cb: (arg: string) => void; value?: string; lowerCase?: boolean } | null;
+
+type TPopupMenu = {
+  label: string;
+  options?: TObj<Void>;
+};
+
 // Props
 
 type FileProps = {
@@ -113,11 +120,6 @@ type TConfig = {
   fullScreen: boolean;
   pathToMainScene: string;
   performanceInfo: TEnum<string>;
-};
-
-type TPopupMenu = {
-  label: string;
-  options?: TObj<Void>;
 };
 
 type TProject = {

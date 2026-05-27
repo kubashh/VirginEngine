@@ -2,37 +2,36 @@ import FileElement from "../components/FileElement";
 import {
   contextMenuSignal,
   dragDataSignal,
+  inspectorSignal,
   keywords,
   nameInputSignal,
   refreshHierarchy,
 } from "../lib/consts";
 import { defaultNode, isCapitalized } from "../lib/util";
+import InspectorDisplay from "../files/InspectorDisplay";
 import { useArrow } from "../lib/hooks";
 import { setComponents } from "./components/componentsLib";
 
-function getChilds(obj: TObj = {}) {
-  return Object.keys(obj).reduce(
-    (prev, key) => (!keywords.includes(key) && isCapitalized(key) ? { [key]: obj[key], ...prev } : prev),
-    {},
-  );
-}
-
 export default function Node({ old, name, object, deep = 0 }: NodeProps) {
   const main = deep === 0;
+  !main && console.log(object);
   const childs = getChilds(object);
   const haveChilds = Object.keys(childs)?.length > 0;
 
   const arrowSignal = useArrow(main, haveChilds);
 
-  const onClick = () => !main && setComponents({ old, object, name });
+  const onClick = () =>
+    !main
+      ? setComponents({ old, object, name })
+      : inspectorSignal.set(<InspectorDisplay file={object} name={name} />);
 
   const onContextMenu: React.MouseEventHandler<HTMLDivElement> = ({ pageX, pageY }) => {
     contextMenuSignal.set({
       x: pageX,
       y: pageY,
       "New Object": () => {
-        nameInputSignal.set([
-          (newName: string) => {
+        nameInputSignal.set({
+          cb: (newName: string) => {
             if (Object.keys(object).includes(newName)) return;
 
             object[newName] = defaultNode();
@@ -40,21 +39,21 @@ export default function Node({ old, name, object, deep = 0 }: NodeProps) {
             arrowSignal.set(true);
             refreshHierarchy.refresh();
           },
-        ]);
+        });
       },
       Rename:
         !main &&
         (() => {
-          nameInputSignal.set([
-            (newName: string) => {
+          nameInputSignal.set({
+            cb: (newName: string) => {
               if (name === newName || old[newName]) return;
 
               delete old[name];
               old[newName] = object;
               refreshHierarchy.refresh();
             },
-            name,
-          ]);
+            value: name,
+          });
         }),
       Delete:
         !main &&
@@ -102,4 +101,11 @@ export default function Node({ old, name, object, deep = 0 }: NodeProps) {
     onMouseDown,
     onMouseUp,
   });
+}
+
+function getChilds(obj: TObj = {}) {
+  return Object.keys(obj).reduce(
+    (prev, key) => (!keywords.includes(key) && isCapitalized(key) ? { [key]: obj[key], ...prev } : prev),
+    {},
+  );
 }

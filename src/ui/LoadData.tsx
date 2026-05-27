@@ -26,13 +26,13 @@ export default function LoadData() {
         <LoadDataButton
           label="New project"
           onClick={() => {
-            nameInputSignal.set([
-              (projectName) => {
+            nameInputSignal.set({
+              cb: (projectName) => {
                 config.gameName = projectName;
                 saveProject();
                 openMainScene();
               },
-            ]);
+            });
           }}
         />
       </div>
@@ -85,17 +85,17 @@ function Project({ name, modifiedDateSignal }: TLDProject) {
       <Button
         label="Delete"
         className="hover:text-zinc-400"
-        onClick={() =>
+        onClick={() => {
           popupMenuSignal.set({
             label: `Delete project "${name}"?`,
             options: {
               Yes: () => {
-                localforage.removeItem(name);
+                localforage.removeItem(name); // It will never fails
                 projectsSignal.set((prev) => prev.filter((p) => p.name !== name)); // Optymisticly update projects
               },
             },
-          })
-        }
+          });
+        }}
       />
     </div>
   );

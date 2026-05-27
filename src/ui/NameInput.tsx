@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { nameInputSignal } from "../lib/consts";
-import { capitalize, isValidName } from "../lib/util";
+import { capitalize, decapitalize, isValidName } from "../lib/util";
 
 export default function NameInput() {
   const ref = useRef<HTMLInputElement>(null);
@@ -18,20 +18,14 @@ export default function NameInput() {
 }
 
 function useNameInput(ref: React.RefObject<HTMLInputElement | null>) {
-  const [cb, text = ``, lowerCase = false] = nameInputSignal.use();
-
-  const ret = () => {
-    if (cb && isValidName(text)) {
-      cb(lowerCase ? `${text[0].toLowerCase()}${text.slice(1)}` : text);
-    }
-    nameInputSignal.set([]);
-  };
+  const nameInput = nameInputSignal.use();
+  const { cb, value, lowerCase } = getPropsSave(nameInput);
 
   useEffect(() => {
     if (!ref) return;
 
     function handler({ target }: MouseEvent) {
-      if (ref.current && !ref.current.contains(target as Node)) ret();
+      if (ref.current && !ref.current.contains(target as Node)) onReturn();
     }
 
     document.addEventListener(`mousedown`, handler);
@@ -41,15 +35,35 @@ function useNameInput(ref: React.RefObject<HTMLInputElement | null>) {
 
   return (
     cb && {
-      value: text,
+      value,
       onChange: ({ target }: { target: { value: string } }) => {
-        const value = capitalize(target.value);
+        const newValue = lowerCase ? decapitalize(target.value) : capitalize(target.value);
 
-        if (!isValidName(value)) return;
+        if (!isValidName(newValue)) return;
 
-        nameInputSignal.set([cb, value, lowerCase]);
+        nameInputSignal.set({ cb, value: newValue, lowerCase });
       },
-      onKeyDown: ({ key }: React.KeyboardEvent<HTMLInputElement>) => key === `Enter` && ret(),
+      onKeyDown: ({ key }: React.KeyboardEvent<HTMLInputElement>) => key === `Enter` && onReturn(),
     }
   );
+}
+
+function onReturn() {
+  const { cb, value } = getPropsSave(nameInputSignal.get());
+  if (cb && isValidName(value)) {
+    cb(value);
+  }
+  nameInputSignal.set(null);
+}
+
+function getPropsSave(nameInput: TNameInput): {
+  cb: ((arg: string) => void) | null;
+  value: string;
+  lowerCase?: boolean;
+} {
+  return {
+    cb: nameInput && nameInput.cb,
+    value: (nameInput && nameInput.value) || ``,
+    lowerCase: (nameInput && nameInput.lowerCase) || false,
+  };
 }

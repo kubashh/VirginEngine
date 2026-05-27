@@ -47,7 +47,7 @@ function InputDefault({ object, access }: StringInputProps) {
 const scriptTypes: TObj = {
   boolean: [false, TypeInput],
   number: [0, TypeInput],
-  string: [`""`, TypeInput],
+  string: [`""`, TypeInput], // TODO without quotes
   array: [`[]`, AdvancedInput, `[`, `]`],
   object: [`{}`, AdvancedInput, `{`, `}`],
   function: [`function() {}`, AdvancedInput, `function(`, `) {`, `}`],
@@ -58,18 +58,17 @@ function AddScript({ object, value, refresh }: AddScriptProps) {
   return (
     <AddComponent
       text={capitalize(value)}
-      onClick={() =>
-        nameInputSignal.set([
-          (text: string) => {
+      onClick={() => {
+        nameInputSignal.set({
+          cb: (text: string) => {
             if (isOccupied(object, text)) return;
 
             object[text] = scriptTypes[value][0];
             refresh();
           },
-          ``,
-          true,
-        ])
-      }
+          lowerCase: true,
+        });
+      }}
     />
   );
 }

@@ -103,12 +103,14 @@ export const refreshHierarchy = { refresh() {} };
 export const files = filesTemplate;
 export const refreshFiles = { refresh() {} };
 export const inspectorSignal = createSignal<React.ReactNode>(null);
-export const nameInputSignal = createSignal<[((arg: string) => void)?, string?, boolean?]>([]);
+export const nameInputSignal = createSignal<TNameInput>(null);
 export const dragDataSignal = createSignal<TDragData>({ name: ``, from: ``, file: EMPTY_FILE, old: {} });
 export const testSceneSignal = createSignal(``);
-export const contextMenuSignal = createSignal<
-  ({ [key: string]: Void | number | false } & { x: number; y: number }) | null
->(null);
+export const contextMenuSignal = createSignal<{
+  [key: string]: Void | number | false;
+  x: number;
+  y: number;
+} | null>(null);
 export const popupMenuSignal = createSignal<TPopupMenu>({ label: `` });
 export const setUpSignal = createSignal(false);
 export const cursorPointerSignal = createSignal(false, () => {

@@ -27,14 +27,14 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
     const newArrElement = (type: string, defValue: TObj = {}): Void | false =>
       isFolder &&
       (() =>
-        nameInputSignal.set([
-          (newName: string) => {
+        nameInputSignal.set({
+          cb: (newName: string) => {
             file[newName] = { type, ...deepCopy(defValue) };
 
             arrowSignal.set(true);
             refreshFiles.refresh();
           },
-        ]));
+        }));
 
     contextMenuSignal.set({
       x: pageX,
@@ -47,16 +47,16 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
       Rename:
         !isMain &&
         (() =>
-          nameInputSignal.set([
-            (newName: string) => {
+          nameInputSignal.set({
+            cb: (newName: string) => {
               if (name === newName) return;
 
               delete old[name];
               old[newName] = file;
               refreshFiles.refresh();
             },
-            name,
-          ])),
+            value: name,
+          })),
       Delete:
         !isMain &&
         (() => {

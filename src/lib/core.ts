@@ -155,7 +155,12 @@ constructor(props, node) {
 this.node = node;
 this.frames = props.frames;
 }
-update() {}
+render() {
+this.frames[this.currentFrame].render();
+this.currentFrame++;
+if (this.currentFrame >= this.frames.length)
+this.currentFrame = 0;
+}
 start() {
 this.currentFrame = 0;
 }
