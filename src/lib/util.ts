@@ -21,7 +21,7 @@ function createElement({ name, ...props }: TObj) {
 }
 
 export function isValidName(name: string) {
-  return isCapitalized(name) && /^[a-z0-9_]+$/i.test(name);
+  return /^[a-z0-9_]+$/i.test(name);
 }
 
 export function camelToTitleCase(text: string) {
@@ -40,6 +40,9 @@ export function isCapitalized(name: string) {
 
 export function capitalize(str: string) {
   return str.replace(/^./, (char) => char.toUpperCase());
+}
+export function decapitalize(str: string) {
+  return str.replace(/^./, (char) => char.toLowerCase());
 }
 
 export function openMainScene() {

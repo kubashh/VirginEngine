@@ -69,5 +69,5 @@ type BuildOptions = {
   production?: boolean;
   hydrate?: string;
   separateJs?: boolean;
-  files: any;
+  files: TObj<any>;
 };
