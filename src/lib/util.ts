@@ -129,8 +129,18 @@ export function getType(data: any): VTypes {
   if (Array.isArray(data) || data[0] === `[`) return `array`;
   if (data.startsWith(`{`)) return `object`;
   if (data.startsWith(`function`)) return `function`;
-  if ([`"`, `'`, "`"].includes(data[0])) return `string`;
+  // if ([`"`, `'`, "`"].includes(data[0])) return `string`;
   return `string`;
+}
+
+// Get file by path
+export function fileFromPath(path: string) {
+  // if(path.startsWith(`files.`)) path =
+  console.log(path);
+  return path
+    .split(`.`)
+    .slice(1)
+    .reduce((prev, key) => prev[key], files as any);
 }
 
 // Image
@@ -188,22 +198,31 @@ export function wait(ms: number) {
 
 // Build/Test Project
 export async function buildProject() {
-  downloadFile(`${config.gameName}.html`, await build(getBuildConfig(true)));
+  downloadFile(`${config.gameName}.html`, await buildSafely(true));
 }
 
 export async function testProjects() {
-  testSceneSignal.set(await build(getBuildConfig(false)));
+  testSceneSignal.set(await buildSafely(false));
 }
 
-function getBuildConfig(production: boolean) {
+async function buildSafely(production: boolean) {
   const performanceInfo =
     config.performanceInfo.selected === `yes` || (!production && config.performanceInfo.selected === `dev`);
 
-  return {
+  const validConfig = {
     ...config,
     performanceInfo,
     config,
     files,
     production,
   };
+
+  const html = (await build(validConfig))[`index.html`];
+  if (!html) throw new Error(`Build faild! Output: ${JSON.stringify(html)}`);
+  return html;
+}
+
+// Zig-like switch
+export function zswitch<T>(value: number | string, rest: TObj<() => T>) {
+  return (rest[value] || rest.else)();
 }

@@ -2,7 +2,7 @@ import { createSignal } from "wdwh";
 import { virginEngineVersion } from "./core";
 import { Enum } from "../inspector/typeInput/EnumInput";
 import { deepCopy, defaultNode, saveProject } from "./util";
-import { boxSprite } from "../assets/assets";
+import { boxSprite, happyBoxSprite } from "./assets/assets";
 
 export const keywords = [
   `type`,
@@ -32,6 +32,11 @@ export const defaultAssets = {
   img: {
     type: `img`,
     src: boxSprite,
+    quality: 1,
+  },
+  img2: {
+    type: `img`,
+    src: happyBoxSprite,
     quality: 1,
   },
   audio: {
@@ -80,6 +85,7 @@ const filesTemplate: TFile = {
     Images: {
       type: `folder`,
       BoxImage: deepCopy(defaultAssets.img),
+      HappyBoxImage: deepCopy(defaultAssets.img2),
     },
     Audio: {
       type: `folder`,
@@ -104,7 +110,7 @@ export const files = filesTemplate;
 export const refreshFiles = { refresh() {} };
 export const inspectorSignal = createSignal<React.ReactNode>(null);
 export const nameInputSignal = createSignal<TNameInput>(null);
-export const dragDataSignal = createSignal<TDragData>({ name: ``, from: ``, file: EMPTY_FILE, old: {} });
+export const dragDataSignal = createSignal<TDragData>({ name: ``, from: ``, file: EMPTY_FILE, parent: {} });
 export const testSceneSignal = createSignal(``);
 export const contextMenuSignal = createSignal<{
   [key: string]: Void | number | false;

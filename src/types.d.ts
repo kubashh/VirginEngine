@@ -30,7 +30,7 @@ type TDragData = {
   name: string; // label
   from: `` | `hierarchy` | `files`;
   file: TFile;
-  old: TObj;
+  parent: TObj;
 };
 
 type TNameInput = { cb: (arg: string) => void; value?: string; lowerCase?: boolean } | null;
@@ -43,7 +43,7 @@ type TPopupMenu = {
 // Props
 
 type FileProps = {
-  old: any;
+  parent: any;
   file: TFile;
   name: string;
   path?: string;
@@ -51,7 +51,7 @@ type FileProps = {
 };
 
 type NodeProps = {
-  old: any;
+  parent: any;
   object: any;
   name: string;
   deep: number;
@@ -101,6 +101,7 @@ type ImageGrabberProps = {
 };
 
 type InspectorDisplayProps = {
+  path: string;
   file: TObj;
   name: string;
 };

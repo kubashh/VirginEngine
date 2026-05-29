@@ -26,13 +26,12 @@
 - Sprite: use sprite or color (good for prototyping)
 - StringInput remove `"` `"` from strings in editor
 - make utils shered between core and src
-- Grab image when run error: `Uncaught SyntaxError: expected expression, got '}'`
-- Row/Column
 - Editor width <920px layout (mobile)
 - Img/Audio tests
 - LoadData new project set config (author, description...)
+- files: ContextMenu copy path of image/audio
 
-### VirginEngine
+### VirginEngine repo
 
 - VirginEngine/docs (.md)
 - VirginEngine/releases (.md)
@@ -47,6 +46,8 @@
 - implement Window header nested options (dropdown menu)
 - LoadData: change projects names works only via LoadData (not with config like before)
 - Editor: change scroolbar look
+- fixed: Grab image when run error: `Uncaught SyntaxError: expected expression, got '}'`
+- better core api
 
 ## 0.22.0 (30 Apr 2026)
 

@@ -2,33 +2,33 @@ import { useCreateSignal } from "wdwh";
 import AudioGrabber from "../components/AudioGrabber";
 import ImageGrabber from "../components/ImageGrabber";
 import TypeInput from "../inspector/TypeInput";
+import { fileFromPath, zswitch } from "../lib/util";
 
-export default function InspectorDisplay({ file, name }: InspectorDisplayProps) {
+export default function InspectorDisplay({ path, file, name }: InspectorDisplayProps) {
   return (
     <div className="m-3">
       <h2 className="text-2xl font-bold">File</h2>
       <div>Type: {file.type}</div>
       <div>Name: {name}</div>
-      <InspectorImgAudioGrabber file={file} name={name} />
+      <InspectorImgAudioGrabber path={path} file={file} name={name} />
     </div>
   );
 }
 
-function InspectorImgAudioGrabber({ file, name }: InspectorDisplayProps) {
+function InspectorImgAudioGrabber({ file, path, name }: InspectorDisplayProps) {
   const srcSignal = useCreateSignal(file.src, () => {
-    file.src = src;
+    console.log(srcSignal.get());
+    fileFromPath(path).src = srcSignal.get(); // it is needed for getting object evry time signal updated (can't use object "file")
   });
-  const src = srcSignal.use();
 
   if (![`img`, `audio`].includes(file.type)) return null;
 
   return (
     <div>
-      {file.type === `img` ? (
-        <ImageGrabber srcSignal={srcSignal} name={name} />
-      ) : (
-        <AudioGrabber srcSignal={srcSignal} name={name} />
-      )}
+      {zswitch(file.type, {
+        img: () => <ImageGrabber srcSignal={srcSignal} name={name} />,
+        audio: () => <AudioGrabber srcSignal={srcSignal} name={name} />,
+      })}
       <TypeInput object={file} access="quality" />
     </div>
   );
