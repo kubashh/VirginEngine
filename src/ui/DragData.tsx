@@ -49,5 +49,5 @@ function onMouseDown() {
 }
 
 function handleMouseUp() {
-  dragDataSignal.set({ name: ``, from: ``, file: EMPTY_FILE, old: {} });
+  dragDataSignal.set({ name: ``, from: ``, file: EMPTY_FILE, parent: {} });
 }

@@ -7,7 +7,7 @@ function HierarchyComponent() {
   const currentScene = hierarchySignal.use();
   refreshHierarchy.refresh = useRefresh();
 
-  return <Node object={currentScene} old={files.Scenes} name={currentScene.name} deep={0} />;
+  return <Node object={currentScene} parent={files.Scenes} name={currentScene.name} deep={0} />;
 }
 
 export default function Hierarchy() {

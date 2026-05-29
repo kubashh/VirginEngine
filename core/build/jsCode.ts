@@ -1,39 +1,37 @@
 import { minify_sync } from "terser";
 import { keywords, optymalizeImageSrc } from "./util";
-import type { Build } from "./build";
+import type { BuildOptions } from "./build";
 
 const core = REPLACE_CORE;
 
-export async function jsCode(build: Build) {
-  const validCore = await coreConfig(build);
+export async function jsCode(options: BuildOptions) {
+  const validCore = await coreConfig(options);
 
-  if (!build.production) return validCore;
+  if (!options.production) return validCore;
 
   const out = minify_sync(validCore, {
     module: true, // size -10%
   });
-
-  console.log(out.code?.length);
 
   if (out.code) return out.code;
 
   throw Error(JSON.stringify(out));
 }
 
-async function coreConfig(build: Build) {
-  const arr = filesToString(build.files);
+async function coreConfig(options: BuildOptions) {
+  const arr = filesToString(options.files);
 
   for (const i in arr) arr[i] = await arr[i];
 
   return (
-    replacePerformanceInfo(build, core)
+    replacePerformanceInfo(options, core)
       .split(`\n`)
       // Remove fullscreen if not needed
-      .filter((line) => build.fullScreen || !line.startsWith(`!document.fullscreenElement ?`))
+      .filter((line) => options.fullScreen || !line.startsWith(`!document.fullscreenElement ?`))
       .join(`\n`)
       .replace(`REPLACE_FILES`, arr.join(``))
-      .replace(`REPLACE_PATH_TO_MAIN_SCENE`, build.pathToMainScene)
-      .replace(`REPLACE_CANVAS_ID`, build.hydrate || `canvas`)
+      .replace(`REPLACE_PATH_TO_MAIN_SCENE`, options.pathToMainScene)
+      .replace(`REPLACE_CANVAS_ID`, options.hydrate || `canvas`)
   );
 }
 
@@ -80,8 +78,8 @@ function isCustomProp(text: string) {
   return !/^[A-Z]/.test(text) && !keywords.includes(text);
 }
 
-function replacePerformanceInfo(build: Build, core: string) {
-  if (build.performanceInfo) return core;
+function replacePerformanceInfo(options: BuildOptions, core: string) {
+  if (options.performanceInfo) return core;
 
   return core
     .replaceAll(

@@ -6,7 +6,7 @@ export default function ImageGrabber({ srcSignal, name }: ImageGrabberProps) {
       label="Image"
       name={name}
       accept="image/*"
-      img={<img className="h-6" src={srcSignal.get()} />}
+      img={<img className="h-6" src={srcSignal.use()} />}
       onFile={async (file) => srcSignal.set(await imgToSrc(file))}
     />
   );

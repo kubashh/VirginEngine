@@ -1,7 +1,7 @@
 /// <reference types="bun" />
 
 // Build build
-build();
+await build();
 
 async function build() {
   const htmlTemplate = minifyHtml(await Bun.file(`./core/build/template.html`).text());
@@ -24,9 +24,24 @@ async function build() {
   });
 
   let js = await outputs[0].text();
-  js = js
-    .replace(`REPLACE_CORE`, await buildEngineCore())
-    .replace(`// @bun\n`, `// @bun\n// @ts-nocheck\n`);
+  js = js.replace(`REPLACE_CORE`, await buildEngineCore()).replace(
+    `// @bun\n`,
+    `// @bun\n// @ts-nocheck
+export declare function build(options: {
+  author: string;
+  description: string;
+  gameName: string;
+  performanceInfo: boolean;
+  pathToMainScene: string;
+  fullScreen: boolean;
+
+  production?: boolean;
+  hydrate?: string;
+  separateJs?: boolean;
+  log?: boolean;
+  files: TObj<any>;
+}): Promise<{ "index.html"?: string; "script.js"?: string }>;\n`,
+  );
   await Bun.write(outputs[0].path, js);
   return js;
 }

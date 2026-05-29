@@ -12,9 +12,8 @@ import InspectorDisplay from "../files/InspectorDisplay";
 import { useArrow } from "../lib/hooks";
 import { setComponents } from "./components/componentsLib";
 
-export default function Node({ old, name, object, deep = 0 }: NodeProps) {
+export default function Node({ parent, name, object, deep = 0 }: NodeProps) {
   const main = deep === 0;
-  !main && console.log(object);
   const childs = getChilds(object);
   const haveChilds = Object.keys(childs)?.length > 0;
 
@@ -22,8 +21,8 @@ export default function Node({ old, name, object, deep = 0 }: NodeProps) {
 
   const onClick = () =>
     !main
-      ? setComponents({ old, object, name })
-      : inspectorSignal.set(<InspectorDisplay file={object} name={name} />);
+      ? setComponents({ parent, object, name })
+      : inspectorSignal.set(<InspectorDisplay path="" file={object} name={name} />);
 
   const onContextMenu: React.MouseEventHandler<HTMLDivElement> = ({ pageX, pageY }) => {
     contextMenuSignal.set({
@@ -46,10 +45,10 @@ export default function Node({ old, name, object, deep = 0 }: NodeProps) {
         (() => {
           nameInputSignal.set({
             cb: (newName: string) => {
-              if (name === newName || old[newName]) return;
+              if (name === newName || parent[newName]) return;
 
-              delete old[name];
-              old[newName] = object;
+              delete parent[name];
+              parent[newName] = object;
               refreshHierarchy.refresh();
             },
             value: name,
@@ -58,14 +57,14 @@ export default function Node({ old, name, object, deep = 0 }: NodeProps) {
       Delete:
         !main &&
         (() => {
-          delete old[name];
+          delete parent[name];
           refreshHierarchy.refresh();
         }),
     });
   };
 
   const onMouseDown = () => {
-    if (!main) dragDataSignal.set({ from: `hierarchy`, old, file: object, name });
+    if (!main) dragDataSignal.set({ from: `hierarchy`, parent, file: object, name });
   };
 
   const onMouseUp = () => {
@@ -79,7 +78,7 @@ export default function Node({ old, name, object, deep = 0 }: NodeProps) {
 
     object[dragDat.name] = dragDat.file;
     if (dragDat.from === `hierarchy`) {
-      delete dragDat.old[dragDat.name];
+      delete dragDat.parent[dragDat.name];
     }
 
     refreshHierarchy.refresh();
@@ -87,7 +86,7 @@ export default function Node({ old, name, object, deep = 0 }: NodeProps) {
 
   function ChildsElement() {
     return Object.entries(childs).map(([key, value]) => (
-      <Node old={object} object={value} key={key} name={key} deep={deep + 1} />
+      <Node parent={object} object={value} key={key} name={key} deep={deep + 1} />
     ));
   }
 

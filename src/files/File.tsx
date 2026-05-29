@@ -11,16 +11,16 @@ import {
 } from "../lib/consts";
 import { isCapitalized, deepCopy } from "../lib/util";
 import { useArrow } from "../lib/hooks";
-import { audioIconSrc } from "../assets/assets";
+import { audioIconSrc } from "../lib/assets/assets";
 
-export default function File({ old, file, name, deep = 0, path = `files` }: FileProps) {
+export default function File({ parent, file, name, deep = 0, path = `files` }: FileProps) {
   const isMain = deep === 0;
   if (!isMain) path += `.${name}`;
   const isFolder = file.type === `folder`;
   const arrowSignal = useArrow(isMain, isFolder, getSrcFromFile(file));
 
   const onClick = () => {
-    inspectorSignal.set(<InspectorDisplay file={file} name={name} />);
+    inspectorSignal.set(<InspectorDisplay path={path} file={file} name={name} />);
   };
 
   const onContextMenu: React.MouseEventHandler<HTMLDivElement> = ({ pageX, pageY }) => {
@@ -51,8 +51,8 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
             cb: (newName: string) => {
               if (name === newName) return;
 
-              delete old[name];
-              old[newName] = file;
+              delete parent[name];
+              parent[newName] = file;
               refreshFiles.refresh();
             },
             value: name,
@@ -60,14 +60,14 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
       Delete:
         !isMain &&
         (() => {
-          delete old[name];
+          delete parent[name];
           refreshFiles.refresh();
         }),
     });
   };
 
   const onMouseDown = () => {
-    if (!isMain) dragDataSignal.set({ from: `files`, old, file, name });
+    if (!isMain) dragDataSignal.set({ from: `files`, parent, file, name });
   };
 
   const onMouseUp = () => {
@@ -78,7 +78,7 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
     if (dragData.from !== `files` || dragData.name === name || file[dragData.name]) return;
 
     file[dragData.name] = dragData.file;
-    delete dragData.old[dragData.name];
+    delete dragData.parent[dragData.name];
 
     refreshFiles.refresh();
   };
@@ -91,7 +91,7 @@ export default function File({ old, file, name, deep = 0, path = `files` }: File
       Object.entries(file).map(
         ([key, value]) =>
           isCapitalized(key) && (
-            <File old={file} file={value} name={key} key={key} deep={deep + 1} path={path} />
+            <File parent={file} file={value} name={key} key={key} deep={deep + 1} path={path} />
           ),
       )
     );

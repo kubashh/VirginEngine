@@ -1,64 +1,54 @@
 import { jsCode } from "./jsCode";
 
 export const virginEngineVersion = REPLACE_VIRGINE_ENGINE_VERSION;
+const htmlTemplate = REPLACE_HTML_TEMPLATE;
 
-export class Build implements BuildOptions {
-  static htmlTemplate = REPLACE_HTML_TEMPLATE;
+// Build project
+export async function build(options: BuildOptions): Promise<BuildOutput> {
+  const validOptions: Required<BuildOptions> = {
+    ...options,
+    production: options.production !== false,
+    hydrate: options.hydrate || ``,
+    separateJs: options.separateJs !== false,
+    log: options.log !== false,
+  };
 
-  author: string;
-  description: string;
-  gameName: string;
-  performanceInfo: boolean;
-  pathToMainScene: string;
-  fullScreen: boolean;
+  const output: BuildOutput = {};
 
-  files: any;
-  production: boolean;
-  hydrate?: string;
-
-  constructor(options: BuildOptions) {
-    this.author = options.author;
-    this.description = options.description;
-    this.gameName = options.gameName;
-    this.performanceInfo = options.performanceInfo;
-    this.pathToMainScene = options.pathToMainScene;
-    this.fullScreen = options.fullScreen;
-    this.files = options.files;
-    this.production = options.production !== false;
-    this.hydrate = options.hydrate;
+  if (validOptions.hydrate) {
+    output[`script.js`] = await jsCode(validOptions);
+  } else if (validOptions.separateJs) {
+    output[`index.html`] = await buildHtml(validOptions);
+  } else {
+    output[`index.html`] = await buildHtml(validOptions);
   }
 
-  js() {
-    return jsCode(this);
+  if (options.log) {
+    const htmlSize = output["index.html"]?.length || 0;
+    const jsSize = output["script.js"]?.length || 0;
+    if (validOptions.hydrate) console.log(`JS size: ${jsSize}`);
+    else if (validOptions.separateJs) console.log(`HTML size: ${htmlSize}\nJS size: ${jsSize}`);
+    else {
+      const jsSize = output["index.html"]!.indexOf(`</script>`) - output["index.html"]!.indexOf(`<script>`);
+      console.log(`index.html size: ${htmlSize + jsSize} (${htmlSize} (HTML) + ${jsSize} (JS))`);
+    }
   }
 
-  async html() {
-    return this.basicHtml().replaceAll(`SCRIPT`, await this.js());
-  }
-
-  basicHtml() {
-    return Build.htmlTemplate
-      .replaceAll(`AUTHOR`, this.author)
-      .replaceAll(`DESCRIPTION`, this.description)
-      .replaceAll(`GAME_NAME`, this.gameName);
-  }
-
-  async separated() {
-    return {
-      js: ``,
-      html: ``,
-    };
-  }
+  return output;
 }
 
-// returns full html or js code
-export async function build(options: BuildOptions) {
-  const build = new Build(options);
-
-  return build.hydrate ? await build.js() : await build.html();
+async function buildHtml(validOptions: Required<BuildOptions>) {
+  return buildBasicHtml(validOptions).replaceAll(`SCRIPT`, await jsCode(validOptions));
 }
 
-type BuildOptions = {
+function buildBasicHtml(options: Required<BuildOptions>) {
+  return htmlTemplate
+    .replaceAll(`AUTHOR`, options.author)
+    .replaceAll(`DESCRIPTION`, options.description)
+    .replaceAll(`GAME_NAME`, options.gameName);
+}
+
+export type BuildOptions = {
   author: string;
   description: string;
   gameName: string;
@@ -69,5 +59,11 @@ type BuildOptions = {
   production?: boolean;
   hydrate?: string;
   separateJs?: boolean;
+  log?: boolean;
   files: TObj<any>;
+};
+
+type BuildOutput = {
+  "index.html"?: string;
+  "script.js"?: string;
 };

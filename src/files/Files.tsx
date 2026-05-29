@@ -3,12 +3,6 @@ import File from "./File";
 import { files, refreshFiles } from "../lib/consts";
 import { useRefresh } from "wdwh/hooks";
 
-const FilesComponent = () => {
-  refreshFiles.refresh = useRefresh();
-
-  return <File file={files} name="files" deep={0} old />;
-};
-
 export default function Files() {
   return (
     <Window name="Files" className="w-(--w2) h-(--h2)">
@@ -17,4 +11,10 @@ export default function Files() {
       </div>
     </Window>
   );
+}
+
+function FilesComponent() {
+  refreshFiles.refresh = useRefresh();
+
+  return <File file={files} name="files" deep={0} parent />;
 }
