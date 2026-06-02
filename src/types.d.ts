@@ -28,12 +28,12 @@ type TEnum<T> = {
 
 type TDragData = {
   name: string; // label
-  from: `` | `hierarchy` | `files`;
+  from: `hierarchy` | `files`;
   file: TFile;
   parent: TObj;
 };
 
-type TNameInput = { cb: (arg: string) => void; value?: string; lowerCase?: boolean } | null;
+type TNameInput = { cb: (arg: string) => void; value?: string; lowerCase?: boolean };
 
 type TPopupMenu = {
   label: string;
@@ -101,7 +101,7 @@ type ImageGrabberProps = {
 };
 
 type InspectorDisplayProps = {
-  path: string;
+  path?: string;
   file: TObj;
   name: string;
 };

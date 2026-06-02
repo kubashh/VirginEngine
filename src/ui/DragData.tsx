@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { cursorPointerSignal, dragDataSignal, EMPTY_FILE } from "../lib/consts";
+import { cursorPointerSignal, dragDataSignal } from "../lib/consts";
 
 export default function DragData() {
   return (
@@ -11,10 +11,10 @@ export default function DragData() {
 
 function DragDataValue() {
   const dragData = dragDataSignal.use();
-  cursorPointerSignal.set(!!dragData.name);
+  cursorPointerSignal.set(!!dragData);
 
   useEffect(() => {
-    if (!dragData.name) return;
+    if (!dragData) return;
 
     window.addEventListener(`mousemove`, handleMouseMove);
     window.addEventListener(`mousedown`, onMouseDown);
@@ -27,7 +27,7 @@ function DragDataValue() {
     };
   });
 
-  return dragData.name;
+  return dragData?.name || ``;
 }
 
 function handleMouseMove({ clientX, clientY, buttons }: MouseEvent) {
@@ -43,11 +43,9 @@ function handleMouseMove({ clientX, clientY, buttons }: MouseEvent) {
 
 function onMouseDown() {
   const follower = document.getElementById(`drag-data`);
-  if (!follower) return;
-
-  follower.style.display = `none`; // disable unnecessary showing
+  if (follower) follower.style.display = `none`; // disable unnecessary showing
 }
 
 function handleMouseUp() {
-  dragDataSignal.set({ name: ``, from: ``, file: EMPTY_FILE, parent: {} });
+  dragDataSignal.set(null);
 }

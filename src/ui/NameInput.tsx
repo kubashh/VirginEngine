@@ -56,7 +56,7 @@ function onReturn() {
   nameInputSignal.set(null);
 }
 
-function getPropsSave(nameInput: TNameInput): {
+function getPropsSave(nameInput: TNameInput | null): {
   cb: ((arg: string) => void) | null;
   value: string;
   lowerCase?: boolean;
