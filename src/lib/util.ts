@@ -56,17 +56,6 @@ export function openMainScene() {
   hierarchySignal.set(scene);
 }
 
-export function defaultNode({ position, rotation, scale, ...rest }: TObj = {}) {
-  return Object.keys(rest).reduce((prev, key) => ({ [key]: rest[key], ...prev }), {
-    type: `node`,
-    transform: {
-      position: position || { x: 0, y: 0 },
-      rotation: rotation || 0,
-      scale: scale || { x: 1, y: 1 },
-    },
-  });
-}
-
 export function isOccupied(obj: TObj, name: string) {
   for (const key in obj) if (key === name) return true;
   return false;

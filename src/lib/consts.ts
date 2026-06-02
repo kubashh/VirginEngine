@@ -1,8 +1,8 @@
 import { createSignal } from "wdwh";
 import { virginEngineVersion } from "./core";
 import { Enum } from "../inspector/typeInput/EnumInput";
-import { deepCopy, defaultNode, saveProject } from "./util";
-import { boxSprite, happyBoxSprite } from "./assets/assets";
+import { boxSprite, defaultNode, happyBoxSprite } from "./assets/assets";
+import { deepCopy, saveProject } from "./util";
 
 export const keywords = [
   `type`,
@@ -16,7 +16,6 @@ export const keywords = [
   `physics`,
   `audio`,
 ];
-export const EMPTY_FILE: TFile = { type: `none` };
 
 export const config: TConfig = {
   gameName: ``,
@@ -109,8 +108,8 @@ export const refreshHierarchy = { refresh() {} };
 export const files = filesTemplate;
 export const refreshFiles = { refresh() {} };
 export const inspectorSignal = createSignal<React.ReactNode>(null);
-export const nameInputSignal = createSignal<TNameInput>(null);
-export const dragDataSignal = createSignal<TDragData>({ name: ``, from: ``, file: EMPTY_FILE, parent: {} });
+export const nameInputSignal = createSignal<TNameInput | null>(null);
+export const dragDataSignal = createSignal<TDragData | null>(null);
 export const testSceneSignal = createSignal(``);
 export const contextMenuSignal = createSignal<{
   [key: string]: Void | number | false;

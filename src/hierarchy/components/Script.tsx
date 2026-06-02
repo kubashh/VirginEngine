@@ -6,6 +6,16 @@ import { nameInputSignal } from "../../lib/consts";
 import { capitalize, getType, isCustomProp, isOccupied } from "../../lib/util";
 import { AddComponent } from "./componentsLib";
 
+// Types
+const scriptTypes: TObj = {
+  boolean: [false, TypeInput],
+  number: [0, TypeInput],
+  string: [`""`, TypeInput], // TODO without quotes
+  array: [`[]`, AdvancedInput, `[`, `]`],
+  object: [`{}`, AdvancedInput, `{`, `}`],
+  function: [`function() {}`, AdvancedInput, `function(`, `) {`, `}`],
+};
+
 function AdvancedInput({ object, access }: StringInputProps) {
   const type = useConst(getType(object[access]));
 
@@ -43,36 +53,6 @@ function InputDefault({ object, access }: StringInputProps) {
   );
 }
 
-// Types
-const scriptTypes: TObj = {
-  boolean: [false, TypeInput],
-  number: [0, TypeInput],
-  string: [`""`, TypeInput], // TODO without quotes
-  array: [`[]`, AdvancedInput, `[`, `]`],
-  object: [`{}`, AdvancedInput, `{`, `}`],
-  function: [`function() {}`, AdvancedInput, `function(`, `) {`, `}`],
-};
-
-// Add script component
-function AddScript({ object, value, refresh }: AddScriptProps) {
-  return (
-    <AddComponent
-      text={capitalize(value)}
-      onClick={() => {
-        nameInputSignal.set({
-          cb: (text: string) => {
-            if (isOccupied(object, text)) return;
-
-            object[text] = scriptTypes[value][0];
-            refresh();
-          },
-          lowerCase: true,
-        });
-      }}
-    />
-  );
-}
-
 export default function Script({ object, refresh }: ScriptProps) {
   return (
     <>
@@ -98,5 +78,25 @@ export default function Script({ object, refresh }: ScriptProps) {
         ))}
       </div>
     </>
+  );
+}
+
+// Add script component
+function AddScript({ object, value, refresh }: AddScriptProps) {
+  return (
+    <AddComponent
+      text={capitalize(value)}
+      onClick={() => {
+        nameInputSignal.set({
+          cb: (text: string) => {
+            if (isOccupied(object, text)) return;
+
+            object[text] = scriptTypes[value][0];
+            refresh();
+          },
+          lowerCase: true,
+        });
+      }}
+    />
   );
 }

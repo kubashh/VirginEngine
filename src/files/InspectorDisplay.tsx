@@ -17,8 +17,7 @@ export default function InspectorDisplay({ path, file, name }: InspectorDisplayP
 
 function InspectorImgAudioGrabber({ file, path, name }: InspectorDisplayProps) {
   const srcSignal = useCreateSignal(file.src, () => {
-    console.log(srcSignal.get());
-    fileFromPath(path).src = srcSignal.get(); // it is needed for getting object evry time signal updated (can't use object "file")
+    if (path) fileFromPath(path).src = srcSignal.get(); // it is needed for getting object evry time signal updated (can't use object "file")
   });
 
   if (![`img`, `audio`].includes(file.type)) return null;
