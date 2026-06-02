@@ -23,27 +23,16 @@ async function build() {
     },
   });
 
-  let js = await outputs[0].text();
-  js = js.replace(`REPLACE_CORE`, await buildEngineCore()).replace(
-    `// @bun\n`,
-    `// @bun\n// @ts-nocheck
-export declare function build(options: {
-  author: string;
-  description: string;
-  gameName: string;
-  performanceInfo: boolean;
-  pathToMainScene: string;
-  fullScreen: boolean;
+  const types = minifyHtml(`export declare function build(options: {
+  author: string; description: string; gameName: string; performanceInfo: boolean; pathToMainScene: string; fullScreen: boolean;
+  production?: boolean; hydrate?: string; separateJs?: boolean; log?: boolean; files: TObj<any>;
+}): Promise<{ "index.html"?: string; "script.js"?: string }>;`);
 
-  production?: boolean;
-  hydrate?: string;
-  separateJs?: boolean;
-  log?: boolean;
-  files: TObj<any>;
-}): Promise<{ "index.html"?: string; "script.js"?: string }>;\n`,
-  );
+  let js = await outputs[0].text();
+  js = js
+    .replace(`REPLACE_CORE`, await buildEngineCore())
+    .replace(`// @bun\n`, `// @ts-nocheck\n${types}\n`);
   await Bun.write(outputs[0].path, js);
-  return js;
 }
 
 async function buildEngineCore() {

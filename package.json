@@ -8,8 +8,8 @@
   },
   "dependencies": {
     "localforage": "^1.10.0",
-    "react": "^19.2.6",
-    "react-dom": "^19.2.6",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
     "wdwh": "^1.12.23"
   },
   "devDependencies": {
