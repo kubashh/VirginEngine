@@ -14,7 +14,7 @@ export async function run() {
   let delta = 0;
   while (true) {
     const now = performance.now();
-    delta += (now - scene.lastTime) / scene.ms;
+    delta += (now - scene.lastTime) * scene.msdiv; // Minimal performance boost
     if (delta > 60) delta = 60;
 
     scene.lastTime = now;
@@ -130,7 +130,15 @@ function drawPerformanceInfo() {
     textAlign: `right`,
   });
 
-  for (const text of [...renderTimer.allFormatted, ...updateTimer.allFormatted]) {
+  for (const text of renderTimer.allFormatted) {
+    drawText({ text, ...props });
+    props.y += 18;
+  }
+
+  props.x = 160;
+  props.y = 6;
+
+  for (const text of updateTimer.allFormatted) {
     drawText({ text, ...props });
     props.y += 18;
   }

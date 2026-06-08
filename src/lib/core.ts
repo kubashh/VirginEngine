@@ -337,7 +337,7 @@ this.vy = v;
 }
 class Scene extends Node {
 camera = { x: 0, y: 0 };
-ms = 1;
+msdiv = 1;
 vtime = 1;
 lastTime = 0;
 constructor({ name, ...scene }) {
@@ -366,7 +366,9 @@ return this.vtime;
 }
 set time(newTime) {
 this.vtime = newTime;
-this.ms = 1000 / (60 * this.vtime);
+const ms = 1000 / (60 * this.vtime);
+this.msdiv = 1 / ms;
+console.log(this.msdiv);
 this.lastTime = performance.now();
 }
 }
@@ -419,7 +421,7 @@ async function wait(time) {
 await new Promise((r) => setTimeout(r, time));
 }
 function isChildKey(text) {
-return alphabet.includes(text.at(0));
+return text[0].toUpperCase() === text[0];
 }
 function deepCopy(data) {
 if (Array.isArray(data)) {
@@ -540,7 +542,8 @@ let updates = 0;
 let delta = 0;
 while (true) {
 const now = performance.now();
-delta += (now - scene.lastTime) / scene.ms;
+delta += (now - scene.lastTime) * scene.msdiv;
+console.log(now - scene.lastTime, scene.msdiv);
 if (delta > 60)
 delta = 60;
 scene.lastTime = now;
@@ -634,7 +637,13 @@ x: -6,
 rect: { x: 1, y: -1 },
 textAlign: \`right\`
 });
-for (const text of [...renderTimer.allFormatted, ...updateTimer.allFormatted]) {
+for (const text of renderTimer.allFormatted) {
+drawText({ text, ...props });
+props.y += 18;
+}
+props.x = 160;
+props.y = 6;
+for (const text of updateTimer.allFormatted) {
 drawText({ text, ...props });
 props.y += 18;
 }

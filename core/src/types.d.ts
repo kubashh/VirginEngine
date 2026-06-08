@@ -160,7 +160,7 @@ type TAudio = {
 
 type TScene = {
   camera: XY;
-  ms: number;
+  msdiv: number;
   lastTime: number;
 
   constructor: any;

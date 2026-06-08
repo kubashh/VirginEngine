@@ -5,7 +5,8 @@
 ### Core
 
 - if Sprite.color draw box on canvas
-- run() `delta += (now - scene.lastTime) / scene.ms` to `... * scene.sth` (performance)
+- Sprite is Box (color) or image
+- make run in scene
 - Animation.start()
 - Animation.stop()
 - Animation.frames = []
