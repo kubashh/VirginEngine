@@ -7,7 +7,7 @@ export class Scene extends Node implements TScene {
   camera = { x: 0, y: 0 };
 
   // Time
-  ms = 1;
+  msdiv = 1;
   private vtime = 1;
   lastTime = 0;
 
@@ -53,7 +53,8 @@ export class Scene extends Node implements TScene {
   }
   set time(newTime: number) {
     this.vtime = newTime;
-    this.ms = 1000 / (60 * this.vtime);
+    const ms = 1000 / (60 * this.vtime);
+    this.msdiv = 1 / ms;
     this.lastTime = performance.now();
   }
 }

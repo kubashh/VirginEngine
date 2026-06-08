@@ -1,4 +1,4 @@
-import { allowedNameChars, alphabet, Camera, ctx, files, nodes } from "../values/consts";
+import { allowedNameChars, Camera, ctx, files, nodes } from "../values/consts";
 
 // Time
 export async function wait(time?: number) {
@@ -7,7 +7,7 @@ export async function wait(time?: number) {
 
 // Is child
 export function isChildKey(text: string) {
-  return alphabet.includes(text.at(0)!);
+  return text[0].toUpperCase() === text[0];
 }
 
 // Deep copy
