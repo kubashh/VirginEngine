@@ -347,7 +347,6 @@ this.vy = v;
 }
 }
 class Scene {
-static instance = {};
 root;
 camera = { x: 0, y: 0 };
 msdiv = 1;
@@ -356,7 +355,6 @@ lastTime = 0;
 constructor({ name, ...scene }) {
 this.root = new Node({ ...scene, parent: {} }, name);
 this.time = 1;
-Scene.instance = this;
 }
 load(props) {
 onresize();
