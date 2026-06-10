@@ -2,9 +2,11 @@ import Node from "../components/Node";
 import { events, eventsHover, nodes } from "./consts";
 import { clearObject, deepCopy, onresize } from "../util/basicFunctions";
 
-export class Scene extends Node implements TScene {
+export class Scene implements TScene {
   // loaded = new Map<number, boolean>() // TODO key: id; if loaded.size === 0 run scene
-  camera = { x: 0, y: 0 };
+  root: TNode;
+
+  camera = { x: 0, y: 0 }; // On change update root pos = update all pos + shaking + resize
 
   // Time
   msdiv = 1;
@@ -12,15 +14,19 @@ export class Scene extends Node implements TScene {
   lastTime = 0;
 
   constructor({ name, ...scene }: SceneProps) {
-    super(scene as any, name);
+    this.root = new Node({ ...scene, parent: {} as TNode } as any, name);
     this.time = 1;
   }
 
-  load(newScene: SceneProps) {
+  load(props: SceneProps) {
     onresize();
     this.close();
 
-    newScene = new Scene(deepCopy(newScene));
+    // Reset scene
+    this.camera = { x: 0, y: 0 };
+    this.time = 1;
+
+    const newScene: TScene = new Scene(deepCopy(props));
 
     // Object.assign(this, newScene); // maybe later, need copy class methods
     for (const key in newScene) {
@@ -29,12 +35,12 @@ export class Scene extends Node implements TScene {
 
     for (const node of nodes) node.start?.();
 
-    // Remove Scene from nodes
+    // Remove root node from nodes
     nodes.shift();
   }
 
   private close() {
-    super.destroy();
+    this.root.destroy();
 
     nodes.length = 0;
 

@@ -2,8 +2,8 @@ import { Scene } from "./classes";
 
 // Canvas
 export const ctx: CanvasRenderingContext2D = (
-  document.getElementById("REPLACE_CANVAS_ID") as HTMLCanvasElement
-).getContext("2d")!;
+  document.getElementById(`REPLACE_CANVAS_ID`) as HTMLCanvasElement
+).getContext(`2d`)!;
 
 // Files
 export const files: Any = REPLACE_FILES;

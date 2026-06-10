@@ -17,6 +17,7 @@
 - Node: implement events: onClick, onHover, onMouseExit...
 - pack/unpack js object <==> files
 - Node subscribe update, render or even physics update, sprite render
+- make Scene static class
 
 ### Editor (src)
 

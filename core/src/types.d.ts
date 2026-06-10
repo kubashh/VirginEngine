@@ -20,7 +20,7 @@ type Any = TObj<any>;
 
 type NodeProps = {
   rect?: XY;
-  parent?: TNode;
+  parent: TNode;
   transform: TransformProps;
 
   text?: TextProps;
@@ -159,7 +159,10 @@ type TAudio = {
 };
 
 type TScene = {
+  root: TNode;
+
   camera: XY;
+
   msdiv: number;
   lastTime: number;
 
