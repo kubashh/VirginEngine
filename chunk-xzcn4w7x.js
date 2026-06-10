@@ -213,7 +213,7 @@ render,
 }, name) {
 nodes.push(this);
 this.name = name;
-this.parent = parent || {};
+this.parent = parent;
 if (parent)
 this.parent[this.name] = this;
 this.transform.p = new GSXY(transform?.position);
@@ -346,19 +346,24 @@ set y(v) {
 this.vy = v;
 }
 }
-class Scene extends Node {
+class Scene {
+static instance = {};
+root;
 camera = { x: 0, y: 0 };
 msdiv = 1;
 vtime = 1;
 lastTime = 0;
 constructor({ name, ...scene }) {
-super(scene, name);
+this.root = new Node({ ...scene, parent: {} }, name);
 this.time = 1;
+Scene.instance = this;
 }
-load(newScene) {
+load(props) {
 onresize();
 this.close();
-newScene = new Scene(deepCopy(newScene));
+this.camera = { x: 0, y: 0 };
+this.time = 1;
+const newScene = new Scene(deepCopy(props));
 for (const key in newScene) {
 this[key] = newScene[key];
 }
@@ -367,7 +372,7 @@ node.start?.();
 nodes.shift();
 }
 close() {
-super.destroy();
+this.root.destroy();
 nodes.length = 0;
 clearObject(events);
 clearObject(eventsHover);
@@ -413,7 +418,7 @@ this.allFormatted = Object.entries(obj).map(([key, value]) => \`\${key}: \${(val
 this.timers = {};
 }
 }
-var ctx = document.getElementById("REPLACE_CANVAS_ID").getContext("2d");
+var ctx = document.getElementById(\`REPLACE_CANVAS_ID\`).getContext(\`2d\`);
 var files = REPLACE_FILES;
 var alphabet = \`ABCDEFGHIJKLMNOPRQSTUWXYZ\`;
 var numbers = \`0123456789\`;
