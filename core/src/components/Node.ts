@@ -54,7 +54,7 @@ export default class Node implements TNode {
     nodes.push(this);
 
     this.name = name;
-    this.parent = parent || ({} as TNode);
+    this.parent = parent;
     if (parent) this.parent[this.name] = this;
 
     this.transform.p = new GSXY(transform?.position);
