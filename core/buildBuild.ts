@@ -5,11 +5,12 @@ await build();
 
 async function build() {
   const htmlTemplate = minifyHtml(await Bun.file(`./core/build/template.html`).text());
+  const core = await buildEngineCore();
 
   const { outputs } = await Bun.build({
     entrypoints: [`./core/build/build.ts`],
     outdir: `.`,
-    naming: `./src/lib/core.ts`,
+    naming: `./src/lib/core.js`,
     minify: {
       whitespace: true,
       identifiers: true,
@@ -23,21 +24,14 @@ async function build() {
     },
   });
 
-  const types = minifyHtml(`export declare function build(options: {
-  author: string; description: string; gameName: string; performanceInfo: boolean; pathToMainScene: string; fullScreen: boolean;
-  production?: boolean; hydrate?: string; separateJs?: boolean; log?: boolean; files: TObj<any>;
-}): Promise<{ "index.html"?: string; "script.js"?: string }>;`);
-
   let js = await outputs[0].text();
-  js = js
-    .replace(`REPLACE_CORE`, await buildEngineCore())
-    .replace(`// @bun\n`, `// @ts-nocheck\n${types}\n`);
+  js = js.replace(`REPLACE_CORE`, core);
   await Bun.write(outputs[0].path, js);
 }
 
 async function buildEngineCore() {
   const { outputs } = await Bun.build({
-    entrypoints: [`./core/src/core.ts`],
+    entrypoints: [`./core/src/core.js`],
     target: `bun`,
   });
   let text = await outputs[0].text();
