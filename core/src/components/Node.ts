@@ -5,12 +5,15 @@ import Physics from "./Physics";
 import Animation from "./Animation";
 import AudioElement from "./AudioElement";
 import { nodes } from "../values/consts";
-import { deepCopy, isChildKey, randStr } from "../util/basicFunctions";
+import { deepCopy, isChildKey } from "../util/basicFunctions";
 
 const keywords = [`parent`, `position`, `rotation`, `scale`];
 
+let nodeCounter = 0;
+
 export default class Node implements TNode {
   name;
+  id;
   parent;
 
   private transform = {
@@ -54,6 +57,7 @@ export default class Node implements TNode {
     nodes.push(this);
 
     this.name = name;
+    this.id = nodeCounter++;
     this.parent = parent;
     if (parent) this.parent[this.name] = this;
 
@@ -163,10 +167,7 @@ export default class Node implements TNode {
   }
 
   clone(parent = this.parent): TNode {
-    let name = this.name;
-    while (parent[name]) {
-      name = `${name.slice(0, -5)}${randStr(5)}`;
-    }
+    const name = `${this.name}${this.id}`;
 
     const newNode = new Node({ ...this.props, parent }, name);
     newNode.start?.bind(newNode)();

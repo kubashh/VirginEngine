@@ -75,8 +75,9 @@ type SceneProps = { name: string } & Any;
 // Compponents
 
 type TNode = {
-  parent: TNode;
   name: string;
+  id: number;
+  parent: TNode;
 
   start?: Void;
   update?: Void;

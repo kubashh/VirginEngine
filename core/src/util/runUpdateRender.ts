@@ -27,8 +27,8 @@ export async function run() {
     // Log Staff
     if (now - timer > 1000) {
       timer += 1000;
-      Log.updates = updates;
       if (performanceInfo) {
+        Log.updates = updates;
         Log.frames = Log.framesTemp;
         updates = 0;
         Log.framesTemp = 0;
