@@ -16,8 +16,8 @@ export default function PopupMenu() {
 
   return popupMenu.label ? (
     <div className="w-screen h-screen flex justify-center bg-[#000b]">
-      <div id="popup-menu" className="flex flex-col *:mx-auto">
-        <div className="mt-[30vh] mb-8 text-xl sm:text-4xl">{popupMenu.label}</div>
+      <div id="popup-menu" className="flex flex-col *:mx-auto mt-[30vh] mb-auto p-2">
+        <div className="mb-8 text-xl sm:text-4xl">{popupMenu.label}</div>
         <PopupMenuOptions options={popupMenu.options} />
       </div>
     </div>
