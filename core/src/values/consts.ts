@@ -21,8 +21,8 @@ export const eventsHover: TObj<boolean> = {};
 export const nodes: TNode[] = [];
 
 // Log
-export const Log = { updates: 0, frames: 0, framesTemp: 0 };
 export const performanceInfo = REPLACE_PERFORMANCE_INFO;
+export const Log = { updates: 0, frames: 0, framesTemp: 0 };
 
 export const Camera = {
   xOffset: 0,
