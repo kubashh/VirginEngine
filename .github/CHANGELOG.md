@@ -33,6 +33,7 @@
 - Img/Audio tests
 - LoadData new project set config (author, description...)
 - files: ContextMenu copy path of image/audio
+- fix: LoadData when click below or higher it don't hides
 
 ### VirginEngine repo
 
@@ -51,6 +52,8 @@
 - Editor: change scroolbar look
 - fixed: Grab image when run error: `Uncaught SyntaxError: expected expression, got '}'`
 - better core api
+- remove src.core from git
+- fix: build error (crash when performanceInfo was set to false)
 
 ## 0.22.0 (30 Apr 2026)
 

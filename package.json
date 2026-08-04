@@ -17,7 +17,7 @@
     "@types/react": "latest",
     "bun-plugin-tailwind": "^0.1.2",
     "tailwindcss": "^4.3.3",
-    "terser": "^5.49.0",
+    "terser": "^5.49.1",
     "typescript": "^6.0.3"
   },
   "wdwh": {

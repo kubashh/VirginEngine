@@ -1,4 +1,4 @@
-import { jsCode } from "./jsCode";
+import { buildJs } from "./jsCode";
 
 export const virginEngineVersion = REPLACE_VIRGINE_ENGINE_VERSION;
 const htmlTemplate = REPLACE_HTML_TEMPLATE;
@@ -7,17 +7,18 @@ const htmlTemplate = REPLACE_HTML_TEMPLATE;
 export async function build(options: BuildOptions): Promise<BuildOutput> {
   const validOptions: Required<BuildOptions> = {
     ...options,
-    production: options.production !== false,
-    hydrate: options.hydrate || ``,
-    separateJs: options.separateJs !== false,
-    log: options.log !== false,
+    production: options.production !== false, // default: true
+    hydrate: options.hydrate || ``, // default: ``
+    separateJs: options.separateJs !== false, // default: true
+    log: options.log !== false, // default: true
   };
 
   const output: BuildOutput = {};
 
   if (validOptions.hydrate) {
-    output[`script.js`] = await jsCode(validOptions);
+    output[`script.js`] = await buildJs(validOptions);
   } else if (validOptions.separateJs) {
+    // TODO make separeteJs works
     output[`index.html`] = await buildHtml(validOptions);
   } else {
     output[`index.html`] = await buildHtml(validOptions);
@@ -38,14 +39,14 @@ export async function build(options: BuildOptions): Promise<BuildOutput> {
 }
 
 async function buildHtml(validOptions: Required<BuildOptions>) {
-  return buildBasicHtml(validOptions).replaceAll(`SCRIPT`, await jsCode(validOptions));
+  return buildBasicHtml(validOptions).replaceAll(`SCRIPT`, await buildJs(validOptions));
 }
 
 function buildBasicHtml(options: Required<BuildOptions>) {
   return htmlTemplate
-    .replaceAll(`AUTHOR`, options.author)
-    .replaceAll(`DESCRIPTION`, options.description)
-    .replaceAll(`GAME_NAME`, options.gameName);
+    .replaceAll(`REPLACE_AUTHOR`, options.author)
+    .replaceAll(`REPLACE_DESCRIPTION`, options.description)
+    .replaceAll(`REPLACE_GAME_NAME`, options.gameName);
 }
 
 export type BuildOptions = {
@@ -63,7 +64,7 @@ export type BuildOptions = {
   files: TObj<any>;
 };
 
-type BuildOutput = {
+export type BuildOutput = {
   "index.html"?: string;
   "script.js"?: string;
 };

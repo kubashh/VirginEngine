@@ -6,9 +6,9 @@ Simple JS game engine for 2D web games
 
 ### Components
 
-- `Node` (GameObject, 90% done)
+- `Node` (GameObject 90% done)
 - `Animation` (1% done)
-- `AudioElement` (Audio; 80% done)
+- `AudioElement` (Audio 80% done)
 - `Collider` (1% done)
 - `Physics` (20% done)
 - `Sprite` (70% done)
@@ -41,3 +41,8 @@ function randColor(): string;
 ## Editor
 
 ### Config [Docs](https://github.com/kubashh/VirginEngine/blob/main/src/docs/README.md)
+
+## Project structure
+
+- /core - engine core, contains build function
+- /src - editor

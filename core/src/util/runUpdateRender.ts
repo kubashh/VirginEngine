@@ -1,5 +1,5 @@
 import { Timer } from "../values/classes";
-import { ctx, events, nodes, Log, scene, files } from "../values/consts";
+import { ctx, events, nodes, Log, scene, files, performanceInfo } from "../values/consts";
 import { clearObject, drawText, wait } from "./basicFunctions";
 
 // Run
@@ -28,10 +28,12 @@ export async function run() {
     if (now - timer > 1000) {
       timer += 1000;
       Log.updates = updates;
-      Log.frames = Log.framesTemp;
-      updates = 0;
-      Log.framesTemp = 0;
-      Timer.reset();
+      if (performanceInfo) {
+        Log.frames = Log.framesTemp;
+        updates = 0;
+        Log.framesTemp = 0;
+        Timer.reset();
+      }
     }
 
     await wait();
@@ -72,7 +74,12 @@ function assetsToLoad(obj: TObj<any>) {
 
 // Update
 function update() {
-  updateTimer.measure({ Physics: updatePhysics, Nodes: updateNodes });
+  if (performanceInfo) {
+    updateTimer.measure({ Physics: updatePhysics, Nodes: updateNodes });
+  } else {
+    updatePhysics();
+    updateNodes();
+  }
 
   // Clear events, not eventsHover
   clearObject(events);
@@ -90,9 +97,13 @@ function updateNodes() {
 function render() {
   clearCtx();
 
-  renderTimer.measure({ Sprite: renderSprite, Text: renderText });
-
-  drawPerformanceInfo();
+  if (performanceInfo) {
+    renderTimer.measure({ Sprite: renderSprite, Text: renderText });
+    renderPerformanceInfo();
+  } else {
+    renderSprite();
+    renderText();
+  }
 
   // Recall render
   Log.framesTemp++;
@@ -111,7 +122,7 @@ function renderText() {
   for (const node of nodes) node.text?.render();
 }
 
-function drawPerformanceInfo() {
+function renderPerformanceInfo() {
   const props = {
     x: 6,
     y: 6,
@@ -144,5 +155,7 @@ function drawPerformanceInfo() {
   }
 }
 
-const renderTimer = new Timer(`Sprite`, `Text`);
-const updateTimer = new Timer(`Physics`, `Nodes`);
+// @ts-ignore
+const renderTimer: Timer = performanceInfo && new Timer(`Sprite`, `Text`);
+// @ts-ignore
+const updateTimer: Timer = performanceInfo && new Timer(`Physics`, `Nodes`);
