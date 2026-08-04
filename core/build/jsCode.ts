@@ -4,27 +4,19 @@ import type { BuildOptions } from "./build";
 
 const core = REPLACE_CORE;
 
-export async function jsCode(options: BuildOptions) {
-  const validCore = await coreConfig(options);
+export async function buildJs(options: BuildOptions) {
+  const validCore = await buildValidCore(options);
 
-  if (!options.production) return validCore;
-
-  const out = minify_sync(validCore, {
-    module: true, // size -10%
-  });
-
-  if (out.code) return out.code;
-
-  throw Error(JSON.stringify(out));
+  return !options.production ? validCore : minify_max(validCore, 10);
 }
 
-async function coreConfig(options: BuildOptions) {
+async function buildValidCore(options: BuildOptions) {
   const arr = filesToString(options.files);
 
   for (const i in arr) arr[i] = await arr[i];
 
   return (
-    replacePerformanceInfo(options, core)
+    core // replacePerformanceInfo(options)
       .split(`\n`)
       // Remove fullscreen if not needed
       .filter((line) => options.fullScreen || !line.startsWith(`!document.fullscreenElement ?`))
@@ -32,6 +24,7 @@ async function coreConfig(options: BuildOptions) {
       .replace(`REPLACE_FILES`, arr.join(``))
       .replace(`REPLACE_PATH_TO_MAIN_SCENE`, options.pathToMainScene)
       .replace(`REPLACE_CANVAS_ID`, options.hydrate || `canvas`)
+      .replace(`REPLACE_PERFORMANCE_INFO`, String(options.performanceInfo))
   );
 }
 
@@ -78,28 +71,20 @@ function isCustomProp(text: string) {
   return !/^[A-Z]/.test(text) && !keywords.includes(text);
 }
 
-function replacePerformanceInfo(options: BuildOptions, core: string) {
-  if (options.performanceInfo) return core;
+function minify_max(code: string, limit: number = 10) {
+  let out = code;
+  let len = code.length;
+  for (let i = 0; i < limit; i++) {
+    const newOut = minify_sync(out, {
+      module: true, // size -10%
+    });
 
-  return core
-    .replaceAll(
-      `for (const text of [...renderTimer.allFormatted, ...updateTimer.allFormatted]) {
-drawText({ text, ...props });
-props.y += 18;
-}`,
-      ``,
-    )
-    .replaceAll(
-      `renderTimer.measure({ Sprite: renderSprite, Text: renderText });`,
-      `renderSprite();renderText();`,
-    )
-    .replaceAll(
-      `updateTimer.measure({ Physics: updatePhysics, Nodes: updateNodes });`,
-      `updatePhysics();updateNodes();`,
-    )
-    .replaceAll(`Timer.reset();`, ``)
-    .replaceAll(`drawPerformanceInfo();`, ``)
-    .split(`\n`)
-    .filter((line) => !line.includes(`renderTimer`) && !line.includes(`updateTimer`))
-    .join(`\n`);
+    if (newOut.code == undefined) throw Error(JSON.stringify(out));
+
+    if (newOut.code.length < len) {
+      code = newOut.code;
+      len = newOut.code.length;
+    } else break;
+  }
+  return out;
 }

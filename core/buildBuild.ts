@@ -20,7 +20,7 @@ async function build() {
     define: {
       REPLACE_HTML_TEMPLATE: JSON.stringify(htmlTemplate),
       REPLACE_VIRGINE_ENGINE_VERSION: JSON.stringify((await Bun.file(`./package.json`).json()).version),
-      // REPLACE_CORE: await buildEngineCore(), // do not works, why?? it copyies only first line!
+      // REPLACE_CORE: core, // do not works, why?? it copyies only first line!
     },
   });
 
@@ -38,7 +38,7 @@ async function buildEngineCore() {
 
   text = text.replace(/^.*console\.log\(`Engine:.*\n?/gm, ``);
 
-  return `\`${encode(optymalize(text))}\``;
+  return JSON.stringify(optymalize(text));
 }
 
 // Helpers
@@ -50,10 +50,6 @@ function optymalize(js: string) {
     .map((line) => line.trim())
     .filter((line) => line !== ``)
     .join(`\n`);
-}
-
-function encode(js: string) {
-  return js.replaceAll("`", "\\`").replaceAll(`$`, `\\$`);
 }
 
 function minifyHtml(text: string) {
