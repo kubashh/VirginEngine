@@ -311,7 +311,7 @@ this.transform.s.y = y;
 this.sprite?.reload();
 }
 clone(parent = this.parent) {
-const name = \`\${this.name.slice(0, -5)}\${this.id}\`;
+const name = \`\${this.name}\${this.id}\`;
 const newNode = new Node({ ...this.props, parent }, name);
 newNode.start?.bind(newNode)();
 return newNode;
