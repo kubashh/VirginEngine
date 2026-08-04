@@ -13,17 +13,20 @@
 - Collider.collide() // polygon or external
 - Scene.load() instead of scene.load()
 - WebGL, WebGL2 for render
-- add static + server export build-in
+- build: add static + server export build-in
 - Node: implement events: onClick, onHover, onMouseExit...
-- pack/unpack js object <==> files
 - Node subscribe update, render or even physics update, sprite render
 - make Scene static class
+- build: make image/audio static assets or strings
+- render via special unit same cross-platform (not pixels like now)
+- use number (id) as identifier, not string name, complitly strip string names.
+  so compile sth.parent.name to id or reference or sth[parent_id][name_id]
 
 ### Editor (src)
 
 - jsCode.Image.quality: number (0-1)
 - jsCode.Audio.quality: number (0-1)
-- Drag Nodes to files, files to Nodes (clonning or like Unity prefab)
+- Drag Nodes to files, files to Nodes (clonning or prefab-like)
 - src.Node.rect can contains only Node.rect
 - PathInput (for paths, better optymalization for not use file() while running)
 - Sprite: use sprite or color (good for prototyping)
@@ -33,6 +36,7 @@
 - Img/Audio tests
 - LoadData new project set config (author, description...)
 - files: ContextMenu copy path of image/audio
+- pack/unpack js object <==> files. it means drag folder to open the project or file
 
 ### VirginEngine repo
 
@@ -44,16 +48,17 @@
 ## 0.22.1-dev (in development)
 
 - LoadData: update modified date dynamicly, performance benefits, modern design
-- Engine requiers width >722px (before >920px) (editor) >300px (before >700px) (LoadData), height >400px (technically any height)
+- Engine requiers width >722px (before >920px) (editor) >300px (before >700px) (LoadData),
+  height >400px (technically any height)
 - LoadData: sort projects by last modified date
 - implement Window header nested options (dropdown menu)
 - LoadData: change projects names works only via LoadData (not with config like before)
 - Editor: change scroolbar look
-- fixed: Grab image when run error: `Uncaught SyntaxError: expected expression, got '}'`
+- fix: Grab image when run error: `Uncaught SyntaxError: expected expression, got '}'`
 - better core api
-- remove src.core from git
-- fix: build error (crash when performanceInfo was set to false)
-- fix: clicking LoadData vertically doesn’t hide the loaded data
+- remove compiled core from git
+- fix build error (crash when performanceInfo was set to false)
+- fix clicking LoadData vertically doesn’t hide the loaded data
 
 ## 0.22.0 (30 Apr 2026)
 
@@ -70,14 +75,15 @@
   - implement `wdwh` `clsx` instead of looked clsx
 - DragData: avoid duble refresh of component
 - Implemented useCreateSignal (removed deprecated_useSignal)
-- fixed unnecessary showing of editor.DragData when click
+- fix unnecessary showing of editor.DragData when click
 - Loading/Saving projects in InexedDB works (no files needed)
 - Modernized LoadData, add project modified date
 - display engine version
 
 ## 0.21.0 (3 Oct 2025)
 
-- move projects from kubashh/virginengine to `VirginEngine/VirginEngine` (kubashh is initiator for VirginEngine project)
+- move projects from kubashh/virginengine to `VirginEngine/VirginEngine`
+  (kubashh is initiator for VirginEngine project)
 - implement @virgin-engine/wdwh (add 1 file (`src/app/index.tsx`), remove 4 files)
 
 ## 0.20.2 (27 Sep 2025)
@@ -131,7 +137,7 @@
 - update core.Text
 - create `ImageGrabber`
 - fix loadFile symbol error
-- fixed config.fullScreen (if false)
+- fix config.fullScreen (if false)
 - add License (MIT)
 - update core.build ~15% faster (rewrite function)
 - core.Sprite use only path to image

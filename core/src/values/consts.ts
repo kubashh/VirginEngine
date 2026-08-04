@@ -1,17 +1,11 @@
 import { Scene } from "./classes";
 
 // Canvas
-export const ctx: CanvasRenderingContext2D = (
-  document.getElementById(`REPLACE_CANVAS_ID`) as HTMLCanvasElement
-).getContext(`2d`)!;
+// @ts-ignore
+export const ctx: CanvasRenderingContext2D = document.getElementById(`REPLACE_CANVAS_ID`).getContext(`2d`);
 
 // Files
 export const files: Any = REPLACE_FILES;
-
-// Alphabet
-export const alphabet = `ABCDEFGHIJKLMNOPRQSTUWXYZ`;
-export const numbers = `0123456789`;
-export const allowedNameChars = `${alphabet}${numbers}_`;
 
 // Events
 export const events: TObj<boolean> = {};
@@ -21,8 +15,11 @@ export const eventsHover: TObj<boolean> = {};
 export const nodes: TNode[] = [];
 
 // Log
+// Every thing when performanceInfo is used will be removed in comptime via terser.
+// ts-ignore is needed for "unused" objects and it will look strange but we make it for less bundle size.
 export const performanceInfo = REPLACE_PERFORMANCE_INFO;
-export const Log = { updates: 0, frames: 0, framesTemp: 0 };
+// @ts-ignore
+export const Log: TLog = performanceInfo && { updates: 0, frames: 0, framesTemp: 0 };
 
 export const Camera = {
   xOffset: 0,
@@ -30,3 +27,6 @@ export const Camera = {
 };
 
 export const scene: TScene = new Scene({ name: `` });
+
+// Types
+type TLog = { updates: number; frames: number; framesTemp: number };

@@ -1,4 +1,4 @@
-import { allowedNameChars, Camera, ctx, files, nodes } from "../values/consts";
+import { Camera, ctx, files, nodes } from "../values/consts";
 
 // Time
 export async function wait(time?: number) {
@@ -100,14 +100,6 @@ export function randInt(min: number, max?: number) {
 
 export function rand(min: number = 1, max?: number) {
   return max ? Math.random() * (max - min) + min : Math.random() * min;
-}
-
-export function randStr(n = 1) {
-  let str = ``;
-  for (let i = 0; i < n; i++) {
-    str += allowedNameChars.at(randInt(allowedNameChars.length));
-  }
-  return str;
 }
 
 export function randColor() {
