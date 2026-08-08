@@ -4,6 +4,7 @@ import App from "./App";
 export const metadata: Metadata = {
   title: `Virgin Engine`,
   iconPath: `./icon.png`,
+  bundleIcon: `true`,
   description: `Virgin Engine - simple 2D TS game engine`,
 };
 
