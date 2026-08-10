@@ -35,8 +35,8 @@
 - Editor width <920px layout (mobile)
 - Img/Audio tests
 - LoadData new project set config (author, description...)
-- files: ContextMenu copy path of image/audio
 - pack/unpack js object <==> files. it means drag folder to open the project or file
+- add block of code like scratch
 
 ### VirginEngine repo
 
@@ -59,6 +59,8 @@
 - remove compiled core from git
 - fix build error (crash when performanceInfo was set to false)
 - fix clicking LoadData vertically doesn’t hide the loaded data
+- files: ContextMenu copy file path into clipboard
+- update ContextMenu style
 
 ## 0.22.0 (30 Apr 2026)
 

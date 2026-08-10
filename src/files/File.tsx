@@ -65,11 +65,12 @@ export default function File({ parent, file, name, deep = 0, path = `files` }: F
     file,
     arrowSignal,
     contextMenuProps: {
-      "New file": newArrElement(`txt`),
-      "New image": newArrElement(`img`, deepCopy(defaultAssets.img)),
-      "New audio": newArrElement(`audio`, deepCopy(defaultAssets.audio)),
-      "New folder": newArrElement(`folder`),
-      "New scene": newArrElement(`scene`),
+      "New File": newArrElement(`txt`),
+      "New Image": newArrElement(`img`, deepCopy(defaultAssets.img)),
+      "New Audio": newArrElement(`audio`, deepCopy(defaultAssets.audio)),
+      "New Folder": newArrElement(`folder`),
+      "New Scene": newArrElement(`scene`),
+      "Copy Path": file.type !== `folder` && (() => navigator.clipboard.writeText(path)),
       Rename:
         !isMain &&
         (() =>

@@ -14,7 +14,7 @@ function DragDataValue() {
   cursorPointerSignal.set(!!dragData);
 
   useEffect(() => {
-    if (!dragData) return;
+    if (!dragData) return onMouseDown();
 
     window.addEventListener(`mousemove`, handleMouseMove);
     window.addEventListener(`mousedown`, onMouseDown);
@@ -37,8 +37,8 @@ function handleMouseMove({ clientX, clientY, buttons }: MouseEvent) {
   if (!follower) return;
 
   follower.style.display = ``;
-  follower.style.left = clientX + 3 + `px`;
-  follower.style.top = clientY + 3 + `px`;
+  follower.style.left = `${clientX + 3}px`;
+  follower.style.top = `${clientY + 3}px`;
 }
 
 function onMouseDown() {
