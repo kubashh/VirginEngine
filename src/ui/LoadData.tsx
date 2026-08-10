@@ -71,8 +71,8 @@ function Project({ name, modifiedDateSignal }: TLDProject) {
           console.log(name, newName);
         }}
       />
-      <div className="w-26 sm:w-30 xl:w-36 flex items-center">
-        <ModifiedData modifiedDateSignal={modifiedDateSignal} />
+      <div className="w-26 sm:w-30 xl:w-37 flex items-center">
+        <ModifiedDate modifiedDateSignal={modifiedDateSignal} />
       </div>
       <Button
         label="Load"
@@ -90,7 +90,7 @@ function Project({ name, modifiedDateSignal }: TLDProject) {
             label: `Delete project "${name}"?`,
             options: {
               Yes: () => {
-                localforage.removeItem(name); // It will never fails
+                localforage.removeItem(name); // It will never fails so don't need await
                 projectsSignal.set((prev) => prev.filter((p) => p.name !== name)); // Optymisticly update projects
               },
             },
@@ -101,7 +101,7 @@ function Project({ name, modifiedDateSignal }: TLDProject) {
   );
 }
 
-function ModifiedData({ modifiedDateSignal }: { modifiedDateSignal: Signal<string> }) {
+function ModifiedDate({ modifiedDateSignal }: { modifiedDateSignal: Signal<string> }) {
   const modifiedDate = modifiedDateSignal.use();
   return modifiedDate;
 }
@@ -159,7 +159,7 @@ function timeAgo(timestamp: number) {
 }
 
 function timeAgoHealper(label: string, time: number) {
-  if (time === 1) return `1 ${label} ago`;
+  if (time === 1) return `a ${label} ago`;
   return `${time} ${label}s ago`;
 }
 
