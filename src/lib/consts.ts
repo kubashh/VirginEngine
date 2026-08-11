@@ -1,4 +1,7 @@
 import { createSignal } from "wdwh";
+import { type TNameInput } from "../ui/NameInput";
+import { type TDragData } from "../ui/DragData";
+import { type TPopupMenu } from "../ui/PopupMenu";
 import { virginEngineVersion } from "./core";
 import { Enum } from "../inspector/typeInput/EnumInput";
 import { boxSprite, defaultNode, happyBoxSprite } from "./assets/assets";
@@ -24,7 +27,8 @@ export const config: TConfig = {
   description: `Description`,
   fullScreen: true,
   pathToMainScene: `files.Scenes.MainScene`,
-  performanceInfo: Enum(`dev`, `yes`, `dev`, `no`),
+  performanceInfo: Enum<`yes` | `dev` | `no`>(`dev`, `yes`, `dev`, `no`),
+  editorVersion: virginEngineVersion,
 };
 
 export const defaultAssets = {
@@ -101,7 +105,7 @@ export const editor = {
   engineVersion: virginEngineVersion,
 };
 
-export const hierarchySignal = createSignal<TObj>(filesTemplate.Scenes.MainScene, () => {
+export const hierarchySignal = createSignal<TObj<any>>(filesTemplate.Scenes.MainScene, () => {
   inspectorSignal.set(null); // Close inspector
 });
 export const refreshHierarchy = { refresh() {} };
@@ -136,3 +140,18 @@ window.addEventListener(`keydown`, (e) => {
 
 // Set title, because wdwh doesn't support string templates for metadata (src/app/index.tsx)
 document.title = `Virgine Engine v${virginEngineVersion}`;
+
+export type TConfig = {
+  gameName: string;
+  version: string;
+  author: string;
+  description: string;
+  fullScreen: boolean;
+  pathToMainScene: string;
+  performanceInfo: TEnum<string>;
+  editorVersion: string;
+};
+
+export type TFile = {
+  type: `none` | `folder` | `node` | `scene` | `img` | `audio`;
+} & TObj<any>;

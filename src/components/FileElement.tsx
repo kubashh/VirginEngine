@@ -1,4 +1,4 @@
-import { contextMenuSignal, dragDataSignal, inspectorSignal } from "../lib/consts";
+import { contextMenuSignal, dragDataSignal, inspectorSignal, type TFile } from "../lib/consts";
 import InspectorDisplay from "../files/InspectorDisplay";
 import { setComponents } from "../hierarchy/components/componentsLib";
 

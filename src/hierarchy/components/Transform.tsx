@@ -21,3 +21,7 @@ export default function Transform({ object }: TransformProps) {
     </>
   );
 }
+
+type TransformProps = {
+  object: TObj<any>;
+};

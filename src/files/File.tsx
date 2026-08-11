@@ -5,6 +5,7 @@ import {
   dragDataSignal,
   nameInputSignal,
   refreshFiles,
+  type TFile,
 } from "../lib/consts";
 import { isCapitalized, deepCopy } from "../lib/util";
 import { useArrow } from "../lib/hooks";
@@ -43,7 +44,7 @@ export default function File({ parent, file, name, deep = 0, path = `files` }: F
     );
   }
 
-  const newArrElement = (type: string, defValue: TObj = {}): Void | false =>
+  const newArrElement = (type: string, defValue: TObj<any> = {}): Void | false =>
     isFolder &&
     (() =>
       nameInputSignal.set({
@@ -100,3 +101,11 @@ export default function File({ parent, file, name, deep = 0, path = `files` }: F
 function getSrcFromFile(file: TFile) {
   return (file.type === `img` && file?.src) || (file.type === `audio` && audioIconSrc);
 }
+
+type FileProps = {
+  parent: any;
+  file: TFile;
+  name: string;
+  path?: string;
+  deep: number;
+};

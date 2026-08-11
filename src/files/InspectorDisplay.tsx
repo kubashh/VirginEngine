@@ -32,3 +32,9 @@ function InspectorImgAudioGrabber({ file, path, name }: InspectorDisplayProps) {
     </div>
   );
 }
+
+type InspectorDisplayProps = {
+  path?: string;
+  file: TObj<any>;
+  name: string;
+};

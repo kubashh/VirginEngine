@@ -7,7 +7,7 @@ import { capitalize, getType, isCustomProp, isOccupied } from "../../lib/util";
 import { AddComponent } from "./componentsLib";
 
 // Types
-const scriptTypes: TObj = {
+const scriptTypes: TObj<any> = {
   boolean: [false, TypeInput],
   number: [0, TypeInput],
   string: [`""`, TypeInput], // TODO without quotes
@@ -100,3 +100,19 @@ function AddScript({ object, value, refresh }: AddScriptProps) {
     />
   );
 }
+
+type StringInputProps = {
+  object: TObj<any>;
+  access: string;
+};
+
+type AddScriptProps = {
+  object: TObj<any>;
+  value: string;
+  refresh: Void;
+};
+
+type ScriptProps = {
+  object: TObj<any>;
+  refresh: Void;
+};

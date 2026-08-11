@@ -30,3 +30,9 @@ export default function TypeInput({ object, access, type: defType }: TypeInputPr
     </div>
   );
 }
+
+type TypeInputProps = {
+  object: TObj<any>;
+  access: string;
+  type?: VTypes;
+};

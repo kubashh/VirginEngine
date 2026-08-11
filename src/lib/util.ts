@@ -1,6 +1,15 @@
 import localforage from "localforage";
 import { build } from "./core";
-import { config, hierarchySignal, files, keywords, setUpSignal, testSceneSignal } from "./consts";
+import {
+  config,
+  hierarchySignal,
+  files,
+  keywords,
+  setUpSignal,
+  testSceneSignal,
+  type TConfig,
+  type TFile,
+} from "./consts";
 
 export function deepCopy<T>(obj: T): T {
   return JSON.parse(JSON.stringify(obj));
@@ -14,7 +23,7 @@ export function downloadFile(name: string, text: string) {
   });
 }
 
-function createElement({ name, ...props }: TObj) {
+function createElement({ name, ...props }: TObj<any>) {
   const element = document.createElement(name);
   for (const key in props) element[key] = props[key];
   element.click();
@@ -56,7 +65,7 @@ export function openMainScene() {
   hierarchySignal.set(scene);
 }
 
-export function isOccupied(obj: TObj, name: string) {
+export function isOccupied(obj: TObj<any>, name: string) {
   for (const key in obj) if (key === name) return true;
   return false;
 }
@@ -80,6 +89,7 @@ export function loadProject(data?: any) {
     // .config bacosuse of event passed in data variable
     loadProjectHelper(data);
   } else {
+    // saveProject();
     createElement({
       name: `input`,
       type: `file`,
@@ -91,6 +101,7 @@ export function loadProject(data?: any) {
           const data = JSON.parse(target.result);
 
           loadProjectHelper(data);
+          saveProject();
         };
 
         reader.readAsText(target.files[0]);
@@ -100,13 +111,13 @@ export function loadProject(data?: any) {
 }
 
 function loadProjectHelper(data: any) {
-  clearAssign(config, data.config);
+  Object.assign(config, data.config); // don't remove old props, config have always same shape (TConfig)
   clearAssign(files, data.files);
 
   openMainScene();
 }
 
-function clearAssign(old: TObj, obj: TObj) {
+function clearAssign(old: TObj<any>, obj: TObj<any>) {
   for (const key in old) delete old[key];
   for (const key in obj) old[key] = obj[key];
 }
@@ -125,7 +136,6 @@ export function getType(data: any): VTypes {
 // Get file by path
 export function fileFromPath(path: string) {
   // if(path.startsWith(`files.`)) path =
-  console.log(path);
   return path
     .split(`.`)
     .slice(1)
@@ -215,3 +225,9 @@ async function buildSafely(production: boolean) {
 export function zswitch<T>(value: number | string, rest: TObj<() => T>) {
   return (rest[value] || rest.else)();
 }
+
+type TProject = {
+  files: TFile;
+  config: TConfig;
+  modifiedDate: number;
+};

@@ -15,13 +15,17 @@ export default function ContextMenu() {
     return () => document.removeEventListener(`mousedown`, handler);
   }, [ref]);
 
-  return contextMenu !== null ? (
+  return (
     <div
       ref={ref}
       className="border border-zinc-600 rounded-sm bg-zinc-950 flex flex-col"
-      style={{ top: `${contextMenu.y}px`, left: `${contextMenu.x}px` }}
+      style={{
+        top: `${contextMenu?.y || 0}px`,
+        left: `${contextMenu?.x || 0}px`,
+        display: contextMenu !== null ? `` : `none`,
+      }}
     >
-      {Object.entries(contextMenu).map(([text, fn]) =>
+      {Object.entries(contextMenu || {}).map(([text, fn]) =>
         typeof fn === `function` ? (
           <Button
             key={text}
@@ -35,5 +39,5 @@ export default function ContextMenu() {
         ) : null,
       )}
     </div>
-  ) : null;
+  );
 }
