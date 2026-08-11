@@ -17,11 +17,11 @@ const audio = [{ path: `` }];
 
 const components: TObj<TComponent> = { text, rect, sprite, physics, audio } as any;
 
-export function setComponents(props: TObj) {
+export function setComponents(props: TObj<any>) {
   inspectorSignal.set(<Components {...props} />);
 }
 
-function Components({ name, ...props }: TObj) {
+function Components({ name, ...props }: TObj<any>) {
   const refresh = useRefresh();
   props = { ...props, refresh };
 
@@ -37,7 +37,7 @@ function Components({ name, ...props }: TObj) {
   );
 }
 
-function Component({ name, refresh, required, ...props }: TObj) {
+function Component({ name, refresh, required, ...props }: TObj<any>) {
   const remove = () => {
     if (components[name][2]) {
       for (const key of components[name][2]) {
@@ -73,7 +73,7 @@ function Component({ name, refresh, required, ...props }: TObj) {
   );
 }
 
-function toChilds(object: TObj, name: string, obj: TObj) {
+function toChilds(object: TObj<any>, name: string, obj: TObj<any>) {
   return Object.keys(obj).reduce(
     (prev, e) => [
       ...prev,
@@ -82,7 +82,7 @@ function toChilds(object: TObj, name: string, obj: TObj) {
         access: e,
       },
     ],
-    [] as { object: TObj; access: string }[],
+    [] as { object: TObj<any>; access: string }[],
   );
 }
 
@@ -98,3 +98,8 @@ type TComponent = [any, string[]?, string[]?];
 //   remove?: string[];
 //   [key: string]: any;
 // };
+
+type AddComponentProps = {
+  text: string;
+  onClick: Void;
+};

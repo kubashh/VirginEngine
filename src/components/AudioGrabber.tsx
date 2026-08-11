@@ -1,3 +1,4 @@
+import { type ImageGrabberProps } from "./ImageGrabber";
 import FileGrabber from "./FileGrabber";
 import { audioIconSrc } from "../lib/assets/assets";
 

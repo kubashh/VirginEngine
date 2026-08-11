@@ -1,6 +1,6 @@
 import localforage from "localforage";
 import { useEffect } from "react";
-import { createSignal } from "wdwh";
+import { createSignal, type Signal } from "wdwh";
 import { Button, TextInput } from "wdwh/components";
 import { config, nameInputSignal, popupMenuSignal, setUpSignal } from "../lib/consts";
 import { loadProject, openMainScene, saveProject } from "../lib/util";
@@ -19,10 +19,10 @@ export default function LoadData() {
 
   return !setUp ? (
     <section className="w-screen h-screen flex flex-col bg-[#000b] scrollbar-y">
-      <div className="mt-16 mb-12 text-5xl font-semibold self-center">Load Project</div>
+      <div className="mt-16 mb-12 text-5xl font-semibold self-center">Projects</div>
       <Projects />
       <div className="mx-4 sm:mx-20 xl:mx-32 mb-12 flex justify-between *:first:mr-8 *:bg-[#000a]">
-        <LoadDataButton label="Load project from local files" onClick={loadProject} />
+        <LoadDataButton label="Add from local files" onClick={loadProject} />
         <LoadDataButton
           label="New project"
           onClick={() => {
@@ -58,7 +58,13 @@ function Projects() {
 
 function Project({ name, modifiedDateSignal }: TLDProject) {
   return (
-    <div className="mx-4 sm:mx-20 xl:mx-32 mb-5 border-2 border-zinc-400 shadow-5xl px-3 sm:px-8 py-2 sm:py-4 rounded-xl flex justify-between font-semibold bg-[#000a] *:drop-shadow-[0_0_14px_rgba(236,72,153,1)] text-sm sm:text-base xl:text-xl">
+    <div
+      className="mx-4 sm:mx-20 xl:mx-32 mb-5 border-2 border-zinc-600 px-3 sm:px-8 py-2 sm:py-4 rounded-xl flex justify-between bg-black hover:bg-zinc-800 cursor-pointer text-sm sm:text-base xl:text-xl"
+      onClick={async () => {
+        const data = await localforage.getItem<string>(name);
+        loadProject(JSON.parse(data || ``));
+      }}
+    >
       <TextInput
         defaultValue={name}
         allow={/^[a-zA-Z0-9\s:.'!?&_-]+$/}
@@ -68,30 +74,24 @@ function Project({ name, modifiedDateSignal }: TLDProject) {
           await localforage.removeItem(name);
           await localforage.setItem(newName, data);
           projectsSignal.set((prev) => prev.map((p) => (p.name === name ? { ...p, name: newName } : p)));
-          console.log(name, newName);
         }}
+        onClick={(e) => e.stopPropagation()}
       />
-      <div className="w-26 sm:w-30 xl:w-37 flex items-center">
+      <div className="w-26 sm:w-30 xl:w-36 flex items-center">
         <ModifiedDate modifiedDateSignal={modifiedDateSignal} />
       </div>
       <Button
-        label="Load"
-        className="hover:text-zinc-400"
-        onClick={async () => {
-          const data = await localforage.getItem<string>(name);
-          loadProject(JSON.parse(data || ``));
-        }}
-      />
-      <Button
         label="Delete"
         className="hover:text-zinc-400"
-        onClick={() => {
+        onClick={(e) => {
+          e.stopPropagation();
+
           popupMenuSignal.set({
             label: `Delete project "${name}"?`,
             options: {
               Yes: () => {
                 localforage.removeItem(name); // It will never fails so don't need await
-                projectsSignal.set((prev) => prev.filter((p) => p.name !== name)); // Optymisticly update projects
+                projectsSignal.set((prev) => prev.filter((p) => p.name !== name)); // Optymisticly update projects list
               },
             },
           });
@@ -109,7 +109,7 @@ function ModifiedDate({ modifiedDateSignal }: { modifiedDateSignal: Signal<strin
 function LoadDataButton(props: { label: string; onClick: React.MouseEventHandler }) {
   return (
     <Button
-      className="w-full border-2 border-zinc-400 px-3 sm:px-8 py-2 sm:py-4 text-sm sm:text-base xl:text-xl font-bold rounded-xl hover:text-zinc-400"
+      className="w-full border-2 border-zinc-600 px-3 sm:px-8 py-2 sm:py-4 text-sm sm:text-base xl:text-xl font-semibold rounded-xl hover:bg-zinc-800"
       {...props}
     />
   );

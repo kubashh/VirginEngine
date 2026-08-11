@@ -1,3 +1,4 @@
+import { type Signal } from "wdwh";
 import FileGrabber from "./FileGrabber";
 
 export default function ImageGrabber({ srcSignal, name }: ImageGrabberProps) {
@@ -23,3 +24,8 @@ function imgToSrc(image: File) {
     reader.readAsDataURL(image);
   });
 }
+
+export type ImageGrabberProps = {
+  srcSignal: Signal<string>;
+  name: string;
+};

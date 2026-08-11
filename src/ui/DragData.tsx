@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { cursorPointerSignal, dragDataSignal } from "../lib/consts";
+import { cursorPointerSignal, dragDataSignal, type TFile } from "../lib/consts";
 
 export default function DragData() {
   return (
@@ -49,3 +49,10 @@ function onMouseDown() {
 function handleMouseUp() {
   dragDataSignal.set(null);
 }
+
+export type TDragData = {
+  name: string; // label
+  from: `hierarchy` | `files`;
+  file: TFile;
+  parent: TObj<any>;
+};

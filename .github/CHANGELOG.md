@@ -45,22 +45,27 @@
 
 <br />
 
-## 0.22.1-dev (in development)
+## 0.22.2-dev.0 (in development)
+
+## 0.22.1 (11 Aug 2026)
 
 - LoadData: update modified date dynamicly, performance benefits, modern design
-- Engine requiers width >722px (before >920px) (editor) >300px (before >700px) (LoadData),
+- Editor requiers width >722px (before >920px) (editor) >300px (before >700px) (LoadData),
   height >400px (technically any height)
 - LoadData: sort projects by last modified date
 - implement Window header nested options (dropdown menu)
 - LoadData: change projects names works only via LoadData (not with config like before)
-- Editor: change scroolbar look
-- fix: Grab image when run error: `Uncaught SyntaxError: expected expression, got '}'`
-- better core api
+- Editor: change scrollbar look
+- fix Grab image when run error: `Uncaught SyntaxError: expected expression, got '}'`
+- better core api design
 - remove compiled core from git
 - fix build error (crash when performanceInfo was set to false)
 - fix clicking LoadData vertically doesn’t hide the loaded data
-- files: ContextMenu copy file path into clipboard
+- fix files ContextMenu copy file path into clipboard
 - update ContextMenu style
+- fix loading project from local files
+- make loading project adding project to projects list
+- code: expicit any usage in editor
 
 ## 0.22.0 (30 Apr 2026)
 
@@ -75,7 +80,7 @@
 - update `wdwh@1.8.x` => `wdwh@1.12.x`
   - implement `wdwh/signal` => less code in codespace
   - implement `wdwh` `clsx` instead of looked clsx
-- DragData: avoid duble refresh of component
+- DragData: avoid double refresh of component
 - Implemented useCreateSignal (removed deprecated_useSignal)
 - fix unnecessary showing of editor.DragData when click
 - Loading/Saving projects in InexedDB works (no files needed)

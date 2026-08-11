@@ -80,9 +80,16 @@ export default function Node({ parent, name, object, deep = 0 }: NodeProps) {
   });
 }
 
-function getChilds(obj: TObj = {}): TObj<any> {
+function getChilds(obj: TObj<any> = {}): TObj<any> {
   return Object.keys(obj).reduce(
     (prev, key) => (!keywords.includes(key) && isCapitalized(key) ? { [key]: obj[key], ...prev } : prev),
     {},
   );
 }
+
+type NodeProps = {
+  parent: any;
+  object: any;
+  name: string;
+  deep: number;
+};

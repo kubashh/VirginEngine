@@ -67,3 +67,5 @@ function getPropsSave(nameInput: TNameInput | null): {
     lowerCase: (nameInput && nameInput.lowerCase) || false,
   };
 }
+
+export type TNameInput = { cb: (arg: string) => void; value?: string; lowerCase?: boolean };

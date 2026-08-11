@@ -6,7 +6,7 @@ export const happyBoxSprite = `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAo
 
 export { audioIconSrc };
 
-export function defaultNode({ position, rotation, scale, ...rest }: TObj = {}) {
+export function defaultNode({ position, rotation, scale, ...rest }: TObj<any> = {}) {
   return Object.keys(rest).reduce((prev, key) => ({ [key]: rest[key], ...prev }), {
     type: `node`,
     transform: {

@@ -46,3 +46,8 @@ function onMouseDown({ target }: MouseEvent) {
     popupMenuSignal.set({ label: ``, options: {} });
   }
 }
+
+export type TPopupMenu = {
+  label: string;
+  options?: TObj<Void>;
+};
