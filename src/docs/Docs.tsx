@@ -2,15 +2,23 @@ import Window from "../components/Window";
 
 export default function Docs() {
   return (
-    <Window name="Docs" className="row-span-2 w-(--w1) border-r border-zinc-400">
-      <DocsContent />
+    <Window
+      name="Docs"
+      id="docs"
+      className="w-screen h-screen"
+      style={{ display: `none` }}
+      headerOptions={{ Exit: hideDocs }}
+    >
+      <div className="flex justify-center bg-zinc-950">
+        <DocsContent />
+      </div>
     </Window>
   );
 }
 
 function DocsContent() {
   return (
-    <div className="px-2 py-1 scrollbar-y select-text">
+    <div className="h-auto px-2 py-1 select-text scroll-auto">
       Visit:
       <a
         className="ml-2 hover:text-zinc-400"
@@ -20,4 +28,14 @@ function DocsContent() {
       </a>
     </div>
   );
+}
+
+export function showDocs() {
+  const docsElement = document.getElementById(`docs`);
+  if (docsElement) docsElement.style.display = ``;
+}
+
+function hideDocs() {
+  const docsElement = document.getElementById(`docs`);
+  if (docsElement) docsElement.style.display = `none`;
 }

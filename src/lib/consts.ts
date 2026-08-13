@@ -64,19 +64,19 @@ const filesTemplate: TFile = {
       Parent: defaultNode({
         start: `function() {
   for(let i = 0; i < 10; i++)
-    this.parent.Child.clone()
+    this.parent.Child.clone();
 }`,
       }),
       Child: defaultNode({
         scale: { x: 20, y: 20 },
         sprite: { color: ``, path: `files.Assets.Images.BoxImage` },
         start: `function() {
-  this.position = { x: rand(-Camera.xOffset, Camera.xOffset), y: rand(-Camera.yOffset, Camera.yOffset) }
+  this.position = { x: rand(-Camera.xOffset, Camera.xOffset), y: rand(-Camera.yOffset, Camera.yOffset) };
 }`,
         update: `function() {
-  const x = this.position.x - rand(2)
-  const y = this.position.y - rand(0.3)
-  this.position = { x: x < -Camera.xOffset ? Camera.xOffset : x, y: y < -Camera.yOffset ? Camera.yOffset : y }
+  const x = this.position.x - rand(2);
+  const y = this.position.y - rand(0.3);
+  this.position = { x: x < -Camera.xOffset ? Camera.xOffset : x, y: y < -Camera.yOffset ? Camera.yOffset : y };
 }`,
       }),
     },

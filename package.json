@@ -1,6 +1,6 @@
 {
   "name": "virgin-engine",
-  "version": "0.22.1",
+  "version": "0.22.2-dev.0",
   "license": "MIT",
   "scripts": {
     "dev": "bun core/buildBuild.ts && wdwh dev",
@@ -17,7 +17,7 @@
     "@types/react": "latest",
     "bun-plugin-tailwind": "^0.1.2",
     "tailwindcss": "^4.3.3",
-    "terser": "^5.49.2",
+    "terser": "^5.50.0",
     "typescript": "^7.0.2"
   },
   "wdwh": {

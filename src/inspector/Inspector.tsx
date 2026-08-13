@@ -2,8 +2,10 @@ import Window from "../components/Window";
 import InspectorSection from "./InspectorSection";
 import { config, inspectorSignal, setUpSignal } from "../lib/consts";
 import { buildProject, saveProject, testProjects } from "../lib/util";
+import { showDocs } from "../docs/Docs";
 
 const editorOpctions = {
+  Docs: showDocs,
   Test: testProjects,
   Load: () => setUpSignal.set(false),
   Config: () => inspectorSignal.set(<Config />),
