@@ -1,9 +1,9 @@
 import { clsx } from "wdwh";
 import { Button } from "wdwh/components";
 
-export default function Window({ name, headerOptions, className, children }: WindowProps) {
+export default function Window({ name, id, headerOptions, className, style, children }: WindowProps) {
   return (
-    <section className={clsx(`grid grid-rows-[24px_1fr]`, className)}>
+    <section id={id} className={clsx(`grid grid-rows-[24px_1fr]`, className)} style={style}>
       <Header name={name} options={headerOptions} />
       {children}
     </section>
@@ -49,9 +49,11 @@ function HeaderOptionDropdown({ label, children }: HeaderOptionsHelperProps) {
 
 type WindowProps = {
   name: string;
+  id?: string;
   headerOptions?: TObj<TObj<Void> | Void>;
   headerOptionsLabel?: string;
   className?: string;
+  style?: React.CSSProperties;
   children: React.ReactNode;
 };
 

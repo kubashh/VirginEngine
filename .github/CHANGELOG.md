@@ -30,13 +30,12 @@
 - src.Node.rect can contains only Node.rect
 - PathInput (for paths, better optymalization for not use file() while running)
 - Sprite: use sprite or color (good for prototyping)
-- StringInput remove `"` `"` from strings in editor
 - make utils shered between core and src
 - Editor width <920px layout (mobile)
 - Img/Audio tests
 - LoadData new project set config (author, description...)
 - pack/unpack js object <==> files. it means drag folder to open the project or file
-- add block of code like scratch
+- add block of code like scratch as option
 
 ### VirginEngine repo
 
@@ -46,6 +45,9 @@
 <br />
 
 ## 0.22.2-dev.0 (in development)
+
+- StringInput: remove `"` `"` from string in editor
+- move Docs to UI
 
 ## 0.22.1 (11 Aug 2026)
 

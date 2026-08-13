@@ -5,6 +5,11 @@ module "*.png" {
   export default src;
 }
 
+module "*.md" {
+  const html: string;
+  export default html;
+}
+
 // Basic
 type TObj<T> = Record<string, T>;
 type Void = () => void;
