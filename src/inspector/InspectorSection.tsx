@@ -24,3 +24,9 @@ type InspectorSectionProps = {
   childs?: Variable[];
   children?: React.ReactNode;
 };
+
+type Variable = {
+  object: TObj<any>;
+  access: string;
+  type?: VTypes;
+};

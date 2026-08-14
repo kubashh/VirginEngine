@@ -2,12 +2,12 @@ import { useEffect, useRef } from "react";
 import { useConst, useRefresh } from "wdwh/hooks";
 import InspectorSection from "../../inspector/InspectorSection";
 import TypeInput from "../../inspector/TypeInput";
-import { nameInputSignal } from "../../lib/consts";
+import { nameInputSignal, type TFile } from "../../lib/consts";
 import { capitalize, getType, isCustomProp, isOccupied } from "../../lib/util";
 import { AddComponent } from "./componentsLib";
 
 // Types
-const scriptTypes: TObj<any> = {
+const scriptTypes: TscriptTypes = {
   boolean: [false, TypeInput],
   number: [0, TypeInput],
   string: [`""`, TypeInput], // TODO without quotes
@@ -101,18 +101,22 @@ function AddScript({ object, value, refresh }: AddScriptProps) {
   );
 }
 
+type TscriptTypes = TObj<
+  [boolean | number | string, (props: StringInputProps) => React.ReactNode, string?, string?, string?]
+>;
+
 type StringInputProps = {
-  object: TObj<any>;
+  object: TFile;
   access: string;
 };
 
 type AddScriptProps = {
-  object: TObj<any>;
+  object: TFile;
   value: string;
   refresh: Void;
 };
 
 type ScriptProps = {
-  object: TObj<any>;
+  object: TFile;
   refresh: Void;
 };

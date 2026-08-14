@@ -2,6 +2,7 @@ import { useCreateSignal } from "wdwh";
 import AudioGrabber from "../components/AudioGrabber";
 import ImageGrabber from "../components/ImageGrabber";
 import TypeInput from "../inspector/TypeInput";
+import { type TFile } from "../lib/consts";
 import { fileFromPath, zswitch } from "../lib/util";
 
 export default function InspectorDisplay({ path, file, name }: InspectorDisplayProps) {
@@ -35,6 +36,6 @@ function InspectorImgAudioGrabber({ file, path, name }: InspectorDisplayProps) {
 
 type InspectorDisplayProps = {
   path?: string;
-  file: TObj<any>;
+  file: TFile;
   name: string;
 };

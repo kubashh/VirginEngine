@@ -11,7 +11,7 @@ import { isCapitalized, deepCopy } from "../lib/util";
 import { useArrow } from "../lib/hooks";
 import { audioIconSrc } from "../lib/assets/assets";
 
-export default function File({ parent, file, name, deep = 0, path = `files` }: FileProps) {
+export default function File({ parent, file, name, deep, path = `files` }: FileProps) {
   const isMain = deep === 0;
   if (!isMain) path += `.${name}`;
   const isFolder = file.type === `folder`;
@@ -44,12 +44,12 @@ export default function File({ parent, file, name, deep = 0, path = `files` }: F
     );
   }
 
-  const newArrElement = (type: string, defValue: TObj<any> = {}): Void | false =>
+  const newArrElement = (type: string, defValue?: TFile): Void | false =>
     isFolder &&
     (() =>
       nameInputSignal.set({
         cb: (newName: string) => {
-          file[newName] = { type, ...deepCopy(defValue) };
+          file[newName] = { type, ...deepCopy(defValue || {}) };
 
           arrowSignal.set(true);
           refreshFiles.refresh();
@@ -103,7 +103,7 @@ function getSrcFromFile(file: TFile) {
 }
 
 type FileProps = {
-  parent: any;
+  parent: TFile;
   file: TFile;
   name: string;
   path?: string;

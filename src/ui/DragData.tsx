@@ -54,5 +54,5 @@ export type TDragData = {
   name: string; // label
   from: `hierarchy` | `files`;
   file: TFile;
-  parent: TObj<any>;
+  parent: TFile;
 };

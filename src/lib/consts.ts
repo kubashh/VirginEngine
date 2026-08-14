@@ -36,17 +36,17 @@ export const defaultAssets = {
     type: `img`,
     src: boxSprite,
     quality: 1,
-  },
+  } as TFile,
   img2: {
     type: `img`,
     src: happyBoxSprite,
     quality: 1,
-  },
+  } as TFile,
   audio: {
     type: `audio`,
     src: ``,
     quality: 1,
-  },
+  } as TFile,
 };
 
 const filesTemplate: TFile = {
@@ -105,7 +105,7 @@ export const editor = {
   engineVersion: virginEngineVersion,
 };
 
-export const hierarchySignal = createSignal<TObj<any>>(filesTemplate.Scenes.MainScene, () => {
+export const hierarchySignal = createSignal<TFile>(filesTemplate.Scenes.MainScene, () => {
   inspectorSignal.set(null); // Close inspector
 });
 export const refreshHierarchy = { refresh() {} };
@@ -154,4 +154,16 @@ export type TConfig = {
 
 export type TFile = {
   type: `none` | `folder` | `node` | `scene` | `img` | `audio`;
-} & TObj<any>;
+} & TObj<any | TNode>;
+
+export type TTransform = {
+  position: { x: number; y: number };
+  rotation: number;
+  scale: { x: number; y: number };
+};
+
+export type TNode = {
+  transform: TTransform;
+  sprite?: { color: string; path: string };
+  [key: string]: TTransform | { color: string; path: string } | string | number | undefined;
+};

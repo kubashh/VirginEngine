@@ -6,8 +6,8 @@ export default function ContextMenu() {
   const ref = useRef<HTMLDivElement>(null);
   const contextMenu = contextMenuSignal.use();
   useEffect(() => {
-    function handler({ target }: { target: any }) {
-      if (ref.current && !ref.current.contains(target)) contextMenuSignal.set(null);
+    function handler({ target }: MouseEvent) {
+      if (ref.current && target && !ref.current.contains(target as Node)) contextMenuSignal.set(null);
     }
 
     document.addEventListener(`mousedown`, handler);
