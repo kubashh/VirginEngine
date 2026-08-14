@@ -25,7 +25,7 @@ function Header({ name, options }: HeaderProps) {
   );
 }
 
-function HeaderOption({ label, value }: { label: string; value: any }) {
+function HeaderOption({ label, value }: { label: string; value: TObj<Void> | Void }) {
   return typeof value === `object` ? (
     <HeaderOptionDropdown label={label}>
       {Object.keys(value).map((key) => (

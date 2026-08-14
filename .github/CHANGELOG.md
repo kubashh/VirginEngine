@@ -31,15 +31,17 @@
 - PathInput (for paths, better optymalization for not use file() while running)
 - Sprite: use sprite or color (good for prototyping)
 - make utils shered between core and src
-- Editor width <920px layout (mobile)
+- Editor: mobile layout full support
 - Img/Audio tests
 - LoadData new project set config (author, description...)
 - pack/unpack js object <==> files. it means drag folder to open the project or file
 - add block of code like scratch as option
+- Docs: add styles
+- Docs: update Docs
+- minified `any` type and `!` usage
 
 ### VirginEngine repo
 
-- VirginEngine/docs (.md)
 - VirginEngine/releases (.md)
 
 <br />
@@ -48,6 +50,8 @@
 
 - StringInput: remove `"` `"` from string in editor
 - move Docs to UI
+- fill Docs with content
+- LoadData: modernized & minify design
 
 ## 0.22.1 (11 Aug 2026)
 

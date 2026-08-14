@@ -1,5 +1,4 @@
 import localforage from "localforage";
-import { useEffect } from "react";
 import { createSignal, type Signal } from "wdwh";
 import { Button, TextInput } from "wdwh/components";
 import { config, nameInputSignal, popupMenuSignal, setUpSignal } from "../lib/consts";
@@ -13,53 +12,57 @@ const MONTH = 30 * DAY;
 const YEAR = 365 * DAY;
 
 const projectsSignal = createSignal<TLDProject[]>([]);
+setUpSignal.subscribe(() => {
+  if (!setUpSignal.get()) getSetProjects();
+  else {
+    for (const project of projectsSignal.get()) {
+      if (project.timeoutId) clearTimeout(project.timeoutId);
+    }
+  }
+
+  const loadDataElement = document.getElementById(`load-data`);
+  if (loadDataElement) loadDataElement.style.display = !setUpSignal.get() ? `` : `none`;
+});
+getSetProjects();
 
 export default function LoadData() {
-  const setUp = setUpSignal.use();
-
-  return !setUp ? (
-    <section className="w-screen h-screen flex flex-col bg-[#000b] scrollbar-y">
-      <div className="mt-16 mb-12 text-5xl font-semibold self-center">Projects</div>
-      <Projects />
-      <div className="mx-4 sm:mx-20 xl:mx-32 mb-12 flex justify-between *:first:mr-8 *:bg-[#000a]">
-        <LoadDataButton label="Add from local files" onClick={loadProject} />
-        <LoadDataButton
-          label="New project"
-          onClick={() => {
-            nameInputSignal.set({
-              cb: (projectName) => {
-                config.gameName = projectName;
-                saveProject();
-                openMainScene();
-              },
-            });
-          }}
-        />
+  return (
+    <section
+      id="load-data"
+      className="w-screen h-screen px-4 sm:px-20 pt-4 flex flex-col bg-[#000c] scrollbar-y"
+    >
+      <div className="mb-4 flex gap-x-3">
+        <div className="mr-auto text-3xl font-semibold">Projects</div>
+        <div className="flex *:first:mr-4">
+          <LoadDataButton label="Add project from disk" onClick={loadProject} />
+          <LoadDataButton
+            label="New project"
+            onClick={() => {
+              nameInputSignal.set({
+                cb: (projectName) => {
+                  config.gameName = projectName;
+                  saveProject();
+                  openMainScene();
+                },
+              });
+            }}
+          />
+        </div>
       </div>
+      <Projects />
     </section>
-  ) : null;
+  );
 }
 
 function Projects() {
   const projects = projectsSignal.use();
-
-  useEffect(() => {
-    getSetProjects();
-
-    return () => {
-      for (const project of projects) {
-        if (project.timeoutId) clearTimeout(project.timeoutId);
-      }
-    };
-  }, []);
-
   return <>{...projects.map((project) => <Project key={project.name} {...project} />)}</>;
 }
 
 function Project({ name, modifiedDateSignal }: TLDProject) {
   return (
     <div
-      className="mx-4 sm:mx-20 xl:mx-32 mb-5 border-2 border-zinc-600 px-3 sm:px-8 py-2 sm:py-4 rounded-xl flex justify-between bg-black hover:bg-zinc-800 cursor-pointer text-sm sm:text-base xl:text-xl"
+      className="mb-5 px-3 sm:px-6 py-2 sm:py-3 text-base lg:text-lg rounded-xl flex justify-between bg-black hover:bg-zinc-800 cursor-pointer"
       onClick={async () => {
         const data = await localforage.getItem<string>(name);
         loadProject(JSON.parse(data || ``));
@@ -68,7 +71,7 @@ function Project({ name, modifiedDateSignal }: TLDProject) {
       <TextInput
         defaultValue={name}
         allow={/^[a-zA-Z0-9\s:.'!?&_-]+$/}
-        className="w-20 sm:w-40 xl:w-60 border-none"
+        className="w-20 sm:w-40 lg:w-52 border-none"
         onChange={async (newName) => {
           const data = await localforage.getItem(name);
           await localforage.removeItem(name);
@@ -77,12 +80,12 @@ function Project({ name, modifiedDateSignal }: TLDProject) {
         }}
         onClick={(e) => e.stopPropagation()}
       />
-      <div className="w-26 sm:w-30 xl:w-36 flex items-center">
+      <div className="w-26 lg:w-34">
         <ModifiedDate modifiedDateSignal={modifiedDateSignal} />
       </div>
       <Button
         label="Delete"
-        className="hover:text-zinc-400"
+        className="hover:text-emerald-800"
         onClick={(e) => {
           e.stopPropagation();
 
@@ -109,7 +112,7 @@ function ModifiedDate({ modifiedDateSignal }: { modifiedDateSignal: Signal<strin
 function LoadDataButton(props: { label: string; onClick: React.MouseEventHandler }) {
   return (
     <Button
-      className="w-full border-2 border-zinc-600 px-3 sm:px-8 py-2 sm:py-4 text-sm sm:text-base xl:text-xl font-semibold rounded-xl hover:bg-zinc-800"
+      className="my-auto border-0 border-zinc-600 px-1 sm:px-2 py-0.5 sm:py-1 text-xs sm:text-sm float-right font-semibold rounded-xl bg-emerald-800 hover:bg-emerald-900"
       {...props}
     />
   );
@@ -130,18 +133,17 @@ async function getSetProjects() {
   function timeout(project: TLDProject, ms: number) {
     project.timeoutId = setTimeout(() => {
       const diff = Date.now() - project.modifiedDate;
-      let time = HOUR; // it is enought
-      if (diff < MINUTE) time = SECOND;
-      else if (diff < HOUR) time = MINUTE;
+      const time = diff < MINUTE ? SECOND : diff < HOUR ? MINUTE : Infinity;
 
-      timeout(project, time);
+      if (time !== Infinity) timeout(project, time);
       project.modifiedDateSignal.set(timeAgo(project.modifiedDate));
     }, ms);
   }
 
   projects.forEach(async (project) => {
     const projectBuf = await localforage.getItem<string>(project.name);
-    project.modifiedDate = JSON.parse(projectBuf!).modifiedDate;
+    if (!projectBuf) throw new Error(`No such project "${project.name}"`);
+    project.modifiedDate = JSON.parse(projectBuf).modifiedDate;
     sortByData();
     timeout(project, 0);
   });
