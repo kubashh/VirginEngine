@@ -1,6 +1,6 @@
 import FileElement from "../components/FileElement";
 import { defaultNode } from "../lib/assets/assets";
-import { dragDataSignal, keywords, nameInputSignal, refreshHierarchy } from "../lib/consts";
+import { dragDataSignal, keywords, nameInputSignal, refreshHierarchy, type TFile } from "../lib/consts";
 import { isCapitalized } from "../lib/util";
 import { useArrow } from "../lib/hooks";
 
@@ -80,7 +80,7 @@ export default function Node({ parent, name, object, deep = 0 }: NodeProps) {
   });
 }
 
-function getChilds(obj: TObj<any> = {}): TObj<any> {
+function getChilds(obj: TFile): TObj<TFile> {
   return Object.keys(obj).reduce(
     (prev, key) => (!keywords.includes(key) && isCapitalized(key) ? { [key]: obj[key], ...prev } : prev),
     {},
@@ -88,8 +88,8 @@ function getChilds(obj: TObj<any> = {}): TObj<any> {
 }
 
 type NodeProps = {
-  parent: any;
-  object: any;
+  parent: TFile;
+  object: TFile;
   name: string;
   deep: number;
 };

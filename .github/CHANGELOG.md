@@ -38,7 +38,6 @@
 - add block of code like scratch as option
 - Docs: add styles
 - Docs: update Docs
-- minified `any` type and `!` usage
 
 ### VirginEngine repo
 
@@ -52,6 +51,7 @@
 - move Docs to UI
 - fill Docs with content
 - LoadData: modernized & minify design
+- minified `any` type and `!` usage
 
 ## 0.22.1 (11 Aug 2026)
 

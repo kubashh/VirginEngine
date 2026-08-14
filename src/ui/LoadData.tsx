@@ -2,7 +2,7 @@ import localforage from "localforage";
 import { createSignal, type Signal } from "wdwh";
 import { Button, TextInput } from "wdwh/components";
 import { config, nameInputSignal, popupMenuSignal, setUpSignal } from "../lib/consts";
-import { loadProject, openMainScene, saveProject } from "../lib/util";
+import { loadProject, loadProjectFromDisk, openMainScene, saveProject } from "../lib/util";
 
 const SECOND = 1000;
 const MINUTE = 60 * 1000;
@@ -34,7 +34,7 @@ export default function LoadData() {
       <div className="mb-4 flex gap-x-3">
         <div className="mr-auto text-3xl font-semibold">Projects</div>
         <div className="flex *:first:mr-4">
-          <LoadDataButton label="Add project from disk" onClick={loadProject} />
+          <LoadDataButton label="Add project from disk" onClick={loadProjectFromDisk} />
           <LoadDataButton
             label="New project"
             onClick={() => {

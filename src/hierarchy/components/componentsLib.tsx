@@ -3,41 +3,40 @@ import { Button } from "wdwh/components";
 import InspectorSection from "../../inspector/InspectorSection";
 import Script from "./Script";
 import Transform from "./Transform";
-import { inspectorSignal } from "../../lib/consts";
-import { capitalize, deepCopy } from "../../lib/util";
 import { Enum } from "../../inspector/typeInput/EnumInput";
+import { inspectorSignal, type TFile } from "../../lib/consts";
+import { capitalize, deepCopy } from "../../lib/util";
 
 // to one object { deps: [], remove: [] }
 // const text2 = {value: ``, color: }
 const text: TComponent = [{ value: ``, color: `white` }, [`rect`]];
-const rect = [{ x: Enum(0, -1, 0, 1), y: Enum(0, -1, 0, 1) }, [], [`text`]];
-const sprite = [{ color: ``, path: `files.Assets.Images.BoxImage` }];
-const physics = [{ gravity: true }];
-const audio = [{ path: `` }];
+const rect: TComponent = [{ x: Enum(0, -1, 0, 1), y: Enum(0, -1, 0, 1) }, [], [`text`]];
+const sprite: TComponent = [{ color: ``, path: `files.Assets.Images.BoxImage` }];
+const physics: TComponent = [{ gravity: true }];
+const audio: TComponent = [{ path: `` }];
 
-const components: TObj<TComponent> = { text, rect, sprite, physics, audio } as any;
+const components: TObj<TComponent> = { text, rect, sprite, physics, audio };
 
-export function setComponents(props: TObj<any>) {
+export function setComponents(props: ComponentsProps) {
   inspectorSignal.set(<Components {...props} />);
 }
 
-function Components({ name, ...props }: TObj<any>) {
+function Components(props: ComponentsProps) {
   const refresh = useRefresh();
-  props = { ...props, refresh };
 
   return (
     <div key={JSON.stringify(props)}>
-      <h2 className="ml-3 text-xl font-bold">{name}</h2>
-      <Transform object={props.object} />
+      <h2 className="ml-3 text-xl font-bold">{props.name}</h2>
+      <Transform transform={props.object.transform} />
       {Object.keys(components).map((key) => (
-        <Component {...props} key={key} name={key} />
+        <Component refresh={refresh} {...props} key={key} name={key} />
       ))}
       <Script object={props.object} refresh={refresh} />
     </div>
   );
 }
 
-function Component({ name, refresh, required, ...props }: TObj<any>) {
+function Component({ name, refresh, required, ...props }: ComponentProps) {
   const remove = () => {
     if (components[name][2]) {
       for (const key of components[name][2]) {
@@ -73,7 +72,7 @@ function Component({ name, refresh, required, ...props }: TObj<any>) {
   );
 }
 
-function toChilds(object: TObj<any>, name: string, obj: TObj<any>) {
+function toChilds(object: TFile, name: string, obj: TObj<any>) {
   return Object.keys(obj).reduce(
     (prev, e) => [
       ...prev,
@@ -82,7 +81,7 @@ function toChilds(object: TObj<any>, name: string, obj: TObj<any>) {
         access: e,
       },
     ],
-    [] as { object: TObj<any>; access: string }[],
+    [] as { object: TFile; access: string }[],
   );
 }
 
@@ -92,7 +91,7 @@ export function AddComponent({ text, onClick }: AddComponentProps) {
   );
 }
 
-type TComponent = [any, string[]?, string[]?];
+type TComponent = [TObj<any>, string[]?, string[]?];
 //  {
 //   deps?: string[];
 //   remove?: string[];
@@ -102,4 +101,18 @@ type TComponent = [any, string[]?, string[]?];
 type AddComponentProps = {
   text: string;
   onClick: Void;
+};
+
+type ComponentsProps = {
+  name: string;
+  parent: TFile;
+  object: TFile;
+};
+
+type ComponentProps = {
+  name: string;
+  required?: boolean;
+  refresh: Void;
+  parent: TFile;
+  object: TFile;
 };

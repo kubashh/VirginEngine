@@ -1,4 +1,5 @@
 import { contextMenuSignal, dragDataSignal, inspectorSignal, type TFile } from "../lib/consts";
+import { type ArrowSignal } from "../lib/hooks";
 import InspectorDisplay from "../files/InspectorDisplay";
 import { setComponents } from "../hierarchy/components/componentsLib";
 
@@ -54,8 +55,8 @@ type FileElementProps = {
   name: string;
   path?: string;
   file: TFile;
-  parent: TObj<any>;
-  ChildsElement: any;
-  arrowSignal: any;
+  parent: TFile;
+  ChildsElement: React.FC;
+  arrowSignal: ArrowSignal;
   contextMenuProps: TObj<Void | false>;
 } & React.HTMLProps<HTMLDivElement>;

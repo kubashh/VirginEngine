@@ -16,5 +16,5 @@ export default function Files() {
 function FilesComponent() {
   refreshFiles.refresh = useRefresh();
 
-  return <File file={files} name="files" deep={0} parent />;
+  return <File file={files} name="files" deep={0} parent={{ type: `folder` }} />;
 }

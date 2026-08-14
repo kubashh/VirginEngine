@@ -16,16 +16,16 @@ export function deepCopy<T>(obj: T): T {
 }
 
 export function downloadFile(name: string, text: string) {
-  createElement({
+  createElementClick({
     name: `a`,
     href: `data:text;charset=utf-8,${encodeURIComponent(text)}`,
     download: name,
   });
 }
 
-function createElement({ name, ...props }: TObj<any>) {
+function createElementClick({ name, ...props }: CreateElementPropsProps) {
   const element = document.createElement(name);
-  for (const key in props) element[key] = props[key];
+  Object.assign(element, props);
   element.click();
 }
 
@@ -65,17 +65,18 @@ export function openMainScene() {
   hierarchySignal.set(scene);
 }
 
-export function isOccupied(obj: TObj<any>, name: string) {
+export function isOccupied(obj: TFile, name: string) {
   for (const key in obj) if (key === name) return true;
   return false;
 }
 
 // SaveFile
-export function saveProject(inFile?: any) {
+export function saveProject() {
   localforage.setItem(config.gameName, getProjectObject());
-  if (inFile === true) {
-    downloadFile(`${config.gameName}.virginengine`, getProjectObject());
-  }
+}
+
+export function saveProjectFile() {
+  downloadFile(`${config.gameName}.virginengine`, getProjectObject());
 }
 
 function getProjectObject() {
@@ -83,43 +84,33 @@ function getProjectObject() {
 }
 
 // LoadFile
-export function loadProject(data?: any) {
-  if (data?.config) {
-    // data is valid, do not load externaly
-    // .config bacosuse of event passed in data variable
-    loadProjectHelper(data);
-  } else {
-    // saveProject();
-    createElement({
-      name: `input`,
-      type: `file`,
-      accept: `.virginengine`,
-      onchange: ({ target }: { target: any }) => {
-        const reader = new FileReader();
+export function loadProjectFromDisk() {
+  createElementClick({
+    name: `input`,
+    type: `file`,
+    accept: `.virginengine`,
+    onchange: ({ target }: React.ChangeEvent<HTMLInputElement>) => {
+      const reader = new FileReader();
 
-        reader.onload = ({ target }: { target: any }) => {
-          const data = JSON.parse(target.result);
+      reader.onload = ({ target }) => {
+        if (!target) throw new Error(`Not such target!`);
+        const data = JSON.parse(target.result as string);
 
-          loadProjectHelper(data);
-          saveProject();
-        };
+        loadProject(data);
+        saveProject();
+      };
 
-        reader.readAsText(target.files[0]);
-      },
-    });
-  }
+      if (target.files) reader.readAsText(target.files[0]);
+    },
+  });
 }
 
-function loadProjectHelper(data: any) {
+export function loadProject(data: TProject) {
   Object.assign(config, data.config); // don't remove old props, config have always same shape (TConfig)
-  clearAssign(files, data.files);
+  for (const key in files) delete files[key];
+  for (const key in data.files) files[key] = data.files[key];
 
   openMainScene();
-}
-
-function clearAssign(old: TObj<any>, obj: TObj<any>) {
-  for (const key in old) delete old[key];
-  for (const key in obj) old[key] = obj[key];
 }
 
 // Type
@@ -139,7 +130,7 @@ export function fileFromPath(path: string) {
   return path
     .split(`.`)
     .slice(1)
-    .reduce((prev, key) => prev[key], files as any);
+    .reduce((prev, key) => prev[key], files);
 }
 
 // Image
@@ -225,6 +216,15 @@ async function buildSafely(production: boolean) {
 export function zswitch<T>(value: number | string, rest: TObj<() => T>) {
   return (rest[value] || rest.else)();
 }
+
+type CreateElementPropsProps = {
+  name: string;
+  type?: string;
+  href?: string;
+  download?: string;
+  accept?: string;
+  onchange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+};
 
 type TProject = {
   files: TFile;
