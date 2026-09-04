@@ -100,7 +100,7 @@ type TComponent = [TObj<any>, string[]?, string[]?];
 
 type AddComponentProps = {
   text: string;
-  onClick: Void;
+  onClick: () => void;
 };
 
 type ComponentsProps = {
@@ -112,7 +112,7 @@ type ComponentsProps = {
 type ComponentProps = {
   name: string;
   required?: boolean;
-  refresh: Void;
+  refresh: () => void;
   parent: TFile;
   object: TFile;
 };

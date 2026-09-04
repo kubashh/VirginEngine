@@ -25,7 +25,7 @@ function Header({ name, options }: HeaderProps) {
   );
 }
 
-function HeaderOption({ label, value }: { label: string; value: TObj<Void> | Void }) {
+function HeaderOption({ label, value }: { label: string; value: TObj<() => void> | (() => void) }) {
   return typeof value === `object` ? (
     <HeaderOptionDropdown label={label}>
       {Object.keys(value).map((key) => (
@@ -50,7 +50,7 @@ function HeaderOptionDropdown({ label, children }: HeaderOptionsHelperProps) {
 type WindowProps = {
   name: string;
   id?: string;
-  headerOptions?: TObj<TObj<Void> | Void>;
+  headerOptions?: TObj<TObj<() => void> | (() => void)>;
   headerOptionsLabel?: string;
   className?: string;
   style?: React.CSSProperties;
@@ -59,7 +59,7 @@ type WindowProps = {
 
 type HeaderProps = {
   name: string;
-  options?: TObj<TObj<Void> | Void>;
+  options?: TObj<TObj<() => void> | (() => void)>;
 };
 
 type HeaderOptionsHelperProps = {

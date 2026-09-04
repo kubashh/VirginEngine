@@ -3,7 +3,7 @@ import { type TNameInput } from "../ui/NameInput";
 import { type TDragData } from "../ui/DragData";
 import { type TPopupMenu } from "../ui/PopupMenu";
 import { virginEngineVersion } from "./core";
-import { Enum } from "../inspector/typeInput/EnumInput";
+import { Enum, type TEnum } from "../inspector/typeInput/EnumInput";
 import { boxSprite, defaultNode, happyBoxSprite } from "./assets/assets";
 import { deepCopy, saveProject } from "./util";
 
@@ -116,12 +116,14 @@ export const nameInputSignal = createSignal<TNameInput | null>(null);
 export const dragDataSignal = createSignal<TDragData | null>(null);
 export const testSceneSignal = createSignal(``);
 export const contextMenuSignal = createSignal<{
-  [key: string]: Void | number | false;
+  [key: string]: (() => void) | number | false;
   x: number;
   y: number;
 } | null>(null);
 export const popupMenuSignal = createSignal<TPopupMenu>({ label: `` });
-export const setUpSignal = createSignal(false);
+export const setUpSignal = createSignal(false, () => {
+  if (!setUpSignal.get()) document.title = `VirgineEngine v${virginEngineVersion}`;
+});
 export const cursorPointerSignal = createSignal(false, () => {
   document.body.style.cursor = cursorPointerSignal.get() ? `pointer` : ``;
 });
@@ -138,7 +140,7 @@ window.addEventListener(`keydown`, (e) => {
   }
 });
 
-// Set title, because wdwh doesn't support string templates for metadata (src/app/index.tsx)
+// Set title manually, because wdwh doesn't support string templates for metadata (src/app/index.tsx)
 document.title = `Virgine Engine v${virginEngineVersion}`;
 
 export type TConfig = {

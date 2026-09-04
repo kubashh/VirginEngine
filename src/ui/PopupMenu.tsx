@@ -24,7 +24,7 @@ export default function PopupMenu() {
   ) : null;
 }
 
-function PopupMenuOptions({ options }: { options?: TObj<Void> }) {
+function PopupMenuOptions({ options }: { options?: TObj<() => void> }) {
   return options
     ? Object.entries(options).map(([label, cb]) => (
         <Button
@@ -49,5 +49,5 @@ function onMouseDown({ target }: MouseEvent) {
 
 export type TPopupMenu = {
   label: string;
-  options?: TObj<Void>;
+  options?: TObj<() => void>;
 };

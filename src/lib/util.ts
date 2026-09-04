@@ -111,6 +111,7 @@ export function loadProject(data: TProject) {
   for (const key in data.files) files[key] = data.files[key];
 
   openMainScene();
+  document.title = `${data.config.gameName} - VirginEngine`;
 }
 
 // Type

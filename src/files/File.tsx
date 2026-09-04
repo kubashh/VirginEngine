@@ -44,7 +44,7 @@ export default function File({ parent, file, name, deep, path = `files` }: FileP
     );
   }
 
-  const newArrElement = (type: string, defValue?: TFile): Void | false =>
+  const newArrElement = (type: string, defValue?: TFile): (() => void) | false =>
     isFolder &&
     (() =>
       nameInputSignal.set({

@@ -1,5 +1,7 @@
 // Types
 
+type TObj<T> = Record<string, T>;
+
 type XY = {
   x: number;
   y: number;
@@ -9,12 +11,6 @@ type WH = {
   w: number;
   h: number;
 };
-
-type F<T> = () => T;
-type Void = F<void>;
-
-type TObj<T> = Record<string, T>;
-type Any = TObj<any>;
 
 // Props
 
@@ -31,9 +27,9 @@ type NodeProps = {
   collider?: ColliderProps;
   animation?: AnimationProps;
 
-  start?: Void;
-  update?: Void;
-  render?: Void;
+  start?: () => void;
+  update?: () => void;
+  render?: () => void;
 
   [key: string]: any;
 };
@@ -68,9 +64,9 @@ type drawProps = {
   w?: number;
   h: number;
   font?: string;
-} & Any;
+} & TObj<any>;
 
-type SceneProps = { name: string } & Any;
+type SceneProps = { name: string } & TObj<any>;
 
 // Compponents
 
@@ -79,9 +75,9 @@ type TNode = {
   id: number;
   parent: TNode;
 
-  start?: Void;
-  update?: Void;
-  render?: Void;
+  start?: () => void;
+  update?: () => void;
+  render?: () => void;
 
   position: XY;
   rotation: number;
@@ -98,8 +94,8 @@ type TNode = {
 
   childs: TNode[];
   props: NodeProps;
-  clone: Void;
-  destroy: Void;
+  clone: () => void;
+  destroy: () => void;
 
   [key: string]: any;
 };
@@ -113,7 +109,7 @@ type TText = {
 
   constructor: any;
 
-  render: Void;
+  render: () => void;
 
   props: {
     value: string;
@@ -126,9 +122,9 @@ type TSprite = {
 
   constructor: any;
 
-  reload: Void;
-  resize: Void;
-  render: Void;
+  reload: () => void;
+  resize: () => void;
+  render: () => void;
   props: {
     path: string;
   };
@@ -141,7 +137,7 @@ type TPhysics = {
 
   constructor: any;
 
-  update: Void;
+  update: () => void;
   addForce: (force: XY) => void;
 };
 
@@ -155,8 +151,8 @@ type TAnimation = {
 
 type TAudio = {
   constructor: any;
-  play: Void;
-  stop: Void;
+  play: () => void;
+  stop: () => void;
 };
 
 type TScene = {
@@ -177,7 +173,7 @@ type TScene = {
 
 // Global declarations
 
-declare const REPLACE_FILES: Any;
+declare const REPLACE_FILES: TObj<any>;
 declare const REPLACE_PATH_TO_MAIN_SCENE: any;
 declare const REPLACE_HTML_TEMPLATE: string;
 declare const REPLACE_CORE: string;

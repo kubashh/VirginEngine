@@ -25,3 +25,9 @@ export function Enum<T>(defvalue: T, ...options: T[]): TEnum<T> {
     selected: defvalue,
   };
 }
+
+export type TEnum<T> = {
+  type: `enum`;
+  options: T[];
+  selected: T;
+};

@@ -58,5 +58,5 @@ type FileElementProps = {
   parent: TFile;
   ChildsElement: React.FC;
   arrowSignal: ArrowSignal;
-  contextMenuProps: TObj<Void | false>;
+  contextMenuProps: TObj<(() => void) | false>;
 } & React.HTMLProps<HTMLDivElement>;

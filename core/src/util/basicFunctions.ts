@@ -68,7 +68,7 @@ export function drawText({
   y += (rect.y + 1) * Camera.yOffset;
 
   for (const key in rest) {
-    (ctx as Any)[key] = (rest as Any)[key];
+    (ctx as TObj<any>)[key] = (rest as TObj<any>)[key];
   }
 
   ctx.font = `${h}px ${font}`;

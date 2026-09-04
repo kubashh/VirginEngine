@@ -95,7 +95,7 @@ export default class Node implements TNode {
   }
 
   get props() {
-    const newObj: Any = {
+    const newObj: TObj<any> = {
       start: this?.start,
       update: this?.update,
       transform: {

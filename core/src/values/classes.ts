@@ -81,7 +81,7 @@ export class Timer {
     Timer.timers.push(this);
   }
 
-  measure(obj: TObj<Void>) {
+  measure(obj: TObj<() => void>) {
     const timer = this.timers;
 
     for (const [name, f] of Object.entries(obj)) {
