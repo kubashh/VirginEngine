@@ -113,10 +113,10 @@ type StringInputProps = {
 type AddScriptProps = {
   object: TFile;
   value: string;
-  refresh: Void;
+  refresh: () => void;
 };
 
 type ScriptProps = {
   object: TFile;
-  refresh: Void;
+  refresh: () => void;
 };

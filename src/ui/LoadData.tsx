@@ -65,7 +65,7 @@ function Project({ name, modifiedDateSignal }: TLDProject) {
       className="mb-5 px-3 sm:px-6 py-2 sm:py-3 text-base lg:text-lg rounded-xl flex justify-between bg-black hover:bg-zinc-800 cursor-pointer"
       onClick={async () => {
         const data = await localforage.getItem<string>(name);
-        loadProject(JSON.parse(data || ``));
+        if (data) loadProject(JSON.parse(data));
       }}
     >
       <TextInput
@@ -161,7 +161,7 @@ function timeAgo(timestamp: number) {
 }
 
 function timeAgoHealper(label: string, time: number) {
-  if (time === 1) return `a ${label} ago`;
+  if (time <= 1) return `a ${label} ago`;
   return `${time} ${label}s ago`;
 }
 

@@ -20,7 +20,7 @@ export default function InspectorSection({ text, onRemove, childs, children }: I
 
 type InspectorSectionProps = {
   text: string;
-  onRemove?: Void;
+  onRemove?: () => void;
   childs?: Variable[];
   children?: React.ReactNode;
 };

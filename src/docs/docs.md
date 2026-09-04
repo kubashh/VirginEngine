@@ -17,9 +17,9 @@ type TNode = {
   parent: TNode;
   name: string;
 
-  start?: Void;
-  update?: Void;
-  render?: Void;
+  start?: () => void;
+  update?: () => void;
+  render?: () => void;
 
   position: XY;
   rotation: number;
@@ -34,8 +34,8 @@ type TNode = {
 
   childs: TNode[];
   props: any;
-  clone: Void;
-  destroy: Void;
+  clone: () => void;
+  destroy: () => void;
 
   [key: string]: any;
 };
@@ -47,7 +47,7 @@ type TText = {
   textBaseline?: string;
   textAlign?: string;
 
-  render: Void;
+  render: () => void;
 
   props: {
     value: string;
@@ -57,9 +57,9 @@ type TText = {
 type TSprite = {
   path: string;
 
-  reload: Void;
-  resize: Void;
-  render: Void;
+  reload: () => void;
+  resize: () => void;
+  render: () => void;
   props: {
     path: string;
   };
@@ -69,7 +69,7 @@ type TPhysics = {
   velocity: XY;
   gravity: boolean;
 
-  update: Void;
+  update: () => void;
   AddForce: (force: XY) => void;
 };
 
@@ -78,15 +78,15 @@ type TCollider = {};
 type TAnimation = {};
 
 type TAudio = {
-  play: Void;
-  pause: Void;
+  play: () => void;
+  pause: () => void;
 };
 
 type TScene = {
   camera: XY;
 
   load: (newScene: { name: string; [key: string]: any }) => void;
-  close: Void;
+  close: () => void;
 
   [key: string]: any;
 };
