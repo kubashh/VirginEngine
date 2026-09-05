@@ -34,10 +34,9 @@ async function buildEngineCore() {
     entrypoints: [`./core/src/core.js`],
     target: `bun`,
   });
+
   let text = await outputs[0].text();
-
   text = text.replace(/^.*console\.log\(`Engine:.*\n?/gm, ``);
-
   return JSON.stringify(optymalize(text));
 }
 

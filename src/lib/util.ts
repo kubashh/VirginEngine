@@ -71,16 +71,16 @@ export function isOccupied(obj: TFile, name: string) {
 }
 
 // SaveFile
-export function saveProject() {
-  localforage.setItem(config.gameName, getProjectObject());
+export function saveProject(oldDate?: number) {
+  localforage.setItem(config.gameName, getProjectObject(oldDate));
 }
 
-export function saveProjectFile() {
-  downloadFile(`${config.gameName}.virginengine`, getProjectObject());
+export function saveProjectFile(oldDate?: number) {
+  downloadFile(`${config.gameName}.virginengine`, getProjectObject(oldDate));
 }
 
-function getProjectObject() {
-  return JSON.stringify({ config, files, modifiedDate: Date.now() } satisfies TProject);
+function getProjectObject(oldDate?: number) {
+  return JSON.stringify({ config, files, modifiedDate: oldDate ? oldDate : Date.now() } satisfies TProject);
 }
 
 // LoadFile
@@ -227,7 +227,7 @@ type CreateElementPropsProps = {
   onchange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-type TProject = {
+export type TProject = {
   files: TFile;
   config: TConfig;
   modifiedDate: number;
