@@ -2,7 +2,7 @@ import localforage from "localforage";
 import { createSignal, type Signal } from "wdwh";
 import { Button, TextInput } from "wdwh/components";
 import { config, nameInputSignal, popupMenuSignal, setUpSignal } from "../lib/consts";
-import { loadProject, loadProjectFromDisk, openMainScene, saveProject } from "../lib/util";
+import { loadProject, loadProjectFromDisk, openMainScene, saveProject, type TProject } from "../lib/util";
 
 const SECOND = 1000;
 const MINUTE = 60 * 1000;
@@ -30,6 +30,10 @@ export default function LoadData() {
     <section
       id="load-data"
       className="w-screen h-screen px-4 sm:px-20 pt-4 flex flex-col bg-[#000c] scrollbar-y"
+      onDragOver={(e) => {
+        e.preventDefault();
+      }}
+      onDrop={onDrop}
     >
       <div className="mb-4 flex gap-x-3">
         <div className="mr-auto text-3xl font-semibold">Projects</div>
@@ -52,6 +56,31 @@ export default function LoadData() {
       <Projects />
     </section>
   );
+}
+
+async function onDrop(e: React.DragEvent<HTMLElement>) {
+  e.preventDefault();
+  const file = e.dataTransfer.files[0];
+  if (!file.name.endsWith(`.virginengine`)) {
+    alert(`VirginEngine project file must ends with '.virginengine'!`);
+    return;
+  }
+  const text = await file.text();
+  const project: TProject = JSON.parse(text);
+  if (projectsSignal.get().find((p) => p.name === project.config.gameName)) {
+    popupMenuSignal.set({
+      label: `Do you want to replese existing project named '${project.config.gameName}'`,
+      options: {
+        Yes: () => {
+          loadProject(project);
+          saveProject(project.modifiedDate);
+        },
+      },
+    });
+  } else {
+    loadProject(project);
+    saveProject(project.modifiedDate);
+  }
 }
 
 function Projects() {
