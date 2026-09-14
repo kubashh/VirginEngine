@@ -16,17 +16,10 @@ export function deepCopy<T>(obj: T): T {
 }
 
 export function downloadFile(name: string, text: string) {
-  createElementClick({
-    name: `a`,
-    href: `data:text;charset=utf-8,${encodeURIComponent(text)}`,
-    download: name,
-  });
-}
-
-function createElementClick({ name, ...props }: CreateElementPropsProps) {
-  const element = document.createElement(name);
-  Object.assign(element, props);
-  element.click();
+  const elemnet = document.createElement(`a`);
+  elemnet.href = `data:text;charset=utf-8,${encodeURIComponent(text)}`;
+  elemnet.download = name;
+  elemnet.click();
 }
 
 export function isValidName(name: string) {
@@ -85,10 +78,10 @@ function getProjectObject(oldDate?: number) {
 
 // LoadFile
 export function loadProjectFromDisk() {
-  createElementClick({
-    name: `input`,
-    type: `file`,
-    accept: `.virginengine`,
+  const element = document.createElement(`input`);
+  element.type = `file`;
+  element.accept = `.virginengine`;
+  Object.assign(element, {
     onchange: ({ target }: React.ChangeEvent<HTMLInputElement>) => {
       const reader = new FileReader();
 
@@ -201,15 +194,19 @@ async function buildSafely(production: boolean) {
     config.performanceInfo.selected === `yes` || (!production && config.performanceInfo.selected === `dev`);
 
   const validConfig = {
-    ...config,
+    author: config.author,
+    description: config.description,
+    gameName: config.gameName,
     performanceInfo,
-    config,
+    pathToMainScene: config.pathToMainScene,
+    fullScreen: config.fullScreen,
+
     files,
     production,
   };
 
   const html = (await build(validConfig))[`index.html`];
-  if (!html) throw new Error(`Build faild! Output: ${JSON.stringify(html)}`);
+  if (!html) throw new Error(`Build faild!`);
   return html;
 }
 
@@ -217,15 +214,6 @@ async function buildSafely(production: boolean) {
 export function zswitch<T>(value: number | string, rest: TObj<() => T>) {
   return (rest[value] || rest.else)();
 }
-
-type CreateElementPropsProps = {
-  name: string;
-  type?: string;
-  href?: string;
-  download?: string;
-  accept?: string;
-  onchange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-};
 
 export type TProject = {
   files: TFile;

@@ -12,7 +12,7 @@ const headerOptions = {
     {},
   ),
   Restart: () => {
-    testSceneSignal.set(`.`);
+    testSceneSignal.set(``);
     setTimeout(testProjects);
     console.clear();
   },
@@ -22,25 +22,37 @@ const headerOptions = {
   },
 };
 
-export default function Test() {
-  const testScene = testSceneSignal.use();
+testSceneSignal.subscribe(() => {
+  const element = document.getElementById(`test`);
+  if (element) {
+    element.style.display = testSceneSignal.get() ? `` : `none`;
+  }
+});
 
-  return testScene ? (
-    <Window name="Test" className="w-screen h-screen" headerOptions={headerOptions}>
+export default function Test() {
+  return (
+    <Window
+      name="Test"
+      id="test"
+      className="w-screen h-screen"
+      style={{ display: `none` }} // default hidden
+      headerOptions={headerOptions}
+    >
       <div className="flex justify-center bg-zinc-950">
         <TestScreen />
       </div>
     </Window>
-  ) : null;
+  );
 }
 
 function TestScreen() {
+  const testScene = testSceneSignal.use();
   const aspectRatio = aspectRatioSignal.use();
   return (
     <iframe
       title="scene"
       className={clsx(`box-content border-x border-zinc-400`, aspectRatio)}
-      srcDoc={testSceneSignal.get()} // get bacause father is rerenered
+      srcDoc={testScene}
     />
   );
 }

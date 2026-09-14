@@ -21,6 +21,9 @@
 - render via special unit same cross-platform (not pixels like now)
 - use number (id) as identifier, not string name, complitly strip string names.
   so compile sth.parent.name to id or reference or sth[parent_id][name_id]
+- scripts look like Unity scripts, change `new Node({ transform: {...} }, a: 10);` to
+  `MyClass extends Beh { a = 10; ... }; let obj = new MyClass(); obj.start();`, so
+  scripts will be like component
 
 ### Editor (src)
 

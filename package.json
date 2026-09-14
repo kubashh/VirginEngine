@@ -1,6 +1,6 @@
 {
   "name": "virgin-engine",
-  "version": "0.22.2-dev.4",
+  "version": "0.22.2-dev.5",
   "license": "MIT",
   "scripts": {
     "dev": "bun core/buildBuild.ts && wdwh dev",
@@ -8,12 +8,12 @@
   },
   "dependencies": {
     "localforage": "^1.10.0",
-    "react": "^19.2.8",
-    "react-dom": "^19.2.8",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
     "wdwh": "^1.12.25"
   },
   "devDependencies": {
-    "@types/bun": "^1.4.1",
+    "@types/bun": "^1.4.2",
     "@types/react": "latest",
     "bun-plugin-tailwind": "^0.1.2",
     "tailwindcss": "^4.3.3",

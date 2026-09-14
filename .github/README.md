@@ -46,3 +46,89 @@ function randColor(): string;
 
 - /core - engine core, contains build function
 - /src - editor
+
+## Scripting concepts (0.23.0)
+
+### Before compiling (editor)
+
+```ts
+// serialized scene data (user don't see it)
+let SceneData = {
+  gameObjects: [
+    {
+      id: 1,
+      name: `John`,
+      components: [
+        {
+          type: `MyClass`,
+          count: 0,
+          displayName: `John`,
+          col: { targetObjectId: 1, targetComponentType: `Collider` },
+        },
+        { type: `Collider` },
+      ],
+    },
+  ],
+};
+
+// user script
+class MyClass extends Beh {
+  public health: number = 100;
+  public nick!: string; // attached to `John` in editor
+  public col!: Collider; // attached to object collider (reference)
+
+  start() {
+    console.log(this.nick, this.health); // John 100
+  }
+}
+```
+
+### After compiling (runtime)
+
+```ts
+class Component {
+  node!: Node;
+
+  // ...
+}
+
+abstract class Script extends Component {
+  start?(): void;
+  update?(): void;
+}
+
+class Node {
+  components: Component[] = [];
+
+  addComponent<T extends Component>(component: T): T {
+    component.node = this;
+    this.components.push(component);
+    return component;
+  }
+
+  getComponent<T extends Component>(type: new () => T): T | undefined {
+    return this.components.find((component) => component instanceof type) as T | undefined;
+  }
+
+  // ...
+}
+
+class MyClass extends Script {
+  public health: number = 100;
+  public nick!: string; // attached to `John` in editor
+  public col!: Collider; // attached to object collider (reference)
+
+  start() {
+    console.log(this.nick, this.health); // John 100
+  }
+}
+
+let node = new Node();
+let collider = new Collider(/* ... */);
+node.addComponent(collider);
+let script = new MyClass();
+node.addComponent(script);
+script.nick = `John`; // from editor
+script.col = collider; // or node.getComponent(Collider); // from editor
+script.start(); // skip if not contains start method
+```
