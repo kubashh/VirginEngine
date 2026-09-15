@@ -1,5 +1,5 @@
-import { type Signal } from "wdwh";
 import FileGrabber from "./FileGrabber";
+import { type Signal } from "../lib/framework";
 
 export default function ImageGrabber({ srcSignal, name }: ImageGrabberProps) {
   return (

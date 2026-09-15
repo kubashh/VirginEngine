@@ -57,6 +57,7 @@
 - minified `any` type and `!` usage; remove Any<T> & F<T> types
 - update document title to current project
 - add support for dropping project into LoadData
+- bundle wdwh into src (editor)
 
 ## 0.22.1 (11 Aug 2026)
 

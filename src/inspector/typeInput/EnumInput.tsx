@@ -1,4 +1,4 @@
-import { type Signal } from "wdwh";
+import { type Signal } from "../../lib/framework";
 
 export default function EnumInput<T>({ sig, type }: { sig: Signal<TEnum<T>>; type?: string }) {
   return (

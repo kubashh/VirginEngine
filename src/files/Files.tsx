@@ -1,7 +1,7 @@
 import Window from "../components/Window";
 import File from "./File";
 import { files, refreshFiles } from "../lib/consts";
-import { useRefresh } from "wdwh/hooks";
+import { useRefresh } from "../lib/hooks";
 
 export default function Files() {
   return (

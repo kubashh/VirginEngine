@@ -69,7 +69,10 @@ export function saveProject(oldDate?: number) {
 }
 
 export function saveProjectFile(oldDate?: number) {
+  const obj = { config, files, modifiedDate: oldDate ? oldDate : Date.now() };
+  console.log(`jjj`, obj); //, JSON.stringify(obj));
   downloadFile(`${config.gameName}.virginengine`, getProjectObject(oldDate));
+  console.log(`fff`);
 }
 
 function getProjectObject(oldDate?: number) {
@@ -96,6 +99,7 @@ export function loadProjectFromDisk() {
       if (target.files) reader.readAsText(target.files[0]);
     },
   });
+  element.click();
 }
 
 export function loadProject(data: TProject) {
@@ -214,6 +218,8 @@ async function buildSafely(production: boolean) {
 export function zswitch<T>(value: number | string, rest: TObj<() => T>) {
   return (rest[value] || rest.else)();
 }
+
+// types
 
 export type TProject = {
   files: TFile;

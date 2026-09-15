@@ -1,9 +1,9 @@
-import { createSignal } from "wdwh";
+import { virginEngineVersion } from "./core";
 import { type TNameInput } from "../ui/NameInput";
 import { type TDragData } from "../ui/DragData";
 import { type TPopupMenu } from "../ui/PopupMenu";
-import { virginEngineVersion } from "./core";
 import { Enum, type TEnum } from "../inspector/typeInput/EnumInput";
+import { createSignal } from "./framework";
 import { boxSprite, defaultNode, happyBoxSprite } from "./assets/assets";
 import { deepCopy, saveProject } from "./util";
 
@@ -140,7 +140,7 @@ window.addEventListener(`keydown`, (e) => {
   }
 });
 
-// Set title manually, because wdwh doesn't support string templates for metadata (src/app/index.tsx)
+// Set title manually, can be done in comptime
 document.title = `Virgine Engine v${virginEngineVersion}`;
 
 export type TConfig = {

@@ -1,4 +1,4 @@
-import { type Signal } from "wdwh";
+import { type Signal } from "../../lib/framework";
 
 // TODO
 export default function ArrayInput({ sig }: ArrayInputProps) {

@@ -1,7 +1,7 @@
-import { useCreateSignal } from "wdwh";
 import AudioGrabber from "../components/AudioGrabber";
 import ImageGrabber from "../components/ImageGrabber";
 import TypeInput from "../inspector/TypeInput";
+import { useCreateSignal } from "../lib/framework";
 import { type TFile } from "../lib/consts";
 import { fileFromPath, zswitch } from "../lib/util";
 

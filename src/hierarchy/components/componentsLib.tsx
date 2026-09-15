@@ -1,11 +1,11 @@
-import { useRefresh } from "wdwh/hooks";
-import { Button } from "wdwh/components";
+import { Button } from "../../components/components";
 import InspectorSection from "../../inspector/InspectorSection";
 import Script from "./Script";
 import Transform from "./Transform";
 import { Enum } from "../../inspector/typeInput/EnumInput";
 import { inspectorSignal, type TFile } from "../../lib/consts";
 import { capitalize, deepCopy } from "../../lib/util";
+import { useRefresh } from "../../lib/hooks";
 
 // to one object { deps: [], remove: [] }
 // const text2 = {value: ``, color: }

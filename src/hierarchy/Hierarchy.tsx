@@ -1,7 +1,7 @@
-import { useRefresh } from "wdwh/hooks";
 import Window from "../components/Window";
 import Node from "./Node";
 import { hierarchySignal, files, refreshHierarchy } from "../lib/consts";
+import { useRefresh } from "../lib/hooks";
 
 export default function Hierarchy() {
   return (

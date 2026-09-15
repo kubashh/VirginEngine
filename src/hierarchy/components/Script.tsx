@@ -1,9 +1,9 @@
 import { useEffect, useRef } from "react";
-import { useConst, useRefresh } from "wdwh/hooks";
 import InspectorSection from "../../inspector/InspectorSection";
 import TypeInput from "../../inspector/TypeInput";
 import { nameInputSignal, type TFile } from "../../lib/consts";
 import { capitalize, getType, isCustomProp, isOccupied } from "../../lib/util";
+import { useConst, useRefresh } from "../../lib/hooks";
 import { AddComponent } from "./componentsLib";
 
 // Types

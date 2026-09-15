@@ -1,4 +1,4 @@
-import { type Signal } from "wdwh";
+import { type Signal } from "../../lib/framework";
 
 export default function BooleanInput({ sig }: { sig: Signal<boolean> }) {
   return (

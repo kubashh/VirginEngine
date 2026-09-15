@@ -1,6 +1,6 @@
 import localforage from "localforage";
-import { createSignal, type Signal } from "wdwh";
-import { Button, TextInput } from "wdwh/components";
+import { Button, TextInput } from "../components/components";
+import { createSignal, type Signal } from "../lib/framework";
 import { config, nameInputSignal, popupMenuSignal, setUpSignal } from "../lib/consts";
 import { loadProject, loadProjectFromDisk, openMainScene, saveProject, type TProject } from "../lib/util";
 
@@ -150,7 +150,8 @@ function LoadDataButton(props: { label: string; onClick: React.MouseEventHandler
 async function getSetProjects() {
   const keys = await localforage.keys();
 
-  const projects = keys.map((key) => ({
+  // @ts-ignore
+  const projects: TLDProject[] = keys.map((key) => ({
     name: key,
     modifiedDate: 0,
     modifiedDateSignal: createSignal(``),
@@ -202,5 +203,5 @@ type TLDProject = {
   name: string;
   modifiedDate: number;
   modifiedDateSignal: Signal<string>;
-  timeoutId: number;
+  timeoutId: NodeJS.Timeout;
 };

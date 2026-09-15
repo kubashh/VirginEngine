@@ -10,8 +10,8 @@ const editorOpctions = {
   Load: () => setUpSignal.set(false),
   Config: () => inspectorSignal.set(<Config />),
   File: {
-    Save: saveProject,
-    SaveToFile: saveProjectFile,
+    Save: () => saveProject(),
+    SaveToFile: () => saveProjectFile(),
     Build: buildProject,
   },
 };

@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { type Signal } from "wdwh";
-import { TextInput } from "wdwh/components";
+import { type Signal } from "../../lib/framework";
+import { TextInput } from "../../components/components";
 
 export default function NumberInput({ sig }: { sig: Signal<number> }) {
   const [buf, setBuf] = useState(String(sig.get()));

@@ -1,5 +1,5 @@
-import { clsx, createSignal } from "wdwh";
 import Window from "../components/Window";
+import { clsx, createSignal } from "../lib/framework";
 import { testSceneSignal } from "../lib/consts";
 import { testProjects } from "../lib/util";
 

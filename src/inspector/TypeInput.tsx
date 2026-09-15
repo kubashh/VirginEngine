@@ -1,8 +1,8 @@
-import { useCreateSignal } from "wdwh";
 import BooleanInput from "./typeInput/BooleanInput";
 import NumberInput from "./typeInput/NumberInput";
 import StringInput from "./typeInput/StringInput";
 import EnumInput from "./typeInput/EnumInput";
+import { useCreateSignal } from "../lib/framework";
 import { camelToTitleCase, getType, zswitch } from "../lib/util";
 
 export default function TypeInput({ object, access, type: defType }: TypeInputProps) {

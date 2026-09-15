@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { Button } from "wdwh/components";
+import { Button } from "../components/components";
 import { contextMenuSignal } from "../lib/consts";
 
 export default function ContextMenu() {

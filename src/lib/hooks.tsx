@@ -1,5 +1,15 @@
-import { useCreateSignal, type Signal } from "wdwh";
-import { Button } from "wdwh/components";
+import { useState } from "react";
+import { Button } from "../components/components";
+import { useCreateSignal, type Signal } from "./framework";
+
+export function useRefresh() {
+  const f = useState(false)[1];
+  return () => f((prev) => !prev);
+}
+
+export function useConst<T>(value: T) {
+  return useState(value)[0];
+}
 
 export function useArrow(main = false, haveChilds = true, src?: string): ArrowSignal {
   const openSignal = useCreateSignal(main);

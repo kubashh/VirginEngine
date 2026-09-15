@@ -1,5 +1,5 @@
-import { clsx } from "wdwh";
-import { Button } from "wdwh/components";
+import { Button } from "../components/components";
+import { clsx } from "../lib/framework";
 
 export default function Window({ name, id, headerOptions, className, style, children }: WindowProps) {
   return (

@@ -1,4 +1,4 @@
-import { FileInput } from "wdwh/components";
+import { FileInput } from "./components";
 
 export default function FileGrabber({ label, name, accept, img, onFile }: FileGrabberProps) {
   return (
