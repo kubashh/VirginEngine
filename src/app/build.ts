@@ -25,9 +25,9 @@ async function build() {
   const { outputs } = await Bun.build(buildConfig);
 
   const htmlFile = outputs.find((f) => f.path.endsWith(`.html`))!;
+  let html = await htmlFile.text();
 
   // bun makes empty script tag and left comments, so it can be removed to reduce the size of the output file
-  let html = await htmlFile.text();
   html = removeScriptsAndComments(html);
 
   // bun add crossorigin attribute

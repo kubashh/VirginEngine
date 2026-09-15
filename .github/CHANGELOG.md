@@ -50,6 +50,8 @@
 
 ## 0.22.3-dev.0 (in development)
 
+- set title in comptime
+
 ## 0.22.2 (15 Sep 2026)
 
 - StringInput: remove `"` `"` from string in editor

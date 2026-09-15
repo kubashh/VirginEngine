@@ -140,9 +140,6 @@ window.addEventListener(`keydown`, (e) => {
   }
 });
 
-// Set title manually, can be done in comptime
-document.title = `Virgine Engine v${virginEngineVersion}`;
-
 export type TConfig = {
   gameName: string;
   version: string;
