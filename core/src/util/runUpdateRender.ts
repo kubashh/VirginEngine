@@ -2,6 +2,16 @@ import { Timer } from "../values/classes";
 import { ctx, events, nodes, Log, scene, files, performanceInfo } from "../values/consts";
 import { clearObject, drawText, wait } from "./basicFunctions";
 
+// @ts-ignore
+const renderTimer: Timer = performanceInfo && new Timer(`Sprite`, `Text`);
+// @ts-ignore
+const updateTimer: Timer = performanceInfo && new Timer(`Physics`, `Nodes`);
+
+const engineState = {
+  running: true,
+  renderFrameId: 0,
+};
+
 // Run
 export async function run() {
   await loadAssets();
@@ -12,7 +22,7 @@ export async function run() {
   let timer = performance.now();
   let updates = 0;
   let delta = 0;
-  while (true) {
+  while (engineState.running) {
     const now = performance.now();
     delta += (now - scene.lastTime) * scene.msdiv; // Minimal performance boost
     if (delta > 60) delta = 60;
@@ -95,6 +105,8 @@ function updateNodes() {
 
 // Render
 function render() {
+  if (!engineState.running) return;
+
   clearCtx();
 
   if (performanceInfo) {
@@ -107,7 +119,7 @@ function render() {
 
   // Recall render
   Log.framesTemp++;
-  requestAnimationFrame(render);
+  engineState.renderFrameId = requestAnimationFrame(render);
 }
 
 function clearCtx() {
@@ -155,7 +167,12 @@ function renderPerformanceInfo() {
   }
 }
 
-// @ts-ignore
-const renderTimer: Timer = performanceInfo && new Timer(`Sprite`, `Text`);
-// @ts-ignore
-const updateTimer: Timer = performanceInfo && new Timer(`Physics`, `Nodes`);
+function quit() {
+  engineState.running = false;
+  cancelAnimationFrame(engineState.renderFrameId);
+}
+
+window.addEventListener(`close`, (e) => {
+  e.preventDefault();
+  quit();
+});

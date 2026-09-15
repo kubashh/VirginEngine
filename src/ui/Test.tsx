@@ -1,16 +1,13 @@
 import Window from "../components/Window";
-import { clsx, createSignal } from "../lib/framework";
+import { createSignal } from "../lib/framework";
 import { testSceneSignal } from "../lib/consts";
 import { testProjects } from "../lib/util";
 
-const opctions = { "16/9": `aspect-[16/9]`, "1/1": `aspect-square`, "9/16": `aspect-[9/16]` };
-const aspectRatioSignal = createSignal(opctions[`16/9`]);
+const opctions = [`16/9`, `1/1`, `9/16`];
+const aspectRatioSignal = createSignal(opctions[0]);
 
 const headerOptions = {
-  ...Object.entries(opctions).reduce(
-    (old, [key, value]) => ({ ...old, [key]: () => aspectRatioSignal.set(value) }),
-    {},
-  ),
+  ...opctions.reduce((old, key) => ({ ...old, [key]: () => aspectRatioSignal.set(key) }), {}),
   Restart: () => {
     testSceneSignal.set(``);
     setTimeout(testProjects);
@@ -27,6 +24,18 @@ testSceneSignal.subscribe(() => {
   if (element) {
     element.style.display = testSceneSignal.get() ? `` : `none`;
   }
+
+  const iframeElement = document.getElementById(`test-frame`);
+  if (iframeElement instanceof HTMLIFrameElement) {
+    iframeElement.srcdoc = testSceneSignal.get();
+  }
+});
+
+aspectRatioSignal.subscribe(() => {
+  const iframeElement = document.getElementById(`test-frame`);
+  if (iframeElement instanceof HTMLIFrameElement) {
+    iframeElement.style.aspectRatio = aspectRatioSignal.get();
+  }
 });
 
 export default function Test() {
@@ -39,20 +48,13 @@ export default function Test() {
       headerOptions={headerOptions}
     >
       <div className="flex justify-center bg-zinc-950">
-        <TestScreen />
+        <iframe
+          title="scene"
+          id="test-frame"
+          className="box-content border-x border-zinc-400"
+          style={{ aspectRatio: opctions[0] }}
+        />
       </div>
     </Window>
-  );
-}
-
-function TestScreen() {
-  const testScene = testSceneSignal.use();
-  const aspectRatio = aspectRatioSignal.use();
-  return (
-    <iframe
-      title="scene"
-      className={clsx(`box-content border-x border-zinc-400`, aspectRatio)}
-      srcDoc={testScene}
-    />
   );
 }

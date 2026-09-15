@@ -69,10 +69,7 @@ export function saveProject(oldDate?: number) {
 }
 
 export function saveProjectFile(oldDate?: number) {
-  const obj = { config, files, modifiedDate: oldDate ? oldDate : Date.now() };
-  console.log(`jjj`, obj); //, JSON.stringify(obj));
   downloadFile(`${config.gameName}.virginengine`, getProjectObject(oldDate));
-  console.log(`fff`);
 }
 
 function getProjectObject(oldDate?: number) {

@@ -52,8 +52,8 @@ type drawTextProps = {
   font?: string;
   rect?: XY;
   align?: XY;
-  textAlign?: string;
-  textBaseline?: string;
+  textAlign?: `left` | `center` | `right` | string;
+  textBaseline?: `bottom` | `middle` | `top` | string;
 };
 
 type drawProps = {
