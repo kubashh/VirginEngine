@@ -9,7 +9,7 @@ export default function AudioGrabber({ srcSignal, name }: ImageGrabberProps) {
       name={name}
       accept="audio/*"
       img={<img src={audioIconSrc} className="h-6" />}
-      // "Select Audio" // TO DO audio icon
+      // "Select Audio" // TODO change audio icon to audio element so user can play
       onFile={async (file) => {
         const bytes = await file.bytes();
         srcSignal.set(`data:audio/${file.type};base64,${bufferToBase64(bytes)}`);

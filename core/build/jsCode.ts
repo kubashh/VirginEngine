@@ -18,7 +18,7 @@ async function buildValidCore(options: BuildOptions) {
   return (
     core // replacePerformanceInfo(options)
       .split(`\n`)
-      // Remove fullscreen if not needed
+      // remove fullscreen if not needed
       .filter((line) => options.fullScreen || !line.startsWith(`!document.fullscreenElement ?`))
       .join(`\n`)
       .replace(`REPLACE_FILES`, arr.join(``))
@@ -28,7 +28,7 @@ async function buildValidCore(options: BuildOptions) {
   );
 }
 
-function filesToString(data: Any, name?: string, type?: string): (string | Promise<string>)[] {
+function filesToString(data: TObj<any>, name?: string, type?: string): (string | Promise<string>)[] {
   if (typeof data !== `object`)
     return [type === `node` && isCustomProp(name!) ? data : JSON.stringify(data)];
 

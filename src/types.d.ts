@@ -1,4 +1,4 @@
-// Declarations
+// declarations
 
 module "*.png" {
   const src: string;
@@ -10,7 +10,7 @@ module "*.md" {
   export default html;
 }
 
-// Basic
+// basic
 
 type TObj<T> = Record<string, T>;
 

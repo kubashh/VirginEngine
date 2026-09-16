@@ -2,7 +2,7 @@
 
 const virginEngineVersion = JSON.stringify((await Bun.file(`./package.json`).json()).version);
 
-// Build build
+// build build
 await build();
 await updateVirginEngineVersionHtml();
 
@@ -43,11 +43,11 @@ async function buildEngineCore() {
   return JSON.stringify(optymalize(text));
 }
 
-// Helpers
+// helpers
 
 function optymalize(js: string) {
   return js
-    .replaceAll(/\/\*[\s\S]*?\*\/|\/\/.*/g, ``) // Remove comments
+    .replaceAll(/\/\*[\s\S]*?\*\/|\/\/.*/g, ``) // remove comments
     .split(`\n`)
     .map((line) => line.trim())
     .filter((line) => line !== ``)
@@ -56,7 +56,7 @@ function optymalize(js: string) {
 
 function minifyHtml(text: string) {
   return text
-    .replaceAll(/\/\*[\s\S]*?\*\//g, ``) // Remove comments
+    .replaceAll(/\/\*[\s\S]*?\*\//g, ``) // remove comments
     .replaceAll(`\n`, ` `)
     .replaceAll(/\s{2,}/g, ` `)
     .replaceAll(/ > | >|> /g, `>`)

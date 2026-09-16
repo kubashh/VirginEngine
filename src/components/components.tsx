@@ -1,7 +1,6 @@
 import { clsx } from "../lib/framework";
 import { useConst } from "./../lib/hooks";
 
-// Button
 export function Button({ label, children, className, ...props }: ButtonProps) {
   return (
     <button className={clsx(className, `cursor-pointer`)} {...props}>
@@ -10,7 +9,6 @@ export function Button({ label, children, className, ...props }: ButtonProps) {
   );
 }
 
-// TextInput
 export function TextInput({ onChange, allow, ...props }: TextInputProps) {
   return (
     <input
@@ -35,7 +33,6 @@ export function TextInput({ onChange, allow, ...props }: TextInputProps) {
   );
 }
 
-// FileInput
 export function FileInput({
   children,
   onFile,

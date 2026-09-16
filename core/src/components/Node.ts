@@ -121,7 +121,6 @@ export default class Node implements TNode {
     return deepCopy(newObj) as NodeProps;
   }
 
-  // Position
   get position(): XY {
     return this.transform.p;
   }
@@ -135,7 +134,6 @@ export default class Node implements TNode {
     this.transform.p.y = y;
   }
 
-  // Rotation
   get rotation() {
     return this.transform.rz;
   }
@@ -150,7 +148,6 @@ export default class Node implements TNode {
     this.transform.rz = z;
   }
 
-  // Scale
   get scale(): XY {
     return this.transform.s;
   }

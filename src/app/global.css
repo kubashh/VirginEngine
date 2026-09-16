@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  /* Width, Height */
+  /* width, height */
   --w1: calc(100vw - var(--w2) - var(--w3));
   --w2: calc(15vw + 50px);
   --w3: calc(30vw + 80px);

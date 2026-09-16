@@ -3,7 +3,7 @@ import { events, eventsHover, files } from "./values/consts";
 import { onresize, randColor } from "./util/basicFunctions";
 import { run } from "./util/runUpdateRender";
 
-// EventListener
+// window events
 
 window.addEventListener(`mousedown`, () => (eventsHover.click = true));
 window.addEventListener(`mouseup`, () => delete eventsHover.click);
@@ -27,7 +27,7 @@ window.addEventListener(`contextmenu`, (e) => {
 window.addEventListener(`resize`, onresize);
 onresize();
 
-// Run
+// run
 
 console.log(`Engine: ${files || randColor}`);
 

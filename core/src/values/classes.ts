@@ -6,9 +6,9 @@ export class Scene implements TScene {
   // loaded = new Map<number, boolean>() // TODO key: id; if loaded.size === 0 run scene
   root: TNode;
 
-  camera = { x: 0, y: 0 }; // On change update root pos = update all pos + shaking + resize
+  camera = { x: 0, y: 0 }; // on change update root pos = update all pos + shaking + resize
 
-  // Time
+  // time
   msdiv = 1;
   private vtime = 1;
   lastTime = 0;
@@ -22,7 +22,7 @@ export class Scene implements TScene {
     onresize();
     this.close();
 
-    // Reset scene
+    // reset scene
     this.camera = { x: 0, y: 0 };
     this.time = 1;
 
@@ -35,7 +35,7 @@ export class Scene implements TScene {
 
     for (const node of nodes) node.start?.();
 
-    // Remove root node from nodes
+    // remove root node from nodes
     nodes.shift();
   }
 
@@ -47,7 +47,7 @@ export class Scene implements TScene {
     clearObject(events);
     clearObject(eventsHover);
 
-    // // Clear scene --- this breaks loading scenes!!!
+    // // clear scene --- this breaks loading scenes!!!
     // for (const key in this) {
     //   console.log(key);
     //   delete this[key];

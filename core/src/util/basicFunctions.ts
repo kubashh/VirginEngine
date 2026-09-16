@@ -1,16 +1,16 @@
 import { Camera, ctx, files, nodes } from "../values/consts";
 
-// Time
+// time
 export async function wait(time?: number) {
   await new Promise((r) => setTimeout(r, time));
 }
 
-// Is child
+// is child
 export function isChildKey(text: string) {
   return text[0].toUpperCase() === text[0];
 }
 
-// Deep copy
+// deep copy
 export function deepCopy<T>(data: T): T {
   if (Array.isArray(data)) {
     return data.reduce((prev, val) => [...prev, deepCopy(val)], []);
@@ -30,7 +30,7 @@ export function deepCopy<T>(data: T): T {
   return data;
 }
 
-// Draw on canvas
+// draw on canvas
 
 const textAlign = new Map<number, CanvasTextAlign>([
   [-1, `left`],
@@ -90,7 +90,7 @@ export function onresize() {
   Camera.xOffset = window.innerWidth * 0.5;
   Camera.yOffset = window.innerHeight * 0.5;
 
-  // Resize sprites staticDrawProps
+  // resize sprites staticDrawProps
   for (const node of nodes) node.sprite?.resize();
 }
 

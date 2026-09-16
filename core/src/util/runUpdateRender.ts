@@ -12,7 +12,6 @@ const engineState = {
   renderFrameId: 0,
 };
 
-// Run
 export async function run() {
   await loadAssets();
   scene.load(REPLACE_PATH_TO_MAIN_SCENE);
@@ -34,7 +33,7 @@ export async function run() {
       delta--;
     }
 
-    // Log Staff
+    // log staff
     if (now - timer > 1000) {
       timer += 1000;
       if (performanceInfo) {
@@ -82,7 +81,6 @@ function assetsToLoad(obj: TObj<any>) {
   return toLoad;
 }
 
-// Update
 function update() {
   if (performanceInfo) {
     updateTimer.measure({ Physics: updatePhysics, Nodes: updateNodes });
@@ -91,7 +89,7 @@ function update() {
     updateNodes();
   }
 
-  // Clear events, not eventsHover
+  // clear events, not eventsHover
   clearObject(events);
 }
 
@@ -103,7 +101,6 @@ function updateNodes() {
   for (const node of nodes) node.update?.();
 }
 
-// Render
 function render() {
   if (!engineState.running) return;
 
@@ -117,7 +114,7 @@ function render() {
     renderText();
   }
 
-  // Recall render
+  // recall render
   Log.framesTemp++;
   engineState.renderFrameId = requestAnimationFrame(render);
 }

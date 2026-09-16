@@ -6,7 +6,7 @@ import { capitalize, getType, isCustomProp, isOccupied } from "../../lib/util";
 import { useConst, useRefresh } from "../../lib/hooks";
 import { AddComponent } from "./componentsLib";
 
-// Types
+// types
 const scriptTypes: TscriptTypes = {
   boolean: [false, TypeInput],
   number: [0, TypeInput],
@@ -81,7 +81,7 @@ export default function Script({ object, refresh }: ScriptProps) {
   );
 }
 
-// Add script component
+// add script component
 function AddScript({ object, value, refresh }: AddScriptProps) {
   return (
     <AddComponent

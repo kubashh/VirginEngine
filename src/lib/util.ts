@@ -28,7 +28,7 @@ export function isValidName(name: string) {
 
 export function camelToTitleCase(text: string) {
   return capitalize(
-    text.replace(/([a-z])([A-Z])/g, `$1 $2`), // "someUglyText" → "some Ugly Text"
+    text.replace(/([a-z])([A-Z])/g, `$1 $2`), // "someUglyText" => "Some Ugly Text"
   );
 }
 
@@ -63,7 +63,7 @@ export function isOccupied(obj: TFile, name: string) {
   return false;
 }
 
-// SaveFile
+// save file
 export function saveProject(oldDate?: number) {
   localforage.setItem(config.gameName, getProjectObject(oldDate));
 }
@@ -76,7 +76,7 @@ function getProjectObject(oldDate?: number) {
   return JSON.stringify({ config, files, modifiedDate: oldDate ? oldDate : Date.now() } satisfies TProject);
 }
 
-// LoadFile
+// load file
 export function loadProjectFromDisk() {
   const element = document.createElement(`input`);
   element.type = `file`;
@@ -108,7 +108,7 @@ export function loadProject(data: TProject) {
   document.title = `${data.config.gameName} - VirginEngine`;
 }
 
-// Type
+// type
 export function getType(data: any): VTypes {
   if (typeof data !== `string`) return typeof data as VTypes;
 
@@ -119,17 +119,15 @@ export function getType(data: any): VTypes {
   return `string`;
 }
 
-// Get file by path
+// get file by path
 export function fileFromPath(path: string) {
-  // if(path.startsWith(`files.`)) path =
   return path
     .split(`.`)
     .slice(1)
     .reduce((prev, key) => prev[key], files);
 }
 
-// Image
-
+// image
 // export function resizeSrcImage(src: string, w: number, h: number) {
 //   return new Promise((resolve) => {
 //     const canvas = document.createElement(`canvas`)
@@ -174,14 +172,7 @@ export function fileFromPath(path: string) {
 //   })
 // }
 
-// Wait
-export function wait(ms: number) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
-}
-
-// Build/Test Project
+// build/test project
 export async function buildProject() {
   downloadFile(`${config.gameName}.html`, await buildSafely(true));
 }
@@ -211,7 +202,7 @@ async function buildSafely(production: boolean) {
   return html;
 }
 
-// Zig-like switch
+// zig-like switch
 export function zswitch<T>(value: number | string, rest: TObj<() => T>) {
   return (rest[value] || rest.else)();
 }

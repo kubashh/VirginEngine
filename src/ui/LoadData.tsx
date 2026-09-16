@@ -122,8 +122,8 @@ function Project({ name, modifiedDateSignal }: TLDProject) {
             label: `Delete project "${name}"?`,
             options: {
               Yes: () => {
-                localforage.removeItem(name); // It will never fails so don't need await
-                projectsSignal.set((prev) => prev.filter((p) => p.name !== name)); // Optymisticly update projects list
+                localforage.removeItem(name); // it will never fails so don't need await
+                projectsSignal.set((prev) => prev.filter((p) => p.name !== name)); // optymisticly update projects list
               },
             },
           });

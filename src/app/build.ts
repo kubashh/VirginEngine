@@ -15,13 +15,13 @@ const buildConfig: Bun.BuildConfig = {
 await build();
 
 async function build() {
-  // Cleaning
+  // cleaning
   fs.rmSync(`dist`, {
     recursive: true,
     force: true,
   });
 
-  // Build all the HTML files
+  // build all the HTML files
   const { outputs } = await Bun.build(buildConfig);
 
   const htmlFile = outputs.find((f) => f.path.endsWith(`.html`))!;
@@ -81,5 +81,5 @@ function minifyHtml(text: string) {
 // it may brake scripts
 // TODO make it works only in <tag art1 crossorigin />
 function removeCrossorgin(text: string) {
-  return text.replaceAll(/\scrossorigin|crossorigin/g, ``);
+  return text.replaceAll(/\s+crossorigin/g, ``);
 }

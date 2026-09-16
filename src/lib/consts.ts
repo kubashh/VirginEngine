@@ -56,7 +56,6 @@ const filesTemplate: TFile = {
 
     MenuScene: { type: `scene`, name: `MenuScene` },
 
-    // Main Scene
     MainScene: {
       name: `MainScene`,
       type: `scene`,
@@ -82,7 +81,6 @@ const filesTemplate: TFile = {
     },
   },
 
-  // Assets
   Assets: {
     type: `folder`,
     Images: {
@@ -106,7 +104,7 @@ export const editor = {
 };
 
 export const hierarchySignal = createSignal<TFile>(filesTemplate.Scenes.MainScene, () => {
-  inspectorSignal.set(null); // Close inspector
+  inspectorSignal.set(null); // close inspector
 });
 export const refreshHierarchy = { refresh() {} };
 export const files = filesTemplate;
@@ -128,7 +126,7 @@ export const cursorPointerSignal = createSignal(false, () => {
   document.body.style.cursor = cursorPointerSignal.get() ? `pointer` : ``;
 });
 
-// Set global events
+// set global events
 window.addEventListener(`contextmenu`, (e) => {
   e.preventDefault();
 });

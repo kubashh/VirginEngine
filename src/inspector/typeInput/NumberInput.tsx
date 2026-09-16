@@ -11,12 +11,12 @@ export default function NumberInput({ sig }: { sig: Signal<number> }) {
       value={buf}
       allow={/^[0-9\-.]*$/}
       onChange={(value) => {
-        // Double dot check
+        // double dot check
         if (value.includes(`.`, value.indexOf(`.`) + 1)) {
           return;
         }
 
-        // TODO if value ends with `.` wait (do not pressed)
+        // TODO if value ends with `.` wait (don't sasve)
 
         const num = value.slice(1).includes(`-`)
           ? -Number(`${value.at(0)}${value.slice(1).replaceAll(`-`, ``)}`)

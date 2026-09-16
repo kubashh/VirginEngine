@@ -3,7 +3,7 @@ import { buildJs } from "./jsCode";
 export const virginEngineVersion = REPLACE_VIRGINE_ENGINE_VERSION;
 const htmlTemplate = REPLACE_HTML_TEMPLATE;
 
-// Build project
+// build project
 export async function build(options: BuildOptions): Promise<BuildOutput> {
   const validOptions: Required<BuildOptions> = {
     ...options,

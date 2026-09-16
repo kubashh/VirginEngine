@@ -51,7 +51,7 @@ function handleMouseUp() {
 }
 
 export type TDragData = {
-  name: string; // label
+  name: string;
   from: `hierarchy` | `files`;
   file: TFile;
   parent: TFile;

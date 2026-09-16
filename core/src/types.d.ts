@@ -1,4 +1,4 @@
-// Types
+// types
 
 type TObj<T> = Record<string, T>;
 
@@ -12,7 +12,16 @@ type WH = {
   h: number;
 };
 
-// Props
+// declarations
+
+declare const REPLACE_FILES: TObj<any>;
+declare const REPLACE_PATH_TO_MAIN_SCENE: any;
+declare const REPLACE_HTML_TEMPLATE: string;
+declare const REPLACE_CORE: string;
+declare const REPLACE_VIRGINE_ENGINE_VERSION: string;
+declare const REPLACE_PERFORMANCE_INFO: boolean;
+
+// props
 
 type NodeProps = {
   rect?: XY;
@@ -68,7 +77,7 @@ type drawProps = {
 
 type SceneProps = { name: string } & TObj<any>;
 
-// Compponents
+// compponents
 
 type TNode = {
   name: string;
@@ -170,12 +179,3 @@ type TScene = {
 
   [key: string]: any;
 };
-
-// Global declarations
-
-declare const REPLACE_FILES: TObj<any>;
-declare const REPLACE_PATH_TO_MAIN_SCENE: any;
-declare const REPLACE_HTML_TEMPLATE: string;
-declare const REPLACE_CORE: string;
-declare const REPLACE_VIRGINE_ENGINE_VERSION: string;
-declare const REPLACE_PERFORMANCE_INFO: boolean;
