@@ -1,4 +1,4 @@
 /node_modules
-/dist
 /bun.lock
+/dist
 /src/lib/core.js
