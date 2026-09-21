@@ -15,7 +15,6 @@ type WH = {
 // declarations
 
 declare const REPLACE_FILES: TObj<any>;
-declare const REPLACE_PATH_TO_MAIN_SCENE: any;
 declare const REPLACE_HTML_TEMPLATE: string;
 declare const REPLACE_CORE: string;
 declare const REPLACE_VIRGIN_ENGINE_VERSION: string;
@@ -75,7 +74,7 @@ type drawProps = {
   font?: string;
 } & TObj<any>;
 
-type SceneProps = { name: string } & TObj<any>;
+type SceneProps = { name: string; [key: string]: any };
 
 // compponents
 
@@ -99,8 +98,6 @@ type TNode = {
   animation?: TAnimation;
   audio?: TAudio;
 
-  constructor: any;
-
   childs: TNode[];
   props: NodeProps;
   clone: () => void;
@@ -116,8 +113,6 @@ type TText = {
   textBaseline?: string;
   textAlign?: string;
 
-  constructor: any;
-
   render: () => void;
 
   props: {
@@ -128,8 +123,6 @@ type TText = {
 type TSprite = {
   path: string;
   img: HTMLImageElement;
-
-  constructor: any;
 
   reload: () => void;
   resize: () => void;
@@ -144,22 +137,15 @@ type TPhysics = {
   target: XY;
   gravity: boolean;
 
-  constructor: any;
-
   update: () => void;
   addForce: (force: XY) => void;
 };
 
-type TCollider = {
-  constructor: any;
-};
+type TCollider = {};
 
-type TAnimation = {
-  constructor: any;
-};
+type TAnimation = {};
 
 type TAudio = {
-  constructor: any;
   play: () => void;
   stop: () => void;
 };
@@ -169,13 +155,7 @@ type TScene = {
 
   camera: XY;
 
-  msdiv: number;
-  lastTime: number;
-
-  constructor: any;
-
-  load(newScene: SceneProps): void;
-  time: number;
+  close(): void;
 
   [key: string]: any;
 };

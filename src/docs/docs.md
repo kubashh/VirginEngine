@@ -1,16 +1,20 @@
 # VirginEngine Docs
 
-## Engine
+## General rules
 
-### Components
+- Scenes can be saved only in Scenes folder. Scenes folder containts only scenes (also no folders)
 
-- `Node` (GameObject, 90% done)
-- `Animation` (1% done)
-- `AudioElement` (Audio; 80% done)
-- `Collider` (1% done)
-- `Physics` (20% done)
-- `Sprite` (70% done)
-- `Text` (50% done)
+## Engine Api
+
+```ts
+type VirginEngine = {
+  timeScale: number; // get/set change game time
+  quit: () => never; // quit game
+  loadScene: (name: string) => void; // load scene by name
+};
+```
+
+## Components
 
 ```ts
 type TNode = {
@@ -81,33 +85,12 @@ type TAudio = {
   play: () => void;
   pause: () => void;
 };
-
-type TScene = {
-  camera: XY;
-
-  load: (newScene: { name: string; [key: string]: any }) => void;
-  close: () => void;
-
-  [key: string]: any;
-};
 ```
 
-### Objects
+## Util
 
 ```ts
-type scene = {
-  camera: XY;
-
-  load(newScene: SceneProps): void;
-
-  [key: string]: any;
-};
-```
-
-### Util
-
-```ts
-function wait(time?: number | undefined): Promise<void>;
+function wait(ms?: number | undefined): Promise<void>;
 function deepCopy<T>(data: T): T;
 function file(path: string): any;
 function randInt(min: number, max?: number | undefined): number;
@@ -116,18 +99,16 @@ function randStr(n?: number): string;
 function randColor(): string;
 ```
 
-## Editor
-
-### Config
+## Editor Config
 
 ```ts
 type config = {
-  gameName: string;
-  version: string;
-  author: string;
-  description: string;
-  fullScreen: boolean;
-  pathToMainScene: string;
-  performanceInfo: TEnum;
+  gameName: string; // name of game
+  version: string; // version of game
+  author: string; // author/company of project
+  description: string; // short game description
+  fullScreen: boolean; // start with full screen
+  startingSceneName: string; // specify where is main scene
+  performanceInfo: TEnum<`yes` | `dev` | `no`>; // see performance info. yes - game and dev, dev - dev only, no - nowhere
 };
 ```

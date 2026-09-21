@@ -53,6 +53,10 @@
 - set title in comptime
 - core: make engine static class instead of functions collection
 - remove all export default, more clarity
+- add docs basic styles
+- core: extract classes to classes directory
+- core: move static methods to VirginEngine static class (like loadScene)
+- core: loadScene via name (not reference)
 
 ## 0.22.2 (15 Sep 2026)
 

@@ -1,5 +1,3 @@
-import { Scene } from "./classes";
-
 // canvas
 // @ts-ignore
 export const ctx: CanvasRenderingContext2D = document.getElementById(`REPLACE_CANVAS_ID`).getContext(`2d`);
@@ -25,8 +23,6 @@ export const Camera = {
   xOffset: 0,
   yOffset: 0,
 };
-
-export const scene: TScene = new Scene({ name: `` });
 
 // types
 type TLog = { updates: number; frames: number; framesTemp: number };

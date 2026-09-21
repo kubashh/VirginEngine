@@ -1,6 +1,7 @@
-import { Timer } from "../values/classes";
-import { ctx, events, nodes, Log, scene, files, performanceInfo } from "../values/consts";
+import { Timer } from "./Timer";
+import { ctx, events, nodes, Log, files, performanceInfo } from "../values/consts";
 import { clearObject, drawText, wait } from "../util/basicFunctions";
+import { Scene } from "./Scene";
 
 // @ts-ignore
 const renderTimer: Timer = performanceInfo && new Timer(`Sprite`, `Text`);
@@ -8,13 +9,15 @@ const renderTimer: Timer = performanceInfo && new Timer(`Sprite`, `Text`);
 const updateTimer: Timer = performanceInfo && new Timer(`Physics`, `Nodes`);
 
 export class VirginEngine {
-  static running = false;
-  static renderFrameId = 0;
+  private static running = false;
+  private static renderFrameId = 0;
+
+  static scene: TScene;
 
   static async run() {
     VirginEngine.running = true;
-    await VirginEngine.loadAssets();
-    scene.load(REPLACE_PATH_TO_MAIN_SCENE);
+    await VirginEngine.loadAssets(); // need load assets before scene
+    await VirginEngine.loadScene(`REPLACE_STARTING_SCENE_NAME`);
 
     requestAnimationFrame(VirginEngine.render);
 
@@ -23,10 +26,10 @@ export class VirginEngine {
     let delta = 0;
     while (VirginEngine.running) {
       const now = performance.now();
-      delta += (now - scene.lastTime) * scene.msdiv; // Minimal performance boost
+      delta += (now - Time.lastTime) * Time.msdiv; // Minimal performance boost
       if (delta > 60) delta = 60;
 
-      scene.lastTime = now;
+      Time.lastTime = now;
       while (delta >= 1) {
         VirginEngine.update();
         updates++;
@@ -167,5 +170,38 @@ export class VirginEngine {
   static quit() {
     VirginEngine.running = false;
     cancelAnimationFrame(VirginEngine.renderFrameId);
+    VirginEngine.scene.close();
+  }
+
+  // time
+  static get timeScale() {
+    return Time.timeScale;
+  }
+
+  static set timeScale(scale: number) {
+    Time.timeScale = scale;
+  }
+
+  // load scene
+  static async loadScene(name: string) {
+    VirginEngine.scene?.close();
+    VirginEngine.scene = new Scene(name);
+  }
+}
+
+class Time {
+  private static vtimeScale = 1;
+  static msdiv = 1;
+  static lastTime = 0;
+
+  static get timeScale() {
+    return Time.vtimeScale;
+  }
+
+  static set timeScale(timeScale: number) {
+    this.vtimeScale = timeScale;
+    const ms = 1000 / (60 * this.vtimeScale);
+    this.msdiv = 1 / ms;
+    Time.lastTime = performance.now();
   }
 }

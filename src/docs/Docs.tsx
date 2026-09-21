@@ -11,7 +11,7 @@ export function Docs() {
       headerOptions={{ Exit: hideDocs }}
     >
       <div className="flex justify-center bg-zinc-950 scrollbar-y select-text">
-        <div className="px-2 py-2" dangerouslySetInnerHTML={{ __html: docs }}></div>
+        <div className="px-2 py-2 docs-content" dangerouslySetInnerHTML={{ __html: docs }}></div>
       </div>
     </Window>
   );

@@ -14,18 +14,6 @@ Simple JS game engine for 2D web games
 - `Sprite` (70% done)
 - `Text` (50% done)
 
-### Objects
-
-```ts
-type scene = {
-  camera: XY;
-
-  load(newScene: SceneProps): void;
-
-  [key: string]: any;
-};
-```
-
 ### Util
 
 ```ts
@@ -46,6 +34,12 @@ function randColor(): string;
 
 - /core - engine core, contains build function
 - /src - editor
+
+## Scripting stardants
+
+- no `export default`
+- classes | ReactComponents - PascalCase
+- variables | functions | objects - camelCase
 
 ## Scripting concepts (0.23.0)
 

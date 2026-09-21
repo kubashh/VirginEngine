@@ -54,7 +54,7 @@ export type BuildOptions = {
   description: string;
   gameName: string;
   performanceInfo: boolean;
-  pathToMainScene: string;
+  startingSceneName: string;
   fullScreen: boolean;
 
   production?: boolean;

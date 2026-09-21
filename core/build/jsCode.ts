@@ -16,13 +16,13 @@ async function buildValidCore(options: BuildOptions) {
   for (const i in arr) arr[i] = await arr[i];
 
   return (
-    core // replacePerformanceInfo(options)
+    core
       .split(`\n`)
       // remove fullscreen if not needed
       .filter((line) => options.fullScreen || !line.startsWith(`!document.fullscreenElement ?`))
       .join(`\n`)
       .replace(`REPLACE_FILES`, arr.join(``))
-      .replace(`REPLACE_PATH_TO_MAIN_SCENE`, options.pathToMainScene)
+      .replace(`REPLACE_STARTING_SCENE_NAME`, options.startingSceneName)
       .replace(`REPLACE_CANVAS_ID`, options.hydrate || `canvas`)
       .replace(`REPLACE_PERFORMANCE_INFO`, String(options.performanceInfo))
   );

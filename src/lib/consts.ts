@@ -26,9 +26,8 @@ export const config: TConfig = {
   author: `YourNick`,
   description: `Description`,
   fullScreen: true,
-  pathToMainScene: `files.Scenes.MainScene`,
+  startingSceneName: `MainScene`,
   performanceInfo: Enum<`yes` | `dev` | `no`>(`dev`, `yes`, `dev`, `no`),
-  editorVersion: virginEngineVersion,
 };
 
 export const defaultAssets = {
@@ -95,6 +94,15 @@ const filesTemplate: TFile = {
   },
 };
 
+export const files = filesTemplate;
+
+export const project: TProject = {
+  files,
+  config,
+  editorVersion: virginEngineVersion,
+  modifiedDate: Date.now(),
+};
+
 export const editor = {
   selectedElement: {
     type: ``,
@@ -107,7 +115,6 @@ export const hierarchySignal = createSignal<TFile>(filesTemplate.Scenes.MainScen
   inspectorSignal.set(null); // close inspector
 });
 export const refreshHierarchy = { refresh() {} };
-export const files = filesTemplate;
 export const refreshFiles = { refresh() {} };
 export const inspectorSignal = createSignal<React.ReactNode>(null);
 export const nameInputSignal = createSignal<TNameInput | null>(null);
@@ -138,20 +145,28 @@ window.addEventListener(`keydown`, (e) => {
   }
 });
 
-export type TConfig = {
+// types
+
+type TConfig = {
   gameName: string;
   version: string;
   author: string;
   description: string;
   fullScreen: boolean;
-  pathToMainScene: string;
+  startingSceneName: string;
   performanceInfo: TEnum<string>;
-  editorVersion: string;
 };
 
 export type TFile = {
   type: `none` | `folder` | `node` | `scene` | `img` | `audio`;
 } & TObj<any | TNode>;
+
+export type TProject = {
+  files: TFile;
+  config: TConfig;
+  editorVersion: string;
+  modifiedDate: number;
+};
 
 export type TTransform = {
   position: { x: number; y: number };

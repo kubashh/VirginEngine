@@ -30,9 +30,9 @@ export function createNode(
   name: string,
 ) {
   const node = new Node(name);
-  node.id = nodeCounter++;
   node.parent = parent;
   if (parent) node.parent[node.name] = node;
+  nodes.push(node);
 
   node.transform.p = new GSXY(transform?.position);
   if (transform?.rotation) node.rotation = transform.rotation;
@@ -59,7 +59,8 @@ export function createNode(
   if (update) node.update = update;
   if (render) node.render = render;
 
-  nodes.push(node);
+  node.id = nodeCounter++;
+
   return node;
 }
 

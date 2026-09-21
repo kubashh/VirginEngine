@@ -1,8 +1,8 @@
 import { Camera, ctx, files, nodes } from "../values/consts";
 
 // time
-export async function wait(time?: number) {
-  await new Promise((r) => setTimeout(r, time));
+export async function wait(ms?: number) {
+  await new Promise((r) => setTimeout(r, ms));
 }
 
 // is child

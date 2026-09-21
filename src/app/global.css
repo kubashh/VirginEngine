@@ -28,3 +28,27 @@
     scrollbar-width: thin;
   }
 }
+
+.docs-content h1 {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.docs-content h2 {
+  font-size: 1.25rem;
+  margin-block: 1.5rem 1rem;
+  font-weight: bold;
+}
+
+.docs-content pre {
+  padding: 0.5rem 1rem;
+  background-color: var(--color-zinc-900);
+}
+
+.docs-content ul {
+  list-style-type: circle;
+}
+
+.docs-content li {
+  margin-left: 2rem;
+}

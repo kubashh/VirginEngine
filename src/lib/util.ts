@@ -7,8 +7,9 @@ import {
   keywords,
   setUpSignal,
   testSceneSignal,
-  type TConfig,
   type TFile,
+  type TProject,
+  project,
 } from "./consts";
 
 export function deepCopy<T>(obj: T): T {
@@ -50,10 +51,9 @@ export function decapitalize(str: string) {
 export function openMainScene() {
   setUpSignal.set(true);
 
-  const scene = config.pathToMainScene
-    .split(`.`)
-    .slice(1)
-    .reduce((prev, key) => prev[key], files);
+  const scene =
+    files.Scenes[config.startingSceneName] ||
+    Object.values(files.Scenes).find((s) => typeof s !== `string`);
 
   hierarchySignal.set(scene);
 }
@@ -73,7 +73,7 @@ export function saveProjectFile(oldDate?: number) {
 }
 
 function getProjectObject(oldDate?: number) {
-  return JSON.stringify({ config, files, modifiedDate: oldDate ? oldDate : Date.now() } satisfies TProject);
+  return JSON.stringify({ ...project, modifiedDate: oldDate ? oldDate : Date.now() } satisfies TProject);
 }
 
 // load file
@@ -100,9 +100,10 @@ export function loadProjectFromDisk() {
 }
 
 export function loadProject(data: TProject) {
-  Object.assign(config, data.config); // don't remove old props, config have always same shape (TConfig)
   for (const key in files) delete files[key];
   for (const key in data.files) files[key] = data.files[key];
+  // @ts-ignore don't get legacy bad configuration, get only current config shape
+  for (const key in config) config[key] = data.config[key];
 
   openMainScene();
   document.title = `${data.config.gameName} - VirginEngine`;
@@ -190,7 +191,7 @@ async function buildSafely(production: boolean) {
     description: config.description,
     gameName: config.gameName,
     performanceInfo,
-    pathToMainScene: config.pathToMainScene,
+    startingSceneName: config.startingSceneName,
     fullScreen: config.fullScreen,
 
     files,
@@ -206,11 +207,3 @@ async function buildSafely(production: boolean) {
 export function zswitch<T>(value: number | string, rest: TObj<() => T>) {
   return (rest[value] || rest.else)();
 }
-
-// types
-
-export type TProject = {
-  files: TFile;
-  config: TConfig;
-  modifiedDate: number;
-};

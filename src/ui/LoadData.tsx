@@ -1,8 +1,8 @@
 import localforage from "localforage";
 import { Button, TextInput } from "../components/components";
 import { createSignal, type Signal } from "../lib/framework";
-import { config, nameInputSignal, popupMenuSignal, setUpSignal } from "../lib/consts";
-import { loadProject, loadProjectFromDisk, openMainScene, saveProject, type TProject } from "../lib/util";
+import { config, nameInputSignal, popupMenuSignal, setUpSignal, type TProject } from "../lib/consts";
+import { loadProject, loadProjectFromDisk, openMainScene, saveProject } from "../lib/util";
 
 const SECOND = 1000;
 const MINUTE = 60 * 1000;

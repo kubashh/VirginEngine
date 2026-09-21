@@ -1,7 +1,7 @@
 import { AudioElement } from "./components/AudioElement";
 import { events, eventsHover, files } from "./values/consts";
 import { onresize, randColor } from "./util/basicFunctions";
-import { VirginEngine } from "./values/VirginEngine";
+import { VirginEngine } from "./classes/VirginEngine";
 
 // window events
 
@@ -26,6 +26,8 @@ window.addEventListener(`contextmenu`, (e) => {
 
 window.addEventListener(`resize`, onresize);
 onresize();
+
+window.addEventListener(`close`, VirginEngine.quit);
 
 // run
 
