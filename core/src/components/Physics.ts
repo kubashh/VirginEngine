@@ -1,6 +1,6 @@
 import { lerp } from "../util/basicFunctions";
 
-export default class Physics implements TPhysics {
+export class Physics implements TPhysics {
   static gravitySpeed = 0.6;
 
   private node;

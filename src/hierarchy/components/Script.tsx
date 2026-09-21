@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
-import InspectorSection from "../../inspector/InspectorSection";
-import TypeInput from "../../inspector/TypeInput";
+import { InspectorSection } from "../../inspector/InspectorSection";
+import { TypeInput } from "../../inspector/TypeInput";
 import { nameInputSignal, type TFile } from "../../lib/consts";
 import { capitalize, getType, isCustomProp, isOccupied } from "../../lib/util";
 import { useConst, useRefresh } from "../../lib/hooks";
@@ -53,7 +53,7 @@ function InputDefault({ object, access }: StringInputProps) {
   );
 }
 
-export default function Script({ object, refresh }: ScriptProps) {
+export function Script({ object, refresh }: ScriptProps) {
   return (
     <>
       {Object.keys(object)

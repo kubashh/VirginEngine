@@ -1,7 +1,7 @@
-import InspectorSection from "../../inspector/InspectorSection";
+import { InspectorSection } from "../../inspector/InspectorSection";
 import { type TTransform } from "../../lib/consts";
 
-export default function Transform({ transform }: TransformProps) {
+export function Transform({ transform }: TransformProps) {
   return (
     <>
       <InspectorSection

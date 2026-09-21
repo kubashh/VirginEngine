@@ -1,4 +1,4 @@
-export default class Animation implements TAnimation {
+export class Animation implements TAnimation {
   private node;
 
   currentFrame = 0;

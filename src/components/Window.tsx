@@ -1,7 +1,7 @@
 import { Button } from "../components/components";
 import { clsx } from "../lib/framework";
 
-export default function Window({ name, id, headerOptions, className, style, children }: WindowProps) {
+export function Window({ name, id, headerOptions, className, style, children }: WindowProps) {
   return (
     <section id={id} className={clsx(`grid grid-rows-[24px_1fr]`, className)} style={style}>
       <Header name={name} options={headerOptions} />

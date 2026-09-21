@@ -1,4 +1,4 @@
-import Node from "../components/Node";
+import { createNode } from "../components/Node";
 import { events, eventsHover, nodes } from "./consts";
 import { clearObject, deepCopy, onresize } from "../util/basicFunctions";
 
@@ -14,7 +14,7 @@ export class Scene implements TScene {
   lastTime = 0;
 
   constructor({ name, ...scene }: SceneProps) {
-    this.root = new Node({ ...scene, parent: {} as TNode } as any, name);
+    this.root = createNode({ ...scene, parent: {} as TNode } as any, name);
     this.time = 1;
   }
 

@@ -1,7 +1,7 @@
 import { type Signal } from "../../lib/framework";
 
 // TODO
-export default function ArrayInput({ sig }: ArrayInputProps) {
+export function ArrayInput({ sig }: ArrayInputProps) {
   const value = sig.use();
   // wrapper of inputs array
   return (

@@ -1,6 +1,6 @@
 import { type Signal } from "../../lib/framework";
 
-export default function StringInput({ sig }: { sig: Signal<string> }) {
+export function StringInput({ sig }: { sig: Signal<string> }) {
   const value = sig.use();
   return (
     <input

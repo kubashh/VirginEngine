@@ -51,6 +51,8 @@
 ## 0.22.3-dev.0 (in development)
 
 - set title in comptime
+- core: make engine static class instead of functions collection
+- remove all export default, more clarity
 
 ## 0.22.2 (15 Sep 2026)
 

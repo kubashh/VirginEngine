@@ -1,6 +1,6 @@
 import { file } from "../util/basicFunctions";
 
-export default class AudioElement implements TAudio {
+export class AudioElement implements TAudio {
   static canPlay = false;
   private audio: HTMLAudioElement;
 

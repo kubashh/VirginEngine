@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { nameInputSignal } from "../lib/consts";
 import { capitalize, decapitalize, isValidName } from "../lib/util";
 
-export default function NameInput() {
+export function NameInput() {
   const ref = useRef<HTMLInputElement>(null);
   const props = useNameInput(ref);
 

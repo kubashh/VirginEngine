@@ -1,9 +1,9 @@
-import Sprite from "./Sprite";
-import Text from "./Text";
-import Collider from "./Collider";
-import Physics from "./Physics";
-import Animation from "./Animation";
-import AudioElement from "./AudioElement";
+import { Sprite } from "./Sprite";
+import { Text } from "./Text";
+import { Collider } from "./Collider";
+import { Physics } from "./Physics";
+import { Animation } from "./Animation";
+import { AudioElement } from "./AudioElement";
 import { nodes } from "../values/consts";
 import { deepCopy, isChildKey } from "../util/basicFunctions";
 
@@ -11,80 +11,85 @@ const keywords = [`parent`, `position`, `rotation`, `scale`];
 
 let nodeCounter = 0;
 
-export default class Node implements TNode {
-  name;
-  id;
-  parent;
+export function createNode(
+  {
+    parent,
+    transform,
+    rect,
+    text,
+    sprite,
+    collider,
+    physics,
+    animation,
+    audio,
+    start,
+    update,
+    render,
+    ...rest
+  }: NodeProps,
+  name: string,
+) {
+  const node = new Node(name);
+  node.id = nodeCounter++;
+  node.parent = parent;
+  if (parent) node.parent[node.name] = node;
 
-  private transform = {
+  node.transform.p = new GSXY(transform?.position);
+  if (transform?.rotation) node.rotation = transform.rotation;
+  node.transform.s = new GSXY(transform?.scale || { x: 1, y: 1 });
+
+  if (rect) node.rect = rect;
+  if (text) node.text = new Text(text, node);
+  if (sprite) node.sprite = new Sprite(sprite, node);
+  if (physics) node.physics = new Physics(physics, node);
+
+  if (collider) node.collider = new Collider(collider, node);
+  if (animation) node.animation = new Animation(animation, node);
+  if (audio) node.audio = new AudioElement(audio);
+
+  for (const key in rest) {
+    (node as TNode)[key] = isChildKey(key)
+      ? createNode({ ...rest[key], parent: node }, key)
+      : typeof rest[key] === `function`
+        ? rest[key].bind(node)
+        : rest[key];
+  }
+
+  if (start) node.start = start;
+  if (update) node.update = update;
+  if (render) node.render = render;
+
+  nodes.push(node);
+  return node;
+}
+
+class Node implements TNode {
+  name: string;
+  id!: number;
+  parent!: TNode;
+
+  transform = {
     p: {} as XY,
     rz: 0,
     s: {} as XY,
   };
 
-  rect;
+  rect?: XY;
 
   text?: TText;
   sprite?: TSprite;
   physics?: TPhysics;
 
-  collider;
+  collider?: TCollider;
   animation?: TAnimation;
-  audio;
+  audio?: TAudio;
 
-  start;
-  update;
-  render;
+  start?: () => void;
+  update?: () => void;
+  render?: () => void;
 
-  constructor(
-    {
-      parent,
-      transform,
-      rect,
-      text,
-      sprite,
-      collider,
-      physics,
-      animation,
-      audio,
-      start,
-      update,
-      render,
-      ...rest
-    }: NodeProps,
-    name: string,
-  ) {
-    nodes.push(this);
-
+  constructor(name: string) {
     this.name = name;
-    this.id = nodeCounter++;
-    this.parent = parent;
-    if (parent) this.parent[this.name] = this;
-
-    this.transform.p = new GSXY(transform?.position);
-    if (transform?.rotation) this.rotation = transform.rotation;
-    this.transform.s = new GSXY(transform?.scale || { x: 1, y: 1 });
-
-    if (rect) this.rect = rect;
-    if (text) this.text = new Text(text, this);
-    if (sprite) this.sprite = new Sprite(sprite, this);
-    if (physics) this.physics = new Physics(physics, this);
-
-    if (collider) this.collider = new Collider(collider, this);
-    if (animation) this.animation = new Animation(animation, this);
-    if (audio) this.audio = new AudioElement(audio);
-
-    for (const key in rest) {
-      (this as TNode)[key] = isChildKey(key)
-        ? new Node({ ...rest[key], parent: this }, key)
-        : typeof rest[key] === `function`
-          ? rest[key].bind(this)
-          : rest[key];
-    }
-
-    if (start) this.start = start;
-    if (update) this.update = update;
-    if (render) this.render = render;
   }
 
   get childs(): TNode[] {
@@ -166,7 +171,7 @@ export default class Node implements TNode {
   clone(parent = this.parent): TNode {
     const name = `${this.name}${this.id}`;
 
-    const newNode = new Node({ ...this.props, parent }, name);
+    const newNode = createNode({ ...this.props, parent }, name);
     newNode.start?.bind(newNode)();
 
     return newNode;

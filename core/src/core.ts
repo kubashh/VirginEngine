@@ -1,7 +1,7 @@
-import AudioElement from "./components/AudioElement";
+import { AudioElement } from "./components/AudioElement";
 import { events, eventsHover, files } from "./values/consts";
 import { onresize, randColor } from "./util/basicFunctions";
-import { run } from "./util/runUpdateRender";
+import { VirginEngine } from "./values/VirginEngine";
 
 // window events
 
@@ -31,4 +31,4 @@ onresize();
 
 console.log(`Engine: ${files || randColor}`);
 
-run();
+VirginEngine.run();

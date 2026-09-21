@@ -1,8 +1,8 @@
 import { type ImageGrabberProps } from "./ImageGrabber";
-import FileGrabber from "./FileGrabber";
+import { FileGrabber } from "./FileGrabber";
 import { audioIconSrc } from "../lib/assets/assets";
 
-export default function AudioGrabber({ srcSignal, name }: ImageGrabberProps) {
+export function AudioGrabber({ srcSignal, name }: ImageGrabberProps) {
   return (
     <FileGrabber
       label="Audio"

@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { Button } from "../components/components";
 import { contextMenuSignal } from "../lib/consts";
 
-export default function ContextMenu() {
+export function ContextMenu() {
   const ref = useRef<HTMLDivElement>(null);
   const contextMenu = contextMenuSignal.use();
   useEffect(() => {

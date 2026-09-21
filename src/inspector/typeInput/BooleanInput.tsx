@@ -1,6 +1,6 @@
 import { type Signal } from "../../lib/framework";
 
-export default function BooleanInput({ sig }: { sig: Signal<boolean> }) {
+export function BooleanInput({ sig }: { sig: Signal<boolean> }) {
   return (
     <input
       type="checkbox"

@@ -1,7 +1,7 @@
 import docs from "./docs.md";
-import Window from "../components/Window";
+import { Window } from "../components/Window";
 
-export default function Docs() {
+export function Docs() {
   return (
     <Window
       name="Docs"

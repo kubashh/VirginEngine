@@ -1,6 +1,6 @@
 import { drawText } from "../util/basicFunctions";
 
-export default class Text implements TText {
+export class Text implements TText {
   private node;
 
   value;

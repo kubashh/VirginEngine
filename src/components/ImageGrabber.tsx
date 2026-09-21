@@ -1,7 +1,7 @@
-import FileGrabber from "./FileGrabber";
+import { FileGrabber } from "./FileGrabber";
 import { type Signal } from "../lib/framework";
 
-export default function ImageGrabber({ srcSignal, name }: ImageGrabberProps) {
+export function ImageGrabber({ srcSignal, name }: ImageGrabberProps) {
   return (
     <FileGrabber
       label="Image"

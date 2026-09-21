@@ -1,5 +1,6 @@
 import fs from "fs";
 import plugin from "bun-plugin-tailwind";
+import { virginEngineVersion } from "../lib/core";
 
 const buildConfig: Bun.BuildConfig = {
   entrypoints: [`./src/app/index.html`],
@@ -12,20 +13,25 @@ const buildConfig: Bun.BuildConfig = {
   },
 };
 
-await build();
+// cleaning
+fs.rmSync(`dist`, {
+  recursive: true,
+  force: true,
+});
 
-async function build() {
-  // cleaning
-  fs.rmSync(`dist`, {
-    recursive: true,
-    force: true,
-  });
+build(
+  !process.argv.includes(`--compile`)
+    ? buildConfig
+    : { ...buildConfig, compile: true, naming: `VirginEngine-${virginEngineVersion}.html` },
+);
 
+async function build(config: Bun.BuildConfig) {
   // build all the HTML files
-  const { outputs } = await Bun.build(buildConfig);
+  const { outputs } = await Bun.build(config);
 
-  const htmlFile = outputs.find((f) => f.path.endsWith(`.html`))!;
-  let html = await htmlFile.text();
+  const htmlArtifact = outputs.find((f) => f.path.endsWith(`.html`))!;
+
+  let html = await htmlArtifact.text();
 
   // bun makes empty script tag and left comments, so it can be removed to reduce the size of the output file
   html = removeScriptsAndComments(html);
@@ -34,9 +40,9 @@ async function build() {
   html = removeCrossorgin(html);
 
   // bun minify css and js but not html, so we need to minify it manually
-  html = minifyHtml(html);
+  html = minifyHtmlSyntax(html);
 
-  await Bun.write(htmlFile.path, html);
+  await Bun.write(htmlArtifact.path, html);
 }
 
 function removeScriptsAndComments(text: string) {
@@ -47,7 +53,7 @@ function removeScriptsAndComments(text: string) {
 }
 
 // function minified html skipping <script> tag content
-function minifyHtml(text: string) {
+function minifyHtmlSyntax(text: string) {
   const scripts: string[] = [];
   const token = (i: number) => `__SCRIPT_BLOCK_${i}__`;
 

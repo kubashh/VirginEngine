@@ -22,7 +22,7 @@ async function build() {
     target: `bun`,
     define: {
       REPLACE_HTML_TEMPLATE: JSON.stringify(htmlTemplate),
-      REPLACE_VIRGINE_ENGINE_VERSION: virginEngineVersion,
+      REPLACE_VIRGIN_ENGINE_VERSION: virginEngineVersion,
       // REPLACE_CORE: core, // do not works, why?? it copyies only first line!
     },
   });

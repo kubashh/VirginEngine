@@ -25,7 +25,7 @@ setUpSignal.subscribe(() => {
 });
 getSetProjects();
 
-export default function LoadData() {
+export function LoadData() {
   return (
     <section
       id="load-data"

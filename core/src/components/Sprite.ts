@@ -1,7 +1,7 @@
 import { Camera, ctx } from "../values/consts";
 import { file } from "../util/basicFunctions";
 
-export default class Sprite implements TSprite {
+export class Sprite implements TSprite {
   private node;
   private staticDrawProps = { x: 0, y: 0 } as XY;
   img: HTMLImageElement;

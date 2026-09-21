@@ -1,6 +1,6 @@
 import { type Signal } from "../../lib/framework";
 
-export default function EnumInput<T>({ sig, type }: { sig: Signal<TEnum<T>>; type?: string }) {
+export function EnumInput<T>({ sig, type }: { sig: Signal<TEnum<T>>; type?: string }) {
   return (
     <select
       className="w-full border-b border-zinc-400 accent-green-600"

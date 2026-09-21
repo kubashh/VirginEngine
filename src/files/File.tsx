@@ -1,4 +1,4 @@
-import FileElement from "../components/FileElement";
+import { FileElement } from "../components/FileElement";
 import {
   hierarchySignal,
   defaultAssets,
@@ -11,7 +11,7 @@ import { isCapitalized, deepCopy } from "../lib/util";
 import { useArrow } from "../lib/hooks";
 import { audioIconSrc } from "../lib/assets/assets";
 
-export default function File({ parent, file, name, deep, path = `files` }: FileProps) {
+export function File({ parent, file, name, deep, path = `files` }: FileProps) {
   const isMain = deep === 0;
   if (!isMain) path += `.${name}`;
   const isFolder = file.type === `folder`;

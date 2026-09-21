@@ -1,4 +1,4 @@
-import Window from "../components/Window";
+import { Window } from "../components/Window";
 import { createSignal } from "../lib/framework";
 import { testSceneSignal } from "../lib/consts";
 import { testProjects } from "../lib/util";
@@ -38,7 +38,7 @@ aspectRatioSignal.subscribe(() => {
   }
 });
 
-export default function Test() {
+export function Test() {
   return (
     <Window
       name="Test"

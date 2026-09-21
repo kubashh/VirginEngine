@@ -1,11 +1,11 @@
-import AudioGrabber from "../components/AudioGrabber";
-import ImageGrabber from "../components/ImageGrabber";
-import TypeInput from "../inspector/TypeInput";
+import { AudioGrabber } from "../components/AudioGrabber";
+import { ImageGrabber } from "../components/ImageGrabber";
+import { TypeInput } from "../inspector/TypeInput";
 import { useCreateSignal } from "../lib/framework";
 import { type TFile } from "../lib/consts";
 import { fileFromPath, zswitch } from "../lib/util";
 
-export default function InspectorDisplay({ path, file, name }: InspectorDisplayProps) {
+export function InspectorDisplay({ path, file, name }: InspectorDisplayProps) {
   return (
     <div className="m-3">
       <h2 className="text-2xl font-bold">File</h2>

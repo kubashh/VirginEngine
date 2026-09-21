@@ -1,9 +1,9 @@
 import { contextMenuSignal, dragDataSignal, inspectorSignal, type TFile } from "../lib/consts";
 import { type ArrowSignal } from "../lib/hooks";
-import InspectorDisplay from "../files/InspectorDisplay";
+import { InspectorDisplay } from "../files/InspectorDisplay";
 import { setComponents } from "../hierarchy/components/componentsLib";
 
-export default function FileElement({
+export function FileElement({
   deep,
   isHierarchy,
   name,

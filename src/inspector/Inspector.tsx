@@ -1,5 +1,5 @@
-import Window from "../components/Window";
-import InspectorSection from "./InspectorSection";
+import { Window } from "../components/Window";
+import { InspectorSection } from "./InspectorSection";
 import { config, inspectorSignal, setUpSignal } from "../lib/consts";
 import { buildProject, saveProject, saveProjectFile, testProjects } from "../lib/util";
 import { showDocs } from "../docs/Docs";
@@ -27,7 +27,7 @@ function Config() {
   );
 }
 
-export default function Inspector() {
+export function Inspector() {
   return (
     <Window
       name="Inspenctor"

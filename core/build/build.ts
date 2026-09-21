@@ -1,6 +1,6 @@
 import { buildJs } from "./jsCode";
 
-export const virginEngineVersion = REPLACE_VIRGINE_ENGINE_VERSION;
+export const virginEngineVersion = REPLACE_VIRGIN_ENGINE_VERSION;
 const htmlTemplate = REPLACE_HTML_TEMPLATE;
 
 // build project

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Button } from "../components/components";
 import { popupMenuSignal } from "../lib/consts";
 
-export default function PopupMenu() {
+export function PopupMenu() {
   const popupMenu = popupMenuSignal.use();
 
   useEffect(() => {

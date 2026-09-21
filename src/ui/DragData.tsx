@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { cursorPointerSignal, dragDataSignal, type TFile } from "../lib/consts";
 
-export default function DragData() {
+export function DragData() {
   return (
     <div id="drag-data" className="font-bold bg-[#000a] cursor-pointer">
       <DragDataValue />

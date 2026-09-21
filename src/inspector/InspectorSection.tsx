@@ -1,7 +1,7 @@
 import { Button } from "../components/components";
-import TypeInput from "./TypeInput";
+import { TypeInput } from "./TypeInput";
 
-export default function InspectorSection({ text, onRemove, childs, children }: InspectorSectionProps) {
+export function InspectorSection({ text, onRemove, childs, children }: InspectorSectionProps) {
   return (
     <div className="mt-4 border-b-2 border-zinc-950 pb-2">
       <div className="flex">

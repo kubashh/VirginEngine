@@ -1,10 +1,10 @@
-import FileElement from "../components/FileElement";
+import { FileElement } from "../components/FileElement";
 import { defaultNode } from "../lib/assets/assets";
 import { dragDataSignal, keywords, nameInputSignal, refreshHierarchy, type TFile } from "../lib/consts";
 import { isCapitalized } from "../lib/util";
 import { useArrow } from "../lib/hooks";
 
-export default function Node({ parent, name, object, deep = 0 }: NodeProps) {
+export function Node({ parent, name, object, deep = 0 }: NodeProps) {
   const isMain = deep === 0;
   const childs = getChilds(object);
   const haveChilds = Object.keys(childs)?.length > 0;

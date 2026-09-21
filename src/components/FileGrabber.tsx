@@ -1,6 +1,6 @@
 import { FileInput } from "./components";
 
-export default function FileGrabber({ label, name, accept, img, onFile }: FileGrabberProps) {
+export function FileGrabber({ label, name, accept, img, onFile }: FileGrabberProps) {
   return (
     <FileInput id={name} accept={accept} onFile={onFile}>
       <div className="w-full h-6 flex">
