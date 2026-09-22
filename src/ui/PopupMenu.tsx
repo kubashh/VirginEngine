@@ -17,7 +17,7 @@ export function PopupMenu() {
   return popupMenu.label ? (
     <div className="w-screen h-screen flex justify-center bg-[#000b]">
       <div id="popup-menu" className="flex flex-col *:mx-auto mt-[30vh] mb-auto p-2">
-        <div className="mb-8 text-xl sm:text-4xl">{popupMenu.label}</div>
+        <div className="mb-8 text-xl sm:text-3xl">{popupMenu.label}</div>
         <PopupMenuOptions options={popupMenu.options} />
       </div>
     </div>
@@ -30,7 +30,7 @@ function PopupMenuOptions({ options }: { options?: TObj<() => void> }) {
         <Button
           label={label}
           key={label}
-          className="border-2 sm:border-2 border-zinc-400 px-3 sm:px-6 py-1 sm:py-2 text-lg sm:text-3xl rounded-2xl bg-[#000a] hover:text-zinc-400"
+          className="border-2 sm:border-2 border-zinc-400 px-3 sm:px-6 py-1 sm:py-2 text-lg sm:text-xl rounded-2xl bg-[#000a] hover:text-zinc-400"
           onClick={() => {
             cb();
             popupMenuSignal.set({ label: ``, options: {} });

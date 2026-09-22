@@ -1,7 +1,14 @@
 import localforage from "localforage";
 import { Button, TextInput } from "../components/components";
 import { createSignal, type Signal } from "../lib/framework";
-import { config, nameInputSignal, popupMenuSignal, setUpSignal, type TProject } from "../lib/consts";
+import {
+  config,
+  nameInputSignal,
+  notificationSignal,
+  popupMenuSignal,
+  setUpSignal,
+  type TProject,
+} from "../lib/consts";
 import { loadProject, loadProjectFromDisk, openMainScene, saveProject } from "../lib/util";
 
 const SECOND = 1000;
@@ -36,7 +43,7 @@ export function LoadData() {
       onDrop={onDrop}
     >
       <div className="mb-4 flex gap-x-3">
-        <div className="mr-auto text-3xl font-semibold">Projects</div>
+        <div className="mr-auto text-2xl font-semibold">Projects</div>
         <div className="flex *:first:mr-4">
           <LoadDataButton label="Add project from disk" onClick={loadProjectFromDisk} />
           <LoadDataButton
@@ -79,7 +86,7 @@ async function onDrop(e: React.DragEvent<HTMLElement>) {
     });
   } else {
     loadProject(project);
-    saveProject(project.modifiedDate);
+    saveProject();
   }
 }
 
@@ -91,7 +98,7 @@ function Projects() {
 function Project({ name, modifiedDateSignal }: TLDProject) {
   return (
     <div
-      className="mb-5 px-3 sm:px-6 py-2 sm:py-3 text-base lg:text-lg rounded-xl flex justify-between bg-black hover:bg-zinc-800 cursor-pointer"
+      className="mb-2 px-3 sm:px-6 py-2 sm:py-3 text-base lg:text-lg rounded-xl flex justify-between bg-black hover:bg-zinc-800 cursor-pointer"
       onClick={async () => {
         const data = await localforage.getItem<string>(name);
         if (data) loadProject(JSON.parse(data));
@@ -106,6 +113,7 @@ function Project({ name, modifiedDateSignal }: TLDProject) {
           await localforage.removeItem(name);
           await localforage.setItem(newName, data);
           projectsSignal.set((prev) => prev.map((p) => (p.name === name ? { ...p, name: newName } : p)));
+          setProjectsLS();
         }}
         onClick={(e) => e.stopPropagation()}
       />
@@ -119,11 +127,14 @@ function Project({ name, modifiedDateSignal }: TLDProject) {
           e.stopPropagation();
 
           popupMenuSignal.set({
-            label: `Delete project "${name}"?`,
+            label: `Delete ${name}?`,
             options: {
               Yes: () => {
-                localforage.removeItem(name); // it will never fails so don't need await
-                projectsSignal.set((prev) => prev.filter((p) => p.name !== name)); // optymisticly update projects list
+                localforage.removeItem(name).then(() => {
+                  notificationSignal.set(`Successfully deleted ${name}.`);
+                  projectsSignal.set((prev) => prev.filter((p) => p.name !== name));
+                  setProjectsLS();
+                });
               },
             },
           });
@@ -147,18 +158,37 @@ function LoadDataButton(props: { label: string; onClick: React.MouseEventHandler
   );
 }
 
-async function getSetProjects() {
-  const keys = await localforage.keys();
+function getSetProjects() {
+  const projects = getProjectsLS();
+  localforage.keys().then((keys) => {
+    const pKeys = projects.map((p) => p.name);
+    const arr = [];
+    for (const key of keys) {
+      if (!pKeys.includes(key)) arr.push(key);
+    }
+    const newProjects = arr.map((key) => ({
+      name: key,
+      modifiedDate: 0,
+      modifiedDateSignal: createSignal(``),
+      timeoutId: null,
+    }));
+    if (arr.length > 0) {
+      newProjects.forEach(async (project) => {
+        const projectBuf = await localforage.getItem<string>(project.name);
+        if (!projectBuf) throw new Error(`No such project "${project.name}"`);
+        project.modifiedDate = JSON.parse(projectBuf).modifiedDate;
+        sortByData();
+        timeout(project, 0);
+      });
+      setProjectsLS();
+      projectsSignal.set([...projects, ...newProjects]);
+    }
+  });
 
-  // @ts-ignore
-  const projects: TLDProject[] = keys.map((key) => ({
-    name: key,
-    modifiedDate: 0,
-    modifiedDateSignal: createSignal(``),
-    timeoutId: 0,
-  }));
+  for (const project of projects) timeout(project, 0);
 
   projectsSignal.set(projects);
+  sortByData();
 
   function timeout(project: TLDProject, ms: number) {
     project.timeoutId = setTimeout(() => {
@@ -169,14 +199,22 @@ async function getSetProjects() {
       project.modifiedDateSignal.set(timeAgo(project.modifiedDate));
     }, ms);
   }
+}
 
-  projects.forEach(async (project) => {
-    const projectBuf = await localforage.getItem<string>(project.name);
-    if (!projectBuf) throw new Error(`No such project "${project.name}"`);
-    project.modifiedDate = JSON.parse(projectBuf).modifiedDate;
-    sortByData();
-    timeout(project, 0);
-  });
+function getProjectsLS(): TLDProject[] {
+  return JSON.parse(localStorage.getItem(`projects`) || `[]`).map((p: PureProject) => ({
+    ...p,
+    modifiedDateSignal: createSignal(``),
+    timeoutId: null,
+  }));
+}
+
+function setProjectsLS() {
+  const projects: PureProject[] = projectsSignal
+    .get()
+    .map((p) => ({ name: p.name, modifiedDate: p.modifiedDate }))
+    .filter((p) => p.modifiedDate !== 0);
+  localStorage.setItem(`projects`, JSON.stringify(projects));
 }
 
 function timeAgo(timestamp: number) {
@@ -199,9 +237,28 @@ function sortByData() {
   projectsSignal.set((projects) => projects.toSorted((a, b) => b.modifiedDate - a.modifiedDate)); // create new array to trigger update
 }
 
+function updateModifiedDate() {
+  const project = projectsSignal.get().find((p) => p.name === config.gameName);
+  if (!project || project.name === ``) throw new Error(`Project have different name!`);
+  project.modifiedDate = Date.now();
+  setProjectsLS();
+}
+
+window.addEventListener(`keydown`, (e) => {
+  if (e.ctrlKey && e.key === `s` && config.gameName !== ``) {
+    e.preventDefault();
+    updateModifiedDate();
+  }
+});
+
+type PureProject = {
+  name: string;
+  modifiedDate: number;
+};
+
 type TLDProject = {
   name: string;
   modifiedDate: number;
   modifiedDateSignal: Signal<string>;
-  timeoutId: NodeJS.Timeout;
+  timeoutId: NodeJS.Timeout | null;
 };

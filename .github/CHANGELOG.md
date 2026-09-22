@@ -57,6 +57,8 @@
 - core: extract classes to classes directory
 - core: move static methods to VirginEngine static class (like loadScene)
 - core: loadScene via name (not reference)
+- LoadData: projects info set in localStorage; projects in localforage
+- add Notifications
 
 ## 0.22.2 (15 Sep 2026)
 

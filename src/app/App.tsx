@@ -9,6 +9,7 @@ import { NameInput } from "../ui/NameInput";
 import { DragData } from "../ui/DragData";
 import { Test } from "../ui/Test";
 import { Docs } from "../docs/Docs";
+import { Notifications } from "../ui/Notifications";
 
 export function App() {
   return (
@@ -21,6 +22,7 @@ export function App() {
         <DragData />
         <Test />
         <Docs />
+        <Notifications />
       </header>
 
       <main className="w-screen h-screen grid grid-cols-[30fr_30fr_40fr] grid-rows-[55fr_45fr]">

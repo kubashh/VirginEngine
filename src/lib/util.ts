@@ -103,7 +103,7 @@ export function loadProject(data: TProject) {
   for (const key in files) delete files[key];
   for (const key in data.files) files[key] = data.files[key];
   // @ts-ignore don't get legacy bad configuration, get only current config shape
-  for (const key in config) config[key] = data.config[key];
+  for (const key in config) if (data.config[key]) config[key] = data.config[key];
 
   openMainScene();
   document.title = `${data.config.gameName} - VirginEngine`;

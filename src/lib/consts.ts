@@ -129,6 +129,7 @@ export const popupMenuSignal = createSignal<TPopupMenu>({ label: `` });
 export const setUpSignal = createSignal(false, () => {
   if (!setUpSignal.get()) document.title = `VirgineEngine v${virginEngineVersion}`;
 });
+export const notificationSignal = createSignal<string>(``);
 export const cursorPointerSignal = createSignal(false, () => {
   document.body.style.cursor = cursorPointerSignal.get() ? `pointer` : ``;
 });
@@ -141,7 +142,7 @@ window.addEventListener(`contextmenu`, (e) => {
 window.addEventListener(`keydown`, (e) => {
   if (e.ctrlKey && e.key === `s`) {
     e.preventDefault();
-    saveProject();
+    if (config.gameName !== ``) saveProject();
   }
 });
 
