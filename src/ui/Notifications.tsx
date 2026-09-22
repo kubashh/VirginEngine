@@ -1,4 +1,3 @@
-import { notificationSignal } from "../lib/consts";
 import { createSignal } from "../lib/framework";
 
 const NOTIFICATION_TIMELIFE_MS = 6000;
@@ -8,11 +7,11 @@ const notificationsSignal = createSignal<Notification[]>([], () => {
   if (element) element.style.display = notificationsSignal.get().length > 0 ? `` : `none`;
 });
 
-notificationSignal.subscribe(() => {
+export function addNotification(label: string) {
   notificationsSignal.set((prev) => [
     ...prev,
     {
-      label: notificationSignal.get(),
+      label,
       creationDate: performance.now(),
     },
   ]);
@@ -22,7 +21,7 @@ notificationSignal.subscribe(() => {
       prev.filter((n) => n.creationDate + NOTIFICATION_TIMELIFE_MS > performance.now()),
     );
   }, NOTIFICATION_TIMELIFE_MS);
-});
+}
 
 export function Notifications() {
   return (

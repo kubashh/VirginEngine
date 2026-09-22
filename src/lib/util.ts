@@ -1,11 +1,11 @@
 import localforage from "localforage";
 import { build } from "./core";
+import { setSetUp } from "../ui/LoadData";
 import {
   config,
   hierarchySignal,
   files,
   keywords,
-  setUpSignal,
   testSceneSignal,
   type TFile,
   type TProject,
@@ -49,7 +49,7 @@ export function decapitalize(str: string) {
 }
 
 export function openMainScene() {
-  setUpSignal.set(true);
+  setSetUp(true);
 
   const scene =
     files.Scenes[config.startingSceneName] ||

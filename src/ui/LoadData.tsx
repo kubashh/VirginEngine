@@ -1,15 +1,10 @@
 import localforage from "localforage";
+import { virginEngineVersion } from "../lib/core";
 import { Button, TextInput } from "../components/components";
 import { createSignal, type Signal } from "../lib/framework";
-import {
-  config,
-  nameInputSignal,
-  notificationSignal,
-  popupMenuSignal,
-  setUpSignal,
-  type TProject,
-} from "../lib/consts";
+import { config, nameInputSignal, popupMenuSignal, type TProject } from "../lib/consts";
 import { loadProject, loadProjectFromDisk, openMainScene, saveProject } from "../lib/util";
+import { addNotification } from "./Notifications";
 
 const SECOND = 1000;
 const MINUTE = 60 * 1000;
@@ -19,17 +14,20 @@ const MONTH = 30 * DAY;
 const YEAR = 365 * DAY;
 
 const projectsSignal = createSignal<TLDProject[]>([]);
-setUpSignal.subscribe(() => {
-  if (!setUpSignal.get()) getSetProjects();
-  else {
+
+export function setSetUp(setUp: boolean) {
+  if (!setUp) {
+    document.title = `VirgineEngine v${virginEngineVersion}`;
+    getSetProjects();
+  } else {
     for (const project of projectsSignal.get()) {
       if (project.timeoutId) clearTimeout(project.timeoutId);
     }
   }
 
   const loadDataElement = document.getElementById(`load-data`);
-  if (loadDataElement) loadDataElement.style.display = !setUpSignal.get() ? `` : `none`;
-});
+  if (loadDataElement) loadDataElement.style.display = !setUp ? `` : `none`;
+}
 getSetProjects();
 
 export function LoadData() {
@@ -131,7 +129,7 @@ function Project({ name, modifiedDateSignal }: TLDProject) {
             options: {
               Yes: () => {
                 localforage.removeItem(name).then(() => {
-                  notificationSignal.set(`Successfully deleted ${name}.`);
+                  addNotification(`Successfully deleted ${name}.`);
                   projectsSignal.set((prev) => prev.filter((p) => p.name !== name));
                   setProjectsLS();
                 });

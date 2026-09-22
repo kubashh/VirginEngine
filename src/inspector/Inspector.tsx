@@ -1,13 +1,14 @@
 import { Window } from "../components/Window";
 import { InspectorSection } from "./InspectorSection";
-import { config, inspectorSignal, setUpSignal } from "../lib/consts";
+import { config, inspectorSignal } from "../lib/consts";
 import { buildProject, saveProject, saveProjectFile, testProjects } from "../lib/util";
 import { showDocs } from "../docs/Docs";
+import { setSetUp } from "../ui/LoadData";
 
 const editorOpctions = {
   Docs: showDocs,
   Test: testProjects,
-  Load: () => setUpSignal.set(false),
+  Load: () => setSetUp(false),
   Config: () => inspectorSignal.set(<Config />),
   File: {
     Save: () => saveProject(),

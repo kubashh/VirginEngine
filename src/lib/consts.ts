@@ -126,10 +126,6 @@ export const contextMenuSignal = createSignal<{
   y: number;
 } | null>(null);
 export const popupMenuSignal = createSignal<TPopupMenu>({ label: `` });
-export const setUpSignal = createSignal(false, () => {
-  if (!setUpSignal.get()) document.title = `VirgineEngine v${virginEngineVersion}`;
-});
-export const notificationSignal = createSignal<string>(``);
 export const cursorPointerSignal = createSignal(false, () => {
   document.body.style.cursor = cursorPointerSignal.get() ? `pointer` : ``;
 });
