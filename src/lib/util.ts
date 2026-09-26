@@ -1,8 +1,9 @@
 import localforage from "localforage";
-import { build } from "./core";
+import { build, virginEngineVersion } from "./core";
 import { setSetUp } from "../ui/LoadData";
 import { setTestSceneSignal } from "../ui/Test";
-import { config, hierarchySignal, files, keywords, type TFile, type TProject, project } from "./consts";
+import { hierarchySignal, files, keywords, type TFile, type TProject, project, config } from "./consts";
+import { setPopupMenu } from "../ui/PopupMenu";
 
 export function deepCopy<T>(obj: T): T {
   return JSON.parse(JSON.stringify(obj));
@@ -44,16 +45,6 @@ export function decapitalize(str: string) {
   return str.replace(/^./, (char) => char.toLowerCase());
 }
 
-export function openMainScene() {
-  setSetUp(true);
-
-  const scene =
-    files.Scenes[config.startingSceneName] ||
-    Object.values(files.Scenes).find((s) => typeof s !== `string`);
-
-  hierarchySignal.set(scene);
-}
-
 export function isOccupied(obj: TFile, name: string) {
   for (const key in obj) if (key === name) return true;
   return false;
@@ -79,7 +70,8 @@ function getProjectObject(oldDate?: number) {
 }
 
 // load file
-export function loadProjectFromDisk() {
+export function loadProjectFromDisk(): Promise<TProject | null> {
+  const { promise, resolve } = Promise.withResolvers<TProject | null>();
   const element = document.createElement(`input`);
   element.type = `file`;
   element.accept = `.virginengine`;
@@ -88,20 +80,33 @@ export function loadProjectFromDisk() {
       const reader = new FileReader();
 
       reader.onload = ({ target }) => {
-        if (!target) throw new Error(`Not such target!`);
+        if (!target) return resolve(null);
         const data = JSON.parse(target.result as string);
 
-        loadProject(data);
-        saveProject();
+        resolve(data);
       };
 
       if (target.files) reader.readAsText(target.files[0]);
     },
   });
   element.click();
+
+  return promise;
 }
 
-export function loadProject(data: TProject) {
+export function openProject(data: TProject) {
+  if (data.metadata.editorVersion != virginEngineVersion) {
+    setPopupMenu({
+      label: `This project use different editor version. Change project version from ${data.metadata.editorVersion} => ${virginEngineVersion}? It may break`,
+      options: {
+        Yes: () => {
+          data.metadata.editorVersion = virginEngineVersion;
+          openProject(data);
+        },
+      },
+    });
+    return;
+  }
   for (const key in files) delete files[key];
   for (const key in data.files) files[key] = data.files[key];
   // @ts-ignore don't get legacy bad configuration, get only current config shape
@@ -111,6 +116,16 @@ export function loadProject(data: TProject) {
 
   openMainScene();
   document.title = `${data.config.gameName} - VirginEngine`;
+}
+
+export function openMainScene() {
+  setSetUp(true);
+
+  const scene =
+    files.Scenes[config.startingSceneName] ||
+    Object.values(files.Scenes).find((s) => typeof s !== `string`);
+
+  hierarchySignal.set(scene);
 }
 
 // type

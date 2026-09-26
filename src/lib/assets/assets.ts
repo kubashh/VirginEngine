@@ -1,4 +1,8 @@
 import audioIconSrc from "./AudioIcon.png";
+import { virginEngineVersion } from "../core";
+import type { TFile, TProject } from "../consts";
+import { deepCopy } from "../util";
+import { Enum } from "../../inspector/typeInput/EnumInput";
 
 export const boxSprite = `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAdnJLH8AAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAuIwAALiMBeKU/dgAAAA9JREFUCB0BBAD7/wD///8F/gL+A30ZxgAAAABJRU5ErkJggg==`;
 
@@ -6,21 +10,103 @@ export const happyBoxSprite = `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAo
 
 export { audioIconSrc };
 
-export function defaultNode({ position, rotation, scale, ...rest }: DefaultNodeProps = {}) {
-  return Object.keys(rest).reduce((prev, key) => ({ [key]: rest[key], ...prev }), {
-    type: `node`,
-    transform: {
-      position: position || { x: 0, y: 0 },
-      rotation: rotation || 0,
-      scale: scale || { x: 1, y: 1 },
-    },
-  });
-}
+export const defaultAssets = {
+  img: {
+    type: `img`,
+    src: boxSprite,
+    quality: 1,
+  } as TFile,
+  img2: {
+    type: `img`,
+    src: happyBoxSprite,
+    quality: 1,
+  } as TFile,
+  audio: {
+    type: `audio`,
+    src: ``,
+    quality: 1,
+  } as TFile,
+};
 
-type DefaultNodeProps = {
-  position?: { x: number; y: number };
-  rotation?: number;
-  scale?: { x: number; y: number };
-  sprite?: { color: string; path: string };
-  [key: string]: { x: number; y: number } | { color: string; path: string } | string | number | undefined;
+const config = {
+  gameName: ``,
+  version: `0.0.1`,
+  author: `YourNick`,
+  description: `Description`,
+  fullScreen: true,
+  startingSceneName: `MainScene`,
+  performanceInfo: Enum<`yes` | `dev` | `no`>(`dev`, `yes`, `dev`, `no`), // TODO save as string or number, in editor display as Enum
+};
+
+const filesTemplate: TFile = {
+  type: `folder`,
+  Scenes: {
+    type: `folder`,
+
+    MenuScene: { type: `scene`, name: `MenuScene` },
+
+    MainScene: {
+      name: `MainScene`,
+      type: `scene`,
+      // camera: { scale: 1, aspectRatio: 1, x: 0, y: 0 },
+      Parent: {
+        type: `node`,
+        transform: {
+          position: { x: 0, y: 0 },
+          rotation: 0,
+          scale: { x: 1, y: 1 },
+        },
+        script: `class ParentController {
+  start() {
+    for(let i = 0; i < 20; i++)
+      this.node.parent.Child.clone();
+  }
+}
+`,
+      },
+      Child: {
+        type: `node`,
+        transform: {
+          position: { x: 0, y: 0 },
+          rotation: 0,
+          scale: { x: 20, y: 20 },
+        },
+        sprite: { color: ``, path: `files.Assets.Images.BoxImage` },
+        script: `class ChildScript {
+  start() {
+    this.node.position = { x: rand(-Camera.xOffset, Camera.xOffset), y: rand(-Camera.yOffset, Camera.yOffset) };
+  }
+
+  update() {
+    const x = this.node.position.x - rand(2);
+    const y = this.node.position.y - rand(0.3);
+    this.node.position = { x: x < -Camera.xOffset ? Camera.xOffset : x, y: y < -Camera.yOffset ? Camera.yOffset : y };
+  }
+}
+`,
+      },
+    },
+  },
+
+  Assets: {
+    type: `folder`,
+    Images: {
+      type: `folder`,
+      BoxImage: deepCopy(defaultAssets.img),
+      HappyBoxImage: deepCopy(defaultAssets.img2),
+    },
+    Audio: {
+      type: `folder`,
+      DAudio: deepCopy(defaultAssets.audio),
+    },
+  },
+};
+
+export const emptyProject: TProject = {
+  files: filesTemplate,
+  config,
+  metadata: {
+    editorVersion: virginEngineVersion,
+    modifiedDate: Date.now(),
+  },
 };

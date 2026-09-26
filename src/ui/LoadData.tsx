@@ -2,8 +2,9 @@ import localforage from "localforage";
 import { virginEngineVersion } from "../lib/core";
 import { Button, TextInput } from "../components/components";
 import { createSignal, type Signal } from "../lib/framework";
-import { config, type TProject } from "../lib/consts";
-import { loadProject, loadProjectFromDisk, openMainScene, saveProject } from "../lib/util";
+import { emptyProject } from "../lib/assets/assets";
+import { config, project, type TProject } from "../lib/consts";
+import { deepCopy, loadProjectFromDisk, openMainScene, openProject, saveProject } from "../lib/util";
 import { addNotification } from "./Notifications";
 import { setPopupMenu } from "./PopupMenu";
 import { setNameInput } from "./NameInput";
@@ -37,21 +38,41 @@ export function LoadData() {
     <section
       id="load-data"
       className="w-screen h-screen px-4 sm:px-20 pt-4 flex flex-col bg-[#000c] scrollbar-y"
-      onDragOver={(e) => {
-        e.preventDefault();
-      }}
+      onDragOver={(e) => e.preventDefault()}
       onDrop={onDrop}
     >
       <div className="mb-4 flex gap-x-3">
         <div className="mr-auto text-2xl font-semibold">Projects</div>
         <div className="flex *:first:mr-4">
-          <LoadDataButton label="Add project from disk" onClick={loadProjectFromDisk} />
+          <LoadDataButton
+            label="Add project from disk"
+            onClick={() => {
+              loadProjectFromDisk().then((project) => project && openProject(project));
+            }}
+          />
           <LoadDataButton
             label="New project"
             onClick={() => {
               setNameInput({
                 cb: (projectName) => {
+                  const now = Date.now();
+                  Object.assign(project.config, deepCopy(emptyProject.config));
+                  Object.assign(project.files, deepCopy(emptyProject.files));
+                  Object.assign(project.metadata, {
+                    modifiedDate: now,
+                    editorVersion: virginEngineVersion,
+                  });
                   config.gameName = projectName;
+                  projectsSignal.set((prev) => [
+                    ...prev,
+                    {
+                      name: config.gameName,
+                      modifiedDate: now,
+                      modifiedDateSignal: createSignal(timeAgo(now)),
+                      editorVersion: virginEngineVersion,
+                      timeoutId: null,
+                    },
+                  ]);
                   saveProject();
                   openMainScene();
                 },
@@ -79,13 +100,13 @@ async function onDrop(e: React.DragEvent<HTMLElement>) {
       label: `Do you want to replese existing project named '${project.config.gameName}'`,
       options: {
         Yes: () => {
-          loadProject(project);
+          openProject(project);
           saveProject(project.metadata.modifiedDate);
         },
       },
     });
   } else {
-    loadProject(project);
+    openProject(project);
     saveProject();
   }
 }
@@ -101,7 +122,7 @@ function Project({ name, modifiedDateSignal }: TLDProject) {
       className="mb-2 px-3 sm:px-6 py-2 sm:py-3 text-base lg:text-lg rounded-xl flex justify-between bg-black hover:bg-zinc-800 cursor-pointer"
       onClick={async () => {
         const data = await localforage.getItem<string>(name);
-        if (data) loadProject(JSON.parse(data));
+        if (data) openProject(JSON.parse(data));
       }}
     >
       <TextInput
@@ -170,14 +191,17 @@ function getSetProjects() {
       name: key,
       modifiedDate: 0,
       modifiedDateSignal: createSignal(``),
+      editorVersion: ``,
       timeoutId: null,
     }));
     if (arr.length > 0) {
       newProjects.forEach(async (project) => {
         const projectBuf = await localforage.getItem<string>(project.name);
         if (!projectBuf) throw new Error(`No such project "${project.name}"`);
-        project.modifiedDate = JSON.parse(projectBuf).metadata.modifiedDate;
-        sortByData();
+        const realProject: TProject = JSON.parse(projectBuf);
+        project.modifiedDate = realProject.metadata.modifiedDate;
+        project.editorVersion = realProject.metadata.editorVersion;
+        sortByDate();
         timeout(project, 0);
       });
       setProjectsLS();
@@ -188,7 +212,7 @@ function getSetProjects() {
   for (const project of projects) timeout(project, 0);
 
   projectsSignal.set(projects);
-  sortByData();
+  sortByDate();
 
   function timeout(project: TLDProject, ms: number) {
     project.timeoutId = setTimeout(() => {
@@ -212,8 +236,9 @@ function getProjectsLS(): TLDProject[] {
 function setProjectsLS() {
   const projects: PureProject[] = projectsSignal
     .get()
-    .map((p) => ({ name: p.name, modifiedDate: p.modifiedDate }))
-    .filter((p) => p.modifiedDate !== 0);
+    .map((p) => ({ name: p.name, modifiedDate: p.modifiedDate, editorVersion: p.editorVersion }))
+    .filter((p) => p.modifiedDate !== 0 && p.editorVersion !== ``);
+  if (projects.length !== projectsSignal.get().length) throw new Error(`Some project is not valid!`);
   localStorage.setItem(`projects`, JSON.stringify(projects));
 }
 
@@ -233,32 +258,37 @@ function timeAgoHealper(label: string, time: number) {
   return `${time} ${label}s ago`;
 }
 
-function sortByData() {
+function sortByDate() {
   projectsSignal.set((projects) => projects.toSorted((a, b) => b.modifiedDate - a.modifiedDate)); // create new array to trigger update
-}
-
-function updateModifiedDate() {
-  const project = projectsSignal.get().find((p) => p.name === config.gameName);
-  if (!project || project.name === ``) throw new Error(`Project have different name!`);
-  project.modifiedDate = Date.now();
-  setProjectsLS();
 }
 
 window.addEventListener(`keydown`, (e) => {
   if (e.ctrlKey && e.key === `s` && config.gameName !== ``) {
     e.preventDefault();
-    updateModifiedDate();
+    updateLSMetadata();
   }
 });
+
+function updateLSMetadata() {
+  const project = projectsSignal.get().find((p) => p.name === config.gameName);
+  if (!project || project.name === ``) {
+    throw new Error(`Project have different name!`);
+  }
+  project.modifiedDate = Date.now();
+  if (project.editorVersion !== virginEngineVersion) project.editorVersion = virginEngineVersion;
+  setProjectsLS();
+}
 
 type PureProject = {
   name: string;
   modifiedDate: number;
+  editorVersion: string;
 };
 
 type TLDProject = {
   name: string;
   modifiedDate: number;
   modifiedDateSignal: Signal<string>;
+  editorVersion: string;
   timeoutId: NodeJS.Timeout | null;
 };

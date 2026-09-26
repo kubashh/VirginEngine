@@ -52,6 +52,8 @@
 - Docs: update styles
 - code: more explicit types
 - editor UI: signals to functions
+- add project engineVersion validaton before open project (load project safely)
+- new project starting data is new
 
 ## 0.23.0 (26 Sep 2026)
 

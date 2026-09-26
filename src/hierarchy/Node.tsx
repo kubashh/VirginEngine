@@ -1,5 +1,4 @@
 import { FileElement } from "../components/FileElement";
-import { defaultNode } from "../lib/assets/assets";
 import { keywords, refreshHierarchy, type TFile } from "../lib/consts";
 import { isCapitalized } from "../lib/util";
 import { useArrow } from "../lib/hooks";
@@ -87,6 +86,17 @@ function getChilds(obj: TFile): TObj<TFile> {
     (prev, key) => (!keywords.includes(key) && isCapitalized(key) ? { [key]: obj[key], ...prev } : prev),
     {},
   );
+}
+
+function defaultNode() {
+  return {
+    type: `node`,
+    transform: {
+      position: { x: 0, y: 0 },
+      rotation: 0,
+      scale: { x: 0, y: 0 },
+    },
+  };
 }
 
 type NodeProps = {

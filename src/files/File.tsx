@@ -1,6 +1,6 @@
-import { audioIconSrc } from "../lib/assets/assets";
+import { audioIconSrc, defaultAssets } from "../lib/assets/assets";
 import { FileElement } from "../components/FileElement";
-import { hierarchySignal, defaultAssets, refreshFiles, type TFile } from "../lib/consts";
+import { hierarchySignal, refreshFiles, type TFile } from "../lib/consts";
 import { isCapitalized, deepCopy } from "../lib/util";
 import { useArrow } from "../lib/hooks";
 import { getDragData } from "../ui/DragData";

@@ -1,7 +1,7 @@
 import { virginEngineVersion } from "./core";
-import { Enum, type TEnum } from "../inspector/typeInput/EnumInput";
+import { type TEnum } from "../inspector/typeInput/EnumInput";
 import { createSignal } from "./framework";
-import { boxSprite, defaultNode, happyBoxSprite } from "./assets/assets";
+import { emptyProject } from "./assets/assets";
 import { deepCopy, saveProject } from "./util";
 
 export const keywords = [
@@ -17,97 +17,10 @@ export const keywords = [
   `audio`,
 ];
 
-export const config: TConfig = {
-  gameName: ``,
-  version: `0.0.1`,
-  author: `YourNick`,
-  description: `Description`,
-  fullScreen: true,
-  startingSceneName: `MainScene`,
-  performanceInfo: Enum<`yes` | `dev` | `no`>(`dev`, `yes`, `dev`, `no`), // TODO save as string or number, in editor display as Enum
-};
+export const project: TProject = deepCopy(emptyProject);
 
-export const defaultAssets = {
-  img: {
-    type: `img`,
-    src: boxSprite,
-    quality: 1,
-  } as TFile,
-  img2: {
-    type: `img`,
-    src: happyBoxSprite,
-    quality: 1,
-  } as TFile,
-  audio: {
-    type: `audio`,
-    src: ``,
-    quality: 1,
-  } as TFile,
-};
-
-const filesTemplate: TFile = {
-  type: `folder`,
-  Scenes: {
-    type: `folder`,
-
-    MenuScene: { type: `scene`, name: `MenuScene` },
-
-    MainScene: {
-      name: `MainScene`,
-      type: `scene`,
-      // camera: { scale: 1, aspectRatio: 1, x: 0, y: 0 },
-      Parent: defaultNode({
-        script: `class ParentController {
-  start() {
-    for(let i = 0; i < 20; i++)
-      this.node.parent.Child.clone();
-  }
-}
-`,
-      }),
-      Child: defaultNode({
-        scale: { x: 20, y: 20 },
-        sprite: { color: ``, path: `files.Assets.Images.BoxImage` },
-        script: `class ChildScript {
-  start() {
-    this.node.position = { x: rand(-Camera.xOffset, Camera.xOffset), y: rand(-Camera.yOffset, Camera.yOffset) };
-  }
-
-  update() {
-    const x = this.node.position.x - rand(2);
-    const y = this.node.position.y - rand(0.3);
-    this.node.position = { x: x < -Camera.xOffset ? Camera.xOffset : x, y: y < -Camera.yOffset ? Camera.yOffset : y };
-  }
-}
-`,
-      }),
-    },
-  },
-
-  Assets: {
-    type: `folder`,
-    Images: {
-      type: `folder`,
-      BoxImage: deepCopy(defaultAssets.img),
-      HappyBoxImage: deepCopy(defaultAssets.img2),
-    },
-    Audio: {
-      type: `folder`,
-      DAudio: deepCopy(defaultAssets.audio),
-    },
-  },
-};
-
-export const files = filesTemplate;
-
-export const project: TProject = {
-  files,
-  config,
-  metadata: {
-    editorVersion: virginEngineVersion,
-    modifiedDate: Date.now(),
-  },
-};
+export const files = project.files;
+export const config = project.config;
 
 export const editor = {
   selectedElement: {
@@ -117,7 +30,7 @@ export const editor = {
   engineVersion: virginEngineVersion,
 };
 
-export const hierarchySignal = createSignal<TFile>(filesTemplate.Scenes.MainScene, () => {
+export const hierarchySignal = createSignal<TFile>(files.Scenes.MainScene, () => {
   inspectorSignal.set(null); // close inspector
 });
 export const refreshHierarchy = { refresh() {} };
