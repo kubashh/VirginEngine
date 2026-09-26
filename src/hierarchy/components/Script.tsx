@@ -1,39 +1,25 @@
 import { useEffect, useRef } from "react";
 import { InspectorSection } from "../../inspector/InspectorSection";
-import { TypeInput } from "../../inspector/TypeInput";
-import { nameInputSignal, type TFile } from "../../lib/consts";
-import { capitalize, getType, isCustomProp, isOccupied } from "../../lib/util";
-import { useConst, useRefresh } from "../../lib/hooks";
-import { AddComponent } from "./componentsLib";
+import { type TFile } from "../../lib/consts";
+import { useRefresh } from "../../lib/hooks";
 
-// types
-const scriptTypes: TscriptTypes = {
-  boolean: [false, TypeInput],
-  number: [0, TypeInput],
-  string: [`""`, TypeInput], // TODO without quotes
-  array: [`[]`, AdvancedInput, `[`, `]`],
-  object: [`{}`, AdvancedInput, `{`, `}`],
-  function: [`function() {}`, AdvancedInput, `function(`, `) {`, `}`],
-};
-
-function AdvancedInput({ object, access }: StringInputProps) {
-  const type = useConst(getType(object[access]));
-
-  return (
-    <div className="flex flex-col">
-      <div className="flex gap-3">
-        <div>{access}</div>
-        <div className="text-green-500">: {type}</div>
-        <div>=</div>
-        {/* <div>{scriptTypes[type][2]}</div> */}
-      </div>
-      <InputDefault object={object} access={access} />
-      {/* <div>{scriptTypes[type].at(-1)}</div> */}
-    </div>
-  );
+export function Script({ object, refresh }: ScriptProps) {
+  return object.script ? (
+    <InspectorSection
+      text="Script"
+      children={ScriptInput({
+        object,
+        access: `script`,
+      })}
+      onRemove={() => {
+        delete object.script;
+        refresh();
+      }}
+    />
+  ) : null;
 }
 
-function InputDefault({ object, access }: StringInputProps) {
+function ScriptInput({ object, access }: StringInputProps) {
   const ref = useRef<HTMLTextAreaElement>(null);
   const refresh = useRefresh();
 
@@ -53,67 +39,9 @@ function InputDefault({ object, access }: StringInputProps) {
   );
 }
 
-export function Script({ object, refresh }: ScriptProps) {
-  return (
-    <>
-      {Object.keys(object)
-        .filter((key) => isCustomProp(key))
-        .map((key) => (
-          <InspectorSection
-            key={key}
-            text={key}
-            children={scriptTypes[getType(object[key])][1]({
-              object,
-              access: key,
-            })}
-            onRemove={() => {
-              delete object[key];
-              refresh();
-            }}
-          />
-        ))}
-      <div className="mb-4 flex flex-wrap">
-        {Object.keys(scriptTypes).map((value) => (
-          <AddScript key={value} value={value} object={object} refresh={refresh} />
-        ))}
-      </div>
-    </>
-  );
-}
-
-// add script component
-function AddScript({ object, value, refresh }: AddScriptProps) {
-  return (
-    <AddComponent
-      text={capitalize(value)}
-      onClick={() => {
-        nameInputSignal.set({
-          cb: (text: string) => {
-            if (isOccupied(object, text)) return;
-
-            object[text] = scriptTypes[value][0];
-            refresh();
-          },
-          lowerCase: true,
-        });
-      }}
-    />
-  );
-}
-
-type TscriptTypes = TObj<
-  [boolean | number | string, (props: StringInputProps) => React.ReactNode, string?, string?, string?]
->;
-
 type StringInputProps = {
   object: TFile;
   access: string;
-};
-
-type AddScriptProps = {
-  object: TFile;
-  value: string;
-  refresh: () => void;
 };
 
 type ScriptProps = {

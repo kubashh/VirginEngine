@@ -73,7 +73,13 @@ export function saveProjectFile(oldDate?: number) {
 }
 
 function getProjectObject(oldDate?: number) {
-  return JSON.stringify({ ...project, modifiedDate: oldDate ? oldDate : Date.now() } satisfies TProject);
+  return JSON.stringify({
+    ...project,
+    metadata: {
+      modifiedDate: oldDate ? oldDate : Date.now(),
+      editorVersion: project.metadata.editorVersion,
+    },
+  } satisfies TProject);
 }
 
 // load file
@@ -105,6 +111,8 @@ export function loadProject(data: TProject) {
   // @ts-ignore don't get legacy bad configuration, get only current config shape
   for (const key in config) if (data.config[key]) config[key] = data.config[key];
 
+  saveProject();
+
   openMainScene();
   document.title = `${data.config.gameName} - VirginEngine`;
 }
@@ -116,6 +124,7 @@ export function getType(data: any): VTypes {
   if (Array.isArray(data) || data[0] === `[`) return `array`;
   if (data.startsWith(`{`)) return `object`;
   if (data.startsWith(`function`)) return `function`;
+  if (/^(import|class|public)/.test(data)) return `script`;
   // if ([`"`, `'`, "`"].includes(data[0])) return `string`;
   return `string`;
 }

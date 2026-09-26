@@ -7,16 +7,13 @@
 - if Sprite.color draw box on canvas
 - Sprite is Box (color) or image
 - make run in scene
-- Animation.start()
-- Animation.stop()
-- Animation.frames = []
+- Animation: start(), stop(), frames = []
 - Collider.collide() // polygon or external
 - Scene.load() instead of scene.load()
 - WebGL, WebGL2 for render
 - build: add static + server export build-in
 - Node: implement events: onClick, onHover, onMouseExit...
 - Node subscribe update, render or even physics update, sprite render
-- make Scene static class
 - build: make image/audio static assets or strings
 - render via special unit same cross-platform (not pixels like now)
 - use number (id) as identifier, not string name, complitly strip string names.
@@ -32,6 +29,7 @@
 - Drag Nodes to files, files to Nodes (clonning or prefab-like)
 - src.Node.rect can contains only Node.rect
 - PathInput (for paths, better optymalization for not use file() while running)
+- add to every file and object specific id for reference reasons
 - Sprite: use sprite or color (good for prototyping)
 - make utils shered between core and src
 - Editor: mobile layout full support
@@ -48,7 +46,7 @@
 
 <br />
 
-## 0.22.3-dev.0 (in development)
+## 0.23.0 (26 Sep 2026)
 
 - set title in comptime
 - core: make engine static class instead of functions collection
@@ -59,6 +57,10 @@
 - core: loadScene via name (not reference)
 - LoadData: projects info set in localStorage; projects in localforage
 - add Notifications
+- fix StringInput again
+- fix building without performance info
+- project structure: pack metadata to one containter
+- scripting: change scripting type from declarative to class-based
 
 ## 0.22.2 (15 Sep 2026)
 

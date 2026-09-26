@@ -98,8 +98,15 @@ type TNode = {
   animation?: TAnimation;
   audio?: TAudio;
 
+  script?: {
+    node: TNode;
+    start?: () => {};
+    update?: () => {};
+    render?: () => {};
+  };
+  scriptChild?: any; // temp object
+
   childs: TNode[];
-  props: NodeProps;
   clone: () => void;
   destroy: () => void;
 

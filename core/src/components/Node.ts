@@ -7,7 +7,7 @@ import { AudioElement } from "./AudioElement";
 import { nodes } from "../values/consts";
 import { deepCopy, isChildKey } from "../util/basicFunctions";
 
-const keywords = [`parent`, `position`, `rotation`, `scale`];
+const keywords = [`parent`, `position`, `rotation`, `scale`, `scriptChild`];
 
 let nodeCounter = 0;
 
@@ -25,6 +25,7 @@ export function createNode(
     start,
     update,
     render,
+    script,
     ...rest
   }: NodeProps,
   name: string,
@@ -46,6 +47,12 @@ export function createNode(
   if (collider) node.collider = new Collider(collider, node);
   if (animation) node.animation = new Animation(animation, node);
   if (audio) node.audio = new AudioElement(audio);
+
+  if (script) {
+    node.script = script;
+    node.scriptChild = new script();
+    node.scriptChild.node = node;
+  }
 
   for (const key in rest) {
     (node as TNode)[key] = isChildKey(key)
@@ -85,6 +92,9 @@ class Node implements TNode {
   animation?: TAnimation;
   audio?: TAudio;
 
+  script?: any;
+  scriptChild?: any; // temp solution
+
   start?: () => void;
   update?: () => void;
   render?: () => void;
@@ -98,33 +108,6 @@ class Node implements TNode {
       (prev, key) => (isChildKey(key) ? [...prev, (this as TNode)[key]] : prev),
       [] as TNode[],
     );
-  }
-
-  get props() {
-    const newObj: TObj<any> = {
-      start: this?.start,
-      update: this?.update,
-      transform: {
-        position: {
-          x: this.position.x,
-          y: this.position.y,
-        },
-        rotation: this.rotation,
-        scale: {
-          x: this.scale.x,
-          y: this.scale.y,
-        },
-      },
-      rect: this.rect,
-      sprite: this.sprite?.props,
-      text: this.text?.props,
-    };
-
-    for (const key in this) {
-      if (!(key in newObj) && !keywords.includes(key)) newObj[key] = this[key];
-    }
-
-    return deepCopy(newObj) as NodeProps;
   }
 
   get position(): XY {
@@ -170,10 +153,36 @@ class Node implements TNode {
   }
 
   clone(parent = this.parent): TNode {
-    const name = `${this.name}${this.id}`;
+    const name = `${this.name}-${this.id}`;
 
-    const newNode = createNode({ ...this.props, parent }, name);
+    const newObj: TObj<any> = {
+      start: this?.start,
+      update: this?.update,
+      transform: {
+        position: {
+          x: this.position.x,
+          y: this.position.y,
+        },
+        rotation: this.rotation,
+        scale: {
+          x: this.scale.x,
+          y: this.scale.y,
+        },
+      },
+      rect: this.rect,
+      sprite: this.sprite?.props,
+      text: this.text?.props,
+    };
+
+    for (const key in this) {
+      if (!(key in newObj) && !keywords.includes(key)) newObj[key] = this[key];
+    }
+
+    const props = deepCopy(newObj) as NodeProps;
+
+    const newNode = createNode(Object.assign(props, { parent, script: this.script }), name);
     newNode.start?.bind(newNode)();
+    newNode.scriptChild?.start?.();
 
     return newNode;
   }

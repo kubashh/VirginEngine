@@ -4,7 +4,7 @@ import { clearObject, drawText, wait } from "../util/basicFunctions";
 import { Scene } from "./Scene";
 
 // @ts-ignore
-const renderTimer: Timer = performanceInfo && new Timer(`Sprite`, `Text`);
+const renderTimer: Timer = performanceInfo && new Timer(`Sprite`, `Text`, `Nodes`);
 // @ts-ignore
 const updateTimer: Timer = performanceInfo && new Timer(`Physics`, `Nodes`);
 
@@ -21,28 +21,28 @@ export class VirginEngine {
 
     requestAnimationFrame(VirginEngine.render);
 
-    let timer = performance.now();
-    let updates = 0;
+    performanceInfo && (Log.timer = performance.now());
+    performanceInfo && (Log.updatesTemp = 0);
     let delta = 0;
     while (VirginEngine.running) {
       const now = performance.now();
-      delta += (now - Time.lastTime) * Time.msdiv; // Minimal performance boost
+      delta += (now - Time.lastTime) * Time.msdiv; // minimal performance boost
+      Time.lastTime = now;
       if (delta > 60) delta = 60;
 
-      Time.lastTime = now;
       while (delta >= 1) {
         VirginEngine.update();
-        updates++;
+        performanceInfo && Log.updatesTemp++;
         delta--;
       }
 
       // log staff
-      if (now - timer > 1000) {
-        timer += 1000;
+      if (performanceInfo && now - Log.timer > 1000) {
+        Log.timer += 1000;
         if (performanceInfo) {
-          Log.updates = updates;
+          Log.updates = Log.updatesTemp;
           Log.frames = Log.framesTemp;
-          updates = 0;
+          Log.updatesTemp = 0;
           Log.framesTemp = 0;
           Timer.reset();
         }
@@ -101,7 +101,7 @@ export class VirginEngine {
   }
 
   private static updateNodes() {
-    for (const node of nodes) node.update?.();
+    for (const node of nodes) node.scriptChild?.update?.();
   }
 
   private static render() {
@@ -110,15 +110,20 @@ export class VirginEngine {
     VirginEngine.clearCtx();
 
     if (performanceInfo) {
-      renderTimer.measure({ Sprite: VirginEngine.renderSprite, Text: VirginEngine.renderText });
+      renderTimer.measure({
+        Sprite: VirginEngine.renderSprite,
+        Text: VirginEngine.renderText,
+        Nodes: VirginEngine.renderNodes,
+      });
       VirginEngine.renderPerformanceInfo();
+      Log.framesTemp++;
     } else {
       VirginEngine.renderSprite();
       VirginEngine.renderText();
+      VirginEngine.renderNodes();
     }
 
     // recall render
-    Log.framesTemp++;
     VirginEngine.renderFrameId = requestAnimationFrame(VirginEngine.render);
   }
 
@@ -132,6 +137,10 @@ export class VirginEngine {
 
   private static renderText() {
     for (const node of nodes) node.text?.render();
+  }
+
+  private static renderNodes() {
+    for (const node of nodes) node.scriptChild?.render?.();
   }
 
   private static renderPerformanceInfo() {

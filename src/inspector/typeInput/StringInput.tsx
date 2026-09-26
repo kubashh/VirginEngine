@@ -6,8 +6,8 @@ export function StringInput({ sig }: { sig: Signal<string> }) {
     <input
       type="text"
       className="w-full border-b border-zinc-400 accent-green-600"
-      value={value.slice(1, -1)}
-      onChange={({ target }) => sig.set(JSON.stringify(target.value))}
+      value={value}
+      onChange={({ target }) => sig.set(target.value)}
     />
   );
 }

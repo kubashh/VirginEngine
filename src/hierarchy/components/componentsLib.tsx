@@ -7,15 +7,14 @@ import { inspectorSignal, type TFile } from "../../lib/consts";
 import { capitalize, deepCopy } from "../../lib/util";
 import { useRefresh } from "../../lib/hooks";
 
-// to one object { deps: [], remove: [] }
-// const text2 = {value: ``, color: }
-const text: TComponent = [{ value: ``, color: `white` }, [`rect`]];
-const rect: TComponent = [{ x: Enum(0, -1, 0, 1), y: Enum(0, -1, 0, 1) }, [], [`text`]];
-const sprite: TComponent = [{ color: ``, path: `files.Assets.Images.BoxImage` }];
-const physics: TComponent = [{ gravity: true }];
-const audio: TComponent = [{ path: `` }];
+const rect: TComponent = { initValue: { x: Enum(0, -1, 0, 1), y: Enum(0, -1, 0, 1) }, remove: [`text`] };
+const text: TComponent = { initValue: { value: ``, color: `white` }, deps: [`rect`] };
+const sprite: TComponent = { initValue: { color: ``, path: `files.Assets.Images.BoxImage` } };
+const physics: TComponent = { initValue: { gravity: true } };
+const audio: TComponent = { initValue: { path: `` } };
+const script: TComponent = { initValue: `class MyScript {\n}\n` };
 
-const components: TObj<TComponent> = { text, rect, sprite, physics, audio };
+const components: TObj<TComponent> = { rect, text, sprite, physics, audio, script };
 
 export function setComponents(props: ComponentsProps) {
   inspectorSignal.set(<Components {...props} />);
@@ -28,18 +27,19 @@ function Components(props: ComponentsProps) {
     <div key={JSON.stringify(props)}>
       <h2 className="ml-3 text-xl font-bold">{props.name}</h2>
       <Transform transform={props.object.transform} />
-      {Object.keys(components).map((key) => (
-        <Component refresh={refresh} {...props} key={key} name={key} />
-      ))}
-      <Script object={props.object} refresh={refresh} />
+      {Object.keys(components)
+        .toSorted((a, b) => Number(!!props.object[b]) - Number(!!props.object[a]))
+        .map((key) => (
+          <Component refresh={refresh} {...props} key={key} name={key} />
+        ))}
     </div>
   );
 }
 
 function Component({ name, refresh, required, ...props }: ComponentProps) {
   const remove = () => {
-    if (components[name][2]) {
-      for (const key of components[name][2]) {
+    if (components[name].remove) {
+      for (const key of components[name].remove) {
         delete props.object[key];
       }
     }
@@ -50,10 +50,10 @@ function Component({ name, refresh, required, ...props }: ComponentProps) {
   const addComponent = () => {
     if (required) return;
 
-    props.object[name] = deepCopy(components[name][0]);
-    if (components[name][1]) {
-      for (const key of components[name][1]) {
-        if (!props.object[key]) props.object[key] = deepCopy(components[key][0]);
+    props.object[name] = deepCopy(components[name].initValue);
+    if (components[name].deps) {
+      for (const key of components[name].deps) {
+        if (!props.object[key]) props.object[key] = deepCopy(components[key].initValue);
       }
     }
 
@@ -61,12 +61,16 @@ function Component({ name, refresh, required, ...props }: ComponentProps) {
   };
 
   return props.object[name] ? (
-    <InspectorSection
-      key={name}
-      text={capitalize(name)}
-      childs={toChilds(props.object, name, components[name][0])}
-      {...{ ...props, onRemove: !required ? remove : undefined }}
-    />
+    typeof components[name].initValue === `string` ? (
+      <Script object={props.object} refresh={refresh} />
+    ) : (
+      <InspectorSection
+        key={name}
+        text={capitalize(name)}
+        childs={toChilds(props.object, name, components[name].initValue)}
+        {...{ ...props, onRemove: !required ? remove : undefined }}
+      />
+    )
   ) : (
     <AddComponent text={capitalize(name)} onClick={addComponent} />
   );
@@ -85,18 +89,17 @@ function toChilds(object: TFile, name: string, obj: TObj<any>) {
   );
 }
 
-export function AddComponent({ text, onClick }: AddComponentProps) {
+function AddComponent({ text, onClick }: AddComponentProps) {
   return (
     <Button label={`+ ${text}`} className="mt-3 mb-6 px-3 py-2 hover:text-zinc-400" onClick={onClick} />
   );
 }
 
-type TComponent = [TObj<any>, string[]?, string[]?];
-//  {
-//   deps?: string[];
-//   remove?: string[];
-//   [key: string]: any;
-// };
+type TComponent = {
+  initValue: TObj<any> | string;
+  deps?: string[];
+  remove?: string[];
+};
 
 type AddComponentProps = {
   text: string;

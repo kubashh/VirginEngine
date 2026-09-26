@@ -17,7 +17,13 @@ export const nodes: TNode[] = [];
 // ts-ignore is needed for "unused" objects and it will look strange but we make it for less bundle size.
 export const performanceInfo = REPLACE_PERFORMANCE_INFO;
 // @ts-ignore
-export const Log: TLog = performanceInfo && { updates: 0, frames: 0, framesTemp: 0 };
+export const Log: TLog = performanceInfo && {
+  updates: 0,
+  updatesTemp: 0,
+  frames: 0,
+  framesTemp: 0,
+  timer: 0,
+};
 
 export const Camera = {
   xOffset: 0,
@@ -25,4 +31,4 @@ export const Camera = {
 };
 
 // types
-type TLog = { updates: number; frames: number; framesTemp: number };
+type TLog = { updates: number; updatesTemp: number; frames: number; framesTemp: number; timer: number };

@@ -14,4 +14,4 @@ module "*.md" {
 
 type TObj<T> = Record<string, T>;
 
-type VTypes = `boolean` | `number` | `string` | `array` | `object` | `function` | `enum`;
+type VTypes = `boolean` | `number` | `string` | `array` | `object` | `function` | `enum` | `script`;

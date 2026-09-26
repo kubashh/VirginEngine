@@ -78,7 +78,7 @@ async function onDrop(e: React.DragEvent<HTMLElement>) {
       options: {
         Yes: () => {
           loadProject(project);
-          saveProject(project.modifiedDate);
+          saveProject(project.metadata.modifiedDate);
         },
       },
     });
@@ -174,7 +174,7 @@ function getSetProjects() {
       newProjects.forEach(async (project) => {
         const projectBuf = await localforage.getItem<string>(project.name);
         if (!projectBuf) throw new Error(`No such project "${project.name}"`);
-        project.modifiedDate = JSON.parse(projectBuf).modifiedDate;
+        project.modifiedDate = JSON.parse(projectBuf).metadata.modifiedDate;
         sortByData();
         timeout(project, 0);
       });

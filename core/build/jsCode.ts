@@ -1,13 +1,13 @@
 import { minify_sync } from "terser";
 import { keywords, optymalizeImageSrc } from "./util";
-import type { BuildOptions } from "./build";
+import { Build, type BuildOptions } from "./build";
 
 const core = REPLACE_CORE;
 
 export async function buildJs(options: BuildOptions) {
   const validCore = await buildValidCore(options);
 
-  return !options.production ? validCore : minify_max(validCore, 10);
+  return !options.production ? validCore : minify_max(validCore);
 }
 
 async function buildValidCore(options: BuildOptions) {
@@ -21,6 +21,7 @@ async function buildValidCore(options: BuildOptions) {
       // remove fullscreen if not needed
       .filter((line) => options.fullScreen || !line.startsWith(`!document.fullscreenElement ?`))
       .join(`\n`)
+      .replace(`var files`, Build.classArr.join(`\n`) + `\nconst files`)
       .replace(`REPLACE_FILES`, arr.join(``))
       .replace(`REPLACE_STARTING_SCENE_NAME`, options.startingSceneName)
       .replace(`REPLACE_CANVAS_ID`, options.hydrate || `canvas`)
@@ -28,7 +29,18 @@ async function buildValidCore(options: BuildOptions) {
   );
 }
 
-function filesToString(data: TObj<any>, name?: string, type?: string): (string | Promise<string>)[] {
+function filesToString(
+  data: TObj<any> | string,
+  name?: string,
+  type?: string,
+): (string | Promise<string>)[] {
+  if (typeof data === `string` && data.startsWith(`class`)) {
+    const match = data.match(/\bclass\s+([A-Za-z_$][\w$]*)\b/);
+    const className = match?.[1];
+    if (!className) throw new Error(`this class doesn't have name!\n${data}`);
+    Build.classArr.push(data);
+    return [className];
+  }
   if (typeof data !== `object`)
     return [type === `node` && isCustomProp(name!) ? data : JSON.stringify(data)];
 
@@ -71,20 +83,39 @@ function isCustomProp(text: string) {
   return !/^[A-Z]/.test(text) && !keywords.includes(text);
 }
 
-function minify_max(code: string, limit: number = 10) {
-  let out = code;
-  let len = code.length;
-  for (let i = 0; i < limit; i++) {
-    const newOut = minify_sync(out, {
-      module: true, // size -10%
-    });
+function minify_max(code: string) {
+  const out = minify_sync(code, {
+    module: true, // size -10%
+    ecma: 2025,
+    // compress: true,
+    compress: {
+      passes: 10,
+      toplevel: true,
 
-    if (newOut.code == undefined) throw Error(JSON.stringify(out));
+      // Remove debugging code.
+      drop_console: true,
+      drop_debugger: true,
 
-    if (newOut.code.length < len) {
-      code = newOut.code;
-      len = newOut.code.length;
-    } else break;
-  }
-  return out;
+      // More aggressive transformations.
+      unsafe: true,
+      unsafe_arrows: true,
+      unsafe_comps: true,
+      pure_getters: true,
+
+      // Optional extra optimizations.
+      hoist_props: true,
+      reduce_funcs: true,
+      reduce_vars: true,
+      collapse_vars: true,
+      inline: 3,
+    },
+    mangle: true,
+    format: {
+      comments: false,
+    },
+  });
+
+  if (out.code == undefined) throw Error(JSON.stringify(out));
+
+  return out.code;
 }

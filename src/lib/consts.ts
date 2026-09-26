@@ -22,12 +22,12 @@ export const keywords = [
 
 export const config: TConfig = {
   gameName: ``,
-  version: `0.0.0`,
+  version: `0.0.1`,
   author: `YourNick`,
   description: `Description`,
   fullScreen: true,
   startingSceneName: `MainScene`,
-  performanceInfo: Enum<`yes` | `dev` | `no`>(`dev`, `yes`, `dev`, `no`),
+  performanceInfo: Enum<`yes` | `dev` | `no`>(`dev`, `yes`, `dev`, `no`), // TODO save as string or number, in editor display as Enum
 };
 
 export const defaultAssets = {
@@ -60,22 +60,29 @@ const filesTemplate: TFile = {
       type: `scene`,
       // camera: { scale: 1, aspectRatio: 1, x: 0, y: 0 },
       Parent: defaultNode({
-        start: `function() {
-  for(let i = 0; i < 10; i++)
-    this.parent.Child.clone();
-}`,
+        script: `class ParentController {
+  start() {
+    for(let i = 0; i < 20; i++)
+      this.node.parent.Child.clone();
+  }
+}
+`,
       }),
       Child: defaultNode({
         scale: { x: 20, y: 20 },
         sprite: { color: ``, path: `files.Assets.Images.BoxImage` },
-        start: `function() {
-  this.position = { x: rand(-Camera.xOffset, Camera.xOffset), y: rand(-Camera.yOffset, Camera.yOffset) };
-}`,
-        update: `function() {
-  const x = this.position.x - rand(2);
-  const y = this.position.y - rand(0.3);
-  this.position = { x: x < -Camera.xOffset ? Camera.xOffset : x, y: y < -Camera.yOffset ? Camera.yOffset : y };
-}`,
+        script: `class ChildScript {
+  start() {
+    this.node.position = { x: rand(-Camera.xOffset, Camera.xOffset), y: rand(-Camera.yOffset, Camera.yOffset) };
+  }
+
+  update() {
+    const x = this.node.position.x - rand(2);
+    const y = this.node.position.y - rand(0.3);
+    this.node.position = { x: x < -Camera.xOffset ? Camera.xOffset : x, y: y < -Camera.yOffset ? Camera.yOffset : y };
+  }
+}
+`,
       }),
     },
   },
@@ -99,8 +106,10 @@ export const files = filesTemplate;
 export const project: TProject = {
   files,
   config,
-  editorVersion: virginEngineVersion,
-  modifiedDate: Date.now(),
+  metadata: {
+    editorVersion: virginEngineVersion,
+    modifiedDate: Date.now(),
+  },
 };
 
 export const editor = {
@@ -161,8 +170,18 @@ export type TFile = {
 export type TProject = {
   files: TFile;
   config: TConfig;
-  editorVersion: string;
+  // editorVersion: string;
+  // modifiedDate: number;
+  metadata: {
+    // TODO same data as local storage
+    modifiedDate: number;
+    editorVersion: string;
+  };
+};
+
+export type ProjectMetadata = {
   modifiedDate: number;
+  editorVersion: string;
 };
 
 export type TTransform = {

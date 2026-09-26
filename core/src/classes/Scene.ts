@@ -20,7 +20,7 @@ export class Scene implements TScene {
 
     nodes.shift(); // remove root node from nodes
 
-    for (const node of nodes) node.start?.();
+    for (const node of nodes) node.scriptChild?.start?.();
   }
 
   close() {
