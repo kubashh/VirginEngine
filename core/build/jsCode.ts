@@ -1,11 +1,14 @@
 import { minify_sync } from "terser";
 import { keywords, optymalizeImageSrc } from "./util";
-import { Build, type BuildOptions } from "./build";
+import { type BuildOptions } from "./build";
 
 const core = REPLACE_CORE;
 
+const classArr: string[] = [];
+
 export async function buildJs(options: BuildOptions) {
   const validCore = await buildValidCore(options);
+  classArr.length = 0;
 
   return !options.production ? validCore : minify_max(validCore);
 }
@@ -21,7 +24,7 @@ async function buildValidCore(options: BuildOptions) {
       // remove fullscreen if not needed
       .filter((line) => options.fullScreen || !line.startsWith(`!document.fullscreenElement ?`))
       .join(`\n`)
-      .replace(`var files`, Build.classArr.join(`\n`) + `\nconst files`)
+      .replace(`var files`, classArr.join(`\n`) + `\nconst files`)
       .replace(`REPLACE_FILES`, arr.join(``))
       .replace(`REPLACE_STARTING_SCENE_NAME`, options.startingSceneName)
       .replace(`REPLACE_CANVAS_ID`, options.hydrate || `canvas`)
@@ -38,7 +41,7 @@ function filesToString(
     const match = data.match(/\bclass\s+([A-Za-z_$][\w$]*)\b/);
     const className = match?.[1];
     if (!className) throw new Error(`this class doesn't have name!\n${data}`);
-    Build.classArr.push(data);
+    classArr.push(data);
     return [className];
   }
   if (typeof data !== `object`)

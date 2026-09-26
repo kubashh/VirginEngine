@@ -1,10 +1,12 @@
+import type { Node } from "./Node";
+
 export class Animation implements TAnimation {
   private node;
 
   currentFrame = 0;
   frames;
 
-  constructor(props: AnimationProps, node: TNode) {
+  constructor(props: AnimationProps, node: Node) {
     this.node = node;
 
     this.frames = props.frames;
@@ -23,3 +25,5 @@ export class Animation implements TAnimation {
 
   stop() {}
 }
+
+type TAnimation = {};

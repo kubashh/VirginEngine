@@ -2,28 +2,30 @@
 
 ## General rules
 
-- Scenes can be saved only in Scenes folder. Scenes folder containts only scenes (also no folders)
+- `Scenes` can be saved only in Scenes folder. Scenes folder containts only scenes (also no folders)
 
 ## Engine Api
 
 ```ts
 type VirginEngine = {
   timeScale: number; // get/set change game time
-  quit: () => never; // quit game
   loadScene: (name: string) => void; // load scene by name
+  quit: () => never; // quit game
 };
 ```
 
 ## Components
 
 ```ts
+// Any Script
+type Script = {
+  node: TNode; // automatically assigned
+};
+
 type TNode = {
   parent: TNode;
+  id: number;
   name: string;
-
-  start?: () => void;
-  update?: () => void;
-  render?: () => void;
 
   position: XY;
   rotation: number;
@@ -37,11 +39,10 @@ type TNode = {
   audio?: TAudio;
 
   childs: TNode[];
-  props: any;
   clone: () => void;
   destroy: () => void;
 
-  [key: string]: any;
+  [key: string]: TNode;
 };
 
 type TText = {
@@ -74,7 +75,7 @@ type TPhysics = {
   gravity: boolean;
 
   update: () => void;
-  AddForce: (force: XY) => void;
+  addForce: (force: XY) => void;
 };
 
 type TCollider = {};

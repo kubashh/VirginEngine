@@ -12,7 +12,7 @@ export class VirginEngine {
   private static running = false;
   private static renderFrameId = 0;
 
-  static scene: TScene;
+  static scene: Scene;
 
   static async run() {
     VirginEngine.running = true;
@@ -36,12 +36,12 @@ export class VirginEngine {
         delta--;
       }
 
-      // log staff
-      if (performanceInfo && now - Log.timer > 1000) {
-        Log.timer += 1000;
+      // log performance info
+      if (performanceInfo && now - Log.timer > 2000) {
+        Log.timer += 2000;
         if (performanceInfo) {
-          Log.updates = Log.updatesTemp;
-          Log.frames = Log.framesTemp;
+          Log.updates = Log.updatesTemp >> 1;
+          Log.frames = Log.framesTemp >> 1;
           Log.updatesTemp = 0;
           Log.framesTemp = 0;
           Timer.reset();

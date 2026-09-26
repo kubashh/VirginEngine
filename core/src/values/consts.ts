@@ -1,3 +1,5 @@
+import type { Node } from "../components/Node";
+
 // canvas
 // @ts-ignore
 export const ctx: CanvasRenderingContext2D = document.getElementById(`REPLACE_CANVAS_ID`).getContext(`2d`);
@@ -10,7 +12,7 @@ export const events: TObj<boolean> = {};
 export const eventsHover: TObj<boolean> = {};
 
 // nodes
-export const nodes: TNode[] = [];
+export const nodes: Node[] = [];
 
 // log
 // every thing when performanceInfo is used will be removed in comptime via terser.

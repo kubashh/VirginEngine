@@ -1,4 +1,5 @@
 import { lerp } from "../util/basicFunctions";
+import type { Node } from "./Node";
 
 export class Physics implements TPhysics {
   static gravitySpeed = 0.6;
@@ -9,7 +10,7 @@ export class Physics implements TPhysics {
   target = {} as XY;
   gravity;
 
-  constructor({ gravity }: PhysicsProps, node: TNode) {
+  constructor({ gravity }: PhysicsProps, node: Node) {
     this.gravity = gravity;
     this.node = node;
 
@@ -36,3 +37,12 @@ export class Physics implements TPhysics {
     this.target.y += y;
   }
 }
+
+type TPhysics = {
+  velocity: number;
+  target: XY;
+  gravity: boolean;
+
+  update: () => void;
+  addForce: (force: XY) => void;
+};

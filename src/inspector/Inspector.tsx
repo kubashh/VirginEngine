@@ -8,12 +8,12 @@ import { setSetUp } from "../ui/LoadData";
 const editorOpctions = {
   Docs: showDocs,
   Test: testProjects,
-  Load: () => setSetUp(false),
   Config: () => inspectorSignal.set(<Config />),
   File: {
     Save: () => saveProject(),
     SaveToFile: () => saveProjectFile(),
     Build: buildProject,
+    Load: () => setSetUp(false),
   },
 };
 

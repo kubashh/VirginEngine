@@ -19,3 +19,8 @@ export class AudioElement implements TAudio {
     this.audio.pause();
   }
 }
+
+type TAudio = {
+  play: () => void;
+  stop: () => void;
+};

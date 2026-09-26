@@ -1,5 +1,6 @@
 import { Camera, ctx } from "../values/consts";
 import { file } from "../util/basicFunctions";
+import type { Node } from "./Node";
 
 export class Sprite implements TSprite {
   private node;
@@ -10,7 +11,7 @@ export class Sprite implements TSprite {
   w = 0;
   h = 0;
 
-  constructor({ path }: SpriteProps, node: TNode) {
+  constructor({ path }: SpriteProps, node: Node) {
     this.node = node;
     this.img = file(path);
     this.path = path;
@@ -66,3 +67,15 @@ function resizeImage(image: HTMLImageElement, { x, y }: XY) {
   resizeImage.ctx.drawImage(image, 0, 0, newWidth, newHeight);
   image.src = resizeImage.ctx.canvas.toDataURL();
 }
+
+type TSprite = {
+  path: string;
+  img: HTMLImageElement;
+
+  reload: () => void;
+  resize: () => void;
+  render: () => void;
+  props: {
+    path: string;
+  };
+};

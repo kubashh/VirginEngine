@@ -21,6 +21,7 @@
 - scripts look like Unity scripts, change `new Node({ transform: {...} }, a: 10);` to
   `MyClass extends Beh { a = 10; ... }; let obj = new MyClass(); obj.start();`, so
   scripts will be like component
+- Node: make children array, no keys
 
 ### Editor (src)
 
@@ -37,7 +38,7 @@
 - LoadData new project set config (author, description...)
 - pack/unpack js object <==> files. it means drag folder to open the project or file
 - add block of code like scratch as option
-- Docs: add styles
+- Docs: add styles to code
 - Docs: update Docs
 
 ### VirginEngine repo
@@ -45,6 +46,11 @@
 - VirginEngine/releases (.md)
 
 <br />
+
+## 0.23.1-dev (in development)
+
+- Docs: update styles
+- code: more explicit types
 
 ## 0.23.0 (26 Sep 2026)
 

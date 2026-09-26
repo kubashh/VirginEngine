@@ -1,4 +1,5 @@
 import { drawText } from "../util/basicFunctions";
+import type { Node } from "./Node";
 
 export class Text implements TText {
   private node;
@@ -8,7 +9,7 @@ export class Text implements TText {
 
   private align = { x: 0, y: 0 };
 
-  constructor({ value, color }: TextProps, node: TNode) {
+  constructor({ value, color }: TextProps, node: Node) {
     this.node = node;
     this.value = value;
     this.color = color;
@@ -33,3 +34,17 @@ export class Text implements TText {
     };
   }
 }
+
+type TText = {
+  value: string;
+  color: string;
+
+  textBaseline?: string;
+  textAlign?: string;
+
+  render: () => void;
+
+  props: {
+    value: string;
+  };
+};

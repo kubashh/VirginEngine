@@ -35,11 +35,9 @@ type NodeProps = {
   collider?: ColliderProps;
   animation?: AnimationProps;
 
-  start?: () => void;
-  update?: () => void;
-  render?: () => void;
+  childern?: NodeProps[];
 
-  [key: string]: any;
+  [key: string]: any; // NodeProps
 };
 
 type TransformProps = { position?: XY; rotation?: number; scale?: XY } | undefined;
@@ -73,96 +71,3 @@ type drawProps = {
   h: number;
   font?: string;
 } & TObj<any>;
-
-type SceneProps = { name: string; [key: string]: any };
-
-// compponents
-
-type TNode = {
-  name: string;
-  id: number;
-  parent: TNode;
-
-  start?: () => void;
-  update?: () => void;
-  render?: () => void;
-
-  position: XY;
-  rotation: number;
-  scale: XY;
-  rect?: XY;
-
-  text?: TText;
-  sprite?: TSprite;
-  physics?: TPhysics;
-  animation?: TAnimation;
-  audio?: TAudio;
-
-  script?: {
-    node: TNode;
-    start?: () => {};
-    update?: () => {};
-    render?: () => {};
-  };
-  scriptChild?: any; // temp object
-
-  childs: TNode[];
-  clone: () => void;
-  destroy: () => void;
-
-  [key: string]: any;
-};
-
-type TText = {
-  value: string;
-  color: string;
-
-  textBaseline?: string;
-  textAlign?: string;
-
-  render: () => void;
-
-  props: {
-    value: string;
-  };
-};
-
-type TSprite = {
-  path: string;
-  img: HTMLImageElement;
-
-  reload: () => void;
-  resize: () => void;
-  render: () => void;
-  props: {
-    path: string;
-  };
-};
-
-type TPhysics = {
-  velocity: number;
-  target: XY;
-  gravity: boolean;
-
-  update: () => void;
-  addForce: (force: XY) => void;
-};
-
-type TCollider = {};
-
-type TAnimation = {};
-
-type TAudio = {
-  play: () => void;
-  stop: () => void;
-};
-
-type TScene = {
-  root: TNode;
-
-  camera: XY;
-
-  close(): void;
-
-  [key: string]: any;
-};

@@ -11,67 +11,45 @@ const keywords = [`parent`, `position`, `rotation`, `scale`, `scriptChild`];
 
 let nodeCounter = 0;
 
-export function createNode(
-  {
-    parent,
-    transform,
-    rect,
-    text,
-    sprite,
-    collider,
-    physics,
-    animation,
-    audio,
-    start,
-    update,
-    render,
-    script,
-    ...rest
-  }: NodeProps,
-  name: string,
-) {
+export function createNode(props: NodeProps, name: string) {
   const node = new Node(name);
-  node.parent = parent;
-  if (parent) node.parent[node.name] = node;
+  node.parent = props.parent;
+  if (props.parent) node.parent[node.name] = node;
   nodes.push(node);
 
-  node.transform.p = new GSXY(transform?.position);
-  if (transform?.rotation) node.rotation = transform.rotation;
-  node.transform.s = new GSXY(transform?.scale || { x: 1, y: 1 });
+  node.transform.p = new GSXY(props.transform?.position);
+  if (props.transform?.rotation) node.rotation = props.transform.rotation;
+  node.transform.s = new GSXY(props.transform?.scale || { x: 1, y: 1 });
 
-  if (rect) node.rect = rect;
-  if (text) node.text = new Text(text, node);
-  if (sprite) node.sprite = new Sprite(sprite, node);
-  if (physics) node.physics = new Physics(physics, node);
+  if (props.rect) node.rect = props.rect;
+  if (props.text) node.text = new Text(props.text, node);
+  if (props.sprite) node.sprite = new Sprite(props.sprite, node);
+  if (props.physics) node.physics = new Physics(props.physics, node);
 
-  if (collider) node.collider = new Collider(collider, node);
-  if (animation) node.animation = new Animation(animation, node);
-  if (audio) node.audio = new AudioElement(audio);
+  if (props.collider) node.collider = new Collider(props.collider, node);
+  if (props.animation) node.animation = new Animation(props.animation, node);
+  if (props.audio) node.audio = new AudioElement(props.audio);
 
-  if (script) {
-    node.script = script;
-    node.scriptChild = new script();
-    node.scriptChild.node = node;
+  if (props.script) {
+    node.script = props.script;
+    node.scriptChild = new props.script();
+    node.scriptChild!.node = node;
   }
 
-  for (const key in rest) {
-    (node as TNode)[key] = isChildKey(key)
-      ? createNode({ ...rest[key], parent: node }, key)
-      : typeof rest[key] === `function`
-        ? rest[key].bind(node)
-        : rest[key];
+  if (props.childern)
+    for (const key in props.childern) {
+      createNode({ ...props.childern[key], parent: node }, key);
+    }
+  for (const key in props) {
+    if (isChildKey(key)) createNode({ ...props[key], parent: node }, key);
   }
-
-  if (start) node.start = start;
-  if (update) node.update = update;
-  if (render) node.render = render;
 
   node.id = nodeCounter++;
 
   return node;
 }
 
-class Node implements TNode {
+export class Node implements TNode {
   name: string;
   id!: number;
   parent!: TNode;
@@ -84,29 +62,30 @@ class Node implements TNode {
 
   rect?: XY;
 
-  text?: TText;
-  sprite?: TSprite;
-  physics?: TPhysics;
+  text?: Text;
+  sprite?: Sprite;
+  physics?: Physics;
 
-  collider?: TCollider;
-  animation?: TAnimation;
-  audio?: TAudio;
+  collider?: Collider;
+  animation?: Animation;
+  audio?: AudioElement;
 
   script?: any;
-  scriptChild?: any; // temp solution
-
-  start?: () => void;
-  update?: () => void;
-  render?: () => void;
+  scriptChild?: {
+    node: TNode;
+    start?: () => {};
+    update?: () => {};
+    render?: () => {};
+  }; // temp solution
 
   constructor(name: string) {
     this.name = name;
   }
 
-  get childs(): TNode[] {
+  get childs(): Node[] {
     return Object.keys(this).reduce(
       (prev, key) => (isChildKey(key) ? [...prev, (this as TNode)[key]] : prev),
-      [] as TNode[],
+      [] as Node[],
     );
   }
 
@@ -153,11 +132,7 @@ class Node implements TNode {
   }
 
   clone(parent = this.parent): TNode {
-    const name = `${this.name}-${this.id}`;
-
     const newObj: TObj<any> = {
-      start: this?.start,
-      update: this?.update,
       transform: {
         position: {
           x: this.position.x,
@@ -180,8 +155,7 @@ class Node implements TNode {
 
     const props = deepCopy(newObj) as NodeProps;
 
-    const newNode = createNode(Object.assign(props, { parent, script: this.script }), name);
-    newNode.start?.bind(newNode)();
+    const newNode = createNode(Object.assign(props, { parent, script: this.script }), this.name);
     newNode.scriptChild?.start?.();
 
     return newNode;
@@ -221,3 +195,34 @@ class GSXY implements XY {
     this.vy = v;
   }
 }
+
+type TNode = {
+  name: string;
+  id: number;
+  parent: TNode;
+
+  position: XY;
+  rotation: number;
+  scale: XY;
+  rect?: XY;
+
+  text?: Text;
+  sprite?: Sprite;
+  physics?: Physics;
+  animation?: Animation;
+  audio?: AudioElement;
+
+  script?: {
+    node: TNode;
+    start?: () => {};
+    update?: () => {};
+    render?: () => {};
+  };
+  scriptChild?: any; // temp object
+
+  childs: TNode[];
+  clone: () => void;
+  destroy: () => void;
+
+  [key: string]: any; // TNode
+};

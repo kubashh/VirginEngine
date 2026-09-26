@@ -1,11 +1,11 @@
-import { createNode } from "../components/Node";
+import { createNode, type Node } from "../components/Node";
 import { events, eventsHover, files, nodes } from "../values/consts";
 import { clearObject, deepCopy, onresize } from "../util/basicFunctions";
 import { VirginEngine } from "./VirginEngine";
 
 export class Scene implements TScene {
   // loaded = new Map<number, boolean>() // TODO key: id; if loaded.size === 0 run scene
-  root: TNode;
+  root: Node;
 
   camera = { x: 0, y: 0 }; // on change update root pos = update all pos + shaking + resize
 
@@ -15,7 +15,7 @@ export class Scene implements TScene {
     // @ts-ignore
     const props: SceneProps = Object.values(files.Scenes).find((s) => s.name === name);
     if (!props) throw new Error(`No such scene "${name}"!`);
-    this.root = createNode({ ...deepCopy(props), parent: {} as TNode } as any, name);
+    this.root = createNode({ ...deepCopy(props), parent: {} as Node } as any, name);
     VirginEngine.timeScale = 1;
 
     nodes.shift(); // remove root node from nodes
@@ -34,3 +34,13 @@ export class Scene implements TScene {
     clearObject(this); // clear scene
   }
 }
+
+type SceneProps = { name: string; [key: string]: any };
+
+type TScene = {
+  root: Node;
+
+  camera: XY;
+
+  close(): void;
+};

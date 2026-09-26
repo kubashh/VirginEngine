@@ -35,7 +35,6 @@ export async function build(options: BuildOptions): Promise<BuildOutput> {
     }
   }
 
-  Build.classArr.length = 0;
   return output;
 }
 
@@ -48,10 +47,6 @@ function buildBasicHtml(options: Required<BuildOptions>) {
     .replaceAll(`REPLACE_AUTHOR`, options.author)
     .replaceAll(`REPLACE_DESCRIPTION`, options.description)
     .replaceAll(`REPLACE_GAME_NAME`, options.gameName);
-}
-
-export class Build {
-  static classArr: string[] = [];
 }
 
 export type BuildOptions = {
