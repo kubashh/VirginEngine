@@ -1,6 +1,12 @@
 import { useEffect, useRef } from "react";
-import { nameInputSignal } from "../lib/consts";
+import { createSignal } from "../lib/framework";
 import { capitalize, decapitalize, isValidName } from "../lib/util";
+
+const nameInputSignal = createSignal<TNameInput | null>(null);
+
+export function setNameInput(props: TNameInput | null) {
+  nameInputSignal.set(props);
+}
 
 export function NameInput() {
   const ref = useRef<HTMLInputElement>(null);
@@ -25,7 +31,7 @@ function useNameInput(ref: React.RefObject<HTMLInputElement | null>) {
     if (!ref) return;
 
     function handler({ target }: MouseEvent) {
-      if (ref.current && !ref.current.contains(target as Node)) onReturn();
+      if (ref.current && !ref.current.contains(target as Node)) onReturn(nameInput);
     }
 
     document.addEventListener(`mousedown`, handler);
@@ -41,19 +47,19 @@ function useNameInput(ref: React.RefObject<HTMLInputElement | null>) {
 
         if (!isValidName(newValue)) return;
 
-        nameInputSignal.set({ cb, value: newValue, lowerCase });
+        setNameInput({ cb, value: newValue, lowerCase });
       },
-      onKeyDown: ({ key }: React.KeyboardEvent<HTMLInputElement>) => key === `Enter` && onReturn(),
+      onKeyDown: ({ key }: React.KeyboardEvent<HTMLInputElement>) => key === `Enter` && onReturn(nameInput),
     }
   );
 }
 
-function onReturn() {
-  const { cb, value } = getPropsSave(nameInputSignal.get());
+function onReturn(nameInput: TNameInput | null) {
+  const { cb, value } = getPropsSave(nameInput);
   if (cb && isValidName(value)) {
     cb(value);
   }
-  nameInputSignal.set(null);
+  setNameInput(null);
 }
 
 function getPropsSave(nameInput: TNameInput | null): {
@@ -68,4 +74,4 @@ function getPropsSave(nameInput: TNameInput | null): {
   };
 }
 
-export type TNameInput = { cb: (arg: string) => void; value?: string; lowerCase?: boolean };
+type TNameInput = { cb: (arg: string) => void; value?: string; lowerCase?: boolean };

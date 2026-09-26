@@ -2,9 +2,11 @@ import localforage from "localforage";
 import { virginEngineVersion } from "../lib/core";
 import { Button, TextInput } from "../components/components";
 import { createSignal, type Signal } from "../lib/framework";
-import { config, nameInputSignal, popupMenuSignal, type TProject } from "../lib/consts";
+import { config, type TProject } from "../lib/consts";
 import { loadProject, loadProjectFromDisk, openMainScene, saveProject } from "../lib/util";
 import { addNotification } from "./Notifications";
+import { setPopupMenu } from "./PopupMenu";
+import { setNameInput } from "./NameInput";
 
 const SECOND = 1000;
 const MINUTE = 60 * 1000;
@@ -47,7 +49,7 @@ export function LoadData() {
           <LoadDataButton
             label="New project"
             onClick={() => {
-              nameInputSignal.set({
+              setNameInput({
                 cb: (projectName) => {
                   config.gameName = projectName;
                   saveProject();
@@ -73,7 +75,7 @@ async function onDrop(e: React.DragEvent<HTMLElement>) {
   const text = await file.text();
   const project: TProject = JSON.parse(text);
   if (projectsSignal.get().find((p) => p.name === project.config.gameName)) {
-    popupMenuSignal.set({
+    setPopupMenu({
       label: `Do you want to replese existing project named '${project.config.gameName}'`,
       options: {
         Yes: () => {
@@ -124,7 +126,7 @@ function Project({ name, modifiedDateSignal }: TLDProject) {
         onClick={(e) => {
           e.stopPropagation();
 
-          popupMenuSignal.set({
+          setPopupMenu({
             label: `Delete ${name}?`,
             options: {
               Yes: () => {

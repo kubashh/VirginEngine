@@ -51,6 +51,7 @@
 
 - Docs: update styles
 - code: more explicit types
+- editor UI: signals to functions
 
 ## 0.23.0 (26 Sep 2026)
 

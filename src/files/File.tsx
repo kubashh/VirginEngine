@@ -1,15 +1,10 @@
+import { audioIconSrc } from "../lib/assets/assets";
 import { FileElement } from "../components/FileElement";
-import {
-  hierarchySignal,
-  defaultAssets,
-  dragDataSignal,
-  nameInputSignal,
-  refreshFiles,
-  type TFile,
-} from "../lib/consts";
+import { hierarchySignal, defaultAssets, refreshFiles, type TFile } from "../lib/consts";
 import { isCapitalized, deepCopy } from "../lib/util";
 import { useArrow } from "../lib/hooks";
-import { audioIconSrc } from "../lib/assets/assets";
+import { getDragData } from "../ui/DragData";
+import { setNameInput } from "../ui/NameInput";
 
 export function File({ parent, file, name, deep, path = `files` }: FileProps) {
   const isMain = deep === 0;
@@ -20,7 +15,7 @@ export function File({ parent, file, name, deep, path = `files` }: FileProps) {
   const onMouseUp = () => {
     if (!isFolder) return;
 
-    const dragData = dragDataSignal.get();
+    const dragData = getDragData();
 
     if (!dragData || dragData.from !== `files` || dragData.name === name || file[dragData.name]) return;
 
@@ -47,7 +42,7 @@ export function File({ parent, file, name, deep, path = `files` }: FileProps) {
   const newArrElement = (type: string, defValue?: TFile): (() => void) | false =>
     isFolder &&
     (() =>
-      nameInputSignal.set({
+      setNameInput({
         cb: (newName: string) => {
           file[newName] = { type, ...deepCopy(defValue || {}) };
 
@@ -75,7 +70,7 @@ export function File({ parent, file, name, deep, path = `files` }: FileProps) {
       Rename:
         !isMain &&
         (() =>
-          nameInputSignal.set({
+          setNameInput({
             cb: (newName: string) => {
               if (name === newName) return;
 

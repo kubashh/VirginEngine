@@ -1,7 +1,4 @@
 import { virginEngineVersion } from "./core";
-import { type TNameInput } from "../ui/NameInput";
-import { type TDragData } from "../ui/DragData";
-import { type TPopupMenu } from "../ui/PopupMenu";
 import { Enum, type TEnum } from "../inspector/typeInput/EnumInput";
 import { createSignal } from "./framework";
 import { boxSprite, defaultNode, happyBoxSprite } from "./assets/assets";
@@ -126,18 +123,6 @@ export const hierarchySignal = createSignal<TFile>(filesTemplate.Scenes.MainScen
 export const refreshHierarchy = { refresh() {} };
 export const refreshFiles = { refresh() {} };
 export const inspectorSignal = createSignal<React.ReactNode>(null);
-export const nameInputSignal = createSignal<TNameInput | null>(null);
-export const dragDataSignal = createSignal<TDragData | null>(null);
-export const testSceneSignal = createSignal(``);
-export const contextMenuSignal = createSignal<{
-  [key: string]: (() => void) | number | false;
-  x: number;
-  y: number;
-} | null>(null);
-export const popupMenuSignal = createSignal<TPopupMenu>({ label: `` });
-export const cursorPointerSignal = createSignal(false, () => {
-  document.body.style.cursor = cursorPointerSignal.get() ? `pointer` : ``;
-});
 
 // set global events
 window.addEventListener(`contextmenu`, (e) => {

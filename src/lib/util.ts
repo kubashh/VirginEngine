@@ -1,19 +1,15 @@
 import localforage from "localforage";
 import { build } from "./core";
 import { setSetUp } from "../ui/LoadData";
-import {
-  config,
-  hierarchySignal,
-  files,
-  keywords,
-  testSceneSignal,
-  type TFile,
-  type TProject,
-  project,
-} from "./consts";
+import { setTestSceneSignal } from "../ui/Test";
+import { config, hierarchySignal, files, keywords, type TFile, type TProject, project } from "./consts";
 
 export function deepCopy<T>(obj: T): T {
   return JSON.parse(JSON.stringify(obj));
+}
+
+export function setCursorPointer(pointer: boolean) {
+  document.body.style.cursor = pointer ? `pointer` : ``;
 }
 
 export function downloadFile(name: string, text: string) {
@@ -188,7 +184,7 @@ export async function buildProject() {
 }
 
 export async function testProjects() {
-  testSceneSignal.set(await buildSafely(false));
+  setTestSceneSignal(await buildSafely(false));
 }
 
 async function buildSafely(production: boolean) {

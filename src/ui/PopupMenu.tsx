@@ -1,6 +1,12 @@
 import { useEffect } from "react";
+import { createSignal } from "../lib/framework";
 import { Button } from "../components/components";
-import { popupMenuSignal } from "../lib/consts";
+
+const popupMenuSignal = createSignal<TPopupMenu>({ label: `` });
+
+export function setPopupMenu(props: TPopupMenu) {
+  popupMenuSignal.set(props);
+}
 
 export function PopupMenu() {
   const popupMenu = popupMenuSignal.use();
@@ -33,7 +39,7 @@ function PopupMenuOptions({ options }: { options?: TObj<() => void> }) {
           className="border-2 sm:border-2 border-zinc-400 px-3 sm:px-6 py-1 sm:py-2 text-lg sm:text-xl rounded-2xl bg-[#000a] hover:text-zinc-400"
           onClick={() => {
             cb();
-            popupMenuSignal.set({ label: ``, options: {} });
+            setPopupMenu({ label: ``, options: {} });
           }}
         />
       ))
@@ -43,11 +49,11 @@ function PopupMenuOptions({ options }: { options?: TObj<() => void> }) {
 function onMouseDown({ target }: MouseEvent) {
   const element = document.getElementById(`popup-menu`);
   if (element && !element.contains(target as Node)) {
-    popupMenuSignal.set({ label: ``, options: {} });
+    setPopupMenu({ label: ``, options: {} });
   }
 }
 
-export type TPopupMenu = {
+type TPopupMenu = {
   label: string;
   options?: TObj<() => void>;
 };

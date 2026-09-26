@@ -1,5 +1,17 @@
 import { useEffect } from "react";
-import { cursorPointerSignal, dragDataSignal, type TFile } from "../lib/consts";
+import { createSignal } from "../lib/framework";
+import { type TFile } from "../lib/consts";
+import { setCursorPointer } from "../lib/util";
+
+const dragDataSignal = createSignal<TDragData | null>(null);
+
+export function setDragData(props: TDragData | null) {
+  return dragDataSignal.set(props);
+}
+
+export function getDragData() {
+  return dragDataSignal.get();
+}
 
 export function DragData() {
   return (
@@ -11,7 +23,7 @@ export function DragData() {
 
 function DragDataValue() {
   const dragData = dragDataSignal.use();
-  cursorPointerSignal.set(!!dragData);
+  setCursorPointer(!!dragData);
 
   useEffect(() => {
     if (!dragData) return onMouseDown();
@@ -47,10 +59,10 @@ function onMouseDown() {
 }
 
 function handleMouseUp() {
-  dragDataSignal.set(null);
+  setDragData(null);
 }
 
-export type TDragData = {
+type TDragData = {
   name: string;
   from: `hierarchy` | `files`;
   file: TFile;

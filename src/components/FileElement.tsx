@@ -1,6 +1,8 @@
-import { contextMenuSignal, dragDataSignal, inspectorSignal, type TFile } from "../lib/consts";
+import { inspectorSignal, type TFile } from "../lib/consts";
 import { type ArrowSignal } from "../lib/hooks";
 import { InspectorDisplay } from "../files/InspectorDisplay";
+import { setContextMenu } from "../ui/ContextMenu";
+import { setDragData } from "../ui/DragData";
 import { setComponents } from "../hierarchy/components/componentsLib";
 
 export function FileElement({
@@ -25,8 +27,7 @@ export function FileElement({
         <div
           className="cursor-pointer hover:text-zinc-400"
           onMouseDown={() => {
-            if (!isMain)
-              dragDataSignal.set({ from: isHierarchy ? `hierarchy` : `files`, parent, file, name });
+            if (!isMain) setDragData({ from: isHierarchy ? `hierarchy` : `files`, parent, file, name });
           }}
           onClick={() => {
             isHierarchy && !isMain
@@ -34,7 +35,7 @@ export function FileElement({
               : inspectorSignal.set(<InspectorDisplay path={path} file={file} name={name} />);
           }}
           onContextMenu={({ pageX, pageY }) => {
-            contextMenuSignal.set({
+            setContextMenu({
               x: pageX,
               y: pageY,
               ...contextMenuProps,

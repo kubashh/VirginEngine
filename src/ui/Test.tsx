@@ -1,42 +1,39 @@
 import { Window } from "../components/Window";
-import { createSignal } from "../lib/framework";
-import { testSceneSignal } from "../lib/consts";
 import { testProjects } from "../lib/util";
 
 const opctions = [`16/9`, `1/1`, `9/16`];
-const aspectRatioSignal = createSignal(opctions[0]);
+
+function setAspectRation(ratio: string) {
+  const iframeElement = document.getElementById(`test-frame`);
+  if (iframeElement instanceof HTMLIFrameElement) {
+    iframeElement.style.aspectRatio = ratio;
+  }
+}
+
+export function setTestSceneSignal(srcdoc: string) {
+  const element = document.getElementById(`test`);
+  if (element) {
+    element.style.display = srcdoc ? `` : `none`;
+  }
+
+  const iframeElement = document.getElementById(`test-frame`);
+  if (iframeElement instanceof HTMLIFrameElement) {
+    iframeElement.srcdoc = srcdoc;
+  }
+}
 
 const headerOptions = {
-  ...opctions.reduce((old, key) => ({ ...old, [key]: () => aspectRatioSignal.set(key) }), {}),
+  ...opctions.reduce((old, key) => ({ ...old, [key]: () => setAspectRation(key) }), {}),
   Restart: () => {
-    testSceneSignal.set(``);
+    setTestSceneSignal(``);
     setTimeout(testProjects);
     console.clear();
   },
   Exit: () => {
-    testSceneSignal.set(``);
+    setTestSceneSignal(``);
     console.clear();
   },
 };
-
-testSceneSignal.subscribe(() => {
-  const element = document.getElementById(`test`);
-  if (element) {
-    element.style.display = testSceneSignal.get() ? `` : `none`;
-  }
-
-  const iframeElement = document.getElementById(`test-frame`);
-  if (iframeElement instanceof HTMLIFrameElement) {
-    iframeElement.srcdoc = testSceneSignal.get();
-  }
-});
-
-aspectRatioSignal.subscribe(() => {
-  const iframeElement = document.getElementById(`test-frame`);
-  if (iframeElement instanceof HTMLIFrameElement) {
-    iframeElement.style.aspectRatio = aspectRatioSignal.get();
-  }
-});
 
 export function Test() {
   return (

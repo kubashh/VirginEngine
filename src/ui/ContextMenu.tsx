@@ -1,6 +1,22 @@
 import { useEffect, useRef } from "react";
+import { createSignal } from "../lib/framework";
 import { Button } from "../components/components";
-import { contextMenuSignal } from "../lib/consts";
+
+const contextMenuSignal = createSignal<{
+  [key: string]: (() => void) | number | false;
+  x: number;
+  y: number;
+} | null>(null);
+
+export function setContextMenu(
+  props: {
+    [key: string]: (() => void) | number | false;
+    x: number;
+    y: number;
+  } | null,
+) {
+  contextMenuSignal.set(props);
+}
 
 export function ContextMenu() {
   const ref = useRef<HTMLDivElement>(null);

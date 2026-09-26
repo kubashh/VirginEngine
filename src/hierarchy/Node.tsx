@@ -1,8 +1,10 @@
 import { FileElement } from "../components/FileElement";
 import { defaultNode } from "../lib/assets/assets";
-import { dragDataSignal, keywords, nameInputSignal, refreshHierarchy, type TFile } from "../lib/consts";
+import { keywords, refreshHierarchy, type TFile } from "../lib/consts";
 import { isCapitalized } from "../lib/util";
 import { useArrow } from "../lib/hooks";
+import { setNameInput } from "../ui/NameInput";
+import { getDragData } from "../ui/DragData";
 
 export function Node({ parent, name, object, deep = 0 }: NodeProps) {
   const isMain = deep === 0;
@@ -12,7 +14,7 @@ export function Node({ parent, name, object, deep = 0 }: NodeProps) {
   const arrowSignal = useArrow(isMain, haveChilds);
 
   const onMouseUp = () => {
-    const dragData = dragDataSignal.get();
+    const dragData = getDragData();
 
     if (!dragData || dragData.name === name || dragData.file.type !== `node`) return;
 
@@ -44,7 +46,7 @@ export function Node({ parent, name, object, deep = 0 }: NodeProps) {
     ChildsElement,
     contextMenuProps: {
       "New Object": () => {
-        nameInputSignal.set({
+        setNameInput({
           cb: (newName: string) => {
             if (Object.keys(object).includes(newName)) return;
 
@@ -58,7 +60,7 @@ export function Node({ parent, name, object, deep = 0 }: NodeProps) {
       Rename:
         !isMain &&
         (() => {
-          nameInputSignal.set({
+          setNameInput({
             cb: (newName: string) => {
               if (name === newName || parent[newName]) return;
 
