@@ -1,7 +1,6 @@
 import audioIconSrc from "./AudioIcon.png";
 import { virginEngineVersion } from "../core";
 import type { TFile, TProject } from "../consts";
-import { deepCopy } from "../util";
 import { Enum } from "../../inspector/typeInput/EnumInput";
 
 export const boxSprite = `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAdnJLH8AAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAuIwAALiMBeKU/dgAAAA9JREFUCB0BBAD7/wD///8F/gL+A30ZxgAAAABJRU5ErkJggg==`;
@@ -28,51 +27,43 @@ export const defaultAssets = {
   } as TFile,
 };
 
-const config = {
-  gameName: ``,
-  version: `0.0.1`,
-  author: `YourNick`,
-  description: `Description`,
-  fullScreen: true,
-  startingSceneName: `MainScene`,
-  performanceInfo: Enum<`yes` | `dev` | `no`>(`dev`, `yes`, `dev`, `no`), // TODO save as string or number, in editor display as Enum
-};
+export function emptyProject(): TProject {
+  return {
+    files: {
+      type: `folder`,
+      Scenes: {
+        type: `folder`,
 
-const filesTemplate: TFile = {
-  type: `folder`,
-  Scenes: {
-    type: `folder`,
+        MenuScene: { type: `scene`, name: `MenuScene` },
 
-    MenuScene: { type: `scene`, name: `MenuScene` },
-
-    MainScene: {
-      name: `MainScene`,
-      type: `scene`,
-      // camera: { scale: 1, aspectRatio: 1, x: 0, y: 0 },
-      Parent: {
-        type: `node`,
-        transform: {
-          position: { x: 0, y: 0 },
-          rotation: 0,
-          scale: { x: 1, y: 1 },
-        },
-        script: `class ParentController {
+        MainScene: {
+          name: `MainScene`,
+          type: `scene`,
+          // camera: { scale: 1, aspectRatio: 1, x: 0, y: 0 },
+          Parent: {
+            type: `node`,
+            transform: {
+              position: { x: 0, y: 0 },
+              rotation: 0,
+              scale: { x: 1, y: 1 },
+            },
+            script: `class ParentController {
   start() {
     for(let i = 0; i < 20; i++)
       this.node.parent.Child.clone();
   }
 }
 `,
-      },
-      Child: {
-        type: `node`,
-        transform: {
-          position: { x: 0, y: 0 },
-          rotation: 0,
-          scale: { x: 20, y: 20 },
-        },
-        sprite: { color: ``, path: `files.Assets.Images.BoxImage` },
-        script: `class ChildScript {
+          },
+          Child: {
+            type: `node`,
+            transform: {
+              position: { x: 0, y: 0 },
+              rotation: 0,
+              scale: { x: 20, y: 20 },
+            },
+            sprite: { color: ``, path: `files.Assets.Images.BoxImage` },
+            script: `class ChildScript {
   start() {
     this.node.position = { x: rand(-Camera.xOffset, Camera.xOffset), y: rand(-Camera.yOffset, Camera.yOffset) };
   }
@@ -84,29 +75,35 @@ const filesTemplate: TFile = {
   }
 }
 `,
+          },
+        },
+      },
+
+      Assets: {
+        type: `folder`,
+        Images: {
+          type: `folder`,
+          BoxImage: defaultAssets.img,
+          HappyBoxImage: defaultAssets.img2,
+        },
+        Audio: {
+          type: `folder`,
+          DAudio: defaultAssets.audio,
+        },
       },
     },
-  },
-
-  Assets: {
-    type: `folder`,
-    Images: {
-      type: `folder`,
-      BoxImage: deepCopy(defaultAssets.img),
-      HappyBoxImage: deepCopy(defaultAssets.img2),
+    config: {
+      gameName: ``,
+      version: `0.0.1`,
+      author: `YourNick`,
+      description: `Description`,
+      fullScreen: true,
+      startingSceneName: `MainScene`,
+      performanceInfo: Enum<`yes` | `dev` | `no`>(`dev`, `yes`, `dev`, `no`), // TODO save as string or number, in editor display as Enum
     },
-    Audio: {
-      type: `folder`,
-      DAudio: deepCopy(defaultAssets.audio),
+    metadata: {
+      editorVersion: virginEngineVersion,
+      modifiedDate: Date.now(),
     },
-  },
-};
-
-export const emptyProject: TProject = {
-  files: filesTemplate,
-  config,
-  metadata: {
-    editorVersion: virginEngineVersion,
-    modifiedDate: Date.now(),
-  },
-};
+  };
+}

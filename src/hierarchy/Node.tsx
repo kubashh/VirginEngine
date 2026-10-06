@@ -1,9 +1,10 @@
 import { FileElement } from "../components/FileElement";
-import { keywords, refreshHierarchy, type TFile } from "../lib/consts";
+import { keywords, type TFile } from "../lib/consts";
 import { isCapitalized } from "../lib/util";
 import { useArrow } from "../lib/hooks";
 import { setNameInput } from "../ui/NameInput";
 import { getDragData } from "../ui/DragData";
+import { refreshHierarchy } from "./Hierarchy";
 
 export function Node({ parent, name, object, deep = 0 }: NodeProps) {
   const isMain = deep === 0;
@@ -26,7 +27,7 @@ export function Node({ parent, name, object, deep = 0 }: NodeProps) {
       delete dragData.parent[dragData.name];
     }
 
-    refreshHierarchy.refresh();
+    refreshHierarchy();
   };
 
   function ChildsElement() {
@@ -52,7 +53,7 @@ export function Node({ parent, name, object, deep = 0 }: NodeProps) {
             object[newName] = defaultNode();
 
             arrowSignal.set(true);
-            refreshHierarchy.refresh();
+            refreshHierarchy();
           },
         });
       },
@@ -65,7 +66,7 @@ export function Node({ parent, name, object, deep = 0 }: NodeProps) {
 
               delete parent[name];
               parent[newName] = object;
-              refreshHierarchy.refresh();
+              refreshHierarchy();
             },
             value: name,
           });
@@ -74,7 +75,7 @@ export function Node({ parent, name, object, deep = 0 }: NodeProps) {
         !isMain &&
         (() => {
           delete parent[name];
-          refreshHierarchy.refresh();
+          refreshHierarchy();
         }),
     },
     onMouseUp,

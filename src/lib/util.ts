@@ -2,8 +2,9 @@ import localforage from "localforage";
 import { build, virginEngineVersion } from "./core";
 import { setSetUp } from "../ui/LoadData";
 import { setTestSceneSignal } from "../ui/Test";
-import { hierarchySignal, files, keywords, type TFile, type TProject, project, config } from "./consts";
+import { files, keywords, type TFile, type TProject, project, config } from "./consts";
 import { setPopupMenu } from "../ui/PopupMenu";
+import { setHierarchy } from "../hierarchy/Hierarchy";
 
 export function deepCopy<T>(obj: T): T {
   return JSON.parse(JSON.stringify(obj));
@@ -126,7 +127,7 @@ export function openMainScene() {
     files.Scenes[config.startingSceneName] ||
     Object.values(files.Scenes).find((s) => typeof s !== `string`);
 
-  hierarchySignal.set(scene);
+  setHierarchy(scene);
 }
 
 // type

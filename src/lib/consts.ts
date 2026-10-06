@@ -1,8 +1,7 @@
 import { virginEngineVersion } from "./core";
 import { type TEnum } from "../inspector/typeInput/EnumInput";
-import { createSignal } from "./framework";
 import { emptyProject } from "./assets/assets";
-import { deepCopy, saveProject } from "./util";
+import { saveProject } from "./util";
 
 export const keywords = [
   `type`,
@@ -17,7 +16,7 @@ export const keywords = [
   `audio`,
 ];
 
-export const project: TProject = deepCopy(emptyProject);
+export const project: TProject = emptyProject();
 
 export const files = project.files;
 export const config = project.config;
@@ -29,13 +28,6 @@ export const editor = {
   },
   engineVersion: virginEngineVersion,
 };
-
-export const hierarchySignal = createSignal<TFile>(files.Scenes.MainScene, () => {
-  inspectorSignal.set(null); // close inspector
-});
-export const refreshHierarchy = { refresh() {} };
-export const refreshFiles = { refresh() {} };
-export const inspectorSignal = createSignal<React.ReactNode>(null);
 
 // set global events
 window.addEventListener(`contextmenu`, (e) => {

@@ -1,7 +1,23 @@
+import { createSignal } from "../lib/framework";
 import { Window } from "../components/Window";
 import { Node } from "./Node";
-import { hierarchySignal, files, refreshHierarchy } from "../lib/consts";
+import { setInspector } from "../inspector/Inspector";
+import { files, type TFile } from "../lib/consts";
 import { useRefresh } from "../lib/hooks";
+
+const hierarchySignal = createSignal<TFile>(files.Scenes.MainScene, () => {
+  setInspector(null); // close inspector
+});
+
+const refreshHierarchyRef = { refresh() {} };
+
+export function setHierarchy(file: TFile) {
+  hierarchySignal.set(file);
+}
+
+export function refreshHierarchy() {
+  refreshHierarchyRef.refresh();
+}
 
 export function Hierarchy() {
   return (
@@ -15,7 +31,7 @@ export function Hierarchy() {
 
 function HierarchyComponent() {
   const currentScene = hierarchySignal.use();
-  refreshHierarchy.refresh = useRefresh();
+  refreshHierarchyRef.refresh = useRefresh();
 
   return <Node object={currentScene} parent={files.Scenes} name={currentScene.name} deep={0} />;
 }

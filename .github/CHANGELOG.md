@@ -51,7 +51,7 @@
 
 - Docs: update styles; add styles to scripts
 - code: more explicit types
-- editor UI: signals to functions
+- move all signals to functions as API
 - add project engineVersion validaton before open project (load project safely)
 - new project starting data is new
 

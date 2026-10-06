@@ -1,10 +1,12 @@
 import { audioIconSrc, defaultAssets } from "../lib/assets/assets";
 import { FileElement } from "../components/FileElement";
-import { hierarchySignal, refreshFiles, type TFile } from "../lib/consts";
+import { type TFile } from "../lib/consts";
 import { isCapitalized, deepCopy } from "../lib/util";
 import { useArrow } from "../lib/hooks";
 import { getDragData } from "../ui/DragData";
 import { setNameInput } from "../ui/NameInput";
+import { setHierarchy } from "../hierarchy/Hierarchy";
+import { refreshFiles } from "./Files";
 
 export function File({ parent, file, name, deep, path = `files` }: FileProps) {
   const isMain = deep === 0;
@@ -22,10 +24,10 @@ export function File({ parent, file, name, deep, path = `files` }: FileProps) {
     file[dragData.name] = dragData.file;
     delete dragData.parent[dragData.name];
 
-    refreshFiles.refresh();
+    refreshFiles();
   };
 
-  const onDoubleClick = () => file.type === `scene` && hierarchySignal.set(file);
+  const onDoubleClick = () => file.type === `scene` && setHierarchy(file);
 
   function ChildsElement() {
     return (
@@ -47,7 +49,7 @@ export function File({ parent, file, name, deep, path = `files` }: FileProps) {
           file[newName] = { type, ...deepCopy(defValue || {}) };
 
           arrowSignal.set(true);
-          refreshFiles.refresh();
+          refreshFiles();
         },
       }));
 
@@ -76,7 +78,7 @@ export function File({ parent, file, name, deep, path = `files` }: FileProps) {
 
               delete parent[name];
               parent[newName] = file;
-              refreshFiles.refresh();
+              refreshFiles();
             },
             value: name,
           })),
@@ -84,7 +86,7 @@ export function File({ parent, file, name, deep, path = `files` }: FileProps) {
         !isMain &&
         (() => {
           delete parent[name];
-          refreshFiles.refresh();
+          refreshFiles();
         }),
     },
     ChildsElement,

@@ -1,8 +1,9 @@
-import { inspectorSignal, type TFile } from "../lib/consts";
+import { type TFile } from "../lib/consts";
 import { type ArrowSignal } from "../lib/hooks";
 import { InspectorDisplay } from "../files/InspectorDisplay";
 import { setContextMenu } from "../ui/ContextMenu";
 import { setDragData } from "../ui/DragData";
+import { setInspector } from "../inspector/Inspector";
 import { setComponents } from "../hierarchy/components/componentsLib";
 
 export function FileElement({
@@ -32,7 +33,7 @@ export function FileElement({
           onClick={() => {
             isHierarchy && !isMain
               ? setComponents({ parent, object: file, name })
-              : inspectorSignal.set(<InspectorDisplay path={path} file={file} name={name} />);
+              : setInspector(<InspectorDisplay path={path} file={file} name={name} />);
           }}
           onContextMenu={({ pageX, pageY }) => {
             setContextMenu({

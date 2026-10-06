@@ -56,8 +56,9 @@ export function LoadData() {
               setNameInput({
                 cb: (projectName) => {
                   const now = Date.now();
-                  Object.assign(project.config, deepCopy(emptyProject.config));
-                  Object.assign(project.files, deepCopy(emptyProject.files));
+                  const { config: emptyConfig, files } = emptyProject();
+                  Object.assign(project.config, deepCopy(emptyConfig));
+                  Object.assign(project.files, deepCopy(files));
                   Object.assign(project.metadata, {
                     modifiedDate: now,
                     editorVersion: virginEngineVersion,

@@ -1,9 +1,12 @@
+import { createSignal } from "../lib/framework";
 import { Window } from "../components/Window";
 import { InspectorSection } from "./InspectorSection";
-import { config, inspectorSignal } from "../lib/consts";
+import { config } from "../lib/consts";
 import { buildProject, saveProject, saveProjectFile, testProjects } from "../lib/util";
 import { showDocs } from "../docs/Docs";
 import { setSetUp } from "../ui/LoadData";
+
+const inspectorSignal = createSignal<React.ReactNode>(null);
 
 const editorOpctions = {
   Docs: showDocs,
@@ -16,6 +19,10 @@ const editorOpctions = {
     Load: () => setSetUp(false),
   },
 };
+
+export function setInspector(node: React.ReactNode) {
+  inspectorSignal.set(node);
+}
 
 function Config() {
   return (

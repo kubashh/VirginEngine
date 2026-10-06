@@ -3,7 +3,8 @@ import { InspectorSection } from "../../inspector/InspectorSection";
 import { Script } from "./Script";
 import { Transform } from "./Transform";
 import { Enum } from "../../inspector/typeInput/EnumInput";
-import { inspectorSignal, type TFile } from "../../lib/consts";
+import { setInspector } from "../../inspector/Inspector";
+import { type TFile } from "../../lib/consts";
 import { capitalize, deepCopy } from "../../lib/util";
 import { useRefresh } from "../../lib/hooks";
 
@@ -17,7 +18,7 @@ const script: TComponent = { initValue: `class MyScript {\n}\n` };
 const components: TObj<TComponent> = { rect, text, sprite, physics, audio, script };
 
 export function setComponents(props: ComponentsProps) {
-  inspectorSignal.set(<Components {...props} />);
+  setInspector(<Components {...props} />);
 }
 
 function Components(props: ComponentsProps) {

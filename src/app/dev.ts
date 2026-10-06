@@ -4,4 +4,5 @@ Bun.serve({
   routes: {
     "/": html,
   },
+  development: { hmr: true },
 });
