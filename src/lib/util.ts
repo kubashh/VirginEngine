@@ -97,7 +97,8 @@ export function loadProjectFromDisk(): Promise<TProject | null> {
 export function openProject(data: TProject) {
   if (data.metadata.editorVersion != virginEngineVersion) {
     setPopupMenu({
-      label: `This project use different editor version. Change project version from ${data.metadata.editorVersion} => ${virginEngineVersion}? It may break`,
+      label: `Change project version from ${data.metadata.editorVersion} to ${virginEngineVersion}?`,
+      description: `This project use different editor version. Changing project version may break project`,
       options: {
         Yes: () => {
           data.metadata.editorVersion = virginEngineVersion;

@@ -21,9 +21,15 @@ export function PopupMenu() {
   }, [popupMenu]);
 
   return popupMenu.label ? (
-    <div className="w-screen h-screen flex justify-center bg-[#000b]">
-      <div id="popup-menu" className="flex flex-col *:mx-auto mt-[30vh] mb-auto p-2">
-        <div className="mb-8 text-xl sm:text-2xl">{popupMenu.label}</div>
+    <div className="w-screen h-screen px-4 flex justify-center bg-[#000b]">
+      <div id="popup-menu" className="flex flex-col *:mx-auto mt-[24vh] mb-auto p-2">
+        <div className="mb-4 text-xl sm:text-2xl text-center">{popupMenu.label}</div>
+        <div
+          style={{ display: !popupMenu.description ? `none` : `` }}
+          className="mb-4 text-base text-center"
+        >
+          {popupMenu.description}
+        </div>
         <PopupMenuOptions options={popupMenu.options} />
       </div>
     </div>
@@ -36,7 +42,7 @@ function PopupMenuOptions({ options }: { options?: TObj<() => void> }) {
         <Button
           label={label}
           key={label}
-          className="border-2 sm:border-2 border-zinc-400 px-3 sm:px-6 py-1 sm:py-2 text-lg sm:text-xl rounded-2xl bg-[#000a] hover:text-zinc-400"
+          className="border border-zinc-400 px-3 py-1.5 text-lg rounded-2xl bg-[#000a] hover:text-zinc-400"
           onClick={() => {
             cb();
             setPopupMenu({ label: ``, options: {} });
@@ -55,5 +61,6 @@ function onMouseDown({ target }: MouseEvent) {
 
 type TPopupMenu = {
   label: string;
+  description?: string;
   options?: TObj<() => void>;
 };

@@ -49,7 +49,7 @@
 
 ## 0.23.1-dev (in development)
 
-- Docs: update styles
+- Docs: update styles; add styles to scripts
 - code: more explicit types
 - editor UI: signals to functions
 - add project engineVersion validaton before open project (load project safely)

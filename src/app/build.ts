@@ -1,11 +1,12 @@
 import fs from "fs";
 import plugin from "bun-plugin-tailwind";
+import mdStylesPlugin from "./mdStylesPlugin";
 import { virginEngineVersion } from "../lib/core";
 
 const buildConfig: Bun.BuildConfig = {
   entrypoints: [`./src/app/index.html`],
   outdir: `dist`,
-  plugins: [plugin],
+  plugins: [plugin, mdStylesPlugin],
   minify: true,
   target: `browser`,
   define: {
