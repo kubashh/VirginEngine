@@ -10,12 +10,12 @@ export const happyBoxSprite = `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAo
 export { audioIconSrc };
 
 export const defaultAssets = {
-  img: {
+  boxImg: {
     type: `img`,
     src: boxSprite,
     quality: 1,
   } as TFile,
-  img2: {
+  happyBoxImg: {
     type: `img`,
     src: happyBoxSprite,
     quality: 1,
@@ -65,12 +65,12 @@ export function emptyProject(): TProject {
             sprite: { color: ``, path: `files.Assets.Images.BoxImage` },
             script: `class ChildScript {
   start() {
-    this.node.position = { x: rand(-Camera.xOffset, Camera.xOffset), y: rand(-Camera.yOffset, Camera.yOffset) };
+    this.node.position = { x: random(-Camera.xOffset, Camera.xOffset), y: random(-Camera.yOffset, Camera.yOffset) };
   }
 
   update() {
-    const x = this.node.position.x - rand(2);
-    const y = this.node.position.y - rand(0.3);
+    const x = this.node.position.x - rand(0, 2);
+    const y = this.node.position.y - rand(0, 0.3);
     this.node.position = { x: x < -Camera.xOffset ? Camera.xOffset : x, y: y < -Camera.yOffset ? Camera.yOffset : y };
   }
 }
@@ -83,8 +83,8 @@ export function emptyProject(): TProject {
         type: `folder`,
         Images: {
           type: `folder`,
-          BoxImage: defaultAssets.img,
-          HappyBoxImage: defaultAssets.img2,
+          BoxImage: defaultAssets.boxImg,
+          HappyBoxImage: defaultAssets.happyBoxImg,
         },
         Audio: {
           type: `folder`,

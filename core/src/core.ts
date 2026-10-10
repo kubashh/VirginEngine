@@ -1,6 +1,6 @@
-import { AudioElement } from "./components/AudioElement";
+import { AudioVE } from "./components/AudioVE";
 import { events, eventsHover, files } from "./values/consts";
-import { onresize, randColor } from "./util/basicFunctions";
+import { onresize, randomInt } from "./util/basicFunctions";
 import { VirginEngine } from "./classes/VirginEngine";
 
 // window events
@@ -10,7 +10,7 @@ window.addEventListener(`mouseup`, () => delete eventsHover.click);
 
 window.addEventListener(`click`, () => (events.click = true));
 function setAudioElement() {
-  AudioElement.canPlay = true;
+  AudioVE.canPlay = true;
   window.removeEventListener(`click`, setAudioElement);
 }
 window.addEventListener(`click`, setAudioElement);
@@ -31,6 +31,6 @@ window.addEventListener(`close`, VirginEngine.quit);
 
 // run
 
-console.log(`Engine: ${files || randColor}`);
+console.log(`Engine: ${files || randomInt}`);
 
 VirginEngine.run();

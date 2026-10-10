@@ -18,9 +18,6 @@
 - render via special unit same cross-platform (not pixels like now)
 - use number (id) as identifier, not string name, complitly strip string names.
   so compile sth.parent.name to id or reference or sth[parent_id][name_id]
-- scripts look like Unity scripts, change `new Node({ transform: {...} }, a: 10);` to
-  `MyClass extends Beh { a = 10; ... }; let obj = new MyClass(); obj.start();`, so
-  scripts will be like component
 - Node: make children array, no keys
 
 ### Editor (src)
@@ -54,6 +51,8 @@
 - move all signals to functions as API
 - add project engineVersion validaton before open project (load project safely)
 - new project starting data is new
+- fixed editor.create scene
+- core optimalizations
 
 ## 0.23.0 (26 Sep 2026)
 
@@ -66,8 +65,8 @@
 - core: loadScene via name (not reference)
 - LoadData: projects info set in localStorage; projects in localforage
 - add Notifications
-- fix StringInput again
-- fix building without performance info
+- fixed StringInput again
+- fixed building without performance info
 - project structure: pack metadata to one containter
 - scripting: change scripting type from declarative to class-based
 
@@ -91,14 +90,14 @@
 - implement Window header nested options (dropdown menu)
 - LoadData: change projects names works only via LoadData (not with config like before)
 - Editor: change scrollbar look
-- fix Grab image when run error: `Uncaught SyntaxError: expected expression, got '}'`
+- fixed Grab image when run error: `Uncaught SyntaxError: expected expression, got '}'`
 - better core api design
 - remove compiled core from git
-- fix build error (crash when performanceInfo was set to false)
-- fix clicking LoadData vertically doesn’t hide the loaded data
-- fix files ContextMenu copy file path into clipboard
+- fixed build error (crash when performanceInfo was set to false)
+- fixed clicking LoadData vertically doesn’t hide the loaded data
+- fixed files ContextMenu copy file path into clipboard
 - update ContextMenu style
-- fix loading project from local files
+- fixed loading project from local files
 - make loading project adding project to projects list
 - code: expicit any usage in editor
 
@@ -117,7 +116,7 @@
   - implement `wdwh` `clsx` instead of looked clsx
 - DragData: avoid double refresh of component
 - Implemented useCreateSignal (removed deprecated_useSignal)
-- fix unnecessary showing of editor.DragData when click
+- fixed unnecessary showing of editor.DragData when click
 - Loading/Saving projects in InexedDB works (no files needed)
 - Modernized LoadData, add project modified date
 - display engine version
@@ -178,8 +177,8 @@
 - add core fn: rand
 - update core.Text
 - create `ImageGrabber`
-- fix loadFile symbol error
-- fix config.fullScreen (if false)
+- fixed loadFile symbol error
+- fixed config.fullScreen (if false)
 - add License (MIT)
 - update core.build ~15% faster (rewrite function)
 - core.Sprite use only path to image
@@ -190,7 +189,7 @@
 - image resize function
 - optymalize loadImage (~30% faster)
 - remove bun.lock from git
-- fix core types
+- fixed core types
 
 ## 0.17.0 (x x 2025)
 
@@ -231,7 +230,7 @@
 - move `core` to `typescript` (add types.d.ts)
 - use `Bun.build` for building `core`
 - build.htmlCode improve readability
-- fix Test.reload
+- fixed Test.reload
 
 ## 0.13.0 (14 Jul 2025)
 

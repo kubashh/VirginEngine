@@ -1,6 +1,6 @@
 import { file } from "../util/basicFunctions";
 
-export class AudioElement implements TAudio {
+export class AudioVE implements TAudioVE {
   static canPlay = false;
   private audio: HTMLAudioElement;
 
@@ -9,7 +9,7 @@ export class AudioElement implements TAudio {
   }
 
   play() {
-    if (!AudioElement.canPlay) return;
+    if (!AudioVE.canPlay) return;
 
     this.audio.currentTime = 0;
     this.audio.play();
@@ -20,7 +20,7 @@ export class AudioElement implements TAudio {
   }
 }
 
-type TAudio = {
+type TAudioVE = {
   play: () => void;
   stop: () => void;
 };

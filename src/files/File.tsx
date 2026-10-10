@@ -5,7 +5,7 @@ import { isCapitalized, deepCopy } from "../lib/util";
 import { useArrow } from "../lib/hooks";
 import { getDragData } from "../ui/DragData";
 import { setNameInput } from "../ui/NameInput";
-import { setHierarchy } from "../hierarchy/Hierarchy";
+import { refreshHierarchy, setHierarchy } from "../hierarchy/Hierarchy";
 import { refreshFiles } from "./Files";
 
 export function File({ parent, file, name, deep, path = `files` }: FileProps) {
@@ -41,12 +41,12 @@ export function File({ parent, file, name, deep, path = `files` }: FileProps) {
     );
   }
 
-  const newArrElement = (type: string, defValue?: TFile): (() => void) | false =>
+  const newArrElement = (type: string, defValue: TFile | {}): (() => void) | false =>
     isFolder &&
     (() =>
       setNameInput({
         cb: (newName: string) => {
-          file[newName] = { type, ...deepCopy(defValue || {}) };
+          file[newName] = { type, ...defValue };
 
           arrowSignal.set(true);
           refreshFiles();
@@ -63,11 +63,21 @@ export function File({ parent, file, name, deep, path = `files` }: FileProps) {
     file,
     arrowSignal,
     contextMenuProps: {
-      "New File": newArrElement(`txt`),
-      "New Image": newArrElement(`img`, deepCopy(defaultAssets.img)),
+      "New File": newArrElement(`txt`, {}),
+      "New Image": newArrElement(`img`, deepCopy(defaultAssets.boxImg)),
       "New Audio": newArrElement(`audio`, deepCopy(defaultAssets.audio)),
-      "New Folder": newArrElement(`folder`),
-      "New Scene": newArrElement(`scene`),
+      "New Folder": newArrElement(`folder`, {}),
+      "New Scene":
+        isFolder &&
+        (() =>
+          setNameInput({
+            cb: (newName: string) => {
+              file[newName] = { type: `scene`, name: newName };
+
+              arrowSignal.set(true);
+              refreshFiles();
+            },
+          })),
       "Copy Path": file.type !== `folder` && (() => navigator.clipboard.writeText(path)),
       Rename:
         !isMain &&
@@ -78,6 +88,10 @@ export function File({ parent, file, name, deep, path = `files` }: FileProps) {
 
               delete parent[name];
               parent[newName] = file;
+              if (parent[newName].type === `scene`) {
+                parent[newName].name = newName;
+                refreshHierarchy();
+              }
               refreshFiles();
             },
             value: name,

@@ -11,11 +11,11 @@ export class Scene implements TScene {
 
   constructor(name: string) {
     onresize();
-    VirginEngine.timeScale = 1;
+    VirginEngine.timeScale = 0;
     // @ts-ignore
     const props: SceneProps = Object.values(files.Scenes).find((s) => s.name === name);
     if (!props) throw new Error(`No such scene "${name}"!`);
-    this.root = createNode({ ...deepCopy(props), parent: {} as Node } as any, name);
+    this.root = createNode(Object.assign(deepCopy(props), { parent: {} as Node }) as any, name);
     VirginEngine.timeScale = 1;
 
     nodes.shift(); // remove root node from nodes

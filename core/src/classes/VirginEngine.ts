@@ -48,7 +48,7 @@ export class VirginEngine {
         }
       }
 
-      await wait();
+      await wait(0);
     }
   }
 
@@ -59,7 +59,8 @@ export class VirginEngine {
   private static assetsToLoad(obj: TObj<any>) {
     const toLoad: Promise<void>[] = [];
 
-    for (const [key, value] of Object.entries(obj)) {
+    for (const key in obj) {
+      const value = obj[key];
       if (typeof value === `object`) toLoad.push(...VirginEngine.assetsToLoad(value));
       else if (typeof value === `string`) {
         if (value.startsWith(`data:image/`)) {

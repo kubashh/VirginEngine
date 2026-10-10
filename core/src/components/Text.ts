@@ -27,7 +27,7 @@ export class Text implements TText {
     });
   }
 
-  get props() {
+  getProps() {
     return {
       value: this.value,
       color: this.color,
@@ -44,7 +44,7 @@ type TText = {
 
   render: () => void;
 
-  props: {
+  getProps: () => {
     value: string;
   };
 };

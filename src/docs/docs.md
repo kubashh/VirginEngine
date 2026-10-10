@@ -82,7 +82,7 @@ type TCollider = {};
 
 type TAnimation = {};
 
-type TAudio = {
+type TAudioVE = {
   play: () => void;
   pause: () => void;
 };
@@ -91,13 +91,11 @@ type TAudio = {
 ## Util
 
 ```ts
-function wait(ms?: number | undefined): Promise<void>;
+function wait(ms: number): Promise<void>;
 function deepCopy<T>(data: T): T;
 function file(path: string): any;
-function randInt(min: number, max?: number | undefined): number;
-function rand(min?: number, max?: number | undefined): number;
-function randStr(n?: number): string;
-function randColor(): string;
+function random(min: number, max: number): number;
+function randomInt(min: number, max: number): number;
 ```
 
 ## Editor Config

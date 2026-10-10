@@ -3,7 +3,7 @@ import { Text } from "./Text";
 import { Collider } from "./Collider";
 import { Physics } from "./Physics";
 import { Animation } from "./Animation";
-import { AudioElement } from "./AudioElement";
+import { AudioVE } from "./AudioVE";
 import { nodes } from "../values/consts";
 import { deepCopy, isChildKey } from "../util/basicFunctions";
 
@@ -17,9 +17,11 @@ export function createNode(props: NodeProps, name: string) {
   if (props.parent) node.parent[node.name] = node;
   nodes.push(node);
 
-  node.transform.p = new GSXY(props.transform?.position);
-  if (props.transform?.rotation) node.rotation = props.transform.rotation;
-  node.transform.s = new GSXY(props.transform?.scale || { x: 1, y: 1 });
+  if (props.transform) {
+    node.transform.p = new GSXY(props.transform.position);
+    node.rotation = props.transform.rotation;
+    node.transform.s = new GSXY(props.transform.scale);
+  }
 
   if (props.rect) node.rect = props.rect;
   if (props.text) node.text = new Text(props.text, node);
@@ -28,7 +30,7 @@ export function createNode(props: NodeProps, name: string) {
 
   if (props.collider) node.collider = new Collider(props.collider, node);
   if (props.animation) node.animation = new Animation(props.animation, node);
-  if (props.audio) node.audio = new AudioElement(props.audio);
+  if (props.audio) node.audio = new AudioVE(props.audio);
 
   if (props.script) {
     node.script = props.script;
@@ -68,7 +70,7 @@ export class Node implements TNode {
 
   collider?: Collider;
   animation?: Animation;
-  audio?: AudioElement;
+  audio?: AudioVE;
 
   script?: any;
   scriptChild?: {
@@ -146,7 +148,7 @@ export class Node implements TNode {
       },
       rect: this.rect,
       sprite: this.sprite?.props,
-      text: this.text?.props,
+      text: this.text?.getProps(),
     };
 
     for (const key in this) {
@@ -176,9 +178,9 @@ class GSXY implements XY {
   private vx;
   private vy;
 
-  constructor(props?: XY) {
-    this.vx = props?.x || 0;
-    this.vy = props?.y || 0;
+  constructor(props: XY) {
+    this.vx = props.x;
+    this.vy = props.y;
   }
 
   get x() {
@@ -210,7 +212,7 @@ type TNode = {
   sprite?: Sprite;
   physics?: Physics;
   animation?: Animation;
-  audio?: AudioElement;
+  audio?: AudioVE;
 
   script?: {
     node: TNode;

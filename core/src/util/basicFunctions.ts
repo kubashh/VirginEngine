@@ -1,7 +1,7 @@
 import { Camera, ctx, files, nodes } from "../values/consts";
 
 // time
-export async function wait(ms?: number) {
+export async function wait(ms: number) {
   await new Promise((r) => setTimeout(r, ms));
 }
 
@@ -94,21 +94,12 @@ export function onresize() {
   for (const node of nodes) node.sprite?.resize();
 }
 
-export function randInt(min: number, max?: number) {
-  return Math.floor(rand(min, max));
-}
-
-export function rand(min: number = 1, max?: number) {
+export function random(min: number, max: number) {
   return max ? Math.random() * (max - min) + min : Math.random() * min;
 }
 
-export function randColor() {
-  return `#${randHex()}${randHex()}${randHex()}`;
-}
-
-function randHex() {
-  const n = randInt(16);
-  return n < 10 ? String(n) : String.fromCharCode(45 + n);
+export function randomInt(min: number, max: number) {
+  return Math.floor(random(min, max));
 }
 
 export function lerp(a: XY, b: XY, t: number) {

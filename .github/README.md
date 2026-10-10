@@ -14,21 +14,7 @@ Simple JS game engine for 2D web games
 - `Sprite` (70% done)
 - `Text` (50% done)
 
-### Util
-
-```ts
-function wait(time?: number | undefined): Promise<void>;
-function deepCopy<T>(data: T): T;
-function file(path: string): any;
-function randInt(min: number, max?: number | undefined): number;
-function rand(min?: number, max?: number | undefined): number;
-function randStr(n?: number): string;
-function randColor(): string;
-```
-
-## Editor
-
-### Config [Docs](https://github.com/kubashh/VirginEngine/blob/main/src/docs/README.md)
+## [Docs](https://github.com/kubashh/VirginEngine/blob/main/src/docs/docs.md)
 
 ## Project structure
 
@@ -41,7 +27,7 @@ function randColor(): string;
 - classes | ReactComponents - PascalCase
 - variables | functions | objects - camelCase
 
-## Scripting concepts (0.23.0)
+## Scripting concepts (0.24.0)
 
 ### Before compiling (editor)
 
@@ -68,11 +54,10 @@ let SceneData = {
 // user script
 class MyClass extends Beh {
   public health: number = 100;
-  public nick!: string; // attached to `John` in editor
   public col!: Collider; // attached to object collider (reference)
 
   start() {
-    console.log(this.nick, this.health); // John 100
+    console.log(this.health); // 100
   }
 }
 ```
@@ -88,7 +73,6 @@ class Component {
 
 abstract class Script extends Component {
   start?(): void;
-  update?(): void;
 }
 
 class Node {
@@ -109,11 +93,10 @@ class Node {
 
 class MyClass extends Script {
   public health: number = 100;
-  public nick!: string; // attached to `John` in editor
   public col!: Collider; // attached to object collider (reference)
 
   start() {
-    console.log(this.nick, this.health); // John 100
+    console.log(this.health); // 100
   }
 }
 
@@ -122,7 +105,6 @@ let collider = new Collider(/* ... */);
 node.addComponent(collider);
 let script = new MyClass();
 node.addComponent(script);
-script.nick = `John`; // from editor
 script.col = collider; // or node.getComponent(Collider); // from editor
 script.start(); // skip if not contains start method
 ```

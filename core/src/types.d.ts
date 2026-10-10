@@ -25,7 +25,7 @@ declare const REPLACE_PERFORMANCE_INFO: boolean;
 type NodeProps = {
   rect?: XY;
   parent: TNode;
-  transform: TransformProps;
+  transform?: TransformProps;
 
   text?: TextProps;
   sprite?: SpriteProps;
@@ -40,7 +40,7 @@ type NodeProps = {
   [key: string]: any; // NodeProps
 };
 
-type TransformProps = { position?: XY; rotation?: number; scale?: XY } | undefined;
+type TransformProps = { position: XY; rotation: number; scale: XY };
 type TextProps = { value: string; color: string };
 type SpriteProps = { path: string };
 type PhysicsProps = { gravity: boolean };
