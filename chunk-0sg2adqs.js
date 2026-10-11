@@ -331,6 +331,21 @@ stop() {}
 }
 var keywords = [\`parent\`, \`position\`, \`rotation\`, \`scale\`, \`scriptChild\`];
 var nodeCounter = 0;
+function createRootNode(props, name) {
+const node = new Node(name);
+node.parent = props.parent;
+if (props.transform) {
+node.transform.p = new GSXY(props.transform.position);
+node.rotation = props.transform.rotation;
+node.transform.s = new GSXY(props.transform.scale);
+}
+for (const key in props) {
+if (isChildKey(key))
+createNode({ ...props[key], parent: node }, key);
+}
+node.id = nodeCounter++;
+return node;
+}
 function createNode(props, name) {
 const node = new Node(name);
 node.parent = props.parent;
@@ -493,12 +508,11 @@ camera = { x: 0, y: 0 };
 constructor(name) {
 onresize();
 VirginEngine.timeScale = 0;
-const props = Object.values(files.Scenes).find((s) => s.name === name);
+const props = files.Scenes[name];
 if (!props)
 throw new Error(\`No such scene "\${name}"!\`);
-this.root = createNode(Object.assign(deepCopy(props), { parent: {} }), name);
+this.root = createRootNode(Object.assign(deepCopy(props), { parent: {} }), name);
 VirginEngine.timeScale = 1;
-nodes.shift();
 for (const node of nodes)
 node.scriptChild?.start?.();
 }
