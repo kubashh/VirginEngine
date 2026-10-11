@@ -17,13 +17,13 @@ type VirginEngine = {
 ## Components
 
 ```ts
-// Any Script
+// any Script
 type Script = {
-  node: TNode; // automatically assigned
+  node: Node; // automatically assigned
 };
 
-type TNode = {
-  parent: TNode;
+type Node = {
+  parent: Node;
   id: number;
   name: string;
 
@@ -32,20 +32,20 @@ type TNode = {
   scale: XY;
   rect?: XY;
 
-  text?: TText;
-  sprite?: TSprite;
-  physics?: TPhysics;
-  animation?: TAnimation;
-  audio?: TAudio;
+  text?: Text;
+  sprite?: Sprite;
+  physics?: Physics;
+  animation?: Animation;
+  audio?: AudioVE;
 
-  childs: TNode[];
+  childs: Node[];
   clone: () => void;
   destroy: () => void;
 
-  [key: string]: TNode;
+  [key: string]: Node;
 };
 
-type TText = {
+type Text = {
   value: string;
   color: string;
 
@@ -54,23 +54,24 @@ type TText = {
 
   render: () => void;
 
-  props: {
+  getProps: () => {
     value: string;
   };
 };
 
-type TSprite = {
+type Sprite = {
   path: string;
+  img: HTMLImageElement;
 
   reload: () => void;
   resize: () => void;
   render: () => void;
-  props: {
+  getProps: () => {
     path: string;
   };
 };
 
-type TPhysics = {
+type Physics = {
   velocity: XY;
   gravity: boolean;
 
@@ -78,11 +79,14 @@ type TPhysics = {
   addForce: (force: XY) => void;
 };
 
-type TCollider = {};
+type Collider = {};
 
-type TAnimation = {};
+type Animation = {
+  start: () => void;
+  stop: () => void;
+};
 
-type TAudioVE = {
+type AudioVE = {
   play: () => void;
   pause: () => void;
 };

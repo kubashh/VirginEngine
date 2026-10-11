@@ -60,8 +60,6 @@ export type TFile = {
 export type TProject = {
   files: TFile;
   config: TConfig;
-  // editorVersion: string;
-  // modifiedDate: number;
   metadata: {
     // TODO same data as local storage
     modifiedDate: number;

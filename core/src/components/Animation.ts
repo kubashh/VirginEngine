@@ -1,10 +1,11 @@
 import type { Node } from "./Node";
+import type { Sprite } from "./Sprite";
 
-export class Animation implements TAnimation {
-  private node;
+export class Animation {
+  private node: Node;
 
-  currentFrame = 0;
-  frames;
+  currentFrame: number = 0;
+  frames: Sprite[];
 
   constructor(props: AnimationProps, node: Node) {
     this.node = node;
@@ -25,5 +26,3 @@ export class Animation implements TAnimation {
 
   stop() {}
 }
-
-type TAnimation = {};

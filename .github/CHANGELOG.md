@@ -18,7 +18,8 @@
 - render via special unit same cross-platform (not pixels like now)
 - use number (id) as identifier, not string name, complitly strip string names.
   so compile sth.parent.name to id or reference or sth[parent_id][name_id]
-- Node: make children array, no keys
+- Node: make children array, no
+- build: one object of images, one object of autio (quicker loadAssets)
 
 ### Editor (src)
 
@@ -53,6 +54,7 @@
 - new project starting data is new
 - fixed editor.create scene
 - core optimalizations
+- page: bundle css into html
 
 ## 0.23.0 (26 Sep 2026)
 

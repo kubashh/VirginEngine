@@ -43,6 +43,16 @@ async function build(config: Bun.BuildConfig) {
   // bun minify css and js but not html, so we need to minify it manually
   html = minifyHtmlSyntax(html);
 
+  // bundle css, because with html is steel small. in 2G (EDGE) is theoretically under one second
+  const cssArtefacts = outputs.filter((a) => a.path.endsWith(`.css`));
+  for (const cssArtefact of cssArtefacts) {
+    const cssText = await cssArtefact.text();
+    const cssPath = `./${cssArtefact.path.split(`/`).at(-1)}`;
+    const regex = new RegExp(`<link rel="stylesheet"href="${cssPath}"\\/?>`);
+    html = html.replace(regex, `<style>${cssText}</style>`);
+    await Bun.file(cssArtefact.path).delete();
+  }
+
   await Bun.write(htmlArtifact.path, html);
 }
 

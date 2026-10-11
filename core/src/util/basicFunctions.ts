@@ -54,7 +54,7 @@ export function drawText({
   font = `serif`,
   align,
   ...rest
-}: drawTextProps) {
+}: TdrawTextProps) {
   ctx.save();
 
   ctx.fillStyle = color;
@@ -102,7 +102,7 @@ export function randomInt(min: number, max: number) {
   return Math.floor(random(min, max));
 }
 
-export function lerp(a: XY, b: XY, t: number) {
+export function lerp(a: { x: number; y: number }, b: { x: number; y: number }, t: number) {
   return {
     x: a.x + (b.x - a.x) * t,
     y: a.y + (b.y - a.y) * t,
@@ -114,3 +114,17 @@ export function clearObject(obj: any) {
     delete obj[key];
   }
 }
+
+type TdrawTextProps = {
+  text: string;
+  color: string;
+  x: number;
+  y: number;
+  w?: number;
+  h: number;
+  font?: string;
+  rect?: { x: number; y: number };
+  align?: { x: number; y: number };
+  textAlign?: `left` | `center` | `right` | string;
+  textBaseline?: `bottom` | `middle` | `top` | string;
+};

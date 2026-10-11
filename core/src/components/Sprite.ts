@@ -2,14 +2,14 @@ import { Camera, ctx } from "../values/consts";
 import { file } from "../util/basicFunctions";
 import type { Node } from "./Node";
 
-export class Sprite implements TSprite {
-  private node;
-  private staticDrawProps = { x: 0, y: 0 } as XY;
+export class Sprite {
+  private node: Node;
+  private staticDrawProps = { x: 0, y: 0 };
   img: HTMLImageElement;
 
-  path;
-  w = 0;
-  h = 0;
+  path: string;
+  w: number = 0;
+  h: number = 0;
 
   constructor({ path }: SpriteProps, node: Node) {
     this.node = node;
@@ -20,7 +20,7 @@ export class Sprite implements TSprite {
 
   reload() {
     if (this.node.scale.x !== 1 && this.node.scale.y !== 1) {
-      this.img = this.img.cloneNode() as any;
+      this.img = this.img.cloneNode() as HTMLImageElement;
       resizeImage(this.img, this.node.scale);
       this.img.onload = () => this.resize();
     } else this.resize();
@@ -48,34 +48,22 @@ export class Sprite implements TSprite {
       ctx.drawImage(this.img, x, y);
   }
 
-  get props() {
+  getProps() {
     return {
       path: this.path,
     };
   }
 }
 
-resizeImage.ctx = document.createElement(`canvas`).getContext(`2d`)!;
-resizeImage.ctx.canvas.style.display = `none`;
-function resizeImage(image: HTMLImageElement, { x, y }: XY) {
+let resizeImageCtx = document.createElement(`canvas`).getContext(`2d`)!;
+resizeImageCtx.canvas.style.display = `none`;
+function resizeImage(image: HTMLImageElement, { x, y }: { x: number; y: number }) {
   const newWidth = image.width * x;
   const newHeight = image.height * y;
 
-  resizeImage.ctx.canvas.width = newWidth;
-  resizeImage.ctx.canvas.height = newHeight;
+  resizeImageCtx.canvas.width = newWidth;
+  resizeImageCtx.canvas.height = newHeight;
 
-  resizeImage.ctx.drawImage(image, 0, 0, newWidth, newHeight);
-  image.src = resizeImage.ctx.canvas.toDataURL();
+  resizeImageCtx.drawImage(image, 0, 0, newWidth, newHeight);
+  image.src = resizeImageCtx.canvas.toDataURL();
 }
-
-type TSprite = {
-  path: string;
-  img: HTMLImageElement;
-
-  reload: () => void;
-  resize: () => void;
-  render: () => void;
-  props: {
-    path: string;
-  };
-};

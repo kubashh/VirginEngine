@@ -5,8 +5,8 @@ export class Timer {
     for (const timer of this.timers) timer.reset();
   }
 
-  private timers;
-  allFormatted = [] as string[];
+  private timers: TObj<number>;
+  allFormatted: string[] = [];
 
   constructor(...labels: string[]) {
     this.timers = labels.reduce((prev, str) => ({ ...prev, [str]: 0 }), {} as TObj<number>);

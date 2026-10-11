@@ -1,7 +1,7 @@
 import { file } from "../util/basicFunctions";
 
-export class AudioVE implements TAudioVE {
-  static canPlay = false;
+export class AudioVE {
+  static canPlay: boolean = false;
   private audio: HTMLAudioElement;
 
   constructor({ path }: AudioProps) {
@@ -19,8 +19,3 @@ export class AudioVE implements TAudioVE {
     this.audio.pause();
   }
 }
-
-type TAudioVE = {
-  play: () => void;
-  stop: () => void;
-};

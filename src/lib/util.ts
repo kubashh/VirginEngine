@@ -1,3 +1,4 @@
+import type { BuildOptions } from "../../core/build/build";
 import localforage from "localforage";
 import { build, virginEngineVersion } from "./core";
 import { setSetUp } from "../ui/LoadData";
@@ -208,7 +209,7 @@ async function buildSafely(production: boolean) {
   const performanceInfo =
     config.performanceInfo.selected === `yes` || (!production && config.performanceInfo.selected === `dev`);
 
-  const validConfig = {
+  const validConfig: BuildOptions = {
     author: config.author,
     description: config.description,
     gameName: config.gameName,

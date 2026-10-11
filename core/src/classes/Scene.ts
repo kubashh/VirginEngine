@@ -1,9 +1,9 @@
-import { createNode, type Node } from "../components/Node";
+import { createRootNode, type Node } from "../components/Node";
 import { events, eventsHover, files, nodes } from "../values/consts";
 import { clearObject, deepCopy, onresize } from "../util/basicFunctions";
 import { VirginEngine } from "./VirginEngine";
 
-export class Scene implements TScene {
+export class Scene {
   // loaded = new Map<number, boolean>() // TODO key: id; if loaded.size === 0 run scene
   root: Node;
 
@@ -13,12 +13,12 @@ export class Scene implements TScene {
     onresize();
     VirginEngine.timeScale = 0;
     // @ts-ignore
-    const props: SceneProps = Object.values(files.Scenes).find((s) => s.name === name);
+    const props: SceneProps = files.Scenes[name];
     if (!props) throw new Error(`No such scene "${name}"!`);
-    this.root = createNode(Object.assign(deepCopy(props), { parent: {} as Node }) as any, name);
+    this.root = createRootNode(Object.assign(deepCopy(props), { parent: {} as Node }) as any, name);
     VirginEngine.timeScale = 1;
 
-    nodes.shift(); // remove root node from nodes
+    // nodes.shift(); // remove root node from nodes
 
     for (const node of nodes) node.scriptChild?.start?.();
   }
@@ -36,11 +36,3 @@ export class Scene implements TScene {
 }
 
 type SceneProps = { name: string; [key: string]: any };
-
-type TScene = {
-  root: Node;
-
-  camera: XY;
-
-  close(): void;
-};

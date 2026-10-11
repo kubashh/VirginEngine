@@ -9,8 +9,8 @@ const renderTimer: Timer = performanceInfo && new Timer(`Sprite`, `Text`, `Nodes
 const updateTimer: Timer = performanceInfo && new Timer(`Physics`, `Nodes`);
 
 export class VirginEngine {
-  private static running = false;
-  private static renderFrameId = 0;
+  private static running: boolean = false;
+  private static renderFrameId: number = 0;
 
   static scene: Scene;
 

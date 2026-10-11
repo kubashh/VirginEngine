@@ -11,6 +11,26 @@ const keywords = [`parent`, `position`, `rotation`, `scale`, `scriptChild`];
 
 let nodeCounter = 0;
 
+// creating scene node. temp solution
+export function createRootNode(props: NodeProps, name: string) {
+  const node = new Node(name);
+  node.parent = props.parent;
+
+  if (props.transform) {
+    node.transform.p = new GSXY(props.transform.position);
+    node.rotation = props.transform.rotation;
+    node.transform.s = new GSXY(props.transform.scale);
+  }
+
+  for (const key in props) {
+    if (isChildKey(key)) createNode({ ...props[key], parent: node }, key);
+  }
+
+  node.id = nodeCounter++;
+
+  return node;
+}
+
 export function createNode(props: NodeProps, name: string) {
   const node = new Node(name);
   node.parent = props.parent;
@@ -38,10 +58,12 @@ export function createNode(props: NodeProps, name: string) {
     node.scriptChild!.node = node;
   }
 
+  // future solution
   if (props.childern)
     for (const key in props.childern) {
       createNode({ ...props.childern[key], parent: node }, key);
     }
+  // temp solution
   for (const key in props) {
     if (isChildKey(key)) createNode({ ...props[key], parent: node }, key);
   }
@@ -57,12 +79,12 @@ export class Node implements TNode {
   parent!: TNode;
 
   transform = {
-    p: {} as XY,
+    p: {} as { x: number; y: number },
     rz: 0,
-    s: {} as XY,
+    s: {} as { x: number; y: number },
   };
 
-  rect?: XY;
+  rect?: { x: number; y: number };
 
   text?: Text;
   sprite?: Sprite;
@@ -73,12 +95,7 @@ export class Node implements TNode {
   audio?: AudioVE;
 
   script?: any;
-  scriptChild?: {
-    node: TNode;
-    start?: () => {};
-    update?: () => {};
-    render?: () => {};
-  }; // temp solution
+  scriptChild?: TScriptChild; // temp solution
 
   constructor(name: string) {
     this.name = name;
@@ -91,7 +108,7 @@ export class Node implements TNode {
     );
   }
 
-  get position(): XY {
+  get position(): { x: number; y: number } {
     return this.transform.p;
   }
   set position({ x, y }) {
@@ -118,7 +135,7 @@ export class Node implements TNode {
     this.transform.rz = z;
   }
 
-  get scale(): XY {
+  get scale(): { x: number; y: number } {
     return this.transform.s;
   }
   set scale({ x, y }) {
@@ -147,7 +164,7 @@ export class Node implements TNode {
         },
       },
       rect: this.rect,
-      sprite: this.sprite?.props,
+      sprite: this.sprite?.getProps(),
       text: this.text?.getProps(),
     };
 
@@ -174,11 +191,11 @@ export class Node implements TNode {
   }
 }
 
-class GSXY implements XY {
+class GSXY {
   private vx;
   private vy;
 
-  constructor(props: XY) {
+  constructor(props: { x: number; y: number }) {
     this.vx = props.x;
     this.vy = props.y;
   }
@@ -203,10 +220,10 @@ type TNode = {
   id: number;
   parent: TNode;
 
-  position: XY;
+  position: { x: number; y: number };
   rotation: number;
-  scale: XY;
-  rect?: XY;
+  scale: { x: number; y: number };
+  rect?: { x: number; y: number };
 
   text?: Text;
   sprite?: Sprite;
@@ -227,4 +244,29 @@ type TNode = {
   destroy: () => void;
 
   [key: string]: any; // TNode
+};
+
+type NodeProps = {
+  rect?: { x: number; y: number };
+  parent: TNode;
+  transform?: TransformProps;
+
+  text?: TextProps;
+  sprite?: SpriteProps;
+  physics?: PhysicsProps;
+  audio?: AudioProps;
+
+  collider?: ColliderProps;
+  animation?: AnimationProps;
+
+  childern?: NodeProps[];
+
+  [key: string]: any; // NodeProps
+};
+
+type TScriptChild = {
+  node: TNode;
+  start?: () => {};
+  update?: () => {};
+  render?: () => {};
 };
