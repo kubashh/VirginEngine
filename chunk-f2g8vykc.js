@@ -234,21 +234,21 @@ const y = this.staticDrawProps.y - this.node.position.y;
 if (0 < x + this.w && x - this.w < 2 * Camera.xOffset && 0 < y + this.h && y - this.h < 2 * Camera.yOffset)
 ctx.drawImage(this.img, x, y);
 }
-get props() {
+getProps() {
 return {
 path: this.path
 };
 }
 }
-resizeImage.ctx = document.createElement(\`canvas\`).getContext(\`2d\`);
-resizeImage.ctx.canvas.style.display = \`none\`;
+var resizeImageCtx = document.createElement(\`canvas\`).getContext(\`2d\`);
+resizeImageCtx.canvas.style.display = \`none\`;
 function resizeImage(image, { x, y }) {
 const newWidth = image.width * x;
 const newHeight = image.height * y;
-resizeImage.ctx.canvas.width = newWidth;
-resizeImage.ctx.canvas.height = newHeight;
-resizeImage.ctx.drawImage(image, 0, 0, newWidth, newHeight);
-image.src = resizeImage.ctx.canvas.toDataURL();
+resizeImageCtx.canvas.width = newWidth;
+resizeImageCtx.canvas.height = newHeight;
+resizeImageCtx.drawImage(image, 0, 0, newWidth, newHeight);
+image.src = resizeImageCtx.canvas.toDataURL();
 }
 class Text {
 node;
@@ -445,7 +445,7 @@ y: this.scale.y
 }
 },
 rect: this.rect,
-sprite: this.sprite?.props,
+sprite: this.sprite?.getProps(),
 text: this.text?.getProps()
 };
 for (const key in this) {
@@ -707,7 +707,7 @@ VirginEngine.run();`,Rv=[];async function fA(e){let t=await AO(e);return Rv.leng
 `).replace("var files",Rv.join(`
 `)+`
 const files`).replace("REPLACE_FILES",t.join("")).replace("REPLACE_STARTING_SCENE_NAME",e.startingSceneName).replace("REPLACE_CANVAS_ID",e.hydrate||"canvas").replace("REPLACE_PERFORMANCE_INFO",String(e.performanceInfo))}function Wg(e,t,n){if(typeof e==="string"&&e.startsWith("class")){let r=e.match(/\bclass\s+([A-Za-z_$][\w$]*)\b/)?.[1];if(!r)throw Error(`this class doesn't have name!
-${e}`);return Rv.push(e),[r]}if(typeof e!=="object")return[n==="node"&&TO(t)?e:JSON.stringify(e)];if(Array.isArray(e))return["[",e.reduce((i,r)=>[...i,...Wg(r),","],[]).slice(0,-1),"]"];if(e.type==="img")return['"',SO(e.src,e.quality),'"'];else if(e.type==="audio")return[`"${e.src}"`];else if(e.type==="enum")return e.selected;return["{",...Object.keys(e).filter((i)=>i!=="type").reduce((i,r)=>[...i,`${r}:`,...Wg(e[r],r,e.type),","],[]).slice(0,-1),"}"]}function TO(e){return!/^[A-Z]/.test(e)&&!bO.includes(e)}function CO(e){let t=EO(e,{module:!0,ecma:2025,compress:{passes:10,toplevel:!0,drop_console:!0,drop_debugger:!0,unsafe:!0,unsafe_arrows:!0,unsafe_comps:!0,pure_getters:!0,hoist_props:!0,reduce_funcs:!0,reduce_vars:!0,collapse_vars:!0,inline:3},mangle:!0,format:{comments:!1}});if(t.code==null)throw Error(JSON.stringify(t));return t.code}var ar="0.23.1-dev.5",RO='<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport"content="width=device-width,initial-scale=1.0"/><meta name="author"content="REPLACE_AUTHOR"/><meta name="description"content="REPLACE_DESCRIPTION"/><title>REPLACE_GAME_NAME</title></head><body style="background-color:black;margin:0;overflow:hidden"><canvas id="canvas"></canvas><script>SCRIPT;</script></body></html>';async function dA(e){let t={...e,production:e.production!==!1,hydrate:e.hydrate||"",separateJs:e.separateJs!==!1,log:e.log!==!1},n={};if(t.hydrate)n["script.js"]=await fA(t);else if(t.separateJs)n["index.html"]=await hD(t);else n["index.html"]=await hD(t);if(e.log){let i=n["index.html"]?.length||0,r=n["script.js"]?.length||0;if(t.hydrate)console.log(`JS size: ${r}`);else if(t.separateJs)console.log(`HTML size: ${i}
+${e}`);return Rv.push(e),[r]}if(typeof e!=="object")return[n==="node"&&TO(t)?e:JSON.stringify(e)];if(Array.isArray(e))return["[",e.reduce((i,r)=>[...i,...Wg(r),","],[]).slice(0,-1),"]"];if(e.type==="img")return['"',SO(e.src,e.quality),'"'];else if(e.type==="audio")return[`"${e.src}"`];else if(e.type==="enum")return e.selected;return["{",...Object.keys(e).filter((i)=>i!=="type").reduce((i,r)=>[...i,`${r}:`,...Wg(e[r],r,e.type),","],[]).slice(0,-1),"}"]}function TO(e){return!/^[A-Z]/.test(e)&&!bO.includes(e)}function CO(e){let t=EO(e,{module:!0,ecma:2025,compress:{passes:10,toplevel:!0,drop_console:!0,drop_debugger:!0,unsafe:!0,unsafe_arrows:!0,unsafe_comps:!0,pure_getters:!0,hoist_props:!0,reduce_funcs:!0,reduce_vars:!0,collapse_vars:!0,inline:3},mangle:!0,format:{comments:!1}});if(t.code==null)throw Error(JSON.stringify(t));return t.code}var ar="0.23.1-dev.6",RO='<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport"content="width=device-width,initial-scale=1.0"/><meta name="author"content="REPLACE_AUTHOR"/><meta name="description"content="REPLACE_DESCRIPTION"/><title>REPLACE_GAME_NAME</title></head><body style="background-color:black;margin:0;overflow:hidden"><canvas id="canvas"></canvas><script>SCRIPT;</script></body></html>';async function dA(e){let t={...e,production:e.production!==!1,hydrate:e.hydrate||"",separateJs:e.separateJs!==!1,log:e.log!==!1},n={};if(t.hydrate)n["script.js"]=await fA(t);else if(t.separateJs)n["index.html"]=await hD(t);else n["index.html"]=await hD(t);if(e.log){let i=n["index.html"]?.length||0,r=n["script.js"]?.length||0;if(t.hydrate)console.log(`JS size: ${r}`);else if(t.separateJs)console.log(`HTML size: ${i}
 JS size: ${r}`);else{let a=n["index.html"].indexOf("</script>")-n["index.html"].indexOf("<script>");console.log(`index.html size: ${i+a} (${i} (HTML) + ${a} (JS))`)}}return n}async function hD(e){return xO(e).replaceAll("SCRIPT",await fA(e))}function xO(e){return RO.replaceAll("REPLACE_AUTHOR",e.author).replaceAll("REPLACE_DESCRIPTION",e.description).replaceAll("REPLACE_GAME_NAME",e.gameName)}function pA({sig:e,type:t}){return G("select",{className:"w-full border-b border-zinc-400 accent-green-600",defaultValue:e.get().selected,onChange:({target:n})=>{e.get().selected=t==="number"?Number(n.value):n.value},children:e.get().options.map((n)=>G("option",{value:n,children:n},n))})}function lf(e,...t){return{type:"enum",options:t,selected:e}}var wO="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAdnJLH8AAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAuIwAALiMBeKU/dgAAAA9JREFUCB0BBAD7/wD///8F/gL+A30ZxgAAAABJRU5ErkJggg==",OO="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAIAAAACUFjqAAAAAXNSR0IB2cksfwAAAARnQU1BAACxjwv8YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAuIwAALiMBeKU/dgAAAAd0SU1FB+oEBBIdGhxFQasAAAC2SURBVBjThY8xCoNAFET/xiBqYa0L3sXWK3gowSt4A89gJQjWgttY/F3LhY+N4KRIE5Mir5liijejANCd4ziIKEkSInqe59k0TVEUdV1ba51zYRgOw+CcK8vyMY5j3/fTNBFRnudZlolImqbXdXnviZmNMcyMO8YYAOrX/cnjHSIiIl/dPM9PIuq6blkWAN57Zg6CQGu973scxwqAtbZt223b1nUFoLVWSlVVFUXRzf35+M2faS94cHkj8YCVlgAAAABJRU5ErkJggg==";var yu={boxImg:{type:"img",src:wO,quality:1},happyBoxImg:{type:"img",src:OO,quality:1},audio:{type:"audio",src:"",quality:1}};function $p(){return{files:{type:"folder",Scenes:{type:"folder",MenuScene:{type:"scene",name:"MenuScene"},MainScene:{name:"MainScene",type:"scene",Parent:{type:"node",transform:{position:{x:0,y:0},rotation:0,scale:{x:1,y:1}},script:`class ParentController {
   start() {
     for(let i = 0; i < 20; i++)
@@ -738,13 +738,13 @@ JS size: ${r}`);else{let a=n["index.html"].indexOf("</script>")-n["index.html"].
 <span style="color:yellow;">}</span>;
 </code></pre>
 <h2>Components</h2>
-<pre><code class="language-ts"><span style="color:#419B45;">// Any Script</span>
+<pre><code class="language-ts"><span style="color:#419B45;">// any Script</span>
 <span style="color:pink;">type</span> Script = <span style="color:yellow;">{</span>
-  node: TNode; <span style="color:#419B45;">// automatically assigned</span>
+  node: Node; <span style="color:#419B45;">// automatically assigned</span>
 <span style="color:yellow;">}</span>;
 
-<span style="color:pink;">type</span> TNode = <span style="color:yellow;">{</span>
-  parent: TNode;
+<span style="color:pink;">type</span> Node = <span style="color:yellow;">{</span>
+  parent: Node;
   id: <span style="color:#78E29C;">number</span>;
   name: <span style="color:#78E29C;">string</span>;
 
@@ -753,20 +753,20 @@ JS size: ${r}`);else{let a=n["index.html"].indexOf("</script>")-n["index.html"].
   scale: XY;
   rect?: XY;
 
-  text?: TText;
-  sprite?: TSprite;
-  physics?: TPhysics;
-  animation?: TAnimation;
-  audio?: TAudio;
+  text?: Text;
+  sprite?: Sprite;
+  physics?: Physics;
+  animation?: Animation;
+  audio?: AudioVE;
 
-  childs: TNode<span style="color:yellow;">[</span><span style="color:yellow;">]</span>;
+  childs: Node<span style="color:yellow;">[</span><span style="color:yellow;">]</span>;
   clone: <span style="color:yellow;">(</span><span style="color:yellow;">)</span> =&gt; <span style="color:#78E29C;">void</span>;
   destroy: <span style="color:yellow;">(</span><span style="color:yellow;">)</span> =&gt; <span style="color:#78E29C;">void</span>;
 
-  <span style="color:yellow;">[</span>key: <span style="color:#78E29C;">string</span><span style="color:yellow;">]</span>: TNode;
+  <span style="color:yellow;">[</span>key: <span style="color:#78E29C;">string</span><span style="color:yellow;">]</span>: Node;
 <span style="color:yellow;">}</span>;
 
-<span style="color:pink;">type</span> TText = <span style="color:yellow;">{</span>
+<span style="color:pink;">type</span> Text = <span style="color:yellow;">{</span>
   value: <span style="color:#78E29C;">string</span>;
   color: <span style="color:#78E29C;">string</span>;
 
@@ -775,23 +775,24 @@ JS size: ${r}`);else{let a=n["index.html"].indexOf("</script>")-n["index.html"].
 
   render: <span style="color:yellow;">(</span><span style="color:yellow;">)</span> =&gt; <span style="color:#78E29C;">void</span>;
 
-  props: <span style="color:yellow;">{</span>
+  getProps: <span style="color:yellow;">(</span><span style="color:yellow;">)</span> =&gt; <span style="color:yellow;">{</span>
     value: <span style="color:#78E29C;">string</span>;
   <span style="color:yellow;">}</span>;
 <span style="color:yellow;">}</span>;
 
-<span style="color:pink;">type</span> TSprite = <span style="color:yellow;">{</span>
+<span style="color:pink;">type</span> Sprite = <span style="color:yellow;">{</span>
   path: <span style="color:#78E29C;">string</span>;
+  img: HTMLImageElement;
 
   reload: <span style="color:yellow;">(</span><span style="color:yellow;">)</span> =&gt; <span style="color:#78E29C;">void</span>;
   resize: <span style="color:yellow;">(</span><span style="color:yellow;">)</span> =&gt; <span style="color:#78E29C;">void</span>;
   render: <span style="color:yellow;">(</span><span style="color:yellow;">)</span> =&gt; <span style="color:#78E29C;">void</span>;
-  props: <span style="color:yellow;">{</span>
+  getProps: <span style="color:yellow;">(</span><span style="color:yellow;">)</span> =&gt; <span style="color:yellow;">{</span>
     path: <span style="color:#78E29C;">string</span>;
   <span style="color:yellow;">}</span>;
 <span style="color:yellow;">}</span>;
 
-<span style="color:pink;">type</span> TPhysics = <span style="color:yellow;">{</span>
+<span style="color:pink;">type</span> Physics = <span style="color:yellow;">{</span>
   velocity: XY;
   gravity: <span style="color:#78E29C;">boolean</span>;
 
@@ -799,11 +800,14 @@ JS size: ${r}`);else{let a=n["index.html"].indexOf("</script>")-n["index.html"].
   addForce: <span style="color:yellow;">(</span>force: XY<span style="color:yellow;">)</span> =&gt; <span style="color:#78E29C;">void</span>;
 <span style="color:yellow;">}</span>;
 
-<span style="color:pink;">type</span> TCollider = <span style="color:yellow;">{</span><span style="color:yellow;">}</span>;
+<span style="color:pink;">type</span> Collider = <span style="color:yellow;">{</span><span style="color:yellow;">}</span>;
 
-<span style="color:pink;">type</span> TAnimation = <span style="color:yellow;">{</span><span style="color:yellow;">}</span>;
+<span style="color:pink;">type</span> Animation = <span style="color:yellow;">{</span>
+  start: <span style="color:yellow;">(</span><span style="color:yellow;">)</span> =&gt; <span style="color:#78E29C;">void</span>;
+  stop: <span style="color:yellow;">(</span><span style="color:yellow;">)</span> =&gt; <span style="color:#78E29C;">void</span>;
+<span style="color:yellow;">}</span>;
 
-<span style="color:pink;">type</span> TAudioVE = <span style="color:yellow;">{</span>
+<span style="color:pink;">type</span> AudioVE = <span style="color:yellow;">{</span>
   play: <span style="color:yellow;">(</span><span style="color:yellow;">)</span> =&gt; <span style="color:#78E29C;">void</span>;
   pause: <span style="color:yellow;">(</span><span style="color:yellow;">)</span> =&gt; <span style="color:#78E29C;">void</span>;
 <span style="color:yellow;">}</span>;
