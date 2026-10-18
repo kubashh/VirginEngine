@@ -13,7 +13,8 @@ let nodeCounter = 0;
 
 // creating scene node. temp solution
 export function createRootNode(props: NodeProps, name: string) {
-  const node = new Node(name);
+  const node = new Node();
+  node.name = name;
   node.parent = props.parent;
 
   if (props.transform) {
@@ -32,7 +33,8 @@ export function createRootNode(props: NodeProps, name: string) {
 }
 
 export function createNode(props: NodeProps, name: string) {
-  const node = new Node(name);
+  const node = new Node();
+  node.name = name;
   node.parent = props.parent;
   if (props.parent) node.parent[node.name] = node;
   nodes.push(node);
@@ -74,7 +76,7 @@ export function createNode(props: NodeProps, name: string) {
 }
 
 export class Node implements TNode {
-  name: string;
+  name!: string;
   id!: number;
   parent!: TNode;
 
@@ -97,11 +99,9 @@ export class Node implements TNode {
   script?: any;
   scriptChild?: TScriptChild; // temp solution
 
-  constructor(name: string) {
-    this.name = name;
-  }
+  constructor() {}
 
-  get childs(): Node[] {
+  getChilds(): Node[] {
     return Object.keys(this).reduce(
       (prev, key) => (isChildKey(key) ? [...prev, (this as TNode)[key]] : prev),
       [] as Node[],
@@ -112,7 +112,7 @@ export class Node implements TNode {
     return this.transform.p;
   }
   set position({ x, y }) {
-    for (const child of this.childs) {
+    for (const child of this.getChilds()) {
       child.position.x += -this.position.x + x;
       child.position.y += -this.position.y + y;
     }
@@ -128,7 +128,7 @@ export class Node implements TNode {
     z %= 360;
     if (z < 0) z += 360;
 
-    for (const child of this.childs) {
+    for (const child of this.getChilds()) {
       child.rotation = child.rotation - this.rotation + z;
     }
 
@@ -139,7 +139,7 @@ export class Node implements TNode {
     return this.transform.s;
   }
   set scale({ x, y }) {
-    for (const child of this.childs) {
+    for (const child of this.getChilds()) {
       child.scale.x = (child.scale.x / this.scale.x) * x;
       child.scale.y = (child.scale.y / this.scale.y) * y;
     }
@@ -181,7 +181,7 @@ export class Node implements TNode {
   }
 
   destroy() {
-    for (const child of this.childs) child.destroy();
+    for (const child of this.getChilds()) child.destroy();
 
     const { parent, name } = this;
 
@@ -239,7 +239,7 @@ type TNode = {
   };
   scriptChild?: any; // temp object
 
-  childs: TNode[];
+  getChilds: () => TNode[];
   clone: () => void;
   destroy: () => void;
 

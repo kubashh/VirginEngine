@@ -3,11 +3,6 @@ import { ctx, events, nodes, Log, files, performanceInfo } from "../values/const
 import { clearObject, drawText, wait } from "../util/basicFunctions";
 import { Scene } from "./Scene";
 
-// @ts-ignore
-const renderTimer: Timer = performanceInfo && new Timer(`Sprite`, `Text`, `Nodes`);
-// @ts-ignore
-const updateTimer: Timer = performanceInfo && new Timer(`Physics`, `Nodes`);
-
 export class VirginEngine {
   private static running: boolean = false;
   private static renderFrameId: number = 0;
@@ -87,7 +82,7 @@ export class VirginEngine {
 
   private static update() {
     if (performanceInfo) {
-      updateTimer.measure({ Physics: VirginEngine.updatePhysics, Nodes: VirginEngine.updateNodes });
+      Timer.updateTimer.measure({ Physics: VirginEngine.updatePhysics, Nodes: VirginEngine.updateNodes });
     } else {
       VirginEngine.updatePhysics();
       VirginEngine.updateNodes();
@@ -111,7 +106,7 @@ export class VirginEngine {
     VirginEngine.clearCtx();
 
     if (performanceInfo) {
-      renderTimer.measure({
+      Timer.renderTimer.measure({
         Sprite: VirginEngine.renderSprite,
         Text: VirginEngine.renderText,
         Nodes: VirginEngine.renderNodes,
@@ -163,7 +158,7 @@ export class VirginEngine {
       textAlign: `right`,
     });
 
-    for (const text of renderTimer.allFormatted) {
+    for (const text of Timer.renderTimer.allFormatted) {
       drawText({ text, ...props });
       props.y += 18;
     }
@@ -171,7 +166,7 @@ export class VirginEngine {
     props.x = 160;
     props.y = 6;
 
-    for (const text of updateTimer.allFormatted) {
+    for (const text of Timer.updateTimer.allFormatted) {
       drawText({ text, ...props });
       props.y += 18;
     }
@@ -185,11 +180,11 @@ export class VirginEngine {
 
   // time
   static get timeScale() {
-    return Time.timeScale;
+    return Time.vtimeScale;
   }
 
   static set timeScale(scale: number) {
-    Time.timeScale = scale;
+    Time.setTimeScale(scale);
   }
 
   // load scene
@@ -199,19 +194,15 @@ export class VirginEngine {
   }
 }
 
-class Time {
-  private static vtimeScale = 1;
-  static msdiv = 1;
-  static lastTime = 0;
+const Time = {
+  vtimeScale: 1,
+  msdiv: 1,
+  lastTime: 0,
 
-  static get timeScale() {
-    return Time.vtimeScale;
-  }
-
-  static set timeScale(timeScale: number) {
+  setTimeScale(timeScale: number) {
     this.vtimeScale = timeScale;
     const ms = 1000 / (60 * this.vtimeScale);
     this.msdiv = 1 / ms;
-    Time.lastTime = performance.now();
-  }
-}
+    this.lastTime = performance.now();
+  },
+};

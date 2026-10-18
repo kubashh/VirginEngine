@@ -1,5 +1,12 @@
+import { performanceInfo } from "../values/consts";
+
 export class Timer {
   static timers: Timer[] = [];
+
+  // @ts-ignore
+  static renderTimer: Timer = performanceInfo && new Timer(`Sprite`, `Text`, `Nodes`);
+  // @ts-ignore
+  static updateTimer: Timer = performanceInfo && new Timer(`Physics`, `Nodes`);
 
   static reset() {
     for (const timer of this.timers) timer.reset();
@@ -9,7 +16,7 @@ export class Timer {
   allFormatted: string[] = [];
 
   constructor(...labels: string[]) {
-    this.timers = labels.reduce((prev, str) => ({ ...prev, [str]: 0 }), {} as TObj<number>);
+    this.timers = labels.reduce((prev, str) => ({ ...prev, [str]: 0 }), {});
     this.reset();
     Timer.timers.push(this);
   }
@@ -17,9 +24,9 @@ export class Timer {
   measure(obj: TObj<() => void>) {
     const timer = this.timers;
 
-    for (const [name, f] of Object.entries(obj)) {
+    for (const name in obj) {
       const start = performance.now();
-      f();
+      obj[name]();
       const end = performance.now() - start;
       if (!this.timers[name]) this.timers[name] = 0;
       timer[name] += end;

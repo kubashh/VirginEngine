@@ -55,6 +55,8 @@
 - fixed editor.create scene
 - core optimalizations
 - page: bundle css into html
+- dev: refresh localhost when `core` directory changed
+- core: less js sugar magic
 
 ## 0.23.0 (26 Sep 2026)
 
