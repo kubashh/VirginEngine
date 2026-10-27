@@ -69,7 +69,7 @@ async function build() {
   // build all the HTML files
   const { outputs } = await Bun.build(config);
 
-  const htmlArtifact = outputs.find((f) => f.path.endsWith(`.html`))!;
+  const htmlArtifact = outputs.find((a) => a.path.endsWith(`.html`))!;
 
   let html = await htmlArtifact.text();
 

@@ -30,7 +30,6 @@
 - PathInput (for paths, better optymalization for not use file() while running)
 - add to every file and object specific id for reference reasons
 - Sprite: use sprite or color (good for prototyping)
-- make utils shered between core and src
 - Editor: mobile layout full support
 - Img/Audio tests
 - LoadData new project set config (author, description...)
@@ -39,7 +38,9 @@
 
 <br />
 
-## 0.23.1-dev (in development)
+## 0.23.2-dev (in development)
+
+## 0.23.1 (27 Oct)
 
 - Docs: update styles; add styles to scripts
 - code: more explicit types
@@ -57,6 +58,8 @@
 - fixed default parent script
 - bundle scripts to two file
 - scripts hide changes in `index.html`, so git don't have trash commits
+- fexed NameInput empty string. now string can be empty, but don't call callback functions
+- remove LoadData localStorage cache
 
 ## 0.23.0 (26 Sep 2026)
 

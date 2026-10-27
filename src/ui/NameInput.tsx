@@ -45,8 +45,6 @@ function useNameInput(ref: React.RefObject<HTMLInputElement | null>) {
       onChange: ({ target }: { target: { value: string } }) => {
         const newValue = lowerCase ? decapitalize(target.value) : capitalize(target.value);
 
-        if (!isValidName(newValue)) return;
-
         setNameInput({ cb, value: newValue, lowerCase });
       },
       onKeyDown: ({ key }: React.KeyboardEvent<HTMLInputElement>) => key === `Enter` && onReturn(nameInput),
@@ -56,7 +54,7 @@ function useNameInput(ref: React.RefObject<HTMLInputElement | null>) {
 
 function onReturn(nameInput: TNameInput | null) {
   const { cb, value } = getPropsSave(nameInput);
-  if (cb && isValidName(value)) {
+  if (cb && isValidName(value) && /[a-zA-Z]/i.test(value[0])) {
     cb(value);
   }
   setNameInput(null);

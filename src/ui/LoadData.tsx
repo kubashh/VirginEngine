@@ -16,7 +16,71 @@ const DAY = 24 * 60 * 60 * 1000;
 const MONTH = 30 * DAY;
 const YEAR = 365 * DAY;
 
-const projectsSignal = createSignal<TLDProject[]>([]);
+class LDProject {
+  name: string;
+  modifiedDate: number;
+  modifiedDateSignal: Signal<string>;
+  editorVersion: string;
+  timeoutId: NodeJS.Timeout | null;
+
+  constructor(props: { name: string; modifiedDate?: number; editorVersion?: string }) {
+    if (!projectsSignal.get().find((p) => p.name === props.name)) {
+      projectsSignal.set((prev) => [...prev, this]);
+    }
+
+    this.name = props.name;
+    this.modifiedDate = props.modifiedDate || 0;
+    this.modifiedDateSignal = createSignal(this.modifiedDate ? timeAgo(this.modifiedDate) : ``);
+    this.editorVersion = props.editorVersion || ``;
+    this.timeoutId = null;
+  }
+
+  async setUp() {
+    const projectBuf = await localforage.getItem<string>(this.name);
+    if (!projectBuf) {
+      await localforage.removeItem(this.name);
+      throw new Error(`No such project '${this.name}'`);
+    }
+    const realProject: TProject = JSON.parse(projectBuf);
+    this.modifiedDate = realProject.metadata.modifiedDate;
+    this.editorVersion = realProject.metadata.editorVersion;
+    sortByDate();
+    this.timeout(0);
+  }
+
+  async rename(newName: string) {
+    if (this.name === newName) return;
+    for (const project of projectsSignal.get()) {
+      if (project.name === newName) return;
+    }
+
+    const projectBuf = await localforage.getItem<string>(this.name);
+    if (projectBuf) {
+      const data: TProject | null = JSON.parse(projectBuf);
+      if (data && data.config) data.config.gameName = newName;
+
+      await localforage.setItem(newName, JSON.stringify(data));
+
+      projectsSignal.set((prev) => [...prev]);
+      await localforage.removeItem(this.name);
+      this.name = newName;
+
+      console.log(await localforage.keys());
+    }
+  }
+
+  timeout(ms: number) {
+    this.timeoutId = setTimeout(() => {
+      const diff = Date.now() - this.modifiedDate;
+      const time = diff < MINUTE ? SECOND : diff < HOUR ? MINUTE : Infinity;
+
+      if (time !== Infinity) this.timeout(time);
+      this.modifiedDateSignal.set(timeAgo(this.modifiedDate));
+    }, ms);
+  }
+}
+
+const projectsSignal = createSignal<LDProject[]>([]);
 
 export function setSetUp(setUp: boolean) {
   if (!setUp) {
@@ -57,6 +121,7 @@ export function LoadData() {
                 cb: (projectName) => {
                   const now = Date.now();
                   const { config: emptyConfig, files } = emptyProject();
+                  emptyConfig.gameName = projectName;
                   Object.assign(project.config, deepCopy(emptyConfig));
                   Object.assign(project.files, deepCopy(files));
                   Object.assign(project.metadata, {
@@ -66,13 +131,11 @@ export function LoadData() {
                   config.gameName = projectName;
                   projectsSignal.set((prev) => [
                     ...prev,
-                    {
+                    new LDProject({
                       name: config.gameName,
                       modifiedDate: now,
-                      modifiedDateSignal: createSignal(timeAgo(now)),
                       editorVersion: virginEngineVersion,
-                      timeoutId: null,
-                    },
+                    }),
                   ]);
                   saveProject();
                   openMainScene();
@@ -112,10 +175,11 @@ async function onDrop(e: React.DragEvent<HTMLElement>) {
 
 function Projects() {
   const projects = projectsSignal.use();
-  return <>{...projects.map((project) => <Project key={project.name} {...project} />)}</>;
+  return <>{...projects.map((project) => <Project key={project.name} project={project} />)}</>;
 }
 
-function Project({ name, modifiedDateSignal }: TLDProject) {
+function Project({ project }: { project: LDProject }) {
+  const name = project.name;
   return (
     <div
       className="mb-2 px-3 sm:px-6 py-2 sm:py-3 text-base lg:text-lg rounded-xl flex justify-between bg-black hover:bg-zinc-800 cursor-pointer"
@@ -128,17 +192,11 @@ function Project({ name, modifiedDateSignal }: TLDProject) {
         defaultValue={name}
         allow={/^[a-zA-Z0-9\s:.'!?&_-]+$/}
         className="w-20 sm:w-40 lg:w-52 border-none"
-        onChange={async (newName) => {
-          const data = await localforage.getItem(name);
-          await localforage.removeItem(name);
-          await localforage.setItem(newName, data);
-          projectsSignal.set((prev) => prev.map((p) => (p.name === name ? { ...p, name: newName } : p)));
-          setProjectsLS();
-        }}
+        onChange={async (newName) => await project.rename(newName)}
         onClick={(e) => e.stopPropagation()}
       />
       <div className="w-26 lg:w-34">
-        <ModifiedDate modifiedDateSignal={modifiedDateSignal} />
+        <ModifiedDate modifiedDateSignal={project.modifiedDateSignal} />
       </div>
       <Button
         label="Delete"
@@ -151,9 +209,8 @@ function Project({ name, modifiedDateSignal }: TLDProject) {
             options: {
               Yes: () => {
                 localforage.removeItem(name).then(() => {
-                  addNotification(`Successfully deleted ${name}.`);
+                  addNotification(`Successfully deleted '${name}'.`);
                   projectsSignal.set((prev) => prev.filter((p) => p.name !== name));
-                  setProjectsLS();
                 });
               },
             },
@@ -178,67 +235,21 @@ function LoadDataButton(props: { label: string; onClick: React.MouseEventHandler
   );
 }
 
-function getSetProjects() {
-  const projects = getProjectsLS();
-  localforage.keys().then((keys) => {
-    const pKeys = projects.map((p) => p.name);
-    const arr = [];
-    for (const key of keys) {
-      if (!pKeys.includes(key)) arr.push(key);
-    }
-    const newProjects = arr.map((key) => ({
-      name: key,
-      modifiedDate: 0,
-      modifiedDateSignal: createSignal(``),
-      editorVersion: ``,
-      timeoutId: null,
-    }));
-    if (arr.length > 0) {
-      newProjects.forEach(async (project) => {
-        const projectBuf = await localforage.getItem<string>(project.name);
-        if (!projectBuf) throw new Error(`No such project "${project.name}"`);
-        const realProject: TProject = JSON.parse(projectBuf);
-        project.modifiedDate = realProject.metadata.modifiedDate;
-        project.editorVersion = realProject.metadata.editorVersion;
-        sortByDate();
-        timeout(project, 0);
-      });
-      setProjectsLS();
-      projectsSignal.set([...projects, ...newProjects]);
-    }
-  });
+async function getSetProjects() {
+  const keys = await localforage.keys();
 
-  for (const project of projects) timeout(project, 0);
+  const projects: LDProject[] = keys.map(
+    (key) =>
+      new LDProject({
+        name: key,
+        modifiedDate: 0,
+        editorVersion: ``,
+      }),
+  );
 
+  projects.forEach(async (project) => await project.setUp());
   projectsSignal.set(projects);
   sortByDate();
-
-  function timeout(project: TLDProject, ms: number) {
-    project.timeoutId = setTimeout(() => {
-      const diff = Date.now() - project.modifiedDate;
-      const time = diff < MINUTE ? SECOND : diff < HOUR ? MINUTE : Infinity;
-
-      if (time !== Infinity) timeout(project, time);
-      project.modifiedDateSignal.set(timeAgo(project.modifiedDate));
-    }, ms);
-  }
-}
-
-function getProjectsLS(): TLDProject[] {
-  return JSON.parse(localStorage.getItem(`projects`) || `[]`).map((p: PureProject) => ({
-    ...p,
-    modifiedDateSignal: createSignal(``),
-    timeoutId: null,
-  }));
-}
-
-function setProjectsLS() {
-  const projects: PureProject[] = projectsSignal
-    .get()
-    .map((p) => ({ name: p.name, modifiedDate: p.modifiedDate, editorVersion: p.editorVersion }))
-    .filter((p) => p.modifiedDate !== 0 && p.editorVersion !== ``);
-  if (projects.length !== projectsSignal.get().length) throw new Error(`Some project is not valid!`);
-  localStorage.setItem(`projects`, JSON.stringify(projects));
 }
 
 function timeAgo(timestamp: number) {
@@ -264,30 +275,5 @@ function sortByDate() {
 window.addEventListener(`keydown`, (e) => {
   if (e.ctrlKey && e.key === `s` && config.gameName !== ``) {
     e.preventDefault();
-    updateLSMetadata();
   }
 });
-
-function updateLSMetadata() {
-  const project = projectsSignal.get().find((p) => p.name === config.gameName);
-  if (!project || project.name === ``) {
-    throw new Error(`Project have different name!`);
-  }
-  project.modifiedDate = Date.now();
-  if (project.editorVersion !== virginEngineVersion) project.editorVersion = virginEngineVersion;
-  setProjectsLS();
-}
-
-type PureProject = {
-  name: string;
-  modifiedDate: number;
-  editorVersion: string;
-};
-
-type TLDProject = {
-  name: string;
-  modifiedDate: number;
-  modifiedDateSignal: Signal<string>;
-  editorVersion: string;
-  timeoutId: NodeJS.Timeout | null;
-};
