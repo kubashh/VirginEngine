@@ -1,12 +1,6 @@
 /// <reference types="bun" />
 
-const virginEngineVersion = JSON.stringify((await Bun.file(`./package.json`).json()).version);
-
-// build build
-await build();
-await updateVirginEngineVersionHtml();
-
-async function build() {
+export async function buildCoreBuild(virginEngineVersion: string) {
   const htmlTemplate = minifyHtml(await Bun.file(`./core/build/template.html`).text());
   const core = await buildEngineCore();
 
@@ -67,16 +61,4 @@ function minifyHtml(text: string) {
     .replaceAll(/ " | "|" /g, `"`)
     .replaceAll(/ , | ,|, /g, `,`)
     .replaceAll(`: `, `:`); // color: red; => color:red;
-}
-
-async function updateVirginEngineVersionHtml() {
-  const htmlFile = Bun.file(`./src/app/index.html`);
-  let htmlText = await htmlFile.text();
-
-  htmlText = htmlText.replace(
-    /<title>.*?<\/title>/i,
-    `<title>VirginEngine v${virginEngineVersion.slice(1, -1)}</title>`,
-  );
-
-  await htmlFile.write(htmlText);
 }

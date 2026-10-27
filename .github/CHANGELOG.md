@@ -55,6 +55,8 @@
 - code: bundle Time to VirginEngine
 - fixed Notifications keys
 - fixed default parent script
+- bundle scripts to two file
+- scripts hide changes in `index.html`, so git don't have trash commits
 
 ## 0.23.0 (26 Sep 2026)
 

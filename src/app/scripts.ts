@@ -1,32 +1,71 @@
 import fs from "fs";
-import plugin from "bun-plugin-tailwind";
-import mdStylesPlugin from "./mdStylesPlugin";
-import { virginEngineVersion } from "../lib/core";
+import { buildCoreBuild } from "../../core/buildCoreBuild";
 
-const buildConfig: Bun.BuildConfig = {
-  entrypoints: [`./src/app/index.html`],
-  outdir: `dist`,
-  plugins: [plugin, mdStylesPlugin],
-  minify: true,
-  target: `browser`,
-  define: {
-    "process.env.NODE_ENV": `"production"`,
-  },
-};
+const virginEngineVersion = JSON.stringify((await Bun.file(`./package.json`).json()).version);
 
-// cleaning
-fs.rmSync(`dist`, {
-  recursive: true,
-  force: true,
-});
+await Bun.$`bun check src`;
+await buildCoreBuild(virginEngineVersion);
+await updateVEVersionHtml();
 
-build(
-  !process.argv.includes(`--compile`)
-    ? buildConfig
-    : { ...buildConfig, compile: true, naming: `VirginEngine-${virginEngineVersion}.html` },
-);
+if (process.argv.includes(`--dev`)) {
+  await dev();
+} else if (process.argv.includes(`--build`)) {
+  await build();
+}
 
-async function build(config: Bun.BuildConfig) {
+async function updateVEVersionHtml() {
+  const htmlFile = Bun.file(`./src/app/index.html`);
+  let htmlText = await htmlFile.text();
+
+  htmlText = htmlText.replace(
+    /<title>.*?<\/title>/i,
+    `<title>VirginEngine v${virginEngineVersion.slice(1, -1)}</title>`,
+  );
+
+  await Bun.write(`./src/app/indexUpdated.html`, htmlText);
+}
+
+async function dev() {
+  const html = await import("./indexUpdated.html");
+
+  fs.watch(`core`, { recursive: true }, async () => {
+    await Bun.$`bun core/buildBuild.ts`;
+  });
+
+  Bun.serve({
+    routes: {
+      "/": html.default,
+    },
+    development: { hmr: true },
+  });
+}
+
+async function build() {
+  const plugin = (await import("bun-plugin-tailwind")).default;
+  const mdStylesPlugin = (await import("./mdStylesPlugin")).default;
+
+  const config: Bun.BuildConfig = {
+    entrypoints: [`./src/app/indexUpdated.html`],
+    outdir: `dist`,
+    naming: `index.html`,
+    plugins: [plugin, mdStylesPlugin],
+    minify: true,
+    target: `browser`,
+    define: {
+      "process.env.NODE_ENV": `"production"`,
+    },
+  };
+
+  if (process.argv.includes(`--compile`)) {
+    Object.assign(config, { compile: true, naming: `VirginEngine-${virginEngineVersion}.html` });
+  }
+
+  // cleaning
+  fs.rmSync(`dist`, {
+    recursive: true,
+    force: true,
+  });
+
   // build all the HTML files
   const { outputs } = await Bun.build(config);
 

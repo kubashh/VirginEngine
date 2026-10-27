@@ -1,10 +1,10 @@
 {
   "name": "virgin-engine",
-  "version": "0.23.1-dev.9",
+  "version": "0.23.1-dev.10",
   "license": "MIT",
   "scripts": {
-    "dev": "bun check src && bun core/buildBuild.ts && bun --watch src/app/dev.ts",
-    "build": "bun core/buildBuild.ts && bun src/app/build.ts"
+    "dev": "bun --watch src/app/scripts.ts --dev",
+    "build": "bun src/app/scripts.ts --build"
   },
   "dependencies": {
     "localforage": "^1.10.0",

@@ -1,4 +1,5 @@
 /node_modules
 /bun.lock
 /dist
+/src/app/indexUpdated.html
 /src/lib/core.js
