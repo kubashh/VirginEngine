@@ -5,6 +5,7 @@ import { setSetUp } from "../ui/LoadData";
 import { setTestSceneSignal } from "../ui/Test";
 import { files, keywords, type TFile, type TProject, project, config } from "./consts";
 import { setPopupMenu } from "../ui/PopupMenu";
+import { addNotification } from "../ui/Notifications";
 import { setHierarchy } from "../hierarchy/Hierarchy";
 
 export function deepCopy<T>(obj: T): T {
@@ -50,25 +51,6 @@ export function decapitalize(str: string) {
 export function isOccupied(obj: TFile, name: string) {
   for (const key in obj) if (key === name) return true;
   return false;
-}
-
-// save file
-export function saveProject(oldDate?: number) {
-  localforage.setItem(config.gameName, getProjectObject(oldDate));
-}
-
-export function saveProjectFile(oldDate?: number) {
-  downloadFile(`${config.gameName}.virginengine`, getProjectObject(oldDate));
-}
-
-function getProjectObject(oldDate?: number) {
-  return JSON.stringify({
-    ...project,
-    metadata: {
-      modifiedDate: oldDate ? oldDate : Date.now(),
-      editorVersion: project.metadata.editorVersion,
-    },
-  } satisfies TProject);
 }
 
 // load file
@@ -129,6 +111,21 @@ export function openMainScene() {
     Object.values(files.Scenes).find((s) => typeof s !== `string`);
 
   setHierarchy(scene);
+}
+
+// save file
+export function saveProject() {
+  localforage.setItem(config.gameName, getProjectJsonString());
+}
+
+export function saveProjectFile() {
+  downloadFile(`${config.gameName}.virginengine`, getProjectJsonString());
+  addNotification(`Downloading project '${config.gameName}'...`);
+}
+
+function getProjectJsonString() {
+  project.metadata.modifiedDate = Date.now();
+  return JSON.stringify(project);
 }
 
 // type

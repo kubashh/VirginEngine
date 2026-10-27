@@ -69,8 +69,8 @@ export function emptyProject(): TProject {
   }
 
   update() {
-    const x = this.node.position.x - rand(0, 2);
-    const y = this.node.position.y - rand(0, 0.3);
+    const x = this.node.position.x - random(0, 2);
+    const y = this.node.position.y - random(0, 0.3);
     this.node.position = { x: x < -Camera.xOffset ? Camera.xOffset : x, y: y < -Camera.yOffset ? Camera.yOffset : y };
   }
 }

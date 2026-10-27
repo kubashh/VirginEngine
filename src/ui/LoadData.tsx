@@ -98,17 +98,15 @@ async function onDrop(e: React.DragEvent<HTMLElement>) {
   const project: TProject = JSON.parse(text);
   if (projectsSignal.get().find((p) => p.name === project.config.gameName)) {
     setPopupMenu({
-      label: `Do you want to replese existing project named '${project.config.gameName}'`,
+      label: `Do you want to replace existing project named '${project.config.gameName}'`,
       options: {
         Yes: () => {
           openProject(project);
-          saveProject(project.metadata.modifiedDate);
         },
       },
     });
   } else {
     openProject(project);
-    saveProject();
   }
 }
 

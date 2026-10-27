@@ -53,6 +53,8 @@
 - core: less js sugar magic
 - core: loadData less object allocations
 - code: bundle Time to VirginEngine
+- fixed Notifications keys
+- fixed default parent script
 
 ## 0.23.0 (26 Sep 2026)
 

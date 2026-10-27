@@ -42,7 +42,7 @@ function NotificationsContent() {
     <>
       {notifications.map((n) => (
         <span
-          key={n.label}
+          key={n.creationDate}
           className="mb-2 w-80 text-sm md:text-base border px-3 py-1.5 rounded-lg border-zinc-400 notification"
         >
           {n.label}

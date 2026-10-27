@@ -50,7 +50,7 @@ type TConfig = {
   description: string;
   fullScreen: boolean;
   startingSceneName: string;
-  performanceInfo: TEnum<string>;
+  performanceInfo: TEnum<`yes` | `dev` | `no`>;
 };
 
 export type TFile = {
