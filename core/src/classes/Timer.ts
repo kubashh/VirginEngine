@@ -4,9 +4,9 @@ export class Timer {
   static timers: Timer[] = [];
 
   // @ts-ignore
-  static renderTimer: Timer = performanceInfo && new Timer(`Sprite`, `Text`, `Nodes`);
+  static renderTimer: Timer = performanceInfo && new Timer([`Sprite`, `Text`, `Nodes`]);
   // @ts-ignore
-  static updateTimer: Timer = performanceInfo && new Timer(`Physics`, `Nodes`);
+  static updateTimer: Timer = performanceInfo && new Timer([`Physics`, `Nodes`]);
 
   static reset() {
     for (const timer of this.timers) timer.reset();
@@ -15,8 +15,8 @@ export class Timer {
   private timers: TObj<number>;
   allFormatted: string[] = [];
 
-  constructor(...labels: string[]) {
-    this.timers = labels.reduce((prev, str) => ({ ...prev, [str]: 0 }), {});
+  constructor(labels: string[]) {
+    this.timers = labels.reduce((prev, label) => ({ ...prev, [label]: 0 }), {});
     this.reset();
     Timer.timers.push(this);
   }

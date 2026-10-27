@@ -1,9 +1,9 @@
 {
   "name": "virgin-engine",
-  "version": "0.23.1-dev.7",
+  "version": "0.23.1-dev.8",
   "license": "MIT",
   "scripts": {
-    "dev": "bun core/buildBuild.ts && bun --watch src/app/dev.ts",
+    "dev": "bun check src && bun core/buildBuild.ts && bun --watch src/app/dev.ts",
     "build": "bun core/buildBuild.ts && bun src/app/build.ts"
   },
   "dependencies": {
@@ -12,7 +12,7 @@
     "react-dom": "^19.3.1"
   },
   "devDependencies": {
-    "@types/bun": "^1.4.3",
+    "@types/bun": "^1.4.4",
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "bun-plugin-tailwind": "^0.1.2",

@@ -2,14 +2,6 @@
 
 type TObj<T> = Record<string, T>;
 
-// declarations
-
-declare const REPLACE_FILES: TObj<any>;
-declare const REPLACE_HTML_TEMPLATE: string;
-declare const REPLACE_CORE: string;
-declare const REPLACE_VIRGIN_ENGINE_VERSION: string;
-declare const REPLACE_PERFORMANCE_INFO: boolean;
-
 // props
 
 type TransformProps = {

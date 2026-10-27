@@ -77,11 +77,11 @@ export function drawText({
   ctx.restore();
 }
 
-export function file(path: string) {
+export function file(path: string): any {
   return path
     .split(`.`)
     .slice(1)
-    .reduce((prev, key) => prev[key], files as any);
+    .reduce((prev, key) => prev[key], files);
 }
 
 export function onresize() {

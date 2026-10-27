@@ -36,12 +36,6 @@
 - LoadData new project set config (author, description...)
 - pack/unpack js object <==> files. it means drag folder to open the project or file
 - add block of code like scratch as option
-- Docs: add styles to code
-- Docs: update Docs
-
-### VirginEngine repo
-
-- VirginEngine/releases (.md)
 
 <br />
 
@@ -57,6 +51,8 @@
 - page: bundle css into html
 - dev: refresh localhost when `core` directory changed
 - core: less js sugar magic
+- core: loadData less object allocations
+- code: bundle Time to VirginEngine
 
 ## 0.23.0 (26 Sep 2026)
 

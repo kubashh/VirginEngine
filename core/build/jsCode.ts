@@ -2,7 +2,8 @@ import { minify_sync } from "terser";
 import { keywords, optymalizeImageSrc } from "./util";
 import { type BuildOptions } from "./build";
 
-const core = REPLACE_CORE;
+declare const REPLACE_CORE: string;
+const core: string = REPLACE_CORE;
 
 const classArr: string[] = [];
 

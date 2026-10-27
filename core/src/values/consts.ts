@@ -1,5 +1,8 @@
 import type { Node } from "../components/Node";
 
+declare const REPLACE_FILES: TObj<any>;
+declare const REPLACE_PERFORMANCE_INFO: boolean;
+
 // canvas
 // @ts-ignore
 export const ctx: CanvasRenderingContext2D = document.getElementById(`REPLACE_CANVAS_ID`).getContext(`2d`);

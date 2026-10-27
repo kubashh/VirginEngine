@@ -9,6 +9,10 @@ export class VirginEngine {
 
   static scene: Scene;
 
+  private static vtimeScale: number = 1;
+  private static msdiv: number = 1;
+  private static lastTime: number = 0;
+
   static async run() {
     VirginEngine.running = true;
     await VirginEngine.loadAssets(); // need load assets before scene
@@ -21,8 +25,8 @@ export class VirginEngine {
     let delta = 0;
     while (VirginEngine.running) {
       const now = performance.now();
-      delta += (now - Time.lastTime) * Time.msdiv; // minimal performance boost
-      Time.lastTime = now;
+      delta += (now - VirginEngine.lastTime) * VirginEngine.msdiv; // minimal performance boost
+      VirginEngine.lastTime = now;
       if (delta > 60) delta = 60;
 
       while (delta >= 1) {
@@ -48,15 +52,13 @@ export class VirginEngine {
   }
 
   private static async loadAssets() {
-    await Promise.allSettled(VirginEngine.assetsToLoad(files));
+    await Promise.allSettled(VirginEngine.assetsToLoad(files, []));
   }
 
-  private static assetsToLoad(obj: TObj<any>) {
-    const toLoad: Promise<void>[] = [];
-
+  private static assetsToLoad(obj: TObj<any>, toLoad: Promise<void>[]) {
     for (const key in obj) {
       const value = obj[key];
-      if (typeof value === `object`) toLoad.push(...VirginEngine.assetsToLoad(value));
+      if (typeof value === `object`) VirginEngine.assetsToLoad(value, toLoad);
       else if (typeof value === `string`) {
         if (value.startsWith(`data:image/`)) {
           toLoad.push(
@@ -180,11 +182,14 @@ export class VirginEngine {
 
   // time
   static get timeScale() {
-    return Time.vtimeScale;
+    return VirginEngine.vtimeScale;
   }
 
   static set timeScale(scale: number) {
-    Time.setTimeScale(scale);
+    VirginEngine.vtimeScale = scale;
+    const ms = 1000 / (60 * VirginEngine.vtimeScale);
+    VirginEngine.msdiv = 1 / ms;
+    VirginEngine.lastTime = performance.now();
   }
 
   // load scene
@@ -193,16 +198,3 @@ export class VirginEngine {
     VirginEngine.scene = new Scene(name);
   }
 }
-
-const Time = {
-  vtimeScale: 1,
-  msdiv: 1,
-  lastTime: 0,
-
-  setTimeScale(timeScale: number) {
-    this.vtimeScale = timeScale;
-    const ms = 1000 / (60 * this.vtimeScale);
-    this.msdiv = 1 / ms;
-    this.lastTime = performance.now();
-  },
-};
