@@ -1,5 +1,5 @@
+import { safeidb } from "safeidb";
 import type { BuildOptions } from "../../core/build/build";
-import localforage from "localforage";
 import { build, virginEngineVersion } from "./core";
 import { setSetUp } from "../ui/LoadData";
 import { setTestSceneSignal } from "../ui/Test";
@@ -23,32 +23,32 @@ export function downloadFile(name: string, text: string) {
   elemnet.click();
 }
 
-export function isValidName(name: string) {
+export function isValidName(name: string): boolean {
   return /^[a-z0-9_]+$/i.test(name);
 }
 
-export function camelToTitleCase(text: string) {
+export function camelToTitleCase(text: string): string {
   return capitalize(
     text.replace(/([a-z])([A-Z])/g, `$1 $2`), // "someUglyText" => "Some Ugly Text"
   );
 }
 
-export function isCustomProp(text: string) {
+export function isCustomProp(text: string): boolean {
   return !isCapitalized(text) && !keywords.includes(text);
 }
 
-export function isCapitalized(name: string) {
+export function isCapitalized(name: string): boolean {
   return /^[A-Z]/.test(name);
 }
 
-export function capitalize(str: string) {
+export function capitalize(str: string): string {
   return str.replace(/^./, (char) => char.toUpperCase());
 }
-export function decapitalize(str: string) {
+export function decapitalize(str: string): string {
   return str.replace(/^./, (char) => char.toLowerCase());
 }
 
-export function isOccupied(obj: TFile, name: string) {
+export function isOccupied(obj: TFile, name: string): boolean {
   for (const key in obj) if (key === name) return true;
   return false;
 }
@@ -114,8 +114,8 @@ export function openMainScene() {
 }
 
 // save file
-export function saveProject() {
-  localforage.setItem(config.gameName, getProjectJsonString());
+export function saveProject(): Promise<void> {
+  return safeidb.setItem(config.gameName, getProjectJsonString());
 }
 
 export function saveProjectFile() {
@@ -123,7 +123,7 @@ export function saveProjectFile() {
   addNotification(`Downloading project '${config.gameName}'...`);
 }
 
-function getProjectJsonString() {
+function getProjectJsonString(): string {
   project.metadata.modifiedDate = Date.now();
   return JSON.stringify(project);
 }
@@ -141,7 +141,7 @@ export function getType(data: any): VTypes {
 }
 
 // get file by path
-export function fileFromPath(path: string) {
+export function fileFromPath(path: string): TFile {
   return path
     .split(`.`)
     .slice(1)
@@ -194,15 +194,15 @@ export function fileFromPath(path: string) {
 // }
 
 // build/test project
-export async function buildProject() {
+export async function buildProject(): Promise<void> {
   downloadFile(`${config.gameName}.html`, await buildSafely(true));
 }
 
-export async function testProjects() {
+export async function testProjects(): Promise<void> {
   setTestSceneSignal(await buildSafely(false));
 }
 
-async function buildSafely(production: boolean) {
+async function buildSafely(production: boolean): Promise<string> {
   const performanceInfo =
     config.performanceInfo.selected === `yes` || (!production && config.performanceInfo.selected === `dev`);
 

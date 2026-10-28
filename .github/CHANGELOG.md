@@ -40,7 +40,9 @@
 
 ## 0.23.2-dev (in development)
 
-## 0.23.1 (27 Oct)
+- remove `localforage` and use `safeidb` (kubashh lib) (-28kB)
+
+## 0.23.1 (27 Oct) (https://github.com/kubashh/VirginEngine/tree/e92eb547584547278fd39d8231b70c49e597ec53, compiled 833.9kB)
 
 - Docs: update styles; add styles to scripts
 - code: more explicit types
@@ -59,7 +61,7 @@
 - bundle scripts to two file
 - scripts hide changes in `index.html`, so git don't have trash commits
 - fexed NameInput empty string. now string can be empty, but don't call callback functions
-- remove LoadData localStorage cache
+- remove LoadData localStorage cache and bundle TDLProject to class
 
 ## 0.23.0 (26 Sep 2026)
 

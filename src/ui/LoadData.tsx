@@ -1,6 +1,7 @@
-import localforage from "localforage";
+import { safeidb } from "safeidb";
+import { useState } from "react";
 import { virginEngineVersion } from "../lib/core";
-import { Button, TextInput } from "../components/components";
+import { Button } from "../components/components";
 import { createSignal, type Signal } from "../lib/framework";
 import { emptyProject } from "../lib/assets/assets";
 import { config, project, type TProject } from "../lib/consts";
@@ -8,6 +9,7 @@ import { deepCopy, loadProjectFromDisk, openMainScene, openProject, saveProject 
 import { addNotification } from "./Notifications";
 import { setPopupMenu } from "./PopupMenu";
 import { setNameInput } from "./NameInput";
+import { setContextMenu } from "./ContextMenu";
 
 const SECOND = 1000;
 const MINUTE = 60 * 1000;
@@ -33,14 +35,18 @@ class LDProject {
     this.modifiedDateSignal = createSignal(this.modifiedDate ? timeAgo(this.modifiedDate) : ``);
     this.editorVersion = props.editorVersion || ``;
     this.timeoutId = null;
+
+    this.setUp();
   }
 
   async setUp() {
-    const projectBuf = await localforage.getItem<string>(this.name);
+    const projectBuf = await safeidb.getItem<string>(this.name);
     if (!projectBuf) {
-      await localforage.removeItem(this.name);
-      throw new Error(`No such project '${this.name}'`);
+      // await localforage.removeItem(this.name);
+      // throw new Error(`No such project '${this.name}'`);
+      return;
     }
+
     const realProject: TProject = JSON.parse(projectBuf);
     this.modifiedDate = realProject.metadata.modifiedDate;
     this.editorVersion = realProject.metadata.editorVersion;
@@ -54,18 +60,18 @@ class LDProject {
       if (project.name === newName) return;
     }
 
-    const projectBuf = await localforage.getItem<string>(this.name);
+    const projectBuf = await safeidb.getItem<string>(this.name);
     if (projectBuf) {
       const data: TProject | null = JSON.parse(projectBuf);
       if (data && data.config) data.config.gameName = newName;
 
-      await localforage.setItem(newName, JSON.stringify(data));
+      await safeidb.setItem(newName, JSON.stringify(data));
 
       projectsSignal.set((prev) => [...prev]);
-      await localforage.removeItem(this.name);
+      await safeidb.removeItem(this.name);
       this.name = newName;
 
-      console.log(await localforage.keys());
+      console.log(await safeidb.keys());
     }
   }
 
@@ -118,7 +124,8 @@ export function LoadData() {
             label="New project"
             onClick={() => {
               setNameInput({
-                cb: (projectName) => {
+                cb: async (projectName) => {
+                  console.log(projectName);
                   const now = Date.now();
                   const { config: emptyConfig, files } = emptyProject();
                   emptyConfig.gameName = projectName;
@@ -137,7 +144,7 @@ export function LoadData() {
                       editorVersion: virginEngineVersion,
                     }),
                   ]);
-                  saveProject();
+                  await saveProject();
                   openMainScene();
                 },
               });
@@ -179,23 +186,31 @@ function Projects() {
 }
 
 function Project({ project }: { project: LDProject }) {
-  const name = project.name;
+  const [name, setName] = useState(project.name);
   return (
     <div
-      className="mb-2 px-3 sm:px-6 py-2 sm:py-3 text-base lg:text-lg rounded-xl flex justify-between bg-black hover:bg-zinc-800 cursor-pointer"
+      className="mb-2 px-3 sm:px-5 py-1.5 sm:py-2.5 text-base rounded-xl flex justify-between bg-black hover:bg-zinc-800 cursor-pointer"
       onClick={async () => {
-        const data = await localforage.getItem<string>(name);
+        const data = await safeidb.getItem<string>(name);
         if (data) openProject(JSON.parse(data));
       }}
+      onContextMenu={(e) =>
+        setContextMenu({
+          x: e.clientX,
+          y: e.clientY,
+          Rename: () =>
+            setNameInput({
+              cb: (newName) => {
+                project.rename(newName);
+                setName(newName);
+              },
+              value: name,
+            }),
+        })
+      }
     >
-      <TextInput
-        defaultValue={name}
-        allow={/^[a-zA-Z0-9\s:.'!?&_-]+$/}
-        className="w-20 sm:w-40 lg:w-52 border-none"
-        onChange={async (newName) => await project.rename(newName)}
-        onClick={(e) => e.stopPropagation()}
-      />
-      <div className="w-26 lg:w-34">
+      <div className="w-32 sm:w-52 border-none">{name}</div>
+      <div className="w-30">
         <ModifiedDate modifiedDateSignal={project.modifiedDateSignal} />
       </div>
       <Button
@@ -208,7 +223,7 @@ function Project({ project }: { project: LDProject }) {
             label: `Delete ${name}?`,
             options: {
               Yes: () => {
-                localforage.removeItem(name).then(() => {
+                safeidb.removeItem(name).then(() => {
                   addNotification(`Successfully deleted '${name}'.`);
                   projectsSignal.set((prev) => prev.filter((p) => p.name !== name));
                 });
@@ -236,7 +251,7 @@ function LoadDataButton(props: { label: string; onClick: React.MouseEventHandler
 }
 
 async function getSetProjects() {
-  const keys = await localforage.keys();
+  const keys = await safeidb.keys();
 
   const projects: LDProject[] = keys.map(
     (key) =>
@@ -247,9 +262,7 @@ async function getSetProjects() {
       }),
   );
 
-  projects.forEach(async (project) => await project.setUp());
   projectsSignal.set(projects);
-  sortByDate();
 }
 
 function timeAgo(timestamp: number) {
