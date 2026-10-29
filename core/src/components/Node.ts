@@ -50,8 +50,8 @@ export function createNode(props: NodeProps, name: string) {
   if (props.sprite) node.sprite = new Sprite(props.sprite, node);
   if (props.physics) node.physics = new Physics(props.physics, node);
 
-  if (props.collider) node.collider = new Collider(props.collider, node);
-  if (props.animation) node.animation = new Animation(props.animation, node);
+  if (props.collider) node.collider = new Collider();
+  if (props.animation) node.animation = new Animation(props.animation);
   if (props.audio) node.audio = new AudioVE(props.audio);
 
   if (props.script) {

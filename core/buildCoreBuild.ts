@@ -16,8 +16,7 @@ export async function buildCoreBuild(virginEngineVersion: string) {
     target: `bun`,
     define: {
       REPLACE_HTML_TEMPLATE: JSON.stringify(htmlTemplate),
-      REPLACE_VIRGIN_ENGINE_VERSION: virginEngineVersion,
-      // REPLACE_CORE: core, // do not works, why?? it copyies only first line!
+      REPLACE_VIRGIN_ENGINE_VERSION: JSON.stringify(virginEngineVersion),
     },
   });
 

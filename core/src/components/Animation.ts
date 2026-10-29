@@ -1,15 +1,10 @@
-import type { Node } from "./Node";
 import type { Sprite } from "./Sprite";
 
 export class Animation {
-  private node: Node;
-
   currentFrame: number = 0;
   frames: Sprite[];
 
-  constructor(props: AnimationProps, node: Node) {
-    this.node = node;
-
+  constructor(props: AnimationProps) {
     this.frames = props.frames;
   }
 

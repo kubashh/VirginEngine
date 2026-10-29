@@ -1,9 +1,8 @@
 import fs from "fs";
 import { buildCoreBuild } from "../../core/buildCoreBuild";
+import { version as virginEngineVersion } from "../../package.json";
 
-const virginEngineVersion = JSON.stringify((await Bun.file(`./package.json`).json()).version);
-
-await Bun.$`bun check src`;
+await Bun.$`bun check core src`;
 await buildCoreBuild(virginEngineVersion);
 await updateVEVersionHtml();
 
@@ -19,7 +18,7 @@ async function updateVEVersionHtml() {
 
   htmlText = htmlText.replace(
     /<title>.*?<\/title>/i,
-    `<title>VirginEngine v${virginEngineVersion.slice(1, -1)}</title>`,
+    `<title>VirginEngine v${virginEngineVersion}</title>`,
   );
 
   await Bun.write(`./src/app/indexUpdated.html`, htmlText);

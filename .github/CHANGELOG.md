@@ -6,7 +6,7 @@
 
 - if Sprite.color draw box on canvas
 - Sprite is Box (color) or image
-- make run in scene
+- move run execution to scene
 - Animation: start(), stop(), frames = []
 - Collider.collide() // polygon or external
 - Scene.load() instead of scene.load()
@@ -40,7 +40,9 @@
 
 ## 0.23.2-dev (in development)
 
-- remove `localforage` and use `safeidb` (kubashh lib) (-28kB)
+- remove `localforage` and use `safeidb` (kubashh lib) (compiled -28kB)
+- fixed build --compile file name (remove string quotes)
+- core and src passed bun ckeck
 
 ## 0.23.1 (27 Oct) (https://github.com/kubashh/VirginEngine/tree/e92eb547584547278fd39d8231b70c49e597ec53, compiled 833.9kB)
 
