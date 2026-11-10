@@ -525,9 +525,7 @@ static msdiv = 1;
 static lastTime = 0;
 static async run() {
 VirginEngine.running = true;
-console.time();
 await VirginEngine.loadAssets();
-console.timeEnd();
 await VirginEngine.loadScene(\`REPLACE_STARTING_SCENE_NAME\`);
 requestAnimationFrame(VirginEngine.render);
 performanceInfo && (Log.timer = performance.now());
