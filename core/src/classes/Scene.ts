@@ -4,21 +4,18 @@ import { clearObject, deepCopy, onresize } from "../util/basicFunctions";
 import { VirginEngine } from "./VirginEngine";
 
 export class Scene {
-  // loaded = new Map<number, boolean>() // TODO key: id; if loaded.size === 0 run scene
   root: Node;
 
-  camera = { x: 0, y: 0 }; // on change update root pos = update all pos + shaking + resize
+  camera = { position: { x: 0, y: 0 } }; // on change update root pos = update all pos + shaking + resize
 
   constructor(name: string) {
     onresize();
     VirginEngine.timeScale = 0;
-    // @ts-ignore
+
     const props: SceneProps = files.Scenes[name];
     if (!props) throw new Error(`No such scene "${name}"!`);
     this.root = createRootNode(Object.assign(deepCopy(props), { parent: {} as Node }) as any, name);
     VirginEngine.timeScale = 1;
-
-    // nodes.shift(); // remove root node from nodes
 
     for (const node of nodes) node.scriptChild?.start?.();
   }

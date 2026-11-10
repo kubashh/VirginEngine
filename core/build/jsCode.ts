@@ -8,14 +8,12 @@ const core: string = REPLACE_CORE;
 const classArr: string[] = [];
 
 export async function buildJs(options: BuildOptions): Promise<string> {
-  console.log(JSON.parse(JSON.stringify(options.files)));
   Preprocessing.preprocessing(options.files);
-  console.log(JSON.parse(JSON.stringify(options.files)));
 
   const validCore = await buildValidCore(options);
   classArr.length = 0;
 
-  return !options.production ? validCore : minify_max(validCore);
+  return options.production ? minify_max(validCore) : validCore;
 }
 
 class Preprocessing {
@@ -114,7 +112,7 @@ class Preprocessing {
 }
 
 async function buildValidCore(options: BuildOptions): Promise<string> {
-  const arr = filesToString(options.files);
+  const arr = filesToString(options.files, ``, ``);
 
   for (const i in arr) arr[i] = await arr[i];
 
@@ -132,11 +130,7 @@ async function buildValidCore(options: BuildOptions): Promise<string> {
   );
 }
 
-function filesToString(
-  data: TObj<any> | string,
-  name?: string,
-  type?: string,
-): (string | Promise<string>)[] {
+function filesToString(data: TObj<any> | string, name: string, type: string): (string | Promise<string>)[] {
   if (typeof data === `string` && data.startsWith(`class`)) {
     const match = data.match(/\bclass\s+([A-Za-z_$][\w$]*)\b/);
     const className = match?.[1];
@@ -152,7 +146,7 @@ function filesToString(
       `[`,
       data
         .reduce((prev, e) => {
-          return [...prev, ...filesToString(e), `,`];
+          return [...prev, ...filesToString(e, ``, ``), `,`];
         }, [])
         .slice(0, -1),
       `]`,

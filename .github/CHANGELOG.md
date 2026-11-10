@@ -16,10 +16,10 @@
 - Node subscribe update, render or even physics update, sprite render
 - build: make image/audio static assets or strings
 - render via special unit same cross-platform (not pixels like now)
-- use number (id) as identifier, not string name, complitly strip string names.
-  so compile sth.parent.name to id or reference or sth[parent_id][name_id]
 - Node: make children array
 - build: one object of images, one object of autio (quicker loadAssets)
+- use number (id) as identifier, not string name, complitly strip string names.
+  so compile sth.parent.name to id or reference or sth[parent_id][name_id]
 
 ### Editor (src)
 
@@ -42,6 +42,9 @@
 
 - fixed builded html new line before `</style>`
 - add printing size info when building whole engine, I made this to optimize css and js in the future
+- core optimize VirginEngine.loadAssets - no recursion
+- core move types from `types.d.ts`
+- simplifies core build api
 
 ## 0.24.0 (10 Nov 2026) (https://github.com/kubashh/VirginEngine/commit/e4c0d2a5d71dd14c3a78ef484c949e49c15ae1d0, compiled 807.061 kB, 806.557 kB (0.445 kB (html) 20.753 kB (css) 783.44 kB (js) 1.919 kB (media)))
 

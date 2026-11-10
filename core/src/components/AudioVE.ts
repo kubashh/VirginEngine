@@ -19,3 +19,5 @@ export class AudioVE {
     this.audio.pause();
   }
 }
+
+export type AudioProps = { path: string };

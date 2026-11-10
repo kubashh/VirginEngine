@@ -34,3 +34,5 @@ export class Text {
     };
   }
 }
+
+export type TextProps = { value: string; color: string };

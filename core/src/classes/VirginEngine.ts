@@ -52,14 +52,11 @@ export class VirginEngine {
   }
 
   private static async loadAssets() {
-    await Promise.allSettled(VirginEngine.assetsToLoad(files, []));
-  }
+    const toLoad: Promise<void>[] = [];
 
-  private static assetsToLoad(obj: TObj<any>, toLoad: Promise<void>[]) {
-    for (const key in obj) {
-      const value = obj[key];
-      if (typeof value === `object`) VirginEngine.assetsToLoad(value, toLoad);
-      else if (typeof value === `string`) {
+    for (const key in files) {
+      const value = files[key];
+      if (typeof value === `string`) {
         if (value.startsWith(`data:image/`)) {
           toLoad.push(
             new Promise((resolve) => {
@@ -67,19 +64,19 @@ export class VirginEngine {
               img.src = value;
               img.onload = () => {
                 img.onload = null;
-                obj[key] = img;
+                files[key] = img;
                 resolve();
               };
             }),
           );
         } else if (value.startsWith(`data:audio/`)) {
-          obj[key] = new Audio(value);
-          obj[key].onload = null;
+          files[key] = new Audio(value);
+          files[key].onload = null;
         }
       }
     }
 
-    return toLoad;
+    return Promise.allSettled(toLoad);
   }
 
   private static update() {

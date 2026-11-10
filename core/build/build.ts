@@ -7,49 +7,54 @@ export const virginEngineVersion: string = REPLACE_VIRGIN_ENGINE_VERSION;
 const htmlTemplate = REPLACE_HTML_TEMPLATE;
 
 // build project
-export async function build(options: BuildOptions): Promise<BuildOutput> {
-  const validOptions: Required<BuildOptions> = {
-    ...options,
-    production: options.production ?? true,
-    hydrate: options.hydrate ?? ``,
-    separateJs: options.separateJs ?? true,
-    log: options.log ?? true,
-  };
 
-  const output: BuildOutput = {};
+export function build(options: BuildOptions): Promise<string> {
+  return Build.build(options);
+}
 
-  if (validOptions.hydrate) {
-    output[`script.js`] = await buildJs(validOptions);
-  } else if (validOptions.separateJs) {
-    // TODO make separeteJs works
-    output[`index.html`] = await buildHtml(validOptions);
-  } else {
-    output[`index.html`] = await buildHtml(validOptions);
-  }
+class Build {
+  static author: string;
+  static description: string;
+  static gameName: string;
+  static performanceInfo: boolean;
+  static startingSceneName: string;
+  static fullScreen: boolean;
 
-  if (options.log) {
-    const htmlSize = output["index.html"]?.length || 0;
-    const jsSize = output["script.js"]?.length || 0;
-    if (validOptions.hydrate) console.log(`JS size: ${jsSize}`);
-    else if (validOptions.separateJs) console.log(`HTML size: ${htmlSize}\nJS size: ${jsSize}`);
-    else {
-      const jsSize = output["index.html"]!.indexOf(`</script>`) - output["index.html"]!.indexOf(`<script>`);
-      console.log(`index.html size: ${htmlSize + jsSize} (${htmlSize} (HTML) + ${jsSize} (JS))`);
+  static production: boolean;
+  static hydrate: string;
+  static info: boolean;
+  static files: TObj<any>;
+
+  static async build(options: BuildOptions): Promise<string> {
+    Object.assign(this, {
+      ...options,
+      production: options.production ?? true,
+      hydrate: options.hydrate ?? ``,
+      info: options.info ?? true,
+    });
+
+    const output = this.hydrate ? await buildJs(this) : await this.buildHtml();
+
+    if (options.info) {
+      const outputSize = output.length;
+      if (this.hydrate) {
+        console.log(`JS size: ${outputSize}`);
+      } else {
+        const jsSize = output.indexOf(`</script>`) - output.indexOf(`<script>`) + `<script>`.length;
+        console.log(`index.html size: ${outputSize} (${outputSize - jsSize} (HTML) + ${jsSize} (JS))`);
+      }
     }
+
+    return output;
   }
 
-  return output;
-}
-
-async function buildHtml(validOptions: Required<BuildOptions>) {
-  return buildBasicHtml(validOptions).replaceAll(`SCRIPT`, await buildJs(validOptions));
-}
-
-function buildBasicHtml(options: Required<BuildOptions>) {
-  return htmlTemplate
-    .replaceAll(`REPLACE_AUTHOR`, options.author)
-    .replaceAll(`REPLACE_DESCRIPTION`, options.description)
-    .replaceAll(`REPLACE_GAME_NAME`, options.gameName);
+  static async buildHtml(): Promise<string> {
+    return htmlTemplate
+      .replace(`REPLACE_AUTHOR`, this.author)
+      .replace(`REPLACE_DESCRIPTION`, this.description)
+      .replace(`REPLACE_GAME_NAME`, this.gameName)
+      .replace(`SCRIPT;`, await buildJs(this));
+  }
 }
 
 export type BuildOptions = {
@@ -62,12 +67,6 @@ export type BuildOptions = {
 
   production?: boolean;
   hydrate?: string;
-  separateJs?: boolean;
-  log?: boolean;
+  info?: boolean;
   files: TObj<any>;
-};
-
-export type BuildOutput = {
-  "index.html"?: string;
-  "script.js"?: string;
 };

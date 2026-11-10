@@ -218,7 +218,7 @@ async function buildSafely(production: boolean): Promise<string> {
     production,
   };
 
-  const html = (await build(validConfig))[`index.html`];
+  const html = await build(validConfig);
   if (!html) throw new Error(`Build faild!`);
   return html;
 }

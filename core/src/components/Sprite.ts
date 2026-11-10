@@ -67,3 +67,5 @@ function resizeImage(image: HTMLImageElement, { x, y }: { x: number; y: number }
   resizeImageCtx.drawImage(image, 0, 0, newWidth, newHeight);
   image.src = resizeImageCtx.canvas.toDataURL();
 }
+
+export type SpriteProps = { path: string };

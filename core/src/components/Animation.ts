@@ -21,3 +21,5 @@ export class Animation {
 
   stop() {}
 }
+
+export type AnimationProps = { frames: Sprite[] };

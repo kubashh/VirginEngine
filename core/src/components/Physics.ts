@@ -37,3 +37,5 @@ export class Physics {
     this.target.y += y;
   }
 }
+
+export type PhysicsProps = { gravity: boolean };

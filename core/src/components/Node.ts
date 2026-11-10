@@ -1,9 +1,9 @@
-import { Sprite } from "./Sprite";
-import { Text } from "./Text";
-import { Collider } from "./Collider";
-import { Physics } from "./Physics";
-import { Animation } from "./Animation";
-import { AudioVE } from "./AudioVE";
+import { Sprite, type SpriteProps } from "./Sprite";
+import { Text, type TextProps } from "./Text";
+import { Collider, type ColliderProps } from "./Collider";
+import { Physics, type PhysicsProps } from "./Physics";
+import { Animation, type AnimationProps } from "./Animation";
+import { AudioVE, type AudioProps } from "./AudioVE";
 import { nodes } from "../values/consts";
 import { deepCopy, isChildKey } from "../util/basicFunctions";
 
@@ -262,6 +262,12 @@ type NodeProps = {
   childern?: NodeProps[];
 
   [key: string]: any; // NodeProps
+};
+
+type TransformProps = {
+  position: { x: number; y: number };
+  rotation: number;
+  scale: { x: number; y: number };
 };
 
 type TScriptChild = {

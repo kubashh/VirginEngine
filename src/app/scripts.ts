@@ -93,12 +93,14 @@ async function build() {
     const cssArtefacts = outputs.filter((a) => a.path.endsWith(`.css`));
     for (const cssArtefact of cssArtefacts) {
       let cssText = await cssArtefact.text();
-      if (cssText.endsWith(`\n`)) cssText = cssText.slice(0, -1);
+      infoSize.css = cssArtefact.size;
+
+      if (cssText.endsWith(`\n`)) {
+        cssText = cssText.slice(0, -1);
+        infoSize.css -= 1;
+      }
       const cssPath = `./${cssArtefact.path.split(`/`).at(-1)}`;
       const regex = new RegExp(`<link rel="stylesheet"href="${cssPath}"\\/?>`);
-
-      // count css
-      infoSize.css = cssText.length;
 
       html = html.replace(regex, `<style>${cssText}</style>`);
       await Bun.file(cssArtefact.path).delete();
@@ -106,7 +108,7 @@ async function build() {
 
     // count js
     const jsArtefact = outputs.filter((a) => a.path.endsWith(`.js`))[0];
-    infoSize.js = (await Bun.file(jsArtefact.path).bytes()).length;
+    infoSize.js = jsArtefact.size;
 
     // count media
     for (const mediaArtefact of outputs) {
