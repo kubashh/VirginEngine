@@ -3,7 +3,7 @@ import { testProjects } from "../lib/util";
 
 const opctions = [`16/9`, `1/1`, `9/16`];
 
-function setAspectRation(ratio: string) {
+function setAspectRatio(ratio: string) {
   const iframeElement = document.getElementById(`test-frame`);
   if (iframeElement instanceof HTMLIFrameElement) {
     iframeElement.style.aspectRatio = ratio;
@@ -23,7 +23,7 @@ export function setTestSceneSignal(srcdoc: string) {
 }
 
 const headerOptions = {
-  ...opctions.reduce((old, key) => ({ ...old, [key]: () => setAspectRation(key) }), {}),
+  ...opctions.reduce((old, key) => ({ ...old, [key]: () => setAspectRatio(key) }), {}),
   Restart: () => {
     setTestSceneSignal(``);
     setTimeout(testProjects);

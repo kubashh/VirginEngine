@@ -28,7 +28,7 @@ async function dev() {
   const html = await import("./indexUpdated.html");
 
   fs.watch(`core`, { recursive: true }, async () => {
-    await Bun.$`bun core/buildBuild.ts`;
+    await buildCoreBuild(virginEngineVersion);
   });
 
   Bun.serve({

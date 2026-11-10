@@ -214,7 +214,7 @@ async function buildSafely(production: boolean): Promise<string> {
     startingSceneName: config.startingSceneName,
     fullScreen: config.fullScreen,
 
-    files,
+    files: deepCopy(files),
     production,
   };
 

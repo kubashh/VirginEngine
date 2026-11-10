@@ -27,10 +27,10 @@ type Node = {
   id: number;
   name: string;
 
-  position: XY;
+  position: { x: number; y: number };
   rotation: number;
-  scale: XY;
-  rect?: XY;
+  scale: { x: number; y: number };
+  rect?: { x: number; y: number };
 
   text?: Text;
   sprite?: Sprite;
@@ -72,11 +72,11 @@ type Sprite = {
 };
 
 type Physics = {
-  velocity: XY;
+  velocity: { x: number; y: number };
   gravity: boolean;
 
   update: () => void;
-  addForce: (force: XY) => void;
+  addForce: (force: { x: number; y: number }) => void;
 };
 
 type Collider = {};
