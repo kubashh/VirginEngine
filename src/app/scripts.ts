@@ -59,6 +59,13 @@ async function build() {
     Object.assign(config, { compile: true, naming: `VirginEngine-${virginEngineVersion}.html` });
   }
 
+  const infoSize = {
+    html: 0,
+    css: 0,
+    js: 0,
+    images: 0,
+  };
+
   // cleaning
   fs.rmSync(`dist`, {
     recursive: true,
@@ -81,20 +88,71 @@ async function build() {
   // bun minify css and js but not html, so we need to minify it manually
   html = minifyHtmlSyntax(html);
 
-  // bundle css, because with html is steel small. in 2G (EDGE) is theoretically under one second
-  const cssArtefacts = outputs.filter((a) => a.path.endsWith(`.css`));
-  for (const cssArtefact of cssArtefacts) {
-    const cssText = await cssArtefact.text();
-    const cssPath = `./${cssArtefact.path.split(`/`).at(-1)}`;
-    const regex = new RegExp(`<link rel="stylesheet"href="${cssPath}"\\/?>`);
-    html = html.replace(regex, `<style>${cssText}</style>`);
-    await Bun.file(cssArtefact.path).delete();
+  if (config.compile !== true) {
+    // bundle css, because with html is steel small. in 2G (EDGE) is theoretically under one second
+    const cssArtefacts = outputs.filter((a) => a.path.endsWith(`.css`));
+    for (const cssArtefact of cssArtefacts) {
+      let cssText = await cssArtefact.text();
+      if (cssText.endsWith(`\n`)) cssText = cssText.slice(0, -1);
+      const cssPath = `./${cssArtefact.path.split(`/`).at(-1)}`;
+      const regex = new RegExp(`<link rel="stylesheet"href="${cssPath}"\\/?>`);
+
+      // count css
+      infoSize.css = cssText.length;
+
+      html = html.replace(regex, `<style>${cssText}</style>`);
+      await Bun.file(cssArtefact.path).delete();
+    }
+
+    // count js
+    const jsArtefact = outputs.filter((a) => a.path.endsWith(`.js`))[0];
+    infoSize.js = (await Bun.file(jsArtefact.path).bytes()).length;
+
+    // count media
+    for (const mediaArtefact of outputs) {
+      if (
+        mediaArtefact.path.endsWith(`.js`) ||
+        mediaArtefact.path.endsWith(`.css`) ||
+        mediaArtefact.path.endsWith(`.html`)
+      )
+        continue;
+
+      infoSize.images += (await Bun.file(mediaArtefact.path).bytes()).length;
+    }
+  } else {
+    // count css size, always one element
+    let index = html.indexOf(`<style>`);
+    if (index > 0) {
+      const slice = html.slice(index, html.indexOf(`</style>`));
+      infoSize.css = slice.length;
+    }
+
+    // count script size, always module and one element
+    let indexJs = html.indexOf(`<script type="module">`);
+    if (indexJs > 0) {
+      const slice = html.slice(indexJs, html.indexOf(`</script>`));
+      infoSize.js = slice.length;
+    }
   }
 
   await Bun.write(htmlArtifact.path, html);
+
+  infoSize.html =
+    (await Bun.file(htmlArtifact.path).bytes()).length -
+    infoSize.css -
+    (config.compile === true ? infoSize.js : 0);
+  printOutputSize(`html `, infoSize.html);
+  printOutputSize(`css  `, infoSize.css);
+  printOutputSize(`js   `, infoSize.js);
+  printOutputSize(`media`, infoSize.images);
+  printOutputSize(`total`, infoSize.html + infoSize.css + infoSize.js + infoSize.images);
 }
 
-function removeScriptsAndComments(text: string) {
+function printOutputSize(label: string, bytes: number) {
+  console.log(`${label}   ${(bytes / 1000).toFixed(3)} kB`);
+}
+
+function removeScriptsAndComments(text: string): string {
   return text
     .replaceAll(`<script></script>`, ``) // remove empty script
     .replaceAll(`<script type="module"></script>`, ``) // remove empty script
@@ -135,6 +193,6 @@ function minifyHtmlSyntax(text: string) {
 
 // it may brake scripts
 // TODO make it works only in <tag art1 crossorigin />
-function removeCrossorgin(text: string) {
+function removeCrossorgin(text: string): string {
   return text.replaceAll(/\s+crossorigin/g, ``);
 }

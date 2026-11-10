@@ -38,7 +38,12 @@
 
 <br />
 
-## 0.24.0 (10 Nov 2026) (, compiled 807.0 kB)
+## 0.24.1-dev (in development)
+
+- fixed builded html new line before `</style>`
+- add printing size info when building whole engine, I made this to optimize css and js in the future
+
+## 0.24.0 (10 Nov 2026) (https://github.com/kubashh/VirginEngine/commit/e4c0d2a5d71dd14c3a78ef484c949e49c15ae1d0, compiled 807.061 kB, 806.557 kB (0.445 kB (html) 20.753 kB (css) 783.44 kB (js) 1.919 kB (media)))
 
 - remove `localforage` and use `safeidb` (kubashh lib) (compiled -28kB)
 - fixed build --compile file name (remove string quotes)
