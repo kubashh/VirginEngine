@@ -10,10 +10,10 @@ const htmlTemplate = REPLACE_HTML_TEMPLATE;
 export async function build(options: BuildOptions): Promise<BuildOutput> {
   const validOptions: Required<BuildOptions> = {
     ...options,
-    production: options.production !== false, // default: true
-    hydrate: options.hydrate || ``, // default: ``
-    separateJs: options.separateJs !== false, // default: true
-    log: options.log !== false, // default: true
+    production: options.production ?? true,
+    hydrate: options.hydrate ?? ``,
+    separateJs: options.separateJs ?? true,
+    log: options.log ?? true,
   };
 
   const output: BuildOutput = {};

@@ -265,7 +265,7 @@ async function getSetProjects() {
   projectsSignal.set(projects);
 }
 
-function timeAgo(timestamp: number) {
+function timeAgo(timestamp: number): string {
   const diff = Date.now() - timestamp;
 
   if (diff < MINUTE) return timeAgoHealper(`second`, Math.floor(diff / SECOND));
@@ -276,7 +276,7 @@ function timeAgo(timestamp: number) {
   return timeAgoHealper(`year`, Math.floor(diff / YEAR));
 }
 
-function timeAgoHealper(label: string, time: number) {
+function timeAgoHealper(label: string, time: number): string {
   if (time <= 1) return `a ${label} ago`;
   return `${time} ${label}s ago`;
 }

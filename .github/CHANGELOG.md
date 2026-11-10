@@ -18,7 +18,7 @@
 - render via special unit same cross-platform (not pixels like now)
 - use number (id) as identifier, not string name, complitly strip string names.
   so compile sth.parent.name to id or reference or sth[parent_id][name_id]
-- Node: make children array, no
+- Node: make children array
 - build: one object of images, one object of autio (quicker loadAssets)
 
 ### Editor (src)
@@ -38,13 +38,16 @@
 
 <br />
 
-## 0.23.2-dev (in development)
+## 0.24.0 (10 Nov 2026) (, compiled 807.0 kB)
 
 - remove `localforage` and use `safeidb` (kubashh lib) (compiled -28kB)
 - fixed build --compile file name (remove string quotes)
 - core and src passed bun ckeck
+- fixed dev script: editing files in core do not trigger reload
+- build preprocessing optimization (simplify media access, remove empty folders)
+- types expicitness
 
-## 0.23.1 (27 Oct) (https://github.com/kubashh/VirginEngine/tree/e92eb547584547278fd39d8231b70c49e597ec53, compiled 833.9kB)
+## 0.23.1 (27 Oct 2026) (https://github.com/kubashh/VirginEngine/tree/e92eb547584547278fd39d8231b70c49e597ec53, compiled 833.9 kB)
 
 - Docs: update styles; add styles to scripts
 - code: more explicit types
