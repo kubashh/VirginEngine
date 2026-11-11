@@ -1,5 +1,5 @@
 import { createRootNode, type Node } from "../components/Node";
-import { events, eventsHover, files, nodes } from "../values/consts";
+import { events, eventsHover, nodes, scenes } from "../values/consts";
 import { clearObject, deepCopy, onresize } from "../util/basicFunctions";
 import { VirginEngine } from "./VirginEngine";
 
@@ -12,7 +12,7 @@ export class Scene {
     onresize();
     VirginEngine.timeScale = 0;
 
-    const props: SceneProps = files.Scenes[name];
+    const props: SceneProps = scenes[name];
     if (!props) throw new Error(`No such scene "${name}"!`);
     this.root = createRootNode(Object.assign(deepCopy(props), { parent: {} as Node }) as any, name);
     VirginEngine.timeScale = 1;

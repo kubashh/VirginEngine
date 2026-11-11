@@ -1,5 +1,4 @@
-import { Camera, ctx } from "../values/consts";
-import { file } from "../util/basicFunctions";
+import { Camera, ctx, images } from "../values/consts";
 import type { Node } from "./Node";
 
 export class Sprite {
@@ -13,7 +12,7 @@ export class Sprite {
 
   constructor({ path }: SpriteProps, node: Node) {
     this.node = node;
-    this.img = file(path);
+    this.img = images[path];
     this.path = path;
     this.reload();
   }

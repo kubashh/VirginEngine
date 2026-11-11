@@ -1,30 +1,37 @@
-export class Preprocessing {
-  private static assetsPathsI = 0;
-  private static files: TObj<any>;
-  private static mediaPaths: AssetPathOut[] = [];
-  private static declarations: string[];
+import { type BuildObject } from "./build";
 
-  static preprocessing(files: TObj<any>, declarations: string[]) {
+export class Preprocessing {
+  private static assetsPathsI: number;
+  private static build: BuildObject;
+  private static files: TObj<any>;
+  private static mediaPaths: AssetPathOut[];
+
+  static preprocessing(build: BuildObject) {
+    this.build = build;
     this.assetsPathsI = 0;
-    this.files = files;
+    this.files = build.files;
     this.mediaPaths = [];
-    this.declarations = declarations;
-    this.declarations; // TMP TODO move Scenes and assets to declaration (scenes, images, audio)
 
     this.optimizeAssets();
 
+    this.moveScenes();
+
     this.deleteEmptyFolders(this.files, `files`, this.files);
+
+    if (Object.keys(this.files).length > 1) {
+      console.warn(`Files should be empty! files:`, this.files);
+    }
   }
 
   private static optimizeAssets() {
     this.setAssetsPaths(this.files, `files`);
 
-    // replace node with optimized paths
+    // replace node used assets with optimized paths
     for (const key in this.files.Scenes) {
       this.optimizeNode(this.files.Scenes[key]);
     }
 
-    this.removeAssets(this.files, `files`);
+    this.moveUsedAssets(this.files, `files`);
   }
 
   private static setAssetsPaths(file: TObj<any>, path: string) {
@@ -32,7 +39,7 @@ export class Preprocessing {
       this.mediaPaths.push({
         prevPath: path,
         newI: this.assetsPathsI,
-        newPath: `files.${this.assetsPathsI}`,
+        newPath: `${this.assetsPathsI}`,
         file: file,
         isUsed: false,
       });
@@ -67,16 +74,20 @@ export class Preprocessing {
     }
   }
 
-  private static removeAssets(file: TObj<any>, path: string) {
+  private static moveUsedAssets(file: TObj<any>, path: string) {
     if (file.type === `img` || file.type === `audio`) {
       // move asset if is used
-      const inp = this.mediaPaths.find((inp) => inp.prevPath === path);
-      if (!inp) throw new Error(`BuildError: can't find path when optiming nodes!`);
-      if (inp.isUsed) {
-        this.files[String(inp.newI)] = inp.file;
+      const mp = this.mediaPaths.find((mp) => mp.prevPath === path);
+      if (!mp) throw new Error(`BuildError: can't find path when optiming nodes!`);
+      if (mp.isUsed) {
+        if (file.type === `img`) {
+          this.build.images[mp.newI] = mp.file;
+        } else {
+          this.build.audio[mp.newI] = mp.file;
+        }
       }
 
-      // find parrent
+      // find parrent & delete current asset, because used or not
       let parent = this.files;
       for (const sub of path.split(`.`).slice(1, -1)) {
         parent = parent[sub];
@@ -85,10 +96,17 @@ export class Preprocessing {
     } else {
       for (const key in file) {
         if (typeof file[key] === `object` && file.type !== `scene`) {
-          this.removeAssets(file[key], `${path}.${key}`);
+          this.moveUsedAssets(file[key], `${path}.${key}`);
         }
       }
     }
+  }
+
+  private static moveScenes() {
+    const scenes = this.files.Scenes;
+    delete scenes.type;
+    this.build.scenes = scenes;
+    delete this.files.Scenes;
   }
 
   private static deleteEmptyFolders(parent: TObj<any>, key: string, file: TObj<any>) {

@@ -1,11 +1,11 @@
-import { file } from "../util/basicFunctions";
+import { audio } from "../values/consts";
 
 export class AudioVE {
   static canPlay: boolean = false;
   private audio: HTMLAudioElement;
 
   constructor({ path }: AudioProps) {
-    this.audio = file(path);
+    this.audio = audio[path];
   }
 
   play() {

@@ -1,33 +1,39 @@
 import { minify_sync } from "terser";
 import { keywords, optymalizeImageSrc } from "./util";
 import { Preprocessing } from "./Preprocessing";
-import { type BuildOptions } from "./build";
+import { type BuildObject } from "./build";
 
 declare const REPLACE_CORE: string;
 const core: string = REPLACE_CORE;
 
 const declarations: string[] = [];
 
-export async function buildJs(options: BuildOptions): Promise<string> {
-  Preprocessing.preprocessing(options.files, declarations);
+export async function buildJs(options: BuildObject): Promise<string> {
+  Preprocessing.preprocessing(options);
 
   const validCore = await buildValidCore(options);
 
   return options.production ? minify_max(validCore) : validCore;
 }
 
-async function buildValidCore(options: BuildOptions): Promise<string> {
-  const arr = filesToString(options.files, ``, ``);
+async function buildValidCore(options: BuildObject): Promise<string> {
+  const images = filesToString(options.images, ``, ``);
+  const audio = filesToString(options.audio, ``, ``);
+  const scenes = filesToString(options.scenes, ``, ``);
 
-  for (const i in arr) arr[i] = await arr[i];
+  for (const i in images) images[i] = await images[i];
+  for (const i in audio) audio[i] = await audio[i];
+  for (const i in scenes) scenes[i] = await scenes[i];
 
   const validCore = core
     .split(`\n`)
     // remove fullscreen if not needed
     .filter((line) => options.fullScreen || !line.startsWith(`!document.fullscreenElement ?`))
     .join(`\n`)
-    .replace(`var files`, declarations.join(`\n`) + `\nconst files`)
-    .replace(`REPLACE_FILES`, arr.join(``))
+    .replace(`REPLACE_IMAGES`, images.join(``))
+    .replace(`REPLACE_AUDIO`, audio.join(``))
+    .replace(`var scene`, declarations.join(``) + `var scene`)
+    .replace(`REPLACE_SCENES`, scenes.join(``))
     .replace(`REPLACE_STARTING_SCENE_NAME`, options.startingSceneName)
     .replace(`REPLACE_CANVAS_ID`, options.hydrate || `canvas`)
     .replace(`REPLACE_PERFORMANCE_INFO`, String(options.performanceInfo));

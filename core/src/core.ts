@@ -1,5 +1,5 @@
 import { AudioVE } from "./components/AudioVE";
-import { events, eventsHover, files } from "./values/consts";
+import { events, eventsHover } from "./values/consts";
 import { onresize, randomInt } from "./util/basicFunctions";
 import { VirginEngine } from "./classes/VirginEngine";
 
@@ -31,6 +31,6 @@ window.addEventListener(`close`, VirginEngine.quit);
 
 // run
 
-console.log(`Engine: ${files || randomInt}`);
+console.log(`Engine: ${randomInt}`);
 
 VirginEngine.run();

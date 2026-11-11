@@ -1,4 +1,4 @@
-import { Camera, ctx, files, nodes } from "../values/consts";
+import { Camera, ctx, nodes } from "../values/consts";
 
 // time
 export async function wait(ms: number) {
@@ -75,13 +75,6 @@ export function drawText({
   ctx.fillText(text, x, y, w);
 
   ctx.restore();
-}
-
-export function file(path: string): any {
-  return path
-    .split(`.`)
-    .slice(1)
-    .reduce((prev, key) => prev[key], files);
 }
 
 export function onresize() {

@@ -1,6 +1,8 @@
 import type { Node } from "../components/Node";
 
-declare const REPLACE_FILES: TObj<any>;
+declare const REPLACE_SCENES: TObj<any>;
+declare const REPLACE_IMAGES: TObj<any>;
+declare const REPLACE_AUDIO: TObj<any>;
 declare const REPLACE_PERFORMANCE_INFO: boolean;
 
 // canvas
@@ -8,7 +10,9 @@ declare const REPLACE_PERFORMANCE_INFO: boolean;
 export const ctx: CanvasRenderingContext2D = document.getElementById(`REPLACE_CANVAS_ID`).getContext(`2d`);
 
 // files
-export const files: TObj<any> = REPLACE_FILES;
+export const scenes: TObj<any> = REPLACE_SCENES;
+export const images: TObj<any> = REPLACE_IMAGES;
+export const audio: TObj<any> = REPLACE_AUDIO;
 
 // events
 export const events: TObj<boolean> = {};

@@ -12,7 +12,7 @@ export function build(options: BuildOptions): Promise<string> {
   return Build.build(options);
 }
 
-class Build {
+export class Build {
   static author: string;
   static description: string;
   static gameName: string;
@@ -24,6 +24,9 @@ class Build {
   static hydrate: string;
   static info: boolean;
   static files: TObj<any>;
+  static scenes: TObj<any>;
+  static images: TObj<any>;
+  static audio: TObj<any>;
 
   static async build(options: BuildOptions): Promise<string> {
     Object.assign(this, {
@@ -32,6 +35,11 @@ class Build {
       hydrate: options.hydrate ?? ``,
       info: options.info ?? true,
     });
+
+    this.files = options.files;
+    this.scenes = {};
+    this.images = {};
+    this.audio = {};
 
     const output = this.hydrate ? await buildJs(this) : await this.buildHtml();
 
@@ -70,3 +78,5 @@ export type BuildOptions = {
   info?: boolean;
   files: TObj<any>;
 };
+
+export type BuildObject = typeof Build;

@@ -1,5 +1,5 @@
 import { Timer } from "./Timer";
-import { ctx, events, nodes, Log, files, performanceInfo } from "../values/consts";
+import { ctx, events, nodes, Log, performanceInfo, images, audio } from "../values/consts";
 import { clearObject, drawText, wait } from "../util/basicFunctions";
 import { Scene } from "./Scene";
 
@@ -54,26 +54,27 @@ export class VirginEngine {
   private static async loadAssets() {
     const toLoad: Promise<void>[] = [];
 
-    for (const key in files) {
-      const value = files[key];
-      if (typeof value === `string`) {
-        if (value.startsWith(`data:image/`)) {
-          toLoad.push(
-            new Promise((resolve) => {
-              const img = new Image();
-              img.src = value;
-              img.onload = () => {
-                img.onload = null;
-                files[key] = img;
-                resolve();
-              };
-            }),
-          );
-        } else if (value.startsWith(`data:audio/`)) {
-          files[key] = new Audio(value);
-          files[key].onload = null;
-        }
-      }
+    // images
+    for (const key in images) {
+      const value = images[key];
+      toLoad.push(
+        new Promise((resolve) => {
+          const img = new Image();
+          img.src = value;
+          img.onload = () => {
+            img.onload = null;
+            images[key] = img;
+            resolve();
+          };
+        }),
+      );
+    }
+
+    // audio
+    for (const key in audio) {
+      const value = images[key];
+      images[key] = new Audio(value);
+      images[key].onload = null;
     }
 
     return Promise.allSettled(toLoad);

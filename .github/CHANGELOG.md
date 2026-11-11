@@ -21,6 +21,7 @@
 - sprites/images making at comptime (`{type: "img", src: "..."}` => `new Sprite(...)`)
 - use number (id) as identifier, not string name, complitly strip string names.
   so compile sth.parent.name to id or reference or sth[parent_id][name_id]
+- make scenes, sprites and audio independent values instead 3 collections
 
 ### Editor (src)
 
@@ -48,6 +49,8 @@
 - simplifies core build api
 - add build preprocessing optimization (remove unused assets)
 - make other core.build code improvements and optimizations (like renaming, grouping)
+- add optimization extract scenes, images and audio from files to seperate objects (quicker access to elements)
+- remove files object from runtime
 
 ## 0.24.0 (10 Nov 2026) (https://github.com/kubashh/VirginEngine/commit/e4c0d2a5d71dd14c3a78ef484c949e49c15ae1d0, compiled 807.061 kB, 806.557 kB (0.445 kB (html) 20.753 kB (css) 783.44 kB (js) 1.919 kB (media)))
 
