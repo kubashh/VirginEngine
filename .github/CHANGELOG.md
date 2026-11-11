@@ -17,7 +17,8 @@
 - build: make image/audio static assets or strings
 - render via special unit same cross-platform (not pixels like now)
 - Node: make children array
-- build: one object of images, one object of autio (quicker loadAssets)
+- build: one object of images, one object of audio (quicker loadAssets)
+- sprites/images making at comptime (`{type: "img", src: "..."}` => `new Sprite(...)`)
 - use number (id) as identifier, not string name, complitly strip string names.
   so compile sth.parent.name to id or reference or sth[parent_id][name_id]
 
@@ -45,6 +46,8 @@
 - core optimize VirginEngine.loadAssets - no recursion
 - core move types from `types.d.ts`
 - simplifies core build api
+- add build preprocessing optimization (remove unused assets)
+- make other core.build code improvements and optimizations (like renaming, grouping)
 
 ## 0.24.0 (10 Nov 2026) (https://github.com/kubashh/VirginEngine/commit/e4c0d2a5d71dd14c3a78ef484c949e49c15ae1d0, compiled 807.061 kB, 806.557 kB (0.445 kB (html) 20.753 kB (css) 783.44 kB (js) 1.919 kB (media)))
 
