@@ -1,5 +1,5 @@
+import { type Signal } from "../lib/independent/framework";
 import { FileGrabber } from "./FileGrabber";
-import { type Signal } from "../lib/framework";
 
 export function ImageGrabber({ srcSignal, name }: ImageGrabberProps) {
   return (

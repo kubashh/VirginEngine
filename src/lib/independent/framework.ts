@@ -1,5 +1,5 @@
 import { useSyncExternalStore } from "react";
-import { useConst } from "./hooks";
+import { useConst } from "../hooks";
 
 export function createSignal<T>(defaultValue: T, fn?: Listener): Signal<T> {
   let value = defaultValue;

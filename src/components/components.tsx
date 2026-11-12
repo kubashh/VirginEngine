@@ -1,4 +1,4 @@
-import { clsx } from "../lib/framework";
+import { clsx } from "../lib/independent/framework";
 import { useConst } from "./../lib/hooks";
 
 export function Button({ label, children, className, ...props }: ButtonProps) {

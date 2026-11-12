@@ -1,4 +1,4 @@
-import { createSignal } from "../lib/framework";
+import { createSignal } from "../lib/independent/framework";
 import { Window } from "../components/Window";
 import { Node } from "./Node";
 import { setInspector } from "../inspector/Inspector";

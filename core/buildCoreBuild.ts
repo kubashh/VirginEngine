@@ -7,7 +7,7 @@ export async function buildCoreBuild(virginEngineVersion: string) {
   const { outputs } = await Bun.build({
     entrypoints: [`./core/build/build.ts`],
     outdir: `.`,
-    naming: `./src/lib/core.js`,
+    naming: `./src/lib/independent/core.js`,
     minify: {
       whitespace: true,
       identifiers: true,

@@ -1,5 +1,5 @@
+import { clsx } from "../lib/independent/framework";
 import { Button } from "../components/components";
-import { clsx } from "../lib/framework";
 
 export function Window({ name, id, headerOptions, className, style, children }: WindowProps) {
   return (

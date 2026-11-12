@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { createSignal } from "../lib/framework";
+import { createSignal } from "../lib/independent/framework";
 import { type TFile } from "../lib/consts";
 import { setCursorPointer } from "../lib/util";
 

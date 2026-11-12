@@ -60,6 +60,8 @@
 - improve docs
 - fixed scale for new Node (1 not 0)
 - fixed loading project files
+- remove `safeidb` package and instead of it use simple indexedDB wrapper
+- `README.md` core standarts updates
 
 ## 0.24.0 (10 Nov 2026) (https://github.com/kubashh/VirginEngine/commit/e4c0d2a5d71dd14c3a78ef484c949e49c15ae1d0, compiled 807.061 kB, 806.557 kB (0.445 kB (html) 20.753 kB (css) 783.44 kB (js) 1.919 kB (media)))
 

@@ -1,4 +1,4 @@
-import { type Signal } from "../../lib/framework";
+import { type Signal } from "../../lib/independent/framework";
 
 export function StringInput({ sig }: { sig: Signal<string> }) {
   const value = sig.use();

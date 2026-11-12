@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { createSignal } from "../lib/framework";
+import { createSignal } from "../lib/independent/framework";
 import { Button } from "../components/components";
 
 const contextMenuSignal = createSignal<{

@@ -1,4 +1,4 @@
-import { type Signal } from "../../lib/framework";
+import { type Signal } from "../../lib/independent/framework";
 
 // TODO
 export function ArrayInput({ sig }: ArrayInputProps) {

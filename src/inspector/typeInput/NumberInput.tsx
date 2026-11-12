@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { type Signal } from "../../lib/framework";
+import { type Signal } from "../../lib/independent/framework";
 import { TextInput } from "../../components/components";
 
 export function NumberInput({ sig }: { sig: Signal<number> }) {

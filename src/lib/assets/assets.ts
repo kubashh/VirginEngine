@@ -1,5 +1,5 @@
 import audioIconSrc from "./AudioIcon.png";
-import { virginEngineVersion } from "../core";
+import { virginEngineVersion } from "../independent/core";
 import type { TFile, TProject } from "../consts";
 import { Enum } from "../../inspector/typeInput/EnumInput";
 

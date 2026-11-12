@@ -1,6 +1,6 @@
-import { safeidb } from "safeidb";
 import type { BuildOptions } from "../../core/build/build";
-import { build, virginEngineVersion } from "./core";
+import { build, virginEngineVersion } from "./independent/core";
+import { idbSetItem } from "./independent/idb";
 import { setSetUp } from "../ui/LoadData";
 import { setTestSceneSignal } from "../ui/Test";
 import { files, keywords, type TFile, type TProject, project, config } from "./consts";
@@ -119,7 +119,7 @@ function openMainScene() {
 
 // save indexedDB
 export function saveProject(): Promise<void> {
-  return safeidb.setItem(config.gameName, getProjectJsonString());
+  return idbSetItem(config.gameName, getProjectJsonString());
 }
 
 // save to file

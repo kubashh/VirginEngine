@@ -1,4 +1,4 @@
-import { virginEngineVersion } from "./core";
+import { virginEngineVersion } from "./independent/core";
 import { type TEnum } from "../inspector/typeInput/EnumInput";
 import { emptyProject } from "./assets/assets";
 import { saveProject } from "./util";

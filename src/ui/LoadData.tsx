@@ -1,8 +1,8 @@
-import { safeidb } from "safeidb";
 import { useState } from "react";
-import { virginEngineVersion } from "../lib/core";
+import { virginEngineVersion } from "../lib/independent/core";
+import { createSignal, type Signal } from "../lib/independent/framework";
+import { idbGetItem, idbGetKeys, idbRemoveItem, idbSetItem } from "../lib/independent/idb";
 import { Button } from "../components/components";
-import { createSignal, type Signal } from "../lib/framework";
 import { emptyProject } from "../lib/assets/assets";
 import { config, type TProject } from "../lib/consts";
 import { loadProjectFromDisk, openProject } from "../lib/util";
@@ -40,7 +40,7 @@ class LDProject {
   }
 
   async setUp() {
-    const projectBuf = await safeidb.getItem<string>(this.name);
+    const projectBuf = await idbGetItem<string>(this.name);
     if (!projectBuf) {
       // await localforage.removeItem(this.name);
       // throw new Error(`No such project '${this.name}'`);
@@ -60,15 +60,15 @@ class LDProject {
       if (project.name === newName) return;
     }
 
-    const projectBuf = await safeidb.getItem<string>(this.name);
+    const projectBuf = await idbGetItem<string>(this.name);
     if (projectBuf) {
       const data: TProject | null = JSON.parse(projectBuf);
       if (data && data.config) data.config.gameName = newName;
 
-      await safeidb.setItem(newName, JSON.stringify(data));
+      await idbSetItem(newName, JSON.stringify(data));
 
       projectsSignal.set((prev) => [...prev]);
-      await safeidb.removeItem(this.name);
+      await idbRemoveItem(this.name);
       this.name = newName;
     }
   }
@@ -180,7 +180,7 @@ function Project({ project }: { project: LDProject }) {
     <div
       className="mb-2 px-3 sm:px-5 py-1.5 sm:py-2.5 text-base rounded-xl flex justify-between bg-black hover:bg-zinc-800 cursor-pointer"
       onClick={async () => {
-        const data = await safeidb.getItem<string>(name);
+        const data = await idbGetItem<string>(name);
         if (data) openProject(JSON.parse(data));
       }}
       onContextMenu={(e) =>
@@ -212,7 +212,7 @@ function Project({ project }: { project: LDProject }) {
             label: `Delete ${name}?`,
             options: {
               Yes: () => {
-                safeidb.removeItem(name).then(() => {
+                idbRemoveItem(name).then(() => {
                   addNotification(`Successfully deleted '${name}'.`);
                   projectsSignal.set((prev) => prev.filter((p) => p.name !== name));
                 });
@@ -240,7 +240,7 @@ function LoadDataButton(props: { label: string; onClick: React.MouseEventHandler
 }
 
 async function getSetProjects() {
-  const keys = await safeidb.keys();
+  const keys = await idbGetKeys();
 
   const projects: LDProject[] = keys.map(
     (key) =>

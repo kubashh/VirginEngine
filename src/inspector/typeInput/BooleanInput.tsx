@@ -1,4 +1,4 @@
-import { type Signal } from "../../lib/framework";
+import { type Signal } from "../../lib/independent/framework";
 
 export function BooleanInput({ sig }: { sig: Signal<boolean> }) {
   return (

@@ -1,6 +1,6 @@
 # VirginEngine
 
-Simple JS game engine for 2D web games
+Simple JS game engine for fast 2D web games
 
 ## Engine
 
@@ -16,16 +16,30 @@ Simple JS game engine for 2D web games
 
 ## [Docs](https://github.com/kubashh/VirginEngine/blob/main/src/docs/docs.md)
 
-## Project structure
-
-- /core - engine core, contains build function
-- /src - editor
-
 ## Scripting stardants
+
+### Basic standarts
 
 - no `export default`
 - classes | ReactComponents - PascalCase
 - variables | functions | objects - camelCase
+
+### Project structure
+
+- /core - engine core, contains build function
+- /src - editor
+
+### Src import order
+
+1. external libs like `react`
+2. enbeded files like `img.png` `package.json`
+3. code from `src/lib/independent/`
+4. code from `src/components/`
+5. code from `src/hierarchy/`
+6. code from `src/files/`
+7. code from `src/inspector/`
+8. code from `src/lib/`
+9. code from `src/ui/`
 
 ## Scripting concepts (0.24.0)
 

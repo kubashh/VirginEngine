@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { createSignal } from "../lib/framework";
+import { createSignal } from "../lib/independent/framework";
 import { capitalize, decapitalize, isValidName } from "../lib/util";
 
 const nameInputSignal = createSignal<TNameInput | null>(null);
