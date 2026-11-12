@@ -4,8 +4,8 @@ import { virginEngineVersion } from "../lib/core";
 import { Button } from "../components/components";
 import { createSignal, type Signal } from "../lib/framework";
 import { emptyProject } from "../lib/assets/assets";
-import { config, project, type TProject } from "../lib/consts";
-import { deepCopy, loadProjectFromDisk, openMainScene, openProject, saveProject } from "../lib/util";
+import { config, type TProject } from "../lib/consts";
+import { loadProjectFromDisk, openProject } from "../lib/util";
 import { addNotification } from "./Notifications";
 import { setPopupMenu } from "./PopupMenu";
 import { setNameInput } from "./NameInput";
@@ -70,8 +70,6 @@ class LDProject {
       projectsSignal.set((prev) => [...prev]);
       await safeidb.removeItem(this.name);
       this.name = newName;
-
-      console.log(await safeidb.keys());
     }
   }
 
@@ -125,17 +123,10 @@ export function LoadData() {
             onClick={() => {
               setNameInput({
                 cb: async (projectName) => {
-                  console.log(projectName);
                   const now = Date.now();
-                  const { config: emptyConfig, files } = emptyProject();
-                  emptyConfig.gameName = projectName;
-                  Object.assign(project.config, deepCopy(emptyConfig));
-                  Object.assign(project.files, deepCopy(files));
-                  Object.assign(project.metadata, {
-                    modifiedDate: now,
-                    editorVersion: virginEngineVersion,
-                  });
-                  config.gameName = projectName;
+                  const project = emptyProject();
+                  project.config.gameName = projectName;
+                  openProject(project);
                   projectsSignal.set((prev) => [
                     ...prev,
                     new LDProject({
@@ -144,8 +135,6 @@ export function LoadData() {
                       editorVersion: virginEngineVersion,
                     }),
                   ]);
-                  await saveProject();
-                  openMainScene();
                 },
               });
             }}

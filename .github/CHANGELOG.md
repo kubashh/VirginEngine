@@ -37,10 +37,12 @@
 - LoadData new project set config (author, description...)
 - pack/unpack js object <==> files. it means drag folder to open the project or file
 - add block of code like scratch as option
+- add build notification with build size and html, js and assets size
+- add auto changing paths for assets when renamed and warning for deletion when used
 
 <br />
 
-## 0.24.1-dev (in development)
+## 0.25.0-dev (in development)
 
 - fixed builded html new line before `</style>`
 - add printing size info when building whole engine, I made this to optimize css and js in the future
@@ -51,6 +53,13 @@
 - make other core.build code improvements and optimizations (like renaming, grouping)
 - add optimization extract scenes, images and audio from files to seperate objects (quicker access to elements)
 - remove files object from runtime
+- Audio works correctly
+- add core Audio loop and currentTime
+- fixed audio play before user click
+- add asset InpactSound
+- improve docs
+- fixed scale for new Node (1 not 0)
+- fixed loading project files
 
 ## 0.24.0 (10 Nov 2026) (https://github.com/kubashh/VirginEngine/commit/e4c0d2a5d71dd14c3a78ef484c949e49c15ae1d0, compiled 807.061 kB, 806.557 kB (0.445 kB (html) 20.753 kB (css) 783.44 kB (js) 1.919 kB (media)))
 

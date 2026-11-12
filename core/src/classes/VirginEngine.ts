@@ -1,6 +1,6 @@
 import { Timer } from "./Timer";
-import { ctx, events, nodes, Log, performanceInfo, images, audio } from "../values/consts";
-import { clearObject, drawText, wait } from "../util/basicFunctions";
+import { ctx, events, nodes, Log, performanceInfo, images } from "../values/consts";
+import { clearObject, wait } from "../util/basicFunctions";
 import { Scene } from "./Scene";
 
 export class VirginEngine {
@@ -56,11 +56,10 @@ export class VirginEngine {
 
     // images
     for (const key in images) {
-      const value = images[key];
       toLoad.push(
         new Promise((resolve) => {
           const img = new Image();
-          img.src = value;
+          img.src = images[key];
           img.onload = () => {
             img.onload = null;
             images[key] = img;
@@ -71,11 +70,11 @@ export class VirginEngine {
     }
 
     // audio
-    for (const key in audio) {
-      const value = images[key];
-      images[key] = new Audio(value);
-      images[key].onload = null;
-    }
+    // for (const key in audio) {
+    //   const value = audio[key];
+    //   audio[key] = new Audio(value);
+    //   audio[key].onload = null;
+    // }
 
     return Promise.allSettled(toLoad);
   }
@@ -111,7 +110,7 @@ export class VirginEngine {
         Text: VirginEngine.renderText,
         Nodes: VirginEngine.renderNodes,
       });
-      VirginEngine.renderPerformanceInfo();
+      Timer.renderPerformanceInfo();
       Log.framesTemp++;
     } else {
       VirginEngine.renderSprite();
@@ -137,39 +136,6 @@ export class VirginEngine {
 
   private static renderNodes() {
     for (const node of nodes) node.scriptChild?.render?.();
-  }
-
-  private static renderPerformanceInfo() {
-    const props = {
-      x: 6,
-      y: 6,
-      h: 18,
-      rect: { x: -1, y: -1 },
-      color: `white`,
-      textAlign: `left`,
-      textBaseline: `top`,
-    };
-
-    drawText({
-      ...props,
-      text: `${nodes.length}obj, ${Log.updates}ups, ${Log.frames}fps`,
-      x: -6,
-      rect: { x: 1, y: -1 },
-      textAlign: `right`,
-    });
-
-    for (const text of Timer.renderTimer.allFormatted) {
-      drawText({ text, ...props });
-      props.y += 18;
-    }
-
-    props.x = 160;
-    props.y = 6;
-
-    for (const text of Timer.updateTimer.allFormatted) {
-      drawText({ text, ...props });
-      props.y += 18;
-    }
   }
 
   static quit() {

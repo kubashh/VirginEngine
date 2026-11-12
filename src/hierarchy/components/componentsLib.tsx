@@ -12,7 +12,7 @@ const rect: TComponent = { initValue: { x: Enum(0, -1, 0, 1), y: Enum(0, -1, 0, 
 const text: TComponent = { initValue: { value: ``, color: `white` }, deps: [`rect`] };
 const sprite: TComponent = { initValue: { color: ``, path: `files.Assets.Images.BoxImage` } };
 const physics: TComponent = { initValue: { gravity: true } };
-const audio: TComponent = { initValue: { path: `` } };
+const audio: TComponent = { initValue: { path: `` } }; // loop: false
 const script: TComponent = { initValue: `class MyScript {\n}\n` };
 
 const components: TObj<TComponent> = { rect, text, sprite, physics, audio, script };

@@ -7,6 +7,7 @@ import { files, keywords, type TFile, type TProject, project, config } from "./c
 import { setPopupMenu } from "../ui/PopupMenu";
 import { addNotification } from "../ui/Notifications";
 import { setHierarchy } from "../hierarchy/Hierarchy";
+import { refreshFiles } from "../files/Files";
 
 export function deepCopy<T>(obj: T): T {
   return JSON.parse(JSON.stringify(obj));
@@ -78,7 +79,7 @@ export function loadProjectFromDisk(): Promise<TProject | null> {
   return promise;
 }
 
-export function openProject(data: TProject) {
+export async function openProject(data: TProject): Promise<void> {
   if (data.metadata.editorVersion != virginEngineVersion) {
     setPopupMenu({
       label: `Change project version from ${data.metadata.editorVersion} to ${virginEngineVersion}?`,
@@ -93,17 +94,20 @@ export function openProject(data: TProject) {
     return;
   }
   for (const key in files) delete files[key];
-  for (const key in data.files) files[key] = data.files[key];
+  Object.assign(files, data.files);
+  // for (const key in data.files) files[key] = data.files[key];
   // @ts-ignore don't get legacy bad configuration, get only current config shape
   for (const key in config) if (data.config[key]) config[key] = data.config[key];
 
-  saveProject();
+  refreshFiles(); // trigger refresh to reload assets
+
+  await saveProject();
 
   openMainScene();
   document.title = `${data.config.gameName} - VirginEngine`;
 }
 
-export function openMainScene() {
+function openMainScene() {
   setSetUp(true);
 
   const scene =
@@ -113,11 +117,12 @@ export function openMainScene() {
   setHierarchy(scene);
 }
 
-// save file
+// save indexedDB
 export function saveProject(): Promise<void> {
   return safeidb.setItem(config.gameName, getProjectJsonString());
 }
 
+// save to file
 export function saveProjectFile() {
   downloadFile(`${config.gameName}.virginengine`, getProjectJsonString());
   addNotification(`Downloading project '${config.gameName}'...`);

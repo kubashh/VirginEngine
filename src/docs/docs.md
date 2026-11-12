@@ -89,6 +89,8 @@ type Animation = {
 type AudioVE = {
   play: () => void;
   pause: () => void;
+  loop: boolean; // set only
+  currentTime: number; // get only
 };
 ```
 

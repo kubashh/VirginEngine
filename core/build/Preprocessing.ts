@@ -64,6 +64,7 @@ export class Preprocessing {
         const inp = this.mediaPaths.find((inp) => inp.prevPath === node.audio.path);
         if (!inp) throw new Error(`BuildError: can't find path when optiming nodes!`);
         node.audio.path = inp.newPath;
+        inp.isUsed = true;
       }
     }
 
