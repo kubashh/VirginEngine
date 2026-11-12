@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { createSignal } from "../lib/independent/framework";
-import { type TFile } from "../lib/consts";
+import { type TFile } from "../lib/independent/consts";
 import { setCursorPointer } from "../lib/util";
 
 const dragDataSignal = createSignal<TDragData | null>(null);

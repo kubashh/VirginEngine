@@ -1,7 +1,7 @@
 import { createSignal } from "../lib/independent/framework";
+import { config } from "../lib/independent/consts";
 import { Window } from "../components/Window";
 import { InspectorSection } from "./InspectorSection";
-import { config } from "../lib/consts";
 import { buildProject, saveProject, saveProjectFile, testProjects } from "../lib/util";
 import { showDocs } from "../docs/Docs";
 import { setSetUp } from "../ui/LoadData";

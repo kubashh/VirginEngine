@@ -1,5 +1,5 @@
+import { type TTransform } from "../../lib/independent/consts";
 import { InspectorSection } from "../../inspector/InspectorSection";
-import { type TTransform } from "../../lib/consts";
 
 export function Transform({ transform }: TransformProps) {
   return (

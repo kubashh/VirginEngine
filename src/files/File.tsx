@@ -1,6 +1,6 @@
 import { audioIconSrc, defaultAssets } from "../lib/assets/assets";
+import { type TFile } from "../lib/independent/consts";
 import { FileElement } from "../components/FileElement";
-import { type TFile } from "../lib/consts";
 import { isCapitalized, deepCopy } from "../lib/util";
 import { useArrow } from "../lib/hooks";
 import { getDragData } from "../ui/DragData";

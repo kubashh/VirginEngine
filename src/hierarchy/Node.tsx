@@ -1,5 +1,5 @@
+import { keywords, type TFile } from "../lib/independent/consts";
 import { FileElement } from "../components/FileElement";
-import { keywords, type TFile } from "../lib/consts";
 import { isCapitalized } from "../lib/util";
 import { useArrow } from "../lib/hooks";
 import { setNameInput } from "../ui/NameInput";

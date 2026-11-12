@@ -1,9 +1,8 @@
-import type { BuildOptions } from "../../core/build/build";
-import { build, virginEngineVersion } from "./independent/core";
+import { build, virginEngineVersion, type BuildOptions } from "./independent/core";
+import { files, keywords, type TFile, type TProject, project, config } from "./independent/consts";
 import { idbSetItem } from "./independent/idb";
 import { setSetUp } from "../ui/LoadData";
 import { setTestSceneSignal } from "../ui/Test";
-import { files, keywords, type TFile, type TProject, project, config } from "./consts";
 import { setPopupMenu } from "../ui/PopupMenu";
 import { addNotification } from "../ui/Notifications";
 import { setHierarchy } from "../hierarchy/Hierarchy";

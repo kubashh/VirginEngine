@@ -1,4 +1,4 @@
-import { type TFile } from "../lib/consts";
+import { type TFile } from "../lib/independent/consts";
 import { type ArrowSignal } from "../lib/hooks";
 import { InspectorDisplay } from "../files/InspectorDisplay";
 import { setContextMenu } from "../ui/ContextMenu";

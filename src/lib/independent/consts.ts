@@ -1,7 +1,6 @@
-import { virginEngineVersion } from "./independent/core";
-import { type TEnum } from "../inspector/typeInput/EnumInput";
-import { emptyProject } from "./assets/assets";
-import { saveProject } from "./util";
+import { virginEngineVersion } from "./core";
+import { emptyProject } from "../assets/assets";
+import { type TEnum } from "../../inspector/typeInput/EnumInput";
 
 export const keywords = [
   `type`,
@@ -28,18 +27,6 @@ export const editor = {
   },
   engineVersion: virginEngineVersion,
 };
-
-// set global events
-window.addEventListener(`contextmenu`, (e) => {
-  e.preventDefault();
-});
-
-window.addEventListener(`keydown`, (e) => {
-  if (e.ctrlKey && e.key === `s`) {
-    e.preventDefault();
-    if (config.gameName !== ``) saveProject();
-  }
-});
 
 // types
 

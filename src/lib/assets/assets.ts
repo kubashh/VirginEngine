@@ -1,6 +1,6 @@
 import audioIconSrc from "./AudioIcon.png";
 import { virginEngineVersion } from "../independent/core";
-import type { TFile, TProject } from "../consts";
+import type { TFile, TProject } from "../independent/consts";
 import { Enum } from "../../inspector/typeInput/EnumInput";
 
 export const boxSprite = `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAdnJLH8AAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAuIwAALiMBeKU/dgAAAA9JREFUCB0BBAD7/wD///8F/gL+A30ZxgAAAABJRU5ErkJggg==`;

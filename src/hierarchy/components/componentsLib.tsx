@@ -1,10 +1,10 @@
+import { type TFile } from "../../lib/independent/consts";
 import { Button } from "../../components/components";
 import { InspectorSection } from "../../inspector/InspectorSection";
 import { Script } from "./Script";
 import { Transform } from "./Transform";
 import { Enum } from "../../inspector/typeInput/EnumInput";
 import { setInspector } from "../../inspector/Inspector";
-import { type TFile } from "../../lib/consts";
 import { capitalize, deepCopy } from "../../lib/util";
 import { useRefresh } from "../../lib/hooks";
 
