@@ -1,12 +1,11 @@
-import { type TFile } from "../../lib/independent/consts";
-import { Button } from "../../components/components";
-import { InspectorSection } from "../../inspector/InspectorSection";
-import { Script } from "./Script";
-import { Transform } from "./Transform";
-import { Enum } from "../../inspector/typeInput/EnumInput";
-import { setInspector } from "../../inspector/Inspector";
+import { type TFile } from "../../lib/consts";
 import { capitalize, deepCopy } from "../../lib/util";
 import { useRefresh } from "../../lib/hooks";
+import { Enum } from "../../lib/typeInput/EnumInput";
+import { Script } from "./Script";
+import { Transform } from "./Transform";
+import { InspectorSection } from "../../inspector/InspectorSection";
+import { setInspector } from "../../inspector/Inspector";
 
 const rect: TComponent = { initValue: { x: Enum(0, -1, 0, 1), y: Enum(0, -1, 0, 1) }, remove: [`text`] };
 const text: TComponent = { initValue: { value: ``, color: `white` }, deps: [`rect`] };
@@ -92,7 +91,9 @@ function toChilds(object: TFile, name: string, obj: TObj<any>) {
 
 function AddComponent({ text, onClick }: AddComponentProps) {
   return (
-    <Button label={`+ ${text}`} className="mt-3 mb-6 px-3 py-2 hover:text-zinc-400" onClick={onClick} />
+    <button className="mt-3 mb-6 px-3 py-2 hover:text-zinc-400" onClick={onClick}>
+      + {text}
+    </button>
   );
 }
 

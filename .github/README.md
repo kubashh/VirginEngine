@@ -21,6 +21,7 @@ Simple JS game engine for fast 2D web games
 ### Basic standarts
 
 - no `export default`
+- no `import type` (use `import { type X }`)
 - classes | ReactComponents - PascalCase
 - variables | functions | objects - camelCase
 
@@ -34,13 +35,14 @@ Simple JS game engine for fast 2D web games
 1. external libs like `react`
 2. enbeded files like `img.png` `package.json`
 3. code from `src/lib/assets/`
-4. code from `src/lib/independent/`
-5. code from `src/components/`
-6. code from `src/hierarchy/`
-7. code from `src/files/`
-8. code from `src/inspector/`
-9. code from `src/lib/`
-10. code from `src/ui/`
+4. code from `src/lib/` - `core` `idb` `framework` `consts` `util` `hooks`
+5. code from `src/lib/typeInput/`
+6. code from `src/lib/components/`
+7. code from `src/docs/`
+8. code from `src/hierarchy/`
+9. code from `src/files/`
+10. code from `src/inspector/`
+11. code from `src/ui/`
 
 ## Scripting concepts (0.24.0)
 

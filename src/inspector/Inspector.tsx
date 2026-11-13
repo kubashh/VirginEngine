@@ -1,10 +1,11 @@
-import { createSignal } from "../lib/independent/framework";
-import { config } from "../lib/independent/consts";
-import { Window } from "../components/Window";
-import { InspectorSection } from "./InspectorSection";
-import { buildProject, saveProject, saveProjectFile, testProjects } from "../lib/util";
+import { createSignal } from "../lib/framework";
+import { config } from "../lib/consts";
+import { buildProject } from "../lib/util";
+import { Window } from "../lib/components/Window";
 import { showDocs } from "../docs/Docs";
-import { setSetUp } from "../ui/LoadData";
+import { InspectorSection } from "./InspectorSection";
+import { saveProject, saveProjectFile, setSetUp } from "../ui/LoadData";
+import { testProjects } from "../ui/Test";
 
 const inspectorSignal = createSignal<React.ReactNode>(null);
 

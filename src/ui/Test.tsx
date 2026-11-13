@@ -1,5 +1,5 @@
-import { Window } from "../components/Window";
-import { testProjects } from "../lib/util";
+import { buildSafely } from "../lib/util";
+import { Window } from "../lib/components/Window";
 
 const opctions = [`16/9`, `1/1`, `9/16`];
 
@@ -54,4 +54,8 @@ export function Test() {
       </div>
     </Window>
   );
+}
+
+export async function testProjects(): Promise<void> {
+  setTestSceneSignal(await buildSafely(false));
 }

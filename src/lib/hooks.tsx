@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { useCreateSignal, type Signal } from "./independent/framework";
-import { Button } from "../components/components";
+import { useCreateSignal, type Signal } from "./framework";
 
 export function useRefresh() {
   const f = useState(false)[1];
@@ -17,12 +16,11 @@ export function useArrow(main = false, haveChilds = true, src?: string): ArrowSi
   const component = src ? (
     <img className="w-6 max-h-6 p-0.5" src={src} />
   ) : haveChilds ? (
-    <Button
-      label=">"
+    <button
       className="w-6 h-6 text-center justify-self-center rounded-full hover:text-zinc-400"
       style={{ transform: `rotate(${openSignal.get() ? 90 : 0}deg)` }}
       onClick={() => openSignal.set(!openSignal.get())}
-    />
+    >{`>`}</button>
   ) : (
     <div className="w-6 h-6" />
   );

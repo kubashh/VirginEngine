@@ -1,16 +1,27 @@
 import { useState } from "react";
-import { type Signal } from "../../lib/independent/framework";
-import { TextInput } from "../../components/components";
+import { type Signal } from "../framework";
 
 export function NumberInput({ sig }: { sig: Signal<number> }) {
   const [buf, setBuf] = useState(String(sig.get()));
 
   return (
-    <TextInput
+    <input
+      type="text"
       className="w-full border-b border-zinc-400 accent-green-600"
       value={buf}
-      allow={/^[0-9\-.]*$/}
-      onChange={(value) => {
+      onChange={({ target }) => {
+        const allow = /^[0-9\-.]*$/;
+
+        if (!allow.test(target.value)) {
+          target.value = target.value
+            .split(``)
+            .filter((char) => allow.test(char))
+            .join(``);
+          return;
+        }
+
+        const value = target.value;
+
         // double dot check
         if (value.includes(`.`, value.indexOf(`.`) + 1)) {
           return;

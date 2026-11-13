@@ -30,6 +30,11 @@
   }
 }
 
+/* other */
+button {
+  cursor: pointer;
+}
+
 /* notifications */
 
 @keyframes notification-fade-in {

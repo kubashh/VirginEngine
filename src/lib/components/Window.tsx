@@ -1,5 +1,4 @@
-import { clsx } from "../lib/independent/framework";
-import { Button } from "../components/components";
+import { clsx } from "../framework";
 
 export function Window({ name, id, headerOptions, className, style, children }: WindowProps) {
   return (
@@ -33,14 +32,16 @@ function HeaderOption({ label, value }: { label: string; value: TObj<() => void>
       ))}
     </HeaderOptionDropdown>
   ) : (
-    <Button className="my-auto hover:text-zinc-400" label={label} onClick={value} />
+    <button className="my-auto hover:text-zinc-400" onClick={value}>
+      {label}
+    </button>
   );
 }
 
 function HeaderOptionDropdown({ label, children }: HeaderOptionsHelperProps) {
   return (
     <div className="relative flex flex-col group">
-      <Button className="hover:text-zinc-400">{label}</Button>
+      <button className="hover:text-zinc-400">{label}</button>
 
       <div className="absolute mt-6 right-0 flex-col hidden group-hover:flex">{children}</div>
     </div>

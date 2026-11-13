@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { virginEngineVersion } from "../lib/independent/core";
-import { createSignal, type Signal } from "../lib/independent/framework";
-import { idbGetItem, idbGetKeys, idbRemoveItem, idbSetItem } from "../lib/independent/idb";
-import { config, type TProject } from "../lib/independent/consts";
-import { Button } from "../components/components";
 import { emptyProject } from "../lib/assets/assets";
-import { loadProjectFromDisk, openProject } from "../lib/util";
+import { virginEngineVersion } from "../lib/core";
+import { idbGetItem, idbGetKeys, idbRemoveItem, idbSetItem } from "../lib/idb";
+import { createSignal, type Signal } from "../lib/framework";
+import { config, files, project, type TProject } from "../lib/consts";
+import { downloadFile } from "../lib/util";
+import { setHierarchy } from "../hierarchy/Hierarchy";
+import { refreshFiles } from "../files/Files";
 import { addNotification } from "./Notifications";
 import { setPopupMenu } from "./PopupMenu";
 import { setNameInput } from "./NameInput";
@@ -202,8 +203,7 @@ function Project({ project }: { project: LDProject }) {
       <div className="w-30">
         <ModifiedDate modifiedDateSignal={project.modifiedDateSignal} />
       </div>
-      <Button
-        label="Delete"
+      <button
         className="hover:text-emerald-800"
         onClick={(e) => {
           e.stopPropagation();
@@ -220,7 +220,9 @@ function Project({ project }: { project: LDProject }) {
             },
           });
         }}
-      />
+      >
+        Delete
+      </button>
     </div>
   );
 }
@@ -230,12 +232,14 @@ function ModifiedDate({ modifiedDateSignal }: { modifiedDateSignal: Signal<strin
   return modifiedDate;
 }
 
-function LoadDataButton(props: { label: string; onClick: React.MouseEventHandler }) {
+function LoadDataButton({ label, onClick }: { label: string; onClick: React.MouseEventHandler }) {
   return (
-    <Button
+    <button
       className="my-auto border-0 border-zinc-600 px-1 sm:px-2 py-0.5 sm:py-1 text-xs sm:text-sm float-right font-semibold rounded-xl bg-emerald-800 hover:bg-emerald-900"
-      {...props}
-    />
+      onClick={onClick}
+    >
+      {label}
+    </button>
   );
 }
 
@@ -274,8 +278,88 @@ function sortByDate() {
   projectsSignal.set((projects) => projects.toSorted((a, b) => b.modifiedDate - a.modifiedDate)); // create new array to trigger update
 }
 
+// load file
+function loadProjectFromDisk(): Promise<TProject | null> {
+  const { promise, resolve } = Promise.withResolvers<TProject | null>();
+  const element = document.createElement(`input`);
+  element.type = `file`;
+  element.accept = `.virginengine`;
+  Object.assign(element, {
+    onchange: ({ target }: React.ChangeEvent<HTMLInputElement>) => {
+      const reader = new FileReader();
+
+      reader.onload = ({ target }) => {
+        if (!target) return resolve(null);
+        const data = JSON.parse(target.result as string);
+
+        resolve(data);
+      };
+
+      if (target.files) reader.readAsText(target.files[0]);
+    },
+  });
+  element.click();
+
+  return promise;
+}
+
+async function openProject(data: TProject): Promise<void> {
+  if (data.metadata.editorVersion != virginEngineVersion) {
+    setPopupMenu({
+      label: `Change project version from ${data.metadata.editorVersion} to ${virginEngineVersion}?`,
+      description: `This project use different editor version. Changing project version may break project`,
+      options: {
+        Yes: () => {
+          data.metadata.editorVersion = virginEngineVersion;
+          openProject(data);
+        },
+      },
+    });
+    return;
+  }
+  for (const key in files) delete files[key];
+  Object.assign(files, data.files);
+  // for (const key in data.files) files[key] = data.files[key];
+  // @ts-ignore don't get legacy bad configuration, get only current config shape
+  for (const key in config) if (data.config[key]) config[key] = data.config[key];
+
+  refreshFiles(); // trigger refresh to reload assets
+
+  await saveProject();
+
+  openMainScene();
+  document.title = `${data.config.gameName} - VirginEngine`;
+}
+
+function openMainScene() {
+  setSetUp(true);
+
+  const scene =
+    files.Scenes[config.startingSceneName] ||
+    Object.values(files.Scenes).find((s) => typeof s !== `string`);
+
+  setHierarchy(scene);
+}
+
+// save indexedDB
+export function saveProject(): Promise<void> {
+  return idbSetItem(config.gameName, getProjectJsonString());
+}
+
+// save to file
+export function saveProjectFile() {
+  downloadFile(`${config.gameName}.virginengine`, getProjectJsonString());
+  addNotification(`Downloading project '${config.gameName}'...`);
+}
+
+function getProjectJsonString(): string {
+  project.metadata.modifiedDate = Date.now();
+  return JSON.stringify(project);
+}
+
 window.addEventListener(`keydown`, (e) => {
-  if (e.ctrlKey && e.key === `s` && config.gameName !== ``) {
+  if (e.ctrlKey && e.key === `s`) {
     e.preventDefault();
+    if (config.gameName !== ``) saveProject();
   }
 });

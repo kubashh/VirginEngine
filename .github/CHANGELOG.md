@@ -42,7 +42,9 @@
 
 <br />
 
-## 0.25.0-dev (in development)
+## 0.25.1-dev (in development)
+
+## 0.25.0 (13 Nov 2026) (, compiled 840.293 kB, 839.789 kB (0.439 kB (html) 20.775 kB (css) 816.656 kB (js) 1.919 kB (media)))
 
 - fixed builded html new line before `</style>`
 - add printing size info when building whole engine, I made this to optimize css and js in the future
@@ -62,7 +64,9 @@
 - fixed loading project files
 - remove `safeidb` package and instead of it use simple indexedDB wrapper
 - `README.md` core standarts updates
-- make `consts.ts` independent
+- remove Button component
+- make `src/lib` `components` `TypeInput` independent
+- importing changes
 
 ## 0.24.0 (10 Nov 2026) (https://github.com/kubashh/VirginEngine/commit/e4c0d2a5d71dd14c3a78ef484c949e49c15ae1d0, compiled 807.061 kB, 806.557 kB (0.445 kB (html) 20.753 kB (css) 783.44 kB (js) 1.919 kB (media)))
 
@@ -94,7 +98,7 @@
 - fexed NameInput empty string. now string can be empty, but don't call callback functions
 - remove LoadData localStorage cache and bundle TDLProject to class
 
-## 0.23.0 (26 Sep 2026)
+## 0.23.0 (26 Sep 2026) (https://github.com/kubashh/VirginEngine/commit/ab89386298ac070c7ae658b0dbb69e333d18071c)
 
 - set title in comptime
 - core: make engine static class instead of functions collection
@@ -110,7 +114,7 @@
 - project structure: pack metadata to one containter
 - scripting: change scripting type from declarative to class-based
 
-## 0.22.2 (15 Sep 2026)
+## 0.22.2 (15 Sep 2026) (https://github.com/kubashh/VirginEngine/commit/863278be4897e5028cd8122ab8e30a556046384f)
 
 - StringInput: remove `"` `"` from string in editor
 - move Docs to UI
@@ -121,7 +125,7 @@
 - add support for dropping project into LoadData
 - bundle wdwh into src (editor)
 
-## 0.22.1 (11 Aug 2026)
+## 0.22.1 (11 Aug 2026) (https://github.com/kubashh/VirginEngine/commit/2c62260a5d7b228478c9aa0e59759bcb049dc94f)
 
 - LoadData: update modified date dynamicly, performance benefits, modern design
 - Editor requiers width >722px (before >920px) (editor) >300px (before >700px) (LoadData),
@@ -141,7 +145,7 @@
 - make loading project adding project to projects list
 - code: expicit any usage in editor
 
-## 0.22.0 (30 Apr 2026)
+## 0.22.0 (30 Apr 2026) (https://github.com/kubashh/VirginEngine/commit/b28bd4592ff6b042999b6475da241a0140bd1ce5)
 
 - more strict typescript rules
 - create VE icon (instead of old DE (Death Engine - previous project name))
@@ -161,7 +165,7 @@
 - Modernized LoadData, add project modified date
 - display engine version
 
-## 0.21.0 (3 Oct 2025)
+## 0.21.0 (3 Oct 2025) (https://github.com/kubashh/VirginEngine/commit/b123e9f1fc0647a5d22ba8442063a8a6426d702f#diff-7ae45ad102eab3b6d7e7896acd08c427a9b25b346470d7bc6507b6481575d519)
 
 - move projects from kubashh/virginengine to `VirginEngine/VirginEngine`
   (kubashh is initiator for VirginEngine project)

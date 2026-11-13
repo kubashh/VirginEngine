@@ -1,6 +1,5 @@
 import { useEffect } from "react";
-import { createSignal } from "../lib/independent/framework";
-import { Button } from "../components/components";
+import { createSignal } from "../lib/framework";
 
 const popupMenuSignal = createSignal<TPopupMenu>({ label: `` });
 
@@ -39,15 +38,16 @@ export function PopupMenu() {
 function PopupMenuOptions({ options }: { options?: TObj<() => void> }) {
   return options
     ? Object.entries(options).map(([label, cb]) => (
-        <Button
-          label={label}
+        <button
           key={label}
           className="border border-zinc-400 px-3 py-1.5 text-lg rounded-2xl bg-[#000a] hover:text-zinc-400"
           onClick={() => {
             cb();
             setPopupMenu({ label: ``, options: {} });
           }}
-        />
+        >
+          {label}
+        </button>
       ))
     : null;
 }

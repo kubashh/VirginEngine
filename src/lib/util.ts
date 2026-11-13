@@ -1,12 +1,5 @@
-import { build, virginEngineVersion, type BuildOptions } from "./independent/core";
-import { files, keywords, type TFile, type TProject, project, config } from "./independent/consts";
-import { idbSetItem } from "./independent/idb";
-import { setSetUp } from "../ui/LoadData";
-import { setTestSceneSignal } from "../ui/Test";
-import { setPopupMenu } from "../ui/PopupMenu";
-import { addNotification } from "../ui/Notifications";
-import { setHierarchy } from "../hierarchy/Hierarchy";
-import { refreshFiles } from "../files/Files";
+import { build, type BuildOptions } from "./core";
+import { files, keywords, type TFile, config } from "./consts";
 
 export function deepCopy<T>(obj: T): T {
   return JSON.parse(JSON.stringify(obj));
@@ -51,85 +44,6 @@ export function decapitalize(str: string): string {
 export function isOccupied(obj: TFile, name: string): boolean {
   for (const key in obj) if (key === name) return true;
   return false;
-}
-
-// load file
-export function loadProjectFromDisk(): Promise<TProject | null> {
-  const { promise, resolve } = Promise.withResolvers<TProject | null>();
-  const element = document.createElement(`input`);
-  element.type = `file`;
-  element.accept = `.virginengine`;
-  Object.assign(element, {
-    onchange: ({ target }: React.ChangeEvent<HTMLInputElement>) => {
-      const reader = new FileReader();
-
-      reader.onload = ({ target }) => {
-        if (!target) return resolve(null);
-        const data = JSON.parse(target.result as string);
-
-        resolve(data);
-      };
-
-      if (target.files) reader.readAsText(target.files[0]);
-    },
-  });
-  element.click();
-
-  return promise;
-}
-
-export async function openProject(data: TProject): Promise<void> {
-  if (data.metadata.editorVersion != virginEngineVersion) {
-    setPopupMenu({
-      label: `Change project version from ${data.metadata.editorVersion} to ${virginEngineVersion}?`,
-      description: `This project use different editor version. Changing project version may break project`,
-      options: {
-        Yes: () => {
-          data.metadata.editorVersion = virginEngineVersion;
-          openProject(data);
-        },
-      },
-    });
-    return;
-  }
-  for (const key in files) delete files[key];
-  Object.assign(files, data.files);
-  // for (const key in data.files) files[key] = data.files[key];
-  // @ts-ignore don't get legacy bad configuration, get only current config shape
-  for (const key in config) if (data.config[key]) config[key] = data.config[key];
-
-  refreshFiles(); // trigger refresh to reload assets
-
-  await saveProject();
-
-  openMainScene();
-  document.title = `${data.config.gameName} - VirginEngine`;
-}
-
-function openMainScene() {
-  setSetUp(true);
-
-  const scene =
-    files.Scenes[config.startingSceneName] ||
-    Object.values(files.Scenes).find((s) => typeof s !== `string`);
-
-  setHierarchy(scene);
-}
-
-// save indexedDB
-export function saveProject(): Promise<void> {
-  return idbSetItem(config.gameName, getProjectJsonString());
-}
-
-// save to file
-export function saveProjectFile() {
-  downloadFile(`${config.gameName}.virginengine`, getProjectJsonString());
-  addNotification(`Downloading project '${config.gameName}'...`);
-}
-
-function getProjectJsonString(): string {
-  project.metadata.modifiedDate = Date.now();
-  return JSON.stringify(project);
 }
 
 // type
@@ -202,11 +116,7 @@ export async function buildProject(): Promise<void> {
   downloadFile(`${config.gameName}.html`, await buildSafely(true));
 }
 
-export async function testProjects(): Promise<void> {
-  setTestSceneSignal(await buildSafely(false));
-}
-
-async function buildSafely(production: boolean): Promise<string> {
+export async function buildSafely(production: boolean): Promise<string> {
   const performanceInfo =
     config.performanceInfo.selected === `yes` || (!production && config.performanceInfo.selected === `dev`);
 

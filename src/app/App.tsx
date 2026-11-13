@@ -1,4 +1,4 @@
-import { Window } from "../components/Window";
+import { Window } from "../lib/components/Window";
 import { Hierarchy } from "../hierarchy/Hierarchy";
 import { Inspector } from "../inspector/Inspector";
 import { Files } from "../files/Files";

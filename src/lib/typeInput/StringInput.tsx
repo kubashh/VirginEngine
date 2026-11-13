@@ -1,9 +1,7 @@
-import { type Signal } from "../../lib/independent/framework";
+import { type Signal } from "../framework";
 
-// TODO
-export function ArrayInput({ sig }: ArrayInputProps) {
+export function StringInput({ sig }: { sig: Signal<string> }) {
   const value = sig.use();
-  // wrapper of inputs array
   return (
     <input
       type="text"
@@ -13,7 +11,3 @@ export function ArrayInput({ sig }: ArrayInputProps) {
     />
   );
 }
-
-type ArrayInputProps = {
-  sig: Signal<string>;
-};

@@ -1,5 +1,4 @@
-import { Button } from "../components/components";
-import { TypeInput } from "./TypeInput";
+import { TypeInput } from "../lib/typeInput/TypeInput";
 
 export function InspectorSection({ text, onRemove, childs, children }: InspectorSectionProps) {
   return (
@@ -7,7 +6,9 @@ export function InspectorSection({ text, onRemove, childs, children }: Inspector
       <div className="flex">
         <h2 className="mb-2 border-l-4 border-zinc-800 pl-2 text-2xl font-bold">{text}</h2>
         {onRemove ? (
-          <Button label="Remove" className="mr-4 ml-auto hover:text-zinc-400" onClick={onRemove} />
+          <button className="mr-4 ml-auto hover:text-zinc-400" onClick={onRemove}>
+            Remove
+          </button>
         ) : null}
       </div>
       {childs?.map((props) => (

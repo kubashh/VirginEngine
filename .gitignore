@@ -2,4 +2,4 @@
 /bun.lock
 /dist
 /src/app/indexUpdated.html
-/src/lib/independent/core.js
+/src/lib/core.js

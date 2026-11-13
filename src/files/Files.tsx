@@ -1,7 +1,7 @@
-import { files } from "../lib/independent/consts";
-import { Window } from "../components/Window";
-import { File } from "./File";
+import { files } from "../lib/consts";
 import { useRefresh } from "../lib/hooks";
+import { Window } from "../lib/components/Window";
+import { File } from "./File";
 
 const refreshFilesRef = { refresh() {} };
 

@@ -1,6 +1,5 @@
 import { useEffect, useRef } from "react";
-import { createSignal } from "../lib/independent/framework";
-import { Button } from "../components/components";
+import { createSignal } from "../lib/framework";
 
 const contextMenuSignal = createSignal<{
   [key: string]: (() => void) | number | false;
@@ -43,15 +42,16 @@ export function ContextMenu() {
     >
       {Object.entries(contextMenu || {}).map(([text, fn]) =>
         typeof fn === `function` ? (
-          <Button
+          <button
             key={text}
-            label={text}
             className="px-4 text-left hover:bg-zinc-800"
             onClick={() => {
               fn();
               contextMenuSignal.set(null);
             }}
-          />
+          >
+            {text}
+          </button>
         ) : null,
       )}
     </div>

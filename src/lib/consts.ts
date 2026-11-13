@@ -1,6 +1,6 @@
 import { virginEngineVersion } from "./core";
-import { emptyProject } from "../assets/assets";
-import { type TEnum } from "../../inspector/typeInput/EnumInput";
+import { emptyProject } from "./assets/assets";
+import { type TEnum } from "./typeInput/EnumInput"; // this is type it's ok to import it here
 
 export const keywords = [
   `type`,

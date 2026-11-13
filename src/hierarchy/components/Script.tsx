@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
-import { type TFile } from "../../lib/independent/consts";
-import { InspectorSection } from "../../inspector/InspectorSection";
+import { type TFile } from "../../lib/consts";
 import { useRefresh } from "../../lib/hooks";
+import { InspectorSection } from "../../inspector/InspectorSection";
 
 export function Script({ object, refresh }: ScriptProps) {
   return object.script ? (

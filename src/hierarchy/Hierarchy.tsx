@@ -1,9 +1,9 @@
-import { createSignal } from "../lib/independent/framework";
-import { files, type TFile } from "../lib/independent/consts";
-import { Window } from "../components/Window";
+import { createSignal } from "../lib/framework";
+import { files, type TFile } from "../lib/consts";
+import { useRefresh } from "../lib/hooks";
+import { Window } from "../lib/components/Window";
 import { Node } from "./Node";
 import { setInspector } from "../inspector/Inspector";
-import { useRefresh } from "../lib/hooks";
 
 const hierarchySignal = createSignal<TFile>(files.Scenes.MainScene, () => {
   setInspector(null); // close inspector

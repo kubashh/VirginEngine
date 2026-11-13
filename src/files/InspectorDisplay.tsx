@@ -1,9 +1,9 @@
-import { useCreateSignal } from "../lib/independent/framework";
-import { type TFile } from "../lib/independent/consts";
-import { AudioGrabber } from "../components/AudioGrabber";
-import { ImageGrabber } from "../components/ImageGrabber";
-import { TypeInput } from "../inspector/TypeInput";
+import { useCreateSignal } from "../lib/framework";
+import { type TFile } from "../lib/consts";
 import { fileFromPath, zswitch } from "../lib/util";
+import { TypeInput } from "../lib/typeInput/TypeInput";
+import { AudioGrabber } from "../lib/components/AudioGrabber";
+import { ImageGrabber } from "../lib/components/ImageGrabber";
 
 export function InspectorDisplay({ path, file, name }: InspectorDisplayProps) {
   return (

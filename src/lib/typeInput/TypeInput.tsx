@@ -1,9 +1,9 @@
-import { useCreateSignal } from "../lib/independent/framework";
-import { BooleanInput } from "./typeInput/BooleanInput";
-import { NumberInput } from "./typeInput/NumberInput";
-import { StringInput } from "./typeInput/StringInput";
-import { EnumInput } from "./typeInput/EnumInput";
-import { camelToTitleCase, getType, zswitch } from "../lib/util";
+import { useCreateSignal } from "../framework";
+import { camelToTitleCase, getType, zswitch } from "../util";
+import { BooleanInput } from "./BooleanInput";
+import { NumberInput } from "./NumberInput";
+import { StringInput } from "./StringInput";
+import { EnumInput } from "./EnumInput";
 
 export function TypeInput({ object, access, type: defType }: TypeInputProps) {
   const sig = useCreateSignal(object[access], () => {
