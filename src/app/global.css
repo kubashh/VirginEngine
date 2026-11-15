@@ -38,19 +38,19 @@ button {
 /* notifications */
 
 @keyframes notification-fade-in {
-  from {
+  0% {
     opacity: 0;
   }
-  to {
+  100% {
     opacity: 1;
   }
 }
 
 @keyframes notification-fade-out {
-  from {
+  0% {
     opacity: 1;
   }
-  to {
+  100% {
     opacity: 0;
     transform: translateX(120px);
   }

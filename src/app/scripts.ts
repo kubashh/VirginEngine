@@ -1,6 +1,7 @@
 import fs from "fs";
-import { buildCoreBuild } from "../../core/buildCoreBuild";
 import { version as virginEngineVersion } from "../../package.json";
+import { buildCoreBuild } from "../../core/buildCoreBuild";
+import { minifyCss } from "./minifyCss";
 
 await Bun.$`bun check core src`;
 await buildCoreBuild(virginEngineVersion);
@@ -93,7 +94,6 @@ async function build() {
     const cssArtefacts = outputs.filter((a) => a.path.endsWith(`.css`));
     for (const cssArtefact of cssArtefacts) {
       let cssText = await cssArtefact.text();
-      infoSize.css = cssArtefact.size;
 
       if (cssText.endsWith(`\n`)) {
         cssText = cssText.slice(0, -1);
@@ -122,19 +122,24 @@ async function build() {
       infoSize.images += (await Bun.file(mediaArtefact.path).bytes()).length;
     }
   } else {
-    // count css size, always one element
-    let index = html.indexOf(`<style>`);
-    if (index > 0) {
-      const slice = html.slice(index, html.indexOf(`</style>`));
-      infoSize.css = slice.length;
-    }
-
     // count script size, always module and one element
     let indexJs = html.indexOf(`<script type="module">`);
     if (indexJs > 0) {
       const slice = html.slice(indexJs, html.indexOf(`</script>`));
       infoSize.js = slice.length;
     }
+  }
+
+  // css
+  // count css size, always one element
+  let index = html.indexOf(`<style>`) + 7;
+  if (index > 0) {
+    const indexEnd = html.indexOf(`</style>`);
+    let cssText = html.slice(index, indexEnd);
+    minifyCss;
+    cssText = minifyCss(cssText);
+    infoSize.css = cssText.length;
+    html = html.slice(0, index) + cssText + html.slice(indexEnd);
   }
 
   await Bun.write(htmlArtifact.path, html);
@@ -151,7 +156,8 @@ async function build() {
 }
 
 function printOutputSize(label: string, bytes: number) {
-  console.log(`${label}   ${(bytes / 1000).toFixed(3)} kB`);
+  const space = bytes < 10000 ? `  ` : bytes < 100000 ? ` ` : ``;
+  console.log(`${label}   ${space}${(bytes / 1000).toFixed(3)} kB`);
 }
 
 function removeScriptsAndComments(text: string): string {
