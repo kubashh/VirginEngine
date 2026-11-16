@@ -95,10 +95,6 @@ async function build() {
     for (const cssArtefact of cssArtefacts) {
       let cssText = await cssArtefact.text();
 
-      if (cssText.endsWith(`\n`)) {
-        cssText = cssText.slice(0, -1);
-        infoSize.css -= 1;
-      }
       const cssPath = `./${cssArtefact.path.split(`/`).at(-1)}`;
       const regex = new RegExp(`<link rel="stylesheet"href="${cssPath}"\\/?>`);
 

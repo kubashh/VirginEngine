@@ -46,6 +46,8 @@
 ## 0.25.1-dev (in development)
 
 - add css minification (inline some vars and exec most calc). bundle size -0.9kB
+- fixed test canvas height on chromium based browsers
+- add css minification (inline more vars)
 
 ## 0.25.0 (13 Nov 2026) (https://github.com/kubashh/VirginEngine/commit/781c016298558b2d864cb604b833918aa0a7e36a, compiled 840.293 kB, 839.789 kB (0.439 kB (html) 20.775 kB (css) 816.656 kB (js) 1.919 kB (media)))
 

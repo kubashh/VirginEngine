@@ -3,6 +3,7 @@ export function minifyCss(css: string): string {
   css = inlineVariables(css);
   // css = removeUnusedVariables(css);
   css = exeCalc(css);
+  css = minifySyntax(css);
 
   return css;
 }
@@ -22,29 +23,42 @@ function inlineVariables(css: string): string {
 // }
 
 function getVariables(css: string): Record<string, string> {
-  const declarations: Record<string, string> = {};
+  const variables: Record<string, string> = {};
 
-  let startDec = css.indexOf(`{`, css.indexOf(`:root`)) + 1;
-  if (startDec < 0) startDec = css.indexOf(`{`, css.indexOf(`:host`)) + 1;
-  const decSlice = css.slice(startDec, css.indexOf(`}`, startDec)).trim();
+  const roots = getRoots(css);
 
-  const decStrings = decSlice.split(`;`).slice(0, -1);
-  const decArrs = decStrings.map((s) => s.split(`:`).map((s) => s.trim()));
-  for (const [name, value] of decArrs) {
-    declarations[name] = value;
+  const varStrings = roots
+    .join(`;`)
+    .split(`;`)
+    .filter((s) => s);
+  const varArrs = varStrings.map((s) => s.split(`:`).map((s) => s.trim()));
+  for (const [name, value] of varArrs) {
+    variables[name] = value;
   }
 
-  return declarations;
+  return variables;
 }
 
-function exeCalc(css: string): string {
-  const calcExpressions = new Set<string>();
+function getRoots(css: string): string[] {
+  const roots: string[] = [];
 
-  let index = css.indexOf(`calc(`);
-  while (index >= 0) {
-    calcExpressions.add(css.slice(index, css.indexOf(`)`, index) + 1));
-    index = css.indexOf(`calc(`, index + 6);
+  const rootStartIndexes = [];
+  for (let i = css.indexOf(`:root`); i >= 0; i = css.indexOf(`:root`, i + 7)) {
+    rootStartIndexes.push(i);
   }
+
+  for (let startDec of rootStartIndexes) {
+    startDec = css.indexOf(`{`, startDec) + 1;
+    roots.push(css.slice(startDec, css.indexOf(`}`, startDec)).trim());
+  }
+
+  return roots;
+}
+
+// exec basic calc function
+function exeCalc(css: string): string {
+  const arr = css.matchAll(/calc\(.*?\)/g);
+  const calcExpressions = new Set(arr.toArray().map((arr) => arr[0]));
 
   for (const exp of calcExpressions.values()) {
     const slice = exp.slice(5, -1).trim();
@@ -83,12 +97,15 @@ function exeCalc(css: string): string {
 
     const result = op === `+` ? a + b : op === `-` ? a - b : op === `*` ? a * b : a / b;
 
-    if (result === 0) unit = ``;
-
     if (typeof result === `number` && !Number.isNaN(result)) {
+      if (result === 0) unit = ``;
       css = css.replaceAll(exp, `${result.toFixed(3)}${unit}`);
     }
   }
 
   return css;
+}
+
+function minifySyntax(css: string): string {
+  return css.replaceAll(`\n`, ` `).replaceAll(`: `, `:`).trim();
 }

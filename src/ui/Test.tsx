@@ -49,7 +49,7 @@ export function Test() {
           title="scene"
           id="test-frame"
           className="box-content border-x border-zinc-400"
-          style={{ aspectRatio: opctions[0] }}
+          style={{ aspectRatio: opctions[0], maxHeight: window.innerHeight - 24 }}
         />
       </div>
     </Window>
@@ -59,3 +59,10 @@ export function Test() {
 export async function testProjects(): Promise<void> {
   setTestSceneSignal(await buildSafely(false));
 }
+
+window.addEventListener(`resize`, () => {
+  const iframeElement = document.getElementById(`test-frame`);
+  if (iframeElement) {
+    iframeElement.style.maxHeight = `${window.innerHeight - 24}px`;
+  }
+});
