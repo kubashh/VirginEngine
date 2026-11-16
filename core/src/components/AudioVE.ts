@@ -1,5 +1,7 @@
 import { audio, performanceInfo } from "../values/consts";
 
+const isFirefox = navigator.userAgent.includes(`Firefox`);
+
 let canPlayAudio: boolean = false;
 const playAudioQueue: [AudioVE, number][] = [];
 
@@ -18,7 +20,7 @@ export class AudioVE {
   private audio: HTMLAudioElement;
 
   constructor(props: AudioProps) {
-    this.audio = new Audio(audio[props.path]);
+    this.audio = new Audio(isFirefox ? audio[props.path] : getChromiumSrc(audio[props.path]));
     if (props.loop) this.audio.loop = props.loop;
   }
 
@@ -46,6 +48,75 @@ export class AudioVE {
 
   get currentTime() {
     return this.audio.currentTime;
+  }
+}
+
+function getChromiumSrc(src: string): string {
+  const base64PCM = src.split(`base64,`)[1];
+  const pcmData = base64ToArrayBuffer(base64PCM);
+  const wavBlob = createWAVBlob(pcmData, 24000, 1, 16);
+
+  const audioURL = URL.createObjectURL(wavBlob);
+  return audioURL;
+}
+
+function base64ToArrayBuffer(base64: string): ArrayBuffer {
+  const binaryString = atob(base64);
+  const length = binaryString.length;
+  const bytes = new Uint8Array(length);
+
+  for (let i = 0; i < length; i++) {
+    bytes[i] = binaryString.charCodeAt(i);
+  }
+  return bytes.buffer;
+}
+
+function createWAVBlob(
+  pcmData: ArrayBuffer,
+  sampleRate: number,
+  numChannels: number,
+  bitsPerSample: number,
+): Blob {
+  const wavHeader = createWAVHeader(sampleRate, numChannels, bitsPerSample, pcmData.byteLength);
+
+  const wavBuffer = new Uint8Array(wavHeader.byteLength + pcmData.byteLength);
+  wavBuffer.set(new Uint8Array(wavHeader), 0);
+  wavBuffer.set(new Uint8Array(pcmData), wavHeader.byteLength);
+
+  return new Blob([wavBuffer], { type: `audio/wav` });
+}
+
+function createWAVHeader(
+  sampleRate: number,
+  numChannels: number,
+  bitsPerSample: number,
+  dataLength: number,
+) {
+  const byteRate = (sampleRate * numChannels * bitsPerSample) / 8;
+  const blockAlign = (numChannels * bitsPerSample) / 8;
+  const buffer = new ArrayBuffer(44);
+  const view = new DataView(buffer);
+
+  writeString(view, 0, `RIFF`);
+  view.setUint32(4, 36 + dataLength, true);
+  writeString(view, 8, `WAVE`);
+  writeString(view, 12, `fmt `);
+  view.setUint32(16, 16, true);
+  view.setUint16(20, 1, true);
+  view.setUint16(22, numChannels, true);
+  view.setUint32(24, sampleRate, true);
+  view.setUint32(28, byteRate, true);
+  view.setUint16(32, blockAlign, true);
+  view.setUint16(34, bitsPerSample, true);
+  writeString(view, 36, `data`);
+  view.setUint32(40, dataLength, true);
+
+  return buffer;
+}
+
+function writeString(view: DataView, offset: number, text: string) {
+  for (let i = 0; i < text.length; i++) {
+    view.setUint8(offset + i, text.charCodeAt(i));
   }
 }
 

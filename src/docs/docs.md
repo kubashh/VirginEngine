@@ -3,6 +3,7 @@
 ## General rules
 
 - `Scenes` can be saved only in Scenes folder. Scenes folder containts only scenes (also no folders)
+- `Audio` only `.mp3` is supported
 
 ## Engine Api
 
