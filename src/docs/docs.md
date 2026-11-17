@@ -115,6 +115,7 @@ type config = {
   description: string; // short game description
   fullScreen: boolean; // start with full screen
   startingSceneName: string; // specify where is main scene
+  hydrateCanvasId: string; // specify a canvas ID to export JavaScript only. for an HTML build (default), leave it empty
   performanceInfo: TEnum<`yes` | `dev` | `no`>; // see performance info. yes - game and dev, dev - dev only, no - nowhere
 };
 ```

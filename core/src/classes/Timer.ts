@@ -24,25 +24,29 @@ export class Timer {
       textBaseline: `top`,
     };
 
-    drawText({
-      ...props,
-      text: `${nodes.length}obj, ${Log.updates}ups, ${Log.frames}fps`,
-      x: -6,
-      rect: { x: 1, y: -1 },
-      textAlign: `right`,
-    });
+    try {
+      drawText({
+        ...props,
+        text: `${nodes.length}obj, ${Log.updates}ups, ${Log.frames}fps`,
+        x: -6,
+        rect: { x: 1, y: -1 },
+        textAlign: `right`,
+      });
 
-    for (const text of Timer.renderTimer.allFormatted) {
-      drawText({ text, ...props });
-      props.y += 18;
-    }
+      for (const text of Timer.renderTimer.allFormatted) {
+        drawText({ text, ...props });
+        props.y += 18;
+      }
 
-    props.x = 148;
-    props.y = 6;
+      props.x = 148;
+      props.y = 6;
 
-    for (const text of Timer.updateTimer.allFormatted) {
-      drawText({ text, ...props });
-      props.y += 18;
+      for (const text of Timer.updateTimer.allFormatted) {
+        drawText({ text, ...props });
+        props.y += 18;
+      }
+    } catch {
+      return; // ignore drawText error in devepopment mode when project refresh (~30%)
     }
   }
 

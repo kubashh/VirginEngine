@@ -113,7 +113,7 @@ export function fileFromPath(path: string): TFile {
 
 // build/test project
 export async function buildProject(): Promise<void> {
-  downloadFile(`${config.gameName}.html`, await buildSafely(true));
+  downloadFile(`${config.gameName}.${config.hydrateCanvasId ? `js` : `html`}`, await buildSafely(true));
 }
 
 export async function buildSafely(production: boolean): Promise<string> {
@@ -130,6 +130,8 @@ export async function buildSafely(production: boolean): Promise<string> {
 
     files: deepCopy(files),
     production,
+    hydrate: production ? config.hydrateCanvasId : undefined,
+    info: true,
   };
 
   const html = await build(validConfig);

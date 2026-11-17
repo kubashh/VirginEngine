@@ -53,8 +53,9 @@ export class AudioVE {
 
 function getChromiumSrc(src: string): string {
   const base64PCM = src.split(`base64,`)[1];
+
   const pcmData = base64ToArrayBuffer(base64PCM);
-  const wavBlob = createWAVBlob(pcmData, 24000, 1, 16);
+  const wavBlob = createWAVBlob(pcmData);
 
   const audioURL = URL.createObjectURL(wavBlob);
   return audioURL;
@@ -71,13 +72,8 @@ function base64ToArrayBuffer(base64: string): ArrayBuffer {
   return bytes.buffer;
 }
 
-function createWAVBlob(
-  pcmData: ArrayBuffer,
-  sampleRate: number,
-  numChannels: number,
-  bitsPerSample: number,
-): Blob {
-  const wavHeader = createWAVHeader(sampleRate, numChannels, bitsPerSample, pcmData.byteLength);
+function createWAVBlob(pcmData: ArrayBuffer): Blob {
+  const wavHeader = createWAVHeader(pcmData.byteLength);
 
   const wavBuffer = new Uint8Array(wavHeader.byteLength + pcmData.byteLength);
   wavBuffer.set(new Uint8Array(wavHeader), 0);
@@ -86,12 +82,11 @@ function createWAVBlob(
   return new Blob([wavBuffer], { type: `audio/wav` });
 }
 
-function createWAVHeader(
-  sampleRate: number,
-  numChannels: number,
-  bitsPerSample: number,
-  dataLength: number,
-) {
+function createWAVHeader(dataLength: number) {
+  const sampleRate = 24000;
+  const numChannels = 2;
+  const bitsPerSample = 16;
+
   const byteRate = (sampleRate * numChannels * bitsPerSample) / 8;
   const blockAlign = (numChannels * bitsPerSample) / 8;
   const buffer = new ArrayBuffer(44);

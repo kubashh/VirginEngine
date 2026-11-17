@@ -37,6 +37,7 @@ type TConfig = {
   description: string;
   fullScreen: boolean;
   startingSceneName: string;
+  hydrateCanvasId: string;
   performanceInfo: TEnum<`yes` | `dev` | `no`>;
 };
 

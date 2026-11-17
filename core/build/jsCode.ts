@@ -102,17 +102,17 @@ function minify_max(code: string) {
       passes: 10,
       toplevel: true,
 
-      // Remove debugging code.
+      // remove debugging code
       drop_console: true,
       drop_debugger: true,
 
-      // More aggressive transformations.
+      // more aggressive transformations
       unsafe: true,
       unsafe_arrows: true,
       unsafe_comps: true,
       pure_getters: true,
 
-      // Optional extra optimizations.
+      // optional extra optimizations
       hoist_props: true,
       reduce_funcs: true,
       reduce_vars: true,

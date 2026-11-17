@@ -26,7 +26,7 @@ const headerOptions = {
   ...opctions.reduce((old, key) => ({ ...old, [key]: () => setAspectRatio(key) }), {}),
   Restart: () => {
     setTestSceneSignal(``);
-    setTimeout(testProjects);
+    setTimeout(testProject);
     console.clear();
   },
   Exit: () => {
@@ -56,7 +56,7 @@ export function Test() {
   );
 }
 
-export async function testProjects(): Promise<void> {
+export async function testProject(): Promise<void> {
   setTestSceneSignal(await buildSafely(false));
 }
 

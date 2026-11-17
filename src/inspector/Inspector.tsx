@@ -5,13 +5,13 @@ import { Window } from "../lib/components/Window";
 import { showDocs } from "../docs/Docs";
 import { InspectorSection } from "./InspectorSection";
 import { saveProject, saveProjectFile, setSetUp } from "../ui/LoadData";
-import { testProjects } from "../ui/Test";
+import { testProject } from "../ui/Test";
 
 const inspectorSignal = createSignal<React.ReactNode>(null);
 
 const editorOpctions = {
   Docs: showDocs,
-  Test: testProjects,
+  Test: testProject,
   Config: () => inspectorSignal.set(<Config />),
   File: {
     Save: () => saveProject(),
