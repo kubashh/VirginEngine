@@ -4,7 +4,7 @@ export function BooleanInput({ sig }: { sig: Signal<boolean> }) {
   return (
     <input
       type="checkbox"
-      className="w-5 h-5 my-auto accent-green-600 cursor-pointer not-checked:opacity-20"
+      className="my-auto h-5 w-5 cursor-pointer accent-green-600 not-checked:opacity-20"
       defaultChecked={sig.get()} // do not need use, because checkbox is automaticly updated
       onChange={({ target }) => sig.set(target.checked)}
     />

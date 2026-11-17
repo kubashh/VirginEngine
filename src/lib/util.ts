@@ -66,65 +66,17 @@ export function fileFromPath(path: string): TFile {
     .reduce((prev, key) => prev[key], files);
 }
 
-// image
-// export function resizeSrcImage(src: string, w: number, h: number) {
-//   return new Promise((resolve) => {
-//     const canvas = document.createElement(`canvas`)
-//     canvas.width = w
-//     canvas.height = h
-//     const ctx = canvas.getContext(`2d`)!
-
-//     const img = new Image()
-
-//     img.onload = () => {
-//       let width = img.width
-//       let height = img.height
-
-//       const aspectRatio = width / height
-
-//       let newWidth = w
-//       let newHeight = h
-
-//       if (width > height) {
-//         newWidth *= aspectRatio
-//       } else {
-//         newHeight *= aspectRatio
-//       }
-
-//       let [x, y] = [0, 0]
-
-//       if (width > height) {
-//         x = (w - newWidth) / 2
-//       } else {
-//         y = (h - newHeight) / 2
-//       }
-
-//       console.log(x, y)
-
-//       ctx.drawImage(img, 0, 0, width, height, x, y, newWidth, newHeight)
-//       const newSrc = canvas.toDataURL()
-
-//       resolve(newSrc)
-//     }
-
-//     img.src = src
-//   })
-// }
-
 // build/test project
 export async function buildProject(): Promise<void> {
   downloadFile(`${config.gameName}.${config.hydrateCanvasId ? `js` : `html`}`, await buildSafely(true));
 }
 
 export async function buildSafely(production: boolean): Promise<string> {
-  const performanceInfo =
-    config.performanceInfo.selected === `yes` || (!production && config.performanceInfo.selected === `dev`);
-
   const validConfig: BuildOptions = {
     author: config.author,
     description: config.description,
     gameName: config.gameName,
-    performanceInfo,
+    performanceInfo: !production && config.devPerformanceInfo,
     startingSceneName: config.startingSceneName,
     fullScreen: config.fullScreen,
 
@@ -143,3 +95,5 @@ export async function buildSafely(production: boolean): Promise<string> {
 export function zswitch<T>(value: number | string, rest: TObj<() => T>) {
   return (rest[value] || rest.else)();
 }
+
+// resizeSrcImage: https://github.com/kubashh/VirginEngine/blob/326d97f26e3b892578ae7fb809d4c7666a034385/src/lib/util.ts

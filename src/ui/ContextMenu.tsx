@@ -33,7 +33,7 @@ export function ContextMenu() {
   return (
     <div
       ref={ref}
-      className="border border-zinc-600 rounded-sm bg-zinc-950 flex flex-col"
+      className="flex flex-col rounded-sm border border-zinc-600 bg-zinc-950"
       style={{
         top: `${contextMenu?.y || 0}px`,
         left: `${contextMenu?.x || 0}px`,

@@ -40,7 +40,7 @@ export function Test() {
     <Window
       name="Test"
       id="test"
-      className="w-screen h-screen"
+      className="h-screen w-screen"
       style={{ display: `none` }} // default hidden
       headerOptions={headerOptions}
     >

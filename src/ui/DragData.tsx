@@ -15,7 +15,7 @@ export function getDragData() {
 
 export function DragData() {
   return (
-    <div id="drag-data" className="font-bold bg-[#000a] cursor-pointer">
+    <div id="drag-data" className="cursor-pointer bg-[#000a] font-bold">
       <DragDataValue />
     </div>
   );

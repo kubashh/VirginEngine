@@ -2,7 +2,6 @@ import audioIconSrc from "./AudioIcon.png";
 import { virginEngineVersion } from "../core";
 import { boxSprite, happyBoxSprite, inpactSound } from "./rawSrc";
 import { type TFile, type TProject } from "../consts";
-import { Enum } from "../typeInput/EnumInput";
 
 export { audioIconSrc };
 
@@ -117,7 +116,7 @@ export function emptyProject(): TProject {
       fullScreen: true,
       startingSceneName: `MainScene`,
       hydrateCanvasId: ``,
-      performanceInfo: Enum<`yes` | `dev` | `no`>(`dev`, `yes`, `dev`, `no`), // TODO save as string or number, in editor display as Enum
+      devPerformanceInfo: false,
     },
     metadata: {
       editorVersion: virginEngineVersion,

@@ -12,7 +12,7 @@ export function TypeInput({ object, access, type: defType }: TypeInputProps) {
   const type = defType || sig.get().type || getType(sig.get());
 
   return (
-    <div className="w-full grid grid-cols-[auto_1fr] gap-3">
+    <div className="grid w-full grid-cols-[auto_1fr] gap-3">
       <div className="flex gap-3">
         <span>{camelToTitleCase(access)}</span>
         <span className="text-green-500">: {type}</span>

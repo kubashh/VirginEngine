@@ -25,7 +25,7 @@ export function App() {
         <Notifications />
       </header>
 
-      <main className="w-screen h-screen grid grid-cols-[30fr_30fr_40fr] grid-rows-[55fr_45fr]">
+      <main className="grid h-screen w-screen grid-cols-[30fr_30fr_40fr] grid-rows-[55fr_45fr]">
         <Window name="" className="row-span-2 w-(--w1) border-r border-zinc-400">
           <div></div>
         </Window>

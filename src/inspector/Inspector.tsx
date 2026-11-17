@@ -43,7 +43,7 @@ export function Inspector() {
       className="row-span-2 w-(--w3) border-l border-zinc-400"
       headerOptions={editorOpctions}
     >
-      <div className="p-2 scrollbar-y">
+      <div className="scrollbar-y p-2">
         <InspectorComponent />
       </div>
     </Window>

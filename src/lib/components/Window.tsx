@@ -11,7 +11,7 @@ export function Window({ name, id, headerOptions, className, style, children }: 
 
 function Header({ name, options }: HeaderProps) {
   return (
-    <div className="border-b border-zinc-400 px-2 flex bg-black">
+    <div className="flex border-b border-zinc-400 bg-black px-2">
       <span className="mr-auto font-bold">{name}</span>
       {options ? (
         <div className="flex *:mx-2">
@@ -40,10 +40,10 @@ function HeaderOption({ label, value }: { label: string; value: TObj<() => void>
 
 function HeaderOptionDropdown({ label, children }: HeaderOptionsHelperProps) {
   return (
-    <div className="relative flex flex-col group">
+    <div className="group relative flex flex-col">
       <button className="hover:text-zinc-400">{label}</button>
 
-      <div className="absolute mt-6 right-0 flex-col hidden group-hover:flex">{children}</div>
+      <div className="absolute right-0 mt-6 hidden flex-col group-hover:flex">{children}</div>
     </div>
   );
 }

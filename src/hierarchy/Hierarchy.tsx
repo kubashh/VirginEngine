@@ -21,7 +21,7 @@ export function refreshHierarchy() {
 
 export function Hierarchy() {
   return (
-    <Window name="Hierarchy" className="w-(--w2) h-(--h1) border-b border-zinc-400">
+    <Window name="Hierarchy" className="h-(--h1) w-(--w2) border-b border-zinc-400">
       <div className="scrollbar-y">
         <HierarchyComponent />
       </div>

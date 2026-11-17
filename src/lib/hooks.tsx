@@ -14,15 +14,15 @@ export function useArrow(main = false, haveChilds = true, src?: string): ArrowSi
   const openSignal = useCreateSignal(main);
 
   const component = src ? (
-    <img className="w-6 max-h-6 p-0.5" src={src} />
+    <img className="max-h-6 w-6 p-0.5" src={src} />
   ) : haveChilds ? (
     <button
-      className="w-6 h-6 text-center justify-self-center rounded-full hover:text-zinc-400"
+      className="h-6 w-6 justify-self-center rounded-full text-center hover:text-zinc-400"
       style={{ transform: `rotate(${openSignal.get() ? 90 : 0}deg)` }}
       onClick={() => openSignal.set(!openSignal.get())}
     >{`>`}</button>
   ) : (
-    <div className="w-6 h-6" />
+    <div className="h-6 w-6" />
   );
 
   return {

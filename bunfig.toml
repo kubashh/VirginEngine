@@ -1,3 +1,6 @@
 [serve.static]
 plugins = ["bun-plugin-tailwind", "./src/app/mdStylesPlugin.ts"]
 env = "BUN_PUBLIC_*"
+
+[fmt]
+sortTailwindcss = true

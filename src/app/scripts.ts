@@ -4,6 +4,7 @@ import { buildCoreBuild } from "../../core/buildCoreBuild";
 import { minifyCss } from "./minifyCss";
 
 await Bun.$`bun check core src`;
+await Bun.$`bun fmt core src package.json`;
 await buildCoreBuild(virginEngineVersion);
 await updateVEVersionHtml();
 
@@ -29,6 +30,7 @@ async function dev() {
   const html = await import("./indexUpdated.html");
 
   fs.watch(`core`, { recursive: true }, async () => {
+    await Bun.$`bun fmt core`;
     await buildCoreBuild(virginEngineVersion);
   });
 

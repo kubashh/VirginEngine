@@ -1,6 +1,5 @@
 import { virginEngineVersion } from "./core";
 import { emptyProject } from "./assets/assets";
-import { type TEnum } from "./typeInput/EnumInput"; // this is type it's ok to import it here
 
 export const keywords = [
   `type`,
@@ -38,7 +37,7 @@ type TConfig = {
   fullScreen: boolean;
   startingSceneName: string;
   hydrateCanvasId: string;
-  performanceInfo: TEnum<`yes` | `dev` | `no`>;
+  devPerformanceInfo: boolean;
 };
 
 export type TFile = {

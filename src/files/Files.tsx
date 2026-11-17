@@ -11,7 +11,7 @@ export function refreshFiles() {
 
 export function Files() {
   return (
-    <Window name="Files" className="w-(--w2) h-(--h2)">
+    <Window name="Files" className="h-(--h2) w-(--w2)">
       <div className="scrollbar-y">
         <FilesComponent />
       </div>

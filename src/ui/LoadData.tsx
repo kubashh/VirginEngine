@@ -106,7 +106,7 @@ export function LoadData() {
   return (
     <section
       id="load-data"
-      className="w-screen h-screen px-4 sm:px-20 pt-4 flex flex-col bg-[#000c] scrollbar-y"
+      className="scrollbar-y flex h-screen w-screen flex-col bg-[#000c] px-4 pt-4 sm:px-20"
       onDragOver={(e) => e.preventDefault()}
       onDrop={onDrop}
     >
@@ -179,7 +179,7 @@ function Project({ project }: { project: LDProject }) {
   const [name, setName] = useState(project.name);
   return (
     <div
-      className="mb-2 px-3 sm:px-5 py-1.5 sm:py-2.5 text-base rounded-xl flex justify-between bg-black hover:bg-zinc-800 cursor-pointer"
+      className="mb-2 flex cursor-pointer justify-between rounded-xl bg-black px-3 py-1.5 text-base hover:bg-zinc-800 sm:px-5 sm:py-2.5"
       onClick={async () => {
         const data = await idbGetItem<string>(name);
         if (data) openProject(JSON.parse(data));
@@ -199,7 +199,7 @@ function Project({ project }: { project: LDProject }) {
         })
       }
     >
-      <div className="w-32 sm:w-52 border-none">{name}</div>
+      <div className="w-32 border-none sm:w-52">{name}</div>
       <div className="w-30">
         <ModifiedDate modifiedDateSignal={project.modifiedDateSignal} />
       </div>
@@ -235,7 +235,7 @@ function ModifiedDate({ modifiedDateSignal }: { modifiedDateSignal: Signal<strin
 function LoadDataButton({ label, onClick }: { label: string; onClick: React.MouseEventHandler }) {
   return (
     <button
-      className="my-auto border-0 border-zinc-600 px-1 sm:px-2 py-0.5 sm:py-1 text-xs sm:text-sm float-right font-semibold rounded-xl bg-emerald-800 hover:bg-emerald-900"
+      className="float-right my-auto rounded-xl border-0 border-zinc-600 bg-emerald-800 px-1 py-0.5 text-xs font-semibold hover:bg-emerald-900 sm:px-2 sm:py-1 sm:text-sm"
       onClick={onClick}
     >
       {label}

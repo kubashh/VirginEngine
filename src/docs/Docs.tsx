@@ -6,13 +6,13 @@ export function Docs() {
     <Window
       name="Docs"
       id="docs"
-      className="w-screen h-screen"
+      className="h-screen w-screen"
       style={{ display: `none` }}
       headerOptions={{ Exit: hideDocs }}
     >
-      <div className="flex justify-center bg-zinc-950 scrollbar-y">
+      <div className="scrollbar-y flex justify-center bg-zinc-950">
         <div
-          className="px-2 py-2 select-text docs-content"
+          className="docs-content px-2 py-2 select-text"
           dangerouslySetInnerHTML={{ __html: docs }}
         ></div>
       </div>

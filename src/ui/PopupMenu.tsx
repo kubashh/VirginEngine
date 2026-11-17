@@ -20,12 +20,12 @@ export function PopupMenu() {
   }, [popupMenu]);
 
   return popupMenu.label ? (
-    <div className="w-screen h-screen px-4 flex justify-center bg-[#000b]">
-      <div id="popup-menu" className="flex flex-col *:mx-auto mt-[24vh] mb-auto p-2">
-        <div className="mb-4 text-xl sm:text-2xl text-center">{popupMenu.label}</div>
+    <div className="flex h-screen w-screen justify-center bg-[#000b] px-4">
+      <div id="popup-menu" className="mt-[24vh] mb-auto flex flex-col p-2 *:mx-auto">
+        <div className="mb-4 text-center text-xl sm:text-2xl">{popupMenu.label}</div>
         <div
           style={{ display: !popupMenu.description ? `none` : `` }}
-          className="mb-4 text-base text-center"
+          className="mb-4 text-center text-base"
         >
           {popupMenu.description}
         </div>
@@ -40,7 +40,7 @@ function PopupMenuOptions({ options }: { options?: TObj<() => void> }) {
     ? Object.entries(options).map(([label, cb]) => (
         <button
           key={label}
-          className="border border-zinc-400 px-3 py-1.5 text-lg rounded-2xl bg-[#000a] hover:text-zinc-400"
+          className="rounded-2xl border border-zinc-400 bg-[#000a] px-3 py-1.5 text-lg hover:text-zinc-400"
           onClick={() => {
             cb();
             setPopupMenu({ label: ``, options: {} });
