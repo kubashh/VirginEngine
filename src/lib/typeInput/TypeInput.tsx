@@ -1,4 +1,4 @@
-import { useCreateSignal } from "../framework";
+import { useCreateSignal } from "../signal";
 import { camelToTitleCase, getType, zswitch } from "../util";
 import { BooleanInput } from "./BooleanInput";
 import { NumberInput } from "./NumberInput";

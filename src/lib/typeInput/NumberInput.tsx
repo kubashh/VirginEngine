@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { type Signal } from "../framework";
+import { type Signal } from "../signal";
 
 export function NumberInput({ sig }: { sig: Signal<number> }) {
   const [buf, setBuf] = useState(String(sig.get()));

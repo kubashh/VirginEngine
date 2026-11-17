@@ -35,7 +35,7 @@ Simple JS game engine for fast 2D web games
 1. external libs like `react`
 2. enbeded files like `img.png` `package.json`
 3. code from `src/lib/assets/`
-4. code from `src/lib/` - `core` `idb` `framework` `consts` `util` `hooks`
+4. code from `src/lib/` - `core` `idb` `signal` `consts` `util` `hooks`
 5. code from `src/lib/typeInput/`
 6. code from `src/lib/components/`
 7. code from `src/docs/`

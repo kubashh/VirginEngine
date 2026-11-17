@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { createSignal } from "../lib/framework";
+import { createSignal } from "../lib/signal";
 
 const popupMenuSignal = createSignal<TPopupMenu>({ label: `` });
 

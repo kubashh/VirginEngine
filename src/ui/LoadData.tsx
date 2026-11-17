@@ -2,7 +2,7 @@ import { useState } from "react";
 import { emptyProject } from "../lib/assets/assets";
 import { virginEngineVersion } from "../lib/core";
 import { idbGetItem, idbGetKeys, idbRemoveItem, idbSetItem } from "../lib/idb";
-import { createSignal, type Signal } from "../lib/framework";
+import { createSignal, type Signal } from "../lib/signal";
 import { config, files, project, type TProject } from "../lib/consts";
 import { downloadFile } from "../lib/util";
 import { setHierarchy } from "../hierarchy/Hierarchy";

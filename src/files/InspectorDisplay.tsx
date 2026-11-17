@@ -1,4 +1,4 @@
-import { useCreateSignal } from "../lib/framework";
+import { useCreateSignal } from "../lib/signal";
 import { type TFile } from "../lib/consts";
 import { fileFromPath, zswitch } from "../lib/util";
 import { TypeInput } from "../lib/typeInput/TypeInput";

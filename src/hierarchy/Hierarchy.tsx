@@ -1,4 +1,4 @@
-import { createSignal } from "../lib/framework";
+import { createSignal } from "../lib/signal";
 import { files, type TFile } from "../lib/consts";
 import { useRefresh } from "../lib/hooks";
 import { Window } from "../lib/components/Window";

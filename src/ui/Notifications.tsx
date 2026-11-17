@@ -1,4 +1,4 @@
-import { createSignal } from "../lib/framework";
+import { createSignal } from "../lib/signal";
 
 const NOTIFICATION_TIMELIFE_MS = 6000;
 

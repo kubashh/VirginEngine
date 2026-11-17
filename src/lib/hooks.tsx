@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useCreateSignal, type Signal } from "./framework";
+import { useCreateSignal, type Signal } from "./signal";
 
 export function useRefresh() {
   const f = useState(false)[1];

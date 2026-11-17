@@ -1,8 +1,10 @@
-import { clsx } from "../framework";
-
 export function Window({ name, id, headerOptions, className, style, children }: WindowProps) {
   return (
-    <section id={id} className={clsx(`grid grid-rows-[24px_1fr]`, className)} style={style}>
+    <section
+      id={id}
+      className={`grid grid-rows-[24px_1fr]` + (className ? ` ` + className : ``)}
+      style={style}
+    >
       <Header name={name} options={headerOptions} />
       {children}
     </section>

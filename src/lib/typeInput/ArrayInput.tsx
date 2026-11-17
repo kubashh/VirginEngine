@@ -1,4 +1,4 @@
-import { type Signal } from "../framework";
+import { type Signal } from "../signal";
 
 // TODO
 export function ArrayInput({ sig }: ArrayInputProps) {

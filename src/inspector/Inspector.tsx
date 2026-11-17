@@ -1,4 +1,4 @@
-import { createSignal } from "../lib/framework";
+import { createSignal } from "../lib/signal";
 import { config } from "../lib/consts";
 import { buildProject } from "../lib/util";
 import { Window } from "../lib/components/Window";

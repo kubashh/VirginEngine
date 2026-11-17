@@ -1,4 +1,4 @@
-import { type Signal } from "../framework";
+import { type Signal } from "../signal";
 
 export function EnumInput<T>({ sig, type }: { sig: Signal<TEnum<T>>; type?: string }) {
   return (

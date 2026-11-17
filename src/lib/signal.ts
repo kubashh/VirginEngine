@@ -47,22 +47,3 @@ export type Signal<T> = {
   subscribe(listener: Listener): () => void;
   use(): T;
 };
-
-// clsx for tailwind classes
-export function clsx(...inputs: ClassValue[]) {
-  let str = ``;
-  for (const input of inputs) {
-    if (!input) continue;
-    if (typeof input === `string`) {
-      str && (str += ` `);
-      str += input;
-    } else if (Array.isArray(input)) {
-      str && (str += ` `);
-      str += clsx(str);
-    }
-  }
-
-  return str;
-}
-
-type ClassValue = ClassValue[] | string | number | null | boolean | undefined;

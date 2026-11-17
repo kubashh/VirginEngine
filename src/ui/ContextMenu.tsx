@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { createSignal } from "../lib/framework";
+import { createSignal } from "../lib/signal";
 
 const contextMenuSignal = createSignal<{
   [key: string]: (() => void) | number | false;
