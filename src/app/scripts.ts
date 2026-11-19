@@ -62,13 +62,6 @@ async function build() {
     Object.assign(config, { compile: true, naming: `VirginEngine-${virginEngineVersion}.html` });
   }
 
-  const infoSize = {
-    html: 0,
-    css: 0,
-    js: 0,
-    images: 0,
-  };
-
   // cleaning
   fs.rmSync(`dist`, {
     recursive: true,
@@ -103,54 +96,114 @@ async function build() {
       html = html.replace(regex, `<style>${cssText}</style>`);
       await Bun.file(cssArtefact.path).delete();
     }
-
-    // count js
-    const jsArtefact = outputs.filter((a) => a.path.endsWith(`.js`))[0];
-    infoSize.js = jsArtefact.size;
-
-    // count media
-    for (const mediaArtefact of outputs) {
-      if (
-        mediaArtefact.path.endsWith(`.js`) ||
-        mediaArtefact.path.endsWith(`.css`) ||
-        mediaArtefact.path.endsWith(`.html`)
-      )
-        continue;
-
-      infoSize.images += (await Bun.file(mediaArtefact.path).bytes()).length;
-    }
-  } else {
-    // count script size, always module and one element
-    let indexJs = html.indexOf(`<script type="module">`);
-    if (indexJs > 0) {
-      const slice = html.slice(indexJs, html.indexOf(`</script>`));
-      infoSize.js = slice.length;
-    }
   }
 
-  // css
-  // count css size, always one element
-  let index = html.indexOf(`<style>`) + 7;
+  // minify css
+  let index = html.indexOf(`<style>`) + `<style>`.length;
   if (index > 0) {
-    const indexEnd = html.indexOf(`</style>`);
+    const indexEnd = html.indexOf(`</style>`, index);
     let cssText = html.slice(index, indexEnd);
-    minifyCss;
     cssText = minifyCss(cssText);
-    infoSize.css = cssText.length;
     html = html.slice(0, index) + cssText + html.slice(indexEnd);
   }
 
   await Bun.write(htmlArtifact.path, html);
 
-  infoSize.html =
-    (await Bun.file(htmlArtifact.path).bytes()).length -
-    infoSize.css -
-    (config.compile === true ? infoSize.js : 0);
-  printOutputSize(`html `, infoSize.html);
-  printOutputSize(`css  `, infoSize.css);
-  printOutputSize(`js   `, infoSize.js);
-  printOutputSize(`media`, infoSize.images);
-  printOutputSize(`total`, infoSize.html + infoSize.css + infoSize.js + infoSize.images);
+  const printPaths: string[] = outputs.map((a) => a.path).filter((path) => !path.endsWith(`.css`));
+  printSize(printPaths);
+}
+
+async function printSize(paths: string[]) {
+  const compile: boolean = !paths.find((p) => p.endsWith(`.js`));
+  let sizeHtml = 0;
+  let sizeCss = 0;
+  let sizeJs = 0;
+  let sizeMedia = 0;
+  let sizeTotalControl = 0;
+
+  for (const path of paths) {
+    const file = Bun.file(path);
+    sizeTotalControl += file.size;
+    if (path.endsWith(`.html`)) {
+      const html = await file.text();
+
+      let newSizeMedia = 0;
+      // count icon string as media
+      const iconMatch = html.match(/href="data:image.*?"/);
+      if (iconMatch) {
+        const iconStr = iconMatch[0].slice(`href="`.length, -`"`.length);
+        newSizeMedia += stringBytesLength(iconStr);
+      }
+
+      // count css size, always one element
+      let index = html.indexOf(`<style>`) + `<style>`.length;
+      if (index >= 0) {
+        const indexEnd = html.indexOf(`</style>`, index);
+        const cssText = html.slice(index, indexEnd);
+        sizeCss = stringBytesLength(cssText);
+      } else {
+        throw new Error(`No css in html!`);
+      }
+
+      // count script size, always module and one element
+      let newSizeJs = 0;
+      let indexJs = html.indexOf(`<script type="module">`) + `<script type="module">`.length;
+      if (compile && indexJs >= 0) {
+        const slice = html.slice(indexJs, html.indexOf(`</script>`));
+        newSizeJs += stringBytesLength(slice);
+        const jsCode = slice;
+        const jsSizes = countJsSizes(jsCode);
+        newSizeJs = jsSizes[0];
+        newSizeMedia += jsSizes[1];
+      }
+
+      sizeHtml += stringBytesLength(html) - sizeCss - newSizeJs - newSizeMedia;
+      sizeJs += newSizeJs;
+      sizeMedia += newSizeMedia;
+    } else if (path.endsWith(`.js`)) {
+      const jsCode = await file.text();
+      const jsSizes = countJsSizes(jsCode);
+      sizeJs += jsSizes[0];
+      sizeMedia += jsSizes[1];
+    } else {
+      sizeMedia += file.size;
+    }
+  }
+
+  const sizeTotal = sizeHtml + sizeCss + sizeJs + sizeMedia;
+  if (sizeTotal !== sizeTotalControl) {
+    throw new Error(`Sizes not maches! ${sizeTotal} ${sizeTotalControl}`);
+  }
+
+  printOutputSize(`html `, sizeHtml);
+  printOutputSize(`css  `, sizeCss);
+  printOutputSize(`js   `, sizeJs);
+  printOutputSize(`media`, sizeMedia);
+  printOutputSize(`total`, sizeTotal);
+}
+
+function countJsSizes(jsCode: string): [sizeJs: number, sizeMedia: number] {
+  let sizeJs = stringBytesLength(jsCode);
+  let sizeMedia = 0;
+
+  // count string media as media
+  const matches = jsCode.matchAll(/"data:.*?"/g);
+  for (const match of matches) {
+    const mediaStr = match[0].slice(`"`.length, -`"`.length);
+    if (mediaStr.startsWith(`data:image/`) || mediaStr.startsWith(`data:audio/`)) {
+      const mediaSize = stringBytesLength(mediaStr);
+      sizeMedia += mediaSize;
+      sizeJs -= mediaSize;
+    } else {
+      throw new Error(`Unknown media! Src: ${mediaStr}`);
+    }
+  }
+
+  return [sizeJs, sizeMedia];
+}
+
+function stringBytesLength(str: string): number {
+  return new TextEncoder().encode(str).length;
 }
 
 function printOutputSize(label: string, bytes: number) {
@@ -179,7 +232,6 @@ function minifyHtmlSyntax(text: string) {
 
   // minify html
   const minified = withoutScripts
-    .replaceAll(/\/\*[\s\S]*?\*\//g, ``) // remove comments
     .replaceAll(`\n`, ` `)
     .replaceAll(/\s{2,}/g, ` `)
     .replaceAll(/ > | >|> /g, `>`)

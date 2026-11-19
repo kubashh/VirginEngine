@@ -108,4 +108,5 @@ function exeCalc(css: string): string {
 
 function minifySyntax(css: string): string {
   return css.replaceAll(`\n`, ` `).replaceAll(`: `, `:`).trim();
+  // .replaceAll(/\/\*[\s\S]*?\*\//g, ``) // remove comments
 }
