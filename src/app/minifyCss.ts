@@ -1,7 +1,7 @@
 // returns preexecuted css
 export function minifyCss(css: string): string {
   css = inlineVariables(css);
-  // css = removeUnusedVariables(css);
+  css = removeUnusedVariables(css);
   css = exeCalc(css);
   css = minifySyntax(css);
 
@@ -18,9 +18,25 @@ function inlineVariables(css: string): string {
   return css;
 }
 
-// function removeUnusedVariables(css: string): string {
-//   return css;
-// }
+function removeUnusedVariables(css: string): string {
+  const variables: Record<string, string> = getVariables(css);
+  const varsArr: string[] = Object.keys(variables);
+  const unusedVars: string[] = [];
+
+  for (const v of varsArr) {
+    if (!css.includes(`var(${v})`)) {
+      unusedVars.push(v);
+    }
+  }
+
+  for (const v of unusedVars) {
+    css = css
+      .replace(new RegExp(`${v}:.*?}`), `}`) // first edge case: --var:name}
+      .replace(new RegExp(`${v}:.*?;`), ``); // normal
+  }
+
+  return css;
+}
 
 function getVariables(css: string): Record<string, string> {
   const variables: Record<string, string> = {};
@@ -31,8 +47,10 @@ function getVariables(css: string): Record<string, string> {
     .join(`;`)
     .split(`;`)
     .filter((s) => s);
-  const varArrs = varStrings.map((s) => s.split(`:`).map((s) => s.trim()));
-  for (const [name, value] of varArrs) {
+  const varsArr = varStrings.map((s) => s.split(`:`).map((s) => s.trim()));
+  // those are arguments defined once so we can inline and delete them
+  const validArgs = varsArr.filter((p) => css.indexOf(p[0] + `:`, css.indexOf(p[0] + `:`) + 1) < 0);
+  for (const [name, value] of validArgs) {
     variables[name] = value;
   }
 
