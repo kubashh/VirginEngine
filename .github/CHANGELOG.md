@@ -39,10 +39,10 @@
 - add block of code like scratch as option
 - add build notification with build size and html, js and assets size
 - add auto changing paths for assets when renamed and warning for deletion when used
-- css minification transpile colors
+- css minification transpile colors, minify variables names
 - fix test canvas when width / ratio > height \* ratio
 - add testing js (direct hydration) or html
-- add Inspector.Config direct reading (less project size)
+- add project compressing
 
 <br />
 
@@ -59,6 +59,10 @@
 - remove custom `clsx` function
 - fixed printed size info when building whole engine
 - add css minification remove unused variables (-1.804 kB), make sure that variable is defined once
+- core.AudioVE uses ES2026 `Uint8Array.fromBase64` so we have less code and faster
+- fixed docs colors after line comment `//`
+- remove info prop from build whole engine
+- better info log when building project
 
 ## 0.25.0 (13 Nov 2026) (https://github.com/kubashh/VirginEngine/commit/781c016298558b2d864cb604b833918aa0a7e36a, compiled 840.293 kB, 839.789 kB (0.439 kB (html) 20.775 kB (css) 816.656 kB (js) 1.919 kB (media)))
 

@@ -22,19 +22,13 @@ export class Build {
 
   static production: boolean;
   static hydrate: string;
-  static info: boolean;
   static files: TObj<any>;
   static scenes: TObj<any>;
   static images: TObj<any>;
   static audio: TObj<any>;
 
   static async build(options: BuildOptions): Promise<string> {
-    Object.assign(this, {
-      ...options,
-      production: options.production ?? true,
-      hydrate: options.hydrate ?? ``,
-      info: options.info ?? true,
-    });
+    Object.assign(this, options);
 
     this.files = options.files;
     this.scenes = {};
@@ -43,14 +37,19 @@ export class Build {
 
     const output = this.hydrate ? await buildJs(this) : await this.buildHtml();
 
-    if (options.info) {
-      const outputSize = output.length;
-      if (this.hydrate) {
-        console.log(`JS size: ${outputSize}`);
-      } else {
-        const jsSize = output.indexOf(`</script>`) - output.indexOf(`<script>`) + `<script>`.length;
-        console.log(`index.html size: ${outputSize} (${outputSize - jsSize} (HTML) + ${jsSize} (JS))`);
-      }
+    const outputSize = new TextEncoder().encode(output).length;
+    if (this.hydrate) {
+      console.log(`JS size: ${(outputSize / 1000).toFixed(3)} kB`);
+    } else {
+      const jsSlice = output.slice(
+        output.indexOf(`<script>`) + `<script>`.length,
+        output.indexOf(`</script>`),
+      );
+      const jsSize = new TextEncoder().encode(jsSlice).length;
+      const htmlSize = outputSize - jsSize;
+      console.log(
+        `index.html size: ${(outputSize / 1000).toFixed(3)} kB\nHTML   ${(htmlSize / 1000).toFixed(3)} kB\nJS     ${(jsSize / 1000).toFixed(3)} kB`,
+      );
     }
 
     return output;
@@ -73,9 +72,8 @@ export type BuildOptions = {
   startingSceneName: string;
   fullScreen: boolean;
 
-  production?: boolean;
-  hydrate?: string;
-  info?: boolean;
+  production: boolean;
+  hydrate: string;
   files: TObj<any>;
 };
 

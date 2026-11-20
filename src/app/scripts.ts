@@ -203,7 +203,7 @@ function countJsSizes(jsCode: string): [sizeJs: number, sizeMedia: number] {
 }
 
 function stringBytesLength(str: string): number {
-  return new TextEncoder().encode(str).length;
+  return Buffer.byteLength(str, `utf8`);
 }
 
 function printOutputSize(label: string, bytes: number) {

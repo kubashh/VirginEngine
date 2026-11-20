@@ -82,8 +82,7 @@ export async function buildSafely(production: boolean): Promise<string> {
 
     files: deepCopy(files),
     production,
-    hydrate: production ? config.hydrateCanvasId : undefined,
-    info: true,
+    hydrate: production ? config.hydrateCanvasId : ``,
   };
 
   const html = await build(validConfig);

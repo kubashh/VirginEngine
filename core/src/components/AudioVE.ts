@@ -54,22 +54,10 @@ export class AudioVE {
 function getChromiumSrc(src: string): string {
   const base64PCM = src.split(`base64,`)[1];
 
-  const pcmData = base64ToArrayBuffer(base64PCM);
-  const wavBlob = createWAVBlob(pcmData);
+  const pcmBytes = Uint8Array.fromBase64(base64PCM);
+  const wavBlob = createWAVBlob(pcmBytes.buffer);
 
-  const audioURL = URL.createObjectURL(wavBlob);
-  return audioURL;
-}
-
-function base64ToArrayBuffer(base64: string): ArrayBuffer {
-  const binaryString = atob(base64);
-  const length = binaryString.length;
-  const bytes = new Uint8Array(length);
-
-  for (let i = 0; i < length; i++) {
-    bytes[i] = binaryString.charCodeAt(i);
-  }
-  return bytes.buffer;
+  return URL.createObjectURL(wavBlob); // audio url
 }
 
 function createWAVBlob(pcmData: ArrayBuffer): Blob {
@@ -82,8 +70,8 @@ function createWAVBlob(pcmData: ArrayBuffer): Blob {
   return new Blob([wavBuffer], { type: `audio/wav` });
 }
 
-function createWAVHeader(dataLength: number) {
-  const sampleRate = 24000;
+function createWAVHeader(dataLength: number): ArrayBuffer {
+  const sampleRate = 32000;
   const numChannels = 2;
   const bitsPerSample = 16;
 

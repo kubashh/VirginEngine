@@ -5,12 +5,12 @@ const typeColor = `#78E29C`;
 const stringColor = `brown`;
 const commentColor = `#419B45`;
 
-const bracketsRegex = /\(|\)|\[|\]|\{|\}|\<|\>/g;
+const bracketsRegex = /\/\/[^\r\n]*|([()[\]{}<>])/g;
 const stringsRegex = /('[^']*')|("[^"]*")|(`[^`]*`)/g;
 const statementsRegex =
-  /\b(await|break|case|catch|continue|default|do|else|export|for|if|return|switch|throw|try|type|while|yield)(\b|\;)/g;
+  /\/\/[^\r\n]*|\b(await|break|case|catch|continue|default|do|else|export|for|if|return|switch|throw|try|type|while|yield)(?=\b|;)/g;
 const keywordsReqex =
-  /\b(class|const|debugger|delete|extends|function|let|new|this|var|yield|undefined|null)(\b|\;)/g;
+  /\/\/[^\r\n]*|\b(class|const|debugger|delete|extends|function|let|new|this|var|yield|undefined|null)(?=\b|)/g;
 const typesRegex = /boolean|number|bigint|string|void|never|Promise/g;
 
 const mdStylesPlugin: Bun.BunPlugin = {
