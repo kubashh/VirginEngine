@@ -14,7 +14,7 @@ Simple JS game engine for fast 2D web games
 - `Sprite` (works)
 - `Text` (50% done)
 
-## [Docs](https://github.com/kubashh/VirginEngine/blob/main/src/docs/docs.md)
+## [Documentation](https://github.com/kubashh/VirginEngine/blob/main/src/lib/docs/docs.md)
 
 ## Scripting stardants
 
@@ -38,7 +38,7 @@ Simple JS game engine for fast 2D web games
 4. code from `src/lib/` - `core` `idb` `signal` `consts` `util` `hooks`
 5. code from `src/lib/typeInput/`
 6. code from `src/lib/components/`
-7. code from `src/docs/`
+7. code from `src/lib/docs/`
 8. code from `src/hierarchy/`
 9. code from `src/files/`
 10. code from `src/inspector/`

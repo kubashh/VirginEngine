@@ -8,7 +8,7 @@ import { PopupMenu } from "../ui/PopupMenu";
 import { NameInput } from "../ui/NameInput";
 import { DragData } from "../ui/DragData";
 import { Test } from "../ui/Test";
-import { Docs } from "../docs/Docs";
+import { Docs } from "../lib/docs/Docs";
 import { Notifications } from "../ui/Notifications";
 
 export function App() {

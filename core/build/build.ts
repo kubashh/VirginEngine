@@ -1,14 +1,12 @@
 import { buildJs } from "./jsCode";
 
-declare const REPLACE_HTML_TEMPLATE: string;
-
 // build project
 
 export function build(options: BuildOptions): Promise<string> {
   return Build.build(options);
 }
 
-export class Build {
+class Build {
   static author: string;
   static description: string;
   static gameName: string;
@@ -52,10 +50,24 @@ export class Build {
   }
 
   static async buildHtml(): Promise<string> {
-    return REPLACE_HTML_TEMPLATE.replace(`AUTHOR`, this.author)
-      .replace(`DESCRIPTION`, this.description)
-      .replace(`GAME_NAME`, this.gameName)
-      .replace(`SCRIPT;`, await buildJs(this));
+    return [
+      `<!doctype html>`,
+      `<html lang="en">`,
+      `<head>`,
+      `<meta charset="UTF-8">`,
+      `<meta name="viewport"content="width=device-width,initial-scale=1.0">`,
+      `<meta name="author"content="${this.author}">`,
+      `<meta name="description"content="${this.description}">`,
+
+      `<title>${this.name}</title>`,
+      `</head>`,
+
+      `<body style="background-color:black;margin:0;overflow:hidden">`,
+      `<canvas id="canvas"></canvas>`,
+      `<script>${await buildJs(this)}</script>`,
+      `</body>`,
+      `</html>`,
+    ].join(``);
   }
 }
 

@@ -2,7 +2,7 @@ import { createSignal } from "../lib/signal";
 import { config } from "../lib/consts";
 import { buildProject } from "../lib/util";
 import { Window } from "../lib/components/Window";
-import { showDocs } from "../docs/Docs";
+import { showDocs } from "../lib/docs/Docs";
 import { InspectorSection } from "./InspectorSection";
 import { saveProject, saveProjectFile, setSetUp } from "../ui/LoadData";
 import { testProject } from "../ui/Test";

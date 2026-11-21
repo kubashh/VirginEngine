@@ -1,7 +1,6 @@
 /// <reference types="bun" />
 
 export async function buildCoreBuild() {
-  const htmlTemplate = minifyHtml(await Bun.file(`./core/build/template.html`).text());
   const core = await buildEngineCore();
 
   const { outputs } = await Bun.build({
@@ -14,9 +13,6 @@ export async function buildCoreBuild() {
       // syntax: true,
     },
     target: `bun`,
-    define: {
-      REPLACE_HTML_TEMPLATE: JSON.stringify(htmlTemplate),
-    },
   });
 
   let js = await outputs[0].text();
@@ -44,19 +40,4 @@ function optymalize(js: string) {
     .map((line) => line.trim())
     .filter((line) => line !== ``)
     .join(`\n`);
-}
-
-function minifyHtml(text: string) {
-  return text
-    .replaceAll(/\/\*[\s\S]*?\*\//g, ``) // remove comments
-    .replaceAll(`\n`, ` `)
-    .replaceAll(/\s{2,}/g, ` `)
-    .replaceAll(/ > | >|> /g, `>`)
-    .replaceAll(/ < | <|< /g, `<`)
-    .replaceAll(/ ; | ;|; /g, `;`)
-    .replaceAll(/ { | {|{ /g, `{`)
-    .replaceAll(/ } | }|} /g, `}`)
-    .replaceAll(/ " | "|" /g, `"`)
-    .replaceAll(/ , | ,|, /g, `,`)
-    .replaceAll(`: `, `:`); // color: red; => color:red;
 }
