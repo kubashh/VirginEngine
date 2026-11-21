@@ -2,77 +2,52 @@ import { buildJs } from "./jsCode";
 
 // build project
 
-export function build(options: BuildOptions): Promise<string> {
-  return Build.build(options);
-}
+export async function build(options: BuildOptions): Promise<string> {
+  const buildObject = { ...options, scenes: {}, images: {}, audio: {} };
 
-class Build {
-  static author: string;
-  static description: string;
-  static gameName: string;
-  static performanceInfo: boolean;
-  static startingSceneName: string;
-  static fullScreen: boolean;
+  const output: string = await (options.hydrate ? buildJs(buildObject) : buildHtml(buildObject));
 
-  static production: boolean;
-  static hydrate: string;
-  static files: TObj<any>;
-  static scenes: TObj<any>;
-  static images: TObj<any>;
-  static audio: TObj<any>;
-
-  static async build(options: BuildOptions): Promise<string> {
-    Object.assign(this, options);
-
-    this.files = options.files;
-    this.scenes = {};
-    this.images = {};
-    this.audio = {};
-
-    const output: string = await (this.hydrate ? buildJs(this) : this.buildHtml());
-
-    const outputSize: number = new TextEncoder().encode(output).length;
-    if (this.hydrate) {
-      console.log(`JS size: ${fmtSize(outputSize)}`);
-    } else {
-      const jsSlice = output.slice(
-        output.indexOf(`<script>`) + `<script>`.length,
-        output.indexOf(`</script>`),
-      );
-      const jsSize: number = new TextEncoder().encode(jsSlice).length;
-      const htmlSize: number = outputSize - jsSize;
-      console.log(
-        `index.html: ${fmtSize(outputSize)}\nHTML        ${fmtSize(htmlSize)}\nJS          ${fmtSize(jsSize)}`,
-      );
-    }
-
-    return output;
+  const outputSize: number = new TextEncoder().encode(output).length;
+  if (options.hydrate) {
+    console.log(`JS size: ${fmtSize(outputSize)}`);
+  } else {
+    const jsSlice = output.slice(
+      output.indexOf(`<script>`) + `<script>`.length,
+      output.indexOf(`</script>`),
+    );
+    const jsSize: number = new TextEncoder().encode(jsSlice).length;
+    const htmlSize: number = outputSize - jsSize;
+    console.log(
+      `index.html: ${fmtSize(outputSize)}\nHTML        ${fmtSize(htmlSize)}\nJS          ${fmtSize(jsSize)}`,
+    );
   }
 
-  static async buildHtml(): Promise<string> {
-    return [
-      `<!doctype html>`,
-      `<html lang="en">`,
-      `<head>`,
-      `<meta charset="UTF-8">`,
-      `<meta name="viewport"content="width=device-width,initial-scale=1.0">`,
-      `<meta name="author"content="${this.author}">`,
-      `<meta name="description"content="${this.description}">`,
-
-      `<title>${this.name}</title>`,
-      `</head>`,
-
-      `<body style="background-color:black;margin:0;overflow:hidden">`,
-      `<canvas id="canvas"></canvas>`,
-      `<script>${await buildJs(this)}</script>`,
-      `</body>`,
-      `</html>`,
-    ].join(``);
-  }
+  return output;
 }
 
 function fmtSize(n: number): string {
   return `${(n / 1000).toFixed(3)} kB`.padStart(12, ` `);
+}
+
+async function buildHtml(buildObject: BuildObject): Promise<string> {
+  return [
+    `<!doctype html>`,
+    `<html lang="en">`,
+    `<head>`,
+    `<meta charset="UTF-8">`,
+    `<meta name="viewport"content="width=device-width,initial-scale=1.0">`,
+    `<meta name="author"content="${buildObject.author}">`,
+    `<meta name="description"content="${buildObject.description}">`,
+
+    `<title>${buildObject.gameName}</title>`,
+    `</head>`,
+
+    `<body style="background-color:black;margin:0;overflow:hidden">`,
+    `<canvas id="canvas"></canvas>`,
+    `<script>${await buildJs(buildObject)}</script>`,
+    `</body>`,
+    `</html>`,
+  ].join(``);
 }
 
 export type BuildOptions = {
@@ -88,4 +63,9 @@ export type BuildOptions = {
   files: TObj<any>;
 };
 
-export type BuildObject = typeof Build;
+export type BuildObject = BuildOptions & {
+  files: TObj<any>;
+  scenes: TObj<any>;
+  images: TObj<any>;
+  audio: TObj<any>;
+};

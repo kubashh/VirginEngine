@@ -1,18 +1,55 @@
-import { minify_sync } from "terser";
+import { minify_sync, type MinifyOptions } from "terser";
 import { keywords, optymalizeImageSrc } from "./util";
-import { Preprocessing } from "./Preprocessing";
 import { type BuildObject } from "./build";
+import { preprocessing } from "./preprocessing";
 
 declare const REPLACE_CORE: string;
 
 const declarations: string[] = [];
 
+const minifyOptions: MinifyOptions = {
+  module: true, // size -10%
+  ecma: 2025,
+  // compress: true,
+  compress: {
+    passes: 10,
+    toplevel: true,
+
+    // remove debugging code
+    drop_console: true,
+    drop_debugger: true,
+
+    // more aggressive transformations
+    unsafe: true,
+    unsafe_arrows: true,
+    unsafe_comps: true,
+    pure_getters: true,
+
+    // optional extra optimizations
+    hoist_props: true,
+    reduce_funcs: true,
+    reduce_vars: true,
+    collapse_vars: true,
+    inline: 3,
+  },
+  mangle: true,
+  format: {
+    comments: false,
+  },
+};
+
 export async function buildJs(options: BuildObject): Promise<string> {
-  Preprocessing.preprocessing(options);
+  preprocessing(options);
 
   const validCore = await buildValidCore(options);
 
-  return options.production ? minify_max(validCore) : validCore;
+  if (!options.production) return validCore;
+
+  const out = minify_sync(validCore, minifyOptions);
+
+  if (!out.code) throw Error(JSON.stringify(out));
+
+  return out.code;
 }
 
 async function buildValidCore(options: BuildObject): Promise<string> {
@@ -85,41 +122,4 @@ function filesToString(data: TObj<any> | string, name: string, type: string): (s
 
 function isCustomProp(text: string) {
   return !/^[A-Z]/.test(text) && !keywords.includes(text);
-}
-
-function minify_max(code: string) {
-  const out = minify_sync(code, {
-    module: true, // size -10%
-    ecma: 2025,
-    // compress: true,
-    compress: {
-      passes: 10,
-      toplevel: true,
-
-      // remove debugging code
-      drop_console: true,
-      drop_debugger: true,
-
-      // more aggressive transformations
-      unsafe: true,
-      unsafe_arrows: true,
-      unsafe_comps: true,
-      pure_getters: true,
-
-      // optional extra optimizations
-      hoist_props: true,
-      reduce_funcs: true,
-      reduce_vars: true,
-      collapse_vars: true,
-      inline: 3,
-    },
-    mangle: true,
-    format: {
-      comments: false,
-    },
-  });
-
-  if (out.code == undefined) throw Error(JSON.stringify(out));
-
-  return out.code;
 }
