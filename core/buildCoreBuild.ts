@@ -1,6 +1,6 @@
 /// <reference types="bun" />
 
-export async function buildCoreBuild(virginEngineVersion: string) {
+export async function buildCoreBuild() {
   const htmlTemplate = minifyHtml(await Bun.file(`./core/build/template.html`).text());
   const core = await buildEngineCore();
 
@@ -16,7 +16,6 @@ export async function buildCoreBuild(virginEngineVersion: string) {
     target: `bun`,
     define: {
       REPLACE_HTML_TEMPLATE: JSON.stringify(htmlTemplate),
-      REPLACE_VIRGIN_ENGINE_VERSION: JSON.stringify(virginEngineVersion),
     },
   });
 

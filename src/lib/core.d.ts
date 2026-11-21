@@ -1,6 +1,4 @@
-import type { BuildOptions, BuildOutput } from "../../core/build/build";
-
-export declare const virginEngineVersion: string;
+import type { BuildOptions } from "../../core/build/build";
 
 export { BuildOptions };
 

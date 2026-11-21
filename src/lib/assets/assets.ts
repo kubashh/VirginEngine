@@ -1,9 +1,9 @@
+import { version as virginEngineVersion } from "../../../package.json";
 import audioIconSrc from "./AudioIcon.png";
-import { virginEngineVersion } from "../core";
 import { boxSprite, happyBoxSprite, inpactSound } from "./rawSrc";
 import { type TFile, type TProject } from "../consts";
 
-export { audioIconSrc };
+export { audioIconSrc, virginEngineVersion };
 
 export const defaultAssets = {
   boxImg: {

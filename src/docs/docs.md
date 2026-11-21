@@ -17,6 +17,17 @@ type VirginEngine = {
 
 ## Components
 
+- `Node` is just object assing to every script
+- `Rect` make elemnent relative to camera (good for UI)
+- `Text` render text to screen. Transform.scale.y is height of text
+- `Sprite` render image
+- `Physics` (in development)
+- `Collider` (in development)
+- `Animation` (in development)
+- `Audio` sound api
+
+### Components API
+
 ```ts
 // any Script
 type Script = {
@@ -44,6 +55,11 @@ type Node = {
   destroy: () => void;
 
   [key: string]: Node;
+};
+
+type Rect = {
+  x: number;
+  y: number;
 };
 
 type Text = {

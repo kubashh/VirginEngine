@@ -1,4 +1,3 @@
-import { virginEngineVersion } from "./core";
 import { emptyProject } from "./assets/assets";
 
 export const keywords = [
@@ -24,7 +23,6 @@ export const editor = {
     type: ``,
     value: ``,
   },
-  engineVersion: virginEngineVersion,
 };
 
 // types

@@ -6,12 +6,12 @@ Simple JS game engine for fast 2D web games
 
 ### Components
 
-- `Node` (GameObject 90% done)
+- `Node` (GameObject, works)
 - `Animation` (1% done)
-- `AudioElement` (Audio 80% done)
+- `AudioVE` (Audio, works)
 - `Collider` (1% done)
 - `Physics` (20% done)
-- `Sprite` (70% done)
+- `Sprite` (works)
 - `Text` (50% done)
 
 ## [Docs](https://github.com/kubashh/VirginEngine/blob/main/src/docs/docs.md)

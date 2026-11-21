@@ -5,7 +5,7 @@ import { minifyCss } from "./minifyCss";
 
 await Bun.$`bun check core src`;
 await Bun.$`bun fmt core src package.json`;
-await buildCoreBuild(virginEngineVersion);
+await buildCoreBuild();
 await updateVEVersionHtml();
 
 if (process.argv.includes(`--dev`)) {
@@ -31,7 +31,7 @@ async function dev() {
 
   fs.watch(`core`, { recursive: true }, async () => {
     await Bun.$`bun fmt core`;
-    await buildCoreBuild(virginEngineVersion);
+    await buildCoreBuild();
   });
 
   Bun.serve({

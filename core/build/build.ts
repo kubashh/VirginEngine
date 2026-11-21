@@ -1,10 +1,6 @@
 import { buildJs } from "./jsCode";
 
-declare const REPLACE_VIRGIN_ENGINE_VERSION: string;
 declare const REPLACE_HTML_TEMPLATE: string;
-
-export const virginEngineVersion: string = REPLACE_VIRGIN_ENGINE_VERSION;
-const htmlTemplate = REPLACE_HTML_TEMPLATE;
 
 // build project
 
@@ -35,20 +31,20 @@ export class Build {
     this.images = {};
     this.audio = {};
 
-    const output = this.hydrate ? await buildJs(this) : await this.buildHtml();
+    const output: string = await (this.hydrate ? buildJs(this) : this.buildHtml());
 
-    const outputSize = new TextEncoder().encode(output).length;
+    const outputSize: number = new TextEncoder().encode(output).length;
     if (this.hydrate) {
-      console.log(`JS size: ${(outputSize / 1000).toFixed(3)} kB`);
+      console.log(`JS size: ${fmtSize(outputSize)}`);
     } else {
       const jsSlice = output.slice(
         output.indexOf(`<script>`) + `<script>`.length,
         output.indexOf(`</script>`),
       );
-      const jsSize = new TextEncoder().encode(jsSlice).length;
-      const htmlSize = outputSize - jsSize;
+      const jsSize: number = new TextEncoder().encode(jsSlice).length;
+      const htmlSize: number = outputSize - jsSize;
       console.log(
-        `index.html size: ${(outputSize / 1000).toFixed(3)} kB\nHTML   ${(htmlSize / 1000).toFixed(3)} kB\nJS     ${(jsSize / 1000).toFixed(3)} kB`,
+        `index.html: ${fmtSize(outputSize)}\nHTML        ${fmtSize(htmlSize)}\nJS          ${fmtSize(jsSize)}`,
       );
     }
 
@@ -56,12 +52,15 @@ export class Build {
   }
 
   static async buildHtml(): Promise<string> {
-    return htmlTemplate
-      .replace(`REPLACE_AUTHOR`, this.author)
-      .replace(`REPLACE_DESCRIPTION`, this.description)
-      .replace(`REPLACE_GAME_NAME`, this.gameName)
+    return REPLACE_HTML_TEMPLATE.replace(`AUTHOR`, this.author)
+      .replace(`DESCRIPTION`, this.description)
+      .replace(`GAME_NAME`, this.gameName)
       .replace(`SCRIPT;`, await buildJs(this));
   }
+}
+
+function fmtSize(n: number): string {
+  return `${(n / 1000).toFixed(3)} kB`.padStart(12, ` `);
 }
 
 export type BuildOptions = {

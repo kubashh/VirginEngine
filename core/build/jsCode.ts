@@ -4,7 +4,6 @@ import { Preprocessing } from "./Preprocessing";
 import { type BuildObject } from "./build";
 
 declare const REPLACE_CORE: string;
-const core: string = REPLACE_CORE;
 
 const declarations: string[] = [];
 
@@ -17,16 +16,11 @@ export async function buildJs(options: BuildObject): Promise<string> {
 }
 
 async function buildValidCore(options: BuildObject): Promise<string> {
-  const images = filesToString(options.images, ``, ``);
-  const audio = filesToString(options.audio, ``, ``);
-  const scenes = filesToString(options.scenes, ``, ``);
+  const images = await Array.fromAsync(filesToString(options.images, ``, ``));
+  const audio = await Array.fromAsync(filesToString(options.audio, ``, ``));
+  const scenes = await Array.fromAsync(filesToString(options.scenes, ``, ``));
 
-  for (const i in images) images[i] = await images[i];
-  for (const i in audio) audio[i] = await audio[i];
-  for (const i in scenes) scenes[i] = await scenes[i];
-
-  const validCore = core
-    .split(`\n`)
+  const validCore = REPLACE_CORE.split(`\n`)
     // remove fullscreen if not needed
     .filter((line) => options.fullScreen || !line.startsWith(`!document.fullscreenElement ?`))
     .join(`\n`)
@@ -71,7 +65,7 @@ function filesToString(data: TObj<any> | string, name: string, type: string): (s
   } else if (data.type === `audio`) {
     return [`"${data.src}"`];
   } else if (data.type === `enum`) {
-    return data.selected;
+    return [data.selected];
   }
 
   return [
