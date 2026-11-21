@@ -2,7 +2,7 @@
 
 :root {
   /* width, height */
-  --w1: calc(100vw - var(--w2) - var(--w3));
+  --w1: calc(55vw - 130px); /* 100vw - var(--w2) - var(--w3) */
   --w2: calc(15vw + 50px);
   --w3: calc(30vw + 80px);
   --h1: 55vh;

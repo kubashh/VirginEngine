@@ -2,11 +2,17 @@
 export function minifyCss(css: string): string {
   css = inlineVariables(css);
   css = removeUnusedVariables(css);
+  css = removeEmptyRoots(css);
   css = exeCalc(css);
+  css = minifyColors(css);
   css = minifySyntax(css);
 
   return css;
 }
+
+//
+// inlineVariables & removeUnusedVariables & removeEmptyRoots
+//
 
 function inlineVariables(css: string): string {
   const variables = getVariables(css);
@@ -73,6 +79,22 @@ function getRoots(css: string): string[] {
   return roots;
 }
 
+// remove empty root & host and remove empty theme layer. it's enought for this project
+function removeEmptyRoots(css: string): string {
+  css = css.replace(`:root{}`, ``).replace(`:root,:host{}`, ``);
+
+  // remove empty theme layer
+  if (css.includes(`@layer theme{}`)) {
+    css = css.replace(`@layer theme{}`, ``).replace(`@layer theme,base,`, `@layer base,`);
+  }
+
+  return css;
+}
+
+//
+// exeCalc
+//
+
 // exec basic calc function
 function exeCalc(css: string): string {
   const arr = css.matchAll(/calc\(.*?\)/g);
@@ -117,12 +139,74 @@ function exeCalc(css: string): string {
 
     if (typeof result === `number` && !Number.isNaN(result)) {
       if (result === 0) unit = ``;
-      css = css.replaceAll(exp, `${result.toFixed(3)}${unit}`);
+      const newNumber = Number(result.toFixed(3));
+      const str = newNumber < 1 && newNumber !== 0 ? newNumber.toString().slice(1) : newNumber; // remove trallin zero
+      css = css.replaceAll(exp, `${str}${unit}`);
     }
   }
 
   return css;
 }
+
+//
+// minifyColors
+//
+
+function minifyColors(css: string): string {
+  const oklchs = css
+    .matchAll(/oklch\(.*?\)/g)
+    .toArray()
+    .map((r) => r[0]);
+
+  for (const color of oklchs) {
+    const [LPr, C, h] = color.slice(6, -1).split(` `);
+    const hexColor = oklchToHex(Number(LPr.slice(0, -1)) / 100, Number(C), Number(h));
+
+    css = css.replaceAll(color, hexColor);
+  }
+
+  return css;
+}
+
+function oklchToHex(L: number, C: number, h: number) {
+  const radians = (h * Math.PI) / 180;
+  const a = C * Math.cos(radians);
+  const b = C * Math.sin(radians);
+
+  const l_ = L + 0.3963377774 * a + 0.2158037573 * b;
+  const m_ = L - 0.1055613458 * a - 0.0638541728 * b;
+  const s_ = L - 0.0894841775 * a - 1.291485548 * b;
+
+  const l = l_ ** 3;
+  const m = m_ ** 3;
+  const s = s_ ** 3;
+
+  const linearRgb = [
+    4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s,
+    -1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s,
+    -0.0041960863 * l - 0.7034186147 * m + 1.707614701 * s,
+  ];
+
+  return (
+    `#` +
+    linearRgb
+      .map((x) =>
+        Math.round(toSrgb(x) * 255)
+          .toString(16)
+          .padStart(2, `0`),
+      )
+      .join(``)
+  );
+}
+
+function toSrgb(x: number) {
+  x = Math.max(0, Math.min(1, x)); // clip to sRGB gamut
+  return x <= 0.0031308 ? 12.92 * x : 1.055 * x ** (1 / 2.4) - 0.055;
+}
+
+//
+// minifySyntax
+//
 
 function minifySyntax(css: string): string {
   return css.replaceAll(`\n`, ` `).replaceAll(`: `, `:`).trim();
