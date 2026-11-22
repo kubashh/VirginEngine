@@ -129,6 +129,14 @@ async function build() {
 }
 
 function minifyJs(code: string): string {
+  // remove stupid __REACT_DEVTOOLS_GLOBAL_HOOK__
+  code = code
+    .replaceAll(/__REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE\(.+?\)/g, ``)
+    .replaceAll(`typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE`, `undefined`)
+    .replaceAll(`typeof __REACT_DEVTOOLS_GLOBAL_HOOK__`, `undefined`)
+    .replaceAll(`"__REACT_DEVTOOLS_GLOBAL_HOOK__",`, ``);
+
+  // minify with terser. this is another optimalization (first was bun)
   const minifyOptions: MinifyOptions = {
     module: true,
     ecma: 2025,
