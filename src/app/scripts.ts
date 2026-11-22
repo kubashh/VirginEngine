@@ -1,4 +1,5 @@
 import fs from "fs";
+import { minify_sync, type MinifyOptions } from "terser";
 import { version as virginEngineVersion } from "../../package.json";
 import { buildCoreBuild } from "../../core/buildCoreBuild";
 import { minifyCss } from "./minifyCss";
@@ -99,18 +100,70 @@ async function build() {
   }
 
   // minify css
-  let index = html.indexOf(`<style>`) + `<style>`.length;
-  if (index > 0) {
-    const indexEnd = html.indexOf(`</style>`, index);
-    let cssText = html.slice(index, indexEnd);
+  const indexCss = html.indexOf(`<style>`) + `<style>`.length;
+  if (indexCss > `<style>`.length) {
+    const indexEnd = html.indexOf(`</style>`, indexCss);
+    let cssText = html.slice(indexCss, indexEnd);
     cssText = minifyCss(cssText);
-    html = html.slice(0, index) + cssText + html.slice(indexEnd);
+    html = html.slice(0, indexCss) + cssText + html.slice(indexEnd);
+  }
+
+  // minify js
+  const indexJs = html.indexOf(`<script type="module">`) + `<script type="module">`.length;
+  if (indexJs > `<script type="module">`.length) {
+    const indexEnd = html.indexOf(`</script>`, indexJs);
+    let jsText = html.slice(indexJs, indexEnd);
+    jsText = minifyJs(jsText);
+    html = html.slice(0, indexJs) + jsText + html.slice(indexEnd);
+  } else {
+    const jsFile = outputs.find((a) => a.path.endsWith(`.js`))!;
+    let jsCode = await jsFile.text();
+    jsCode = minifyJs(jsCode);
+    await Bun.write(jsFile.path, jsCode);
   }
 
   await Bun.write(htmlArtifact.path, html);
 
   const printPaths: string[] = outputs.map((a) => a.path).filter((path) => !path.endsWith(`.css`));
   printSize(printPaths);
+}
+
+function minifyJs(code: string): string {
+  const minifyOptions: MinifyOptions = {
+    module: true,
+    ecma: 2025,
+    // compress: true,
+    compress: {
+      passes: 10,
+      toplevel: true,
+
+      // remove debugging code
+      drop_console: false,
+      drop_debugger: true,
+
+      // more aggressive transformations
+      unsafe: true,
+      unsafe_arrows: true,
+      unsafe_comps: true,
+      pure_getters: true,
+
+      // optional extra optimizations
+      hoist_props: true,
+      reduce_funcs: true,
+      reduce_vars: true,
+      collapse_vars: true,
+      inline: 3,
+    },
+    mangle: true,
+    format: {
+      comments: false,
+    },
+  };
+
+  const newCode = minify_sync(code, minifyOptions).code;
+  if (!newCode) throw new Error(`Error minifing js with terser!`);
+  if (code.length < newCode.length) throw new Error(`Minified code is larger!`);
+  return newCode;
 }
 
 async function printSize(paths: string[]) {
@@ -194,7 +247,7 @@ function countJsSizes(jsCode: string): [sizeJs: number, sizeMedia: number] {
       const mediaSize = stringBytesLength(mediaStr);
       sizeMedia += mediaSize;
       sizeJs -= mediaSize;
-    } else {
+    } else if (!mediaStr.startsWith(`data:text`)) {
       throw new Error(`Unknown media! Src: ${mediaStr}`);
     }
   }
