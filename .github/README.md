@@ -43,3 +43,7 @@ Simple JS game engine for fast 2D web games
 9. code from `src/files/`
 10. code from `src/inspector/`
 11. code from `src/ui/`
+
+### Only html tags used in project (because of styles oprimization and code consistency)
+
+- `div` `html` `head` `body` `iframe` `a` `meta` `title` `link` `script` `header` `main` `h1` `h2` `h3` `button` `input` `textarea` `img` `label` `section` `select` `option` `span` `code` `pre` `canvas` `audio`

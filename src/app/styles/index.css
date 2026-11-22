@@ -1,4 +1,6 @@
-@import "tailwindcss";
+@import "./preflight.css";
+@import "tailwindcss/theme.css";
+@import "tailwindcss/utilities.css";
 
 :root {
   /* width, height */

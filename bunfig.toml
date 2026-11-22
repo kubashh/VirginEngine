@@ -6,5 +6,5 @@ env = "BUN_PUBLIC_*"
 sortPackageJson = true
 
 [fmt.sortTailwindcss]
-stylesheet = "./src/app/global.css"
+stylesheet = "./src/app/styles/index.css"
 functions = []

@@ -81,14 +81,7 @@ function getRoots(css: string): string[] {
 
 // remove empty root & host and remove empty theme layer. it's enought for this project
 function removeEmptyRoots(css: string): string {
-  css = css.replace(`:root{}`, ``).replace(`:root,:host{}`, ``);
-
-  // remove empty theme layer
-  if (css.includes(`@layer theme{}`)) {
-    css = css.replace(`@layer theme{}`, ``).replace(`@layer theme,base,`, `@layer base,`);
-  }
-
-  return css;
+  return css.replace(`:root{}`, ``).replace(`:root,:host{}`, ``);
 }
 
 //
@@ -144,6 +137,11 @@ function exeCalc(css: string): string {
       css = css.replaceAll(exp, `${str}${unit}`);
     }
   }
+
+  css = css
+    .replaceAll(/var\(--tw-leading,(.+?)\)/g, `$1`) // simplify var(--tw-leading,1.333) like
+    .replaceAll(`var(--tw-border-style)`, `solid`) // --tw-border-style is always solid
+    .replaceAll(/\@property \-\-tw\-border\-style\{.+?\}|--tw-border-style:.+?;/g, ``); // remove --tw-border-style declarations
 
   return css;
 }
@@ -209,6 +207,9 @@ function toSrgb(x: number) {
 //
 
 function minifySyntax(css: string): string {
-  return css.replaceAll(`\n`, ` `).replaceAll(`: `, `:`).trim();
-  // .replaceAll(/\/\*[\s\S]*?\*\//g, ``) // remove comments
+  return css
+    .replaceAll(`\n`, ` `)
+    .replaceAll(`: `, `:`)
+    .replaceAll(/\/\*[\s\S]*?\*\//g, ``) // remove comments
+    .trim();
 }
