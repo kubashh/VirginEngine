@@ -4,51 +4,49 @@
 
 ### Core
 
+<!-- - WebGL, WebGL2 for render (https://wikis.khronos.org/webgl/Getting_a_WebGL_Implementation, https://registry.khronos.org/webgl/specs/latest/2.0/) -->
+<!-- - audio making at comptime src => f(src) -->
+
 - if Sprite.color draw box on canvas
 - Sprite is Box (color) or image
-- move run execution to scene
 - Animation: start(), stop(), frames = []
 - Collider.collide() // polygon or external
-- Scene.load() instead of scene.load()
-- WebGL, WebGL2 for render
 - build: add static + server export build-in
 - Node: implement events: onClick, onHover, onMouseExit...
 - Node subscribe update, render or even physics update, sprite render
-- build: make image/audio static assets or strings
 - render via special unit same cross-platform (not pixels like now)
 - Node: make children array
-- build: one object of images, one object of audio (quicker loadAssets)
-- sprites/images making at comptime (`{type: "img", src: "..."}` => `new Sprite(...)`)
 - use number (id) as identifier, not string name, complitly strip string names.
   so compile sth.parent.name to id or reference or sth[parent_id][name_id]
-- make scenes, sprites and audio independent values instead 3 collections
+- make scenes, sprites and audio independent values instead 3 collections. like `const sprite_1 = "src"`
 
 ### Editor (src)
 
-- jsCode.Image.quality: number (0-1)
-- jsCode.Audio.quality: number (0-1)
+<!-- - jsCode.Image.quality: number (0-1) -->
+<!-- - jsCode.Audio.quality: number (0-1) -->
+<!-- - pack/unpack js object <==> files. it means drag folder to open the project or file -->
+<!-- - css minification minify variables names -->
+
 - Drag Nodes to files, files to Nodes (clonning or prefab-like)
 - src.Node.rect can contains only Node.rect
-- PathInput (for paths, better optymalization for not use file() while running)
-- add to every file and object specific id for reference reasons
+- add to every file and object or create id record specific id for reference reasons
 - Sprite: use sprite or color (good for prototyping)
 - Editor: mobile layout full support
 - Img/Audio tests
-- LoadData new project set config (author, description...)
-- pack/unpack js object <==> files. it means drag folder to open the project or file
-- add block of code like scratch as option
+- add block of code like Scratch as option
 - add build notification with build size and html, js and assets size
 - add auto changing paths for assets when renamed and warning for deletion when used
-- css minification transpile colors, minify variables names
 - fix test canvas when width / ratio > height \* ratio
 - add testing js (direct hydration) or html
+- add config.lockAspectRatio for consistency
 - add project compressing
+- add Text.fontSize
 
 <br />
 
 ## 0.26.1-dev (in development)
 
-## 0.26.0 (22 Nov 2022) (, compiled 813.444 kB, 812.891 kB (0.439 kB (html) 16.269 kB (css) 760.667 kB (js) 35.516 kB (media)))
+## 0.26.0 (22 Nov 2022) (https://github.com/kubashh/VirginEngine/commit/df3a7065c303929959f42d3d5afe271b3a8574a3, compiled 813.444 kB, 812.891 kB (0.439 kB (html) 16.269 kB (css) 760.667 kB (js) 35.516 kB (media)))
 
 - add css minification (inline some vars and exec most calc). bundle size -0.9kB
 - fixed test canvas height on chromium based browsers

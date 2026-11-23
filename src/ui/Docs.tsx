@@ -1,5 +1,5 @@
-import docs from "./docs.md";
-import { Window } from "../components/Window";
+import docs from "../lib/assets/docs.md";
+import { Window } from "../lib/components/Window";
 
 export function Docs() {
   return (

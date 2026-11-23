@@ -30,9 +30,9 @@ type VirginEngine = {
 
 ```ts
 // any Script
-type Script = {
+class Script {
   node: Node; // automatically assigned
-};
+}
 
 type Node = {
   parent: Node;

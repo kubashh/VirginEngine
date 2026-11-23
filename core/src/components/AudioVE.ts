@@ -20,7 +20,7 @@ export class AudioVE {
   private audio: HTMLAudioElement;
 
   constructor(props: AudioProps) {
-    this.audio = new Audio(isFirefox ? audio[props.path] : getChromiumSrc(audio[props.path]));
+    this.audio = new Audio(getValidAudioSrc(audio[props.path]));
     if (props.loop) this.audio.loop = props.loop;
   }
 
@@ -51,7 +51,13 @@ export class AudioVE {
   }
 }
 
-function getChromiumSrc(src: string): string {
+// for now is enough. if we want maximum performance we should call this function on audio creation.
+// like `const audio_2 = getValidAudioSrc("my_src...")`
+function getValidAudioSrc(src: string): string {
+  // Firefox supports playing audio directly form string
+  if (isFirefox) return src;
+
+  // make src for Chomium based browsers
   const base64PCM = src.split(`base64,`)[1];
 
   const pcmBytes = Uint8Array.fromBase64(base64PCM);
