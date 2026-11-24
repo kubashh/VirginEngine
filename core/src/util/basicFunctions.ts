@@ -49,7 +49,7 @@ export function drawText({
   x,
   y,
   w,
-  h,
+  fontSize,
   rect = { x: 0, y: 0 },
   font = `serif`,
   align,
@@ -71,7 +71,7 @@ export function drawText({
     (ctx as TObj<any>)[key] = (rest as TObj<any>)[key];
   }
 
-  ctx.font = `${h}px ${font}`;
+  ctx.font = `${fontSize}px ${font}`;
   ctx.fillText(text, x, y, w);
 
   ctx.restore();
@@ -114,7 +114,7 @@ type TdrawTextProps = {
   x: number;
   y: number;
   w?: number;
-  h: number;
+  fontSize: number;
   font?: string;
   rect?: { x: number; y: number };
   align?: { x: number; y: number };

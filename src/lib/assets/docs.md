@@ -65,6 +65,7 @@ type Rect = {
 type Text = {
   value: string;
   color: string;
+  fontSize: number;
 
   textBaseline?: string;
   textAlign?: string;

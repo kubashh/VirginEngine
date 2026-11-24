@@ -40,7 +40,6 @@
 - add testing js (direct hydration) or html
 - add config.lockAspectRatio for consistency
 - add project compressing
-- add Text.fontSize
 
 <br />
 
@@ -48,6 +47,7 @@
 
 - fixed change editor version errors of components missing property & remove legacy properties
 - add Audio.loop
+- add Text.fontSize
 
 ## 0.26.0 (22 Nov 2022) (https://github.com/kubashh/VirginEngine/commit/df3a7065c303929959f42d3d5afe271b3a8574a3, compiled 813.444 kB, 812.891 kB (0.439 kB (html) 16.269 kB (css) 760.667 kB (js) 35.516 kB (media)))
 

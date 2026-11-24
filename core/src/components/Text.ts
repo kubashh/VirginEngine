@@ -6,13 +6,15 @@ export class Text {
 
   value: string;
   color: string;
+  fontSize: number;
 
   private align = { x: 0, y: 0 };
 
-  constructor({ value, color }: TextProps, node: Node) {
+  constructor({ value, color, fontSize }: TextProps, node: Node) {
     this.node = node;
     this.value = value;
     this.color = color;
+    this.fontSize = fontSize;
   }
 
   render() {
@@ -20,7 +22,7 @@ export class Text {
       text: this.value,
       x: this.node.position.x,
       y: this.node.position.y,
-      h: this.node.scale.y,
+      fontSize: this.fontSize, // TODO scale text
       color: this.color,
       rect: this.node.rect,
       align: this.align,
@@ -35,4 +37,4 @@ export class Text {
   }
 }
 
-export type TextProps = { value: string; color: string };
+export type TextProps = { value: string; color: string; fontSize: number };

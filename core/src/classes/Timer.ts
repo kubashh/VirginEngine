@@ -17,7 +17,7 @@ export class Timer {
     const props = {
       x: 6,
       y: 6,
-      h: 16,
+      fontSize: 16,
       rect: { x: -1, y: -1 },
       color: `white`,
       textAlign: `left`,
