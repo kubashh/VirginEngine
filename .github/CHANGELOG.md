@@ -46,6 +46,9 @@
 
 ## 0.26.1-dev (in development)
 
+- fixed change editor version errors of components missing property & remove legacy properties
+- add Audio.loop
+
 ## 0.26.0 (22 Nov 2022) (https://github.com/kubashh/VirginEngine/commit/df3a7065c303929959f42d3d5afe271b3a8574a3, compiled 813.444 kB, 812.891 kB (0.439 kB (html) 16.269 kB (css) 760.667 kB (js) 35.516 kB (media)))
 
 - add css minification (inline some vars and exec most calc). bundle size -0.9kB

@@ -8,10 +8,10 @@ import { InspectorSection } from "../../inspector/InspectorSection";
 import { setInspector } from "../../inspector/Inspector";
 
 const rect: TComponent = { initValue: { x: Enum(0, -1, 0, 1), y: Enum(0, -1, 0, 1) }, remove: [`text`] };
-const text: TComponent = { initValue: { value: ``, color: `white` }, deps: [`rect`] };
+const text: TComponent = { initValue: { value: ``, color: `white` }, deps: [`rect`] }; // fontSize: 0
 const sprite: TComponent = { initValue: { color: ``, path: `files.Assets.Images.BoxImage` } };
 const physics: TComponent = { initValue: { gravity: true } };
-const audio: TComponent = { initValue: { path: `` } }; // loop: false
+const audio: TComponent = { initValue: { path: ``, loop: false } };
 const script: TComponent = { initValue: `class MyScript {\n}\n` };
 
 const components: TObj<TComponent> = { rect, text, sprite, physics, audio, script };
@@ -60,6 +60,8 @@ function Component({ name, refresh, required, ...props }: ComponentProps) {
     refresh();
   };
 
+  completeObjectEmptyFileds(props.object, name);
+
   return props.object[name] ? (
     typeof components[name].initValue === `string` ? (
       <Script object={props.object} refresh={refresh} />
@@ -74,6 +76,23 @@ function Component({ name, refresh, required, ...props }: ComponentProps) {
   ) : (
     <AddComponent text={capitalize(name)} onClick={addComponent} />
   );
+}
+
+// prevent object empty filed errer when some prop is added & remove legacy filds
+function completeObjectEmptyFileds(object: TObj<any>, name: string) {
+  const componentInitValue = components[name].initValue;
+  if (typeof componentInitValue === `object`) {
+    // add empty filed features
+    for (const key in componentInitValue) {
+      if (object[name] && !object[name][key]) {
+        object[name][key] = componentInitValue[key];
+      }
+    }
+    // remove legacy fiids
+    for (const key in object[name]) {
+      if (!(key in componentInitValue)) delete object[key];
+    }
+  }
 }
 
 function toChilds(object: TFile, name: string, obj: TObj<any>) {
