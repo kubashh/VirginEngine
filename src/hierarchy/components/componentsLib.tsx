@@ -8,7 +8,16 @@ import { InspectorSection } from "../../inspector/InspectorSection";
 import { setInspector } from "../../inspector/Inspector";
 
 const rect: TComponent = { initValue: { x: Enum(0, -1, 0, 1), y: Enum(0, -1, 0, 1) }, remove: [`text`] };
-const text: TComponent = { initValue: { value: ``, color: `white`, fontSize: 20 }, deps: [`rect`] };
+const text: TComponent = {
+  initValue: {
+    value: ``,
+    color: `white`,
+    fontSize: 20,
+    textAlign: Enum(`center`, `left`, `center`, `right`),
+    textBaseline: Enum(`middle`, `bottom`, `middle`, `top`),
+  },
+  deps: [`rect`],
+};
 const sprite: TComponent = { initValue: { color: ``, path: `files.Assets.Images.BoxImage` } };
 const physics: TComponent = { initValue: { gravity: true } };
 const audio: TComponent = { initValue: { path: ``, loop: false } };

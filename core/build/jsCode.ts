@@ -102,7 +102,7 @@ function filesToString(data: TObj<any> | string, name: string, type: string): (s
   } else if (data.type === `audio`) {
     return [`"${data.src}"`];
   } else if (data.type === `enum`) {
-    return [data.selected];
+    return [JSON.stringify(data.selected)];
   }
 
   return [

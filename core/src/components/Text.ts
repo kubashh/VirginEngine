@@ -7,14 +7,16 @@ export class Text {
   value: string;
   color: string;
   fontSize: number;
+  textAlign: `left` | `center` | `right`;
+  textBaseline: `bottom` | `middle` | `top`;
 
-  private align = { x: 0, y: 0 };
-
-  constructor({ value, color, fontSize }: TextProps, node: Node) {
+  constructor(props: TextProps, node: Node) {
     this.node = node;
-    this.value = value;
-    this.color = color;
-    this.fontSize = fontSize;
+    this.value = props.value;
+    this.color = props.color;
+    this.fontSize = props.fontSize;
+    this.textAlign = props.textAlign;
+    this.textBaseline = props.textBaseline;
   }
 
   render() {
@@ -25,16 +27,26 @@ export class Text {
       fontSize: this.fontSize, // TODO scale text
       color: this.color,
       rect: this.node.rect,
-      align: this.align,
+      textAlign: this.textAlign,
+      textBaseline: this.textBaseline,
     });
   }
 
-  getProps() {
+  getProps(): TextProps {
     return {
       value: this.value,
       color: this.color,
+      fontSize: this.fontSize,
+      textAlign: this.textAlign,
+      textBaseline: this.textBaseline,
     };
   }
 }
 
-export type TextProps = { value: string; color: string; fontSize: number };
+export type TextProps = {
+  value: string;
+  color: string;
+  fontSize: number;
+  textAlign: `left` | `center` | `right`;
+  textBaseline: `bottom` | `middle` | `top`;
+};

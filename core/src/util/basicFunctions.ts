@@ -31,18 +31,6 @@ export function deepCopy<T>(data: T): T {
 }
 
 // draw on canvas
-
-const textAlign = new Map<number, CanvasTextAlign>([
-  [-1, `left`],
-  [0, `center`],
-  [1, `right`],
-]);
-const textBaseline = new Map<number, CanvasTextBaseline>([
-  [-1, `top`],
-  [0, `middle`],
-  [1, `bottom`],
-]);
-
 export function drawText({
   text,
   color,
@@ -52,24 +40,16 @@ export function drawText({
   fontSize,
   rect = { x: 0, y: 0 },
   font = `serif`,
-  align,
   ...rest
 }: TdrawTextProps) {
   ctx.save();
 
   ctx.fillStyle = color;
 
-  if (align) {
-    ctx.textAlign = textAlign.get(align.x)!;
-    ctx.textBaseline = textBaseline.get(align.y)!;
-  }
-
   x += (rect.x + 1) * Camera.xOffset;
   y += (rect.y + 1) * Camera.yOffset;
 
-  for (const key in rest) {
-    (ctx as TObj<any>)[key] = (rest as TObj<any>)[key];
-  }
+  Object.assign(ctx, rest);
 
   ctx.font = `${fontSize}px ${font}`;
   ctx.fillText(text, x, y, w);
@@ -117,7 +97,6 @@ type TdrawTextProps = {
   fontSize: number;
   font?: string;
   rect?: { x: number; y: number };
-  align?: { x: number; y: number };
   textAlign?: `left` | `center` | `right` | string;
   textBaseline?: `bottom` | `middle` | `top` | string;
 };
