@@ -1,10 +1,10 @@
 [serve.static]
-plugins = ["bun-plugin-tailwind", "./src/app/mdStylesPlugin.ts"]
+plugins = ["bun-plugin-tailwind", "./build/plugins/mdStylesPlugin.ts"]
 env = "BUN_PUBLIC_*"
 
 [fmt]
 sortPackageJson = true
 
 [fmt.sortTailwindcss]
-stylesheet = "./src/app/styles/index.css"
+stylesheet = "./editor/app/styles/index.css"
 functions = []

@@ -2,7 +2,7 @@ import { buildJs } from "./jsCode";
 
 // build project
 
-export async function build(options: BuildOptions): Promise<string> {
+export async function coreBuild(options: BuildOptions): Promise<string> {
   const buildObject = { ...options, scenes: {}, images: {}, audio: {} };
 
   const output: string = await (options.hydrate ? buildJs(buildObject) : buildHtml(buildObject));

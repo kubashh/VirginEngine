@@ -1,4 +1,4 @@
-import { build, type BuildOptions } from "./core";
+import { coreBuild, type BuildOptions } from "./core";
 import { files, keywords, type TFile, config } from "./consts";
 
 export function deepCopy<T>(obj: T): T {
@@ -85,7 +85,7 @@ export async function buildSafely(production: boolean): Promise<string> {
     hydrate: production ? config.hydrateCanvasId : ``,
   };
 
-  const html = await build(validConfig);
+  const html = await coreBuild(validConfig);
   if (!html) throw new Error(`Build faild!`);
   return html;
 }

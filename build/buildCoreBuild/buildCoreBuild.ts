@@ -4,9 +4,9 @@ export async function buildCoreBuild() {
   const core = await buildEngineCore();
 
   const { outputs } = await Bun.build({
-    entrypoints: [`./core/build/build.ts`],
+    entrypoints: [`./build/coreBuildFn/coreBuild.ts`],
     outdir: `.`,
-    naming: `./src/lib/core.js`,
+    naming: `./editor/lib/core.js`,
     minify: {
       whitespace: true,
       identifiers: true,
@@ -22,7 +22,7 @@ export async function buildCoreBuild() {
 
 async function buildEngineCore() {
   const { outputs } = await Bun.build({
-    entrypoints: [`./core/src/core.js`],
+    entrypoints: [`./core/core.js`],
     target: `bun`,
   });
 

@@ -1,4 +1,4 @@
-import { type BuildObject } from "./build";
+import { type BuildObject } from "./coreBuild";
 
 let assetsPathsI: number;
 let build!: BuildObject;

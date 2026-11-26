@@ -1,54 +1,14 @@
 import fs from "fs";
-import { minify_sync, type MinifyOptions } from "terser";
+import { minify, type MinifyOptions } from "terser";
 import { version as virginEngineVersion } from "../../package.json";
-import { buildCoreBuild } from "../../core/buildCoreBuild";
 import { minifyCss } from "./minifyCss";
 
-await Bun.$`bun check core src`;
-await Bun.$`bun fmt core src package.json`;
-await buildCoreBuild();
-await updateVEVersionHtml();
-
-if (process.argv.includes(`--dev`)) {
-  await dev();
-} else if (process.argv.includes(`--build`)) {
-  await build();
-}
-
-async function updateVEVersionHtml() {
-  const htmlFile = Bun.file(`./src/app/index.html`);
-  let htmlText = await htmlFile.text();
-
-  htmlText = htmlText.replace(
-    /<title>.*?<\/title>/i,
-    `<title>VirginEngine v${virginEngineVersion}</title>`,
-  );
-
-  await Bun.write(`./src/app/indexUpdated.html`, htmlText);
-}
-
-async function dev() {
-  const html = await import("./indexUpdated.html");
-
-  fs.watch(`core`, { recursive: true }, async () => {
-    await Bun.$`bun fmt core`;
-    await buildCoreBuild();
-  });
-
-  Bun.serve({
-    routes: {
-      "/": html.default,
-    },
-    development: { hmr: true },
-  });
-}
-
-async function build() {
+export async function buildEditor() {
   const plugin = (await import("bun-plugin-tailwind")).default;
-  const mdStylesPlugin = (await import("./mdStylesPlugin")).default;
+  const mdStylesPlugin = (await import("../plugins/mdStylesPlugin")).default;
 
   const config: Bun.BuildConfig = {
-    entrypoints: [`./src/app/indexUpdated.html`],
+    entrypoints: [`./editor/app/indexUpdated.html`],
     outdir: `dist`,
     naming: `index.html`,
     plugins: [plugin, mdStylesPlugin],
@@ -113,12 +73,12 @@ async function build() {
   if (indexJs > `<script type="module">`.length) {
     const indexEnd = html.indexOf(`</script>`, indexJs);
     let jsText = html.slice(indexJs, indexEnd);
-    jsText = minifyJs(jsText);
+    jsText = await minifyJs(jsText);
     html = html.slice(0, indexJs) + jsText + html.slice(indexEnd);
   } else {
     const jsFile = outputs.find((a) => a.path.endsWith(`.js`))!;
     let jsCode = await jsFile.text();
-    jsCode = minifyJs(jsCode);
+    jsCode = await minifyJs(jsCode);
     await Bun.write(jsFile.path, jsCode);
   }
 
@@ -128,7 +88,7 @@ async function build() {
   printSize(printPaths);
 }
 
-function minifyJs(code: string): string {
+async function minifyJs(code: string): Promise<string> {
   // remove stupid __REACT_DEVTOOLS_GLOBAL_HOOK__
   code = code
     .replaceAll(/__REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE\(.+?\)/g, ``)
@@ -168,7 +128,7 @@ function minifyJs(code: string): string {
     },
   };
 
-  const newCode = minify_sync(code, minifyOptions).code;
+  const newCode = (await minify(code, minifyOptions)).code;
   if (!newCode) throw new Error(`Error minifing js with terser!`);
   if (code.length < newCode.length) throw new Error(`Minified code is larger!`);
   return newCode;

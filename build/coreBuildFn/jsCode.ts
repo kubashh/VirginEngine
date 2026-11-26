@@ -1,6 +1,6 @@
-import { minify_sync, type MinifyOptions } from "terser";
+import { minify, type MinifyOptions } from "terser";
 import { keywords, optymalizeImageSrc } from "./util";
-import { type BuildObject } from "./build";
+import { type BuildObject } from "./coreBuild";
 import { preprocessing } from "./preprocessing";
 
 declare const REPLACE_CORE: string;
@@ -45,7 +45,7 @@ export async function buildJs(options: BuildObject): Promise<string> {
 
   if (!options.production) return validCore;
 
-  const out = minify_sync(validCore, minifyOptions);
+  const out = await minify(validCore, minifyOptions);
 
   if (!out.code) throw Error(JSON.stringify(out));
 

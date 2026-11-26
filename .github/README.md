@@ -14,35 +14,36 @@ Simple JS game engine for fast 2D web games
 - `Sprite` (works)
 - `Text` (50% done)
 
-## [Documentation](https://github.com/kubashh/VirginEngine/blob/main/src/lib/assets/docs.md)
+## [Documentation](https://github.com/kubashh/VirginEngine/blob/main/editor/lib/assets/docs.md)
 
 ## Scripting stardants
 
 ### Basic standarts
 
 - no `export default`
-- no `import type` (use `import { type X }`)
+- no `import type { X }` (use `import { type X }`)
 - classes | ReactComponents - PascalCase
 - variables | functions | objects - camelCase
 
 ### Project structure
 
-- /core - engine core, contains build function
-- /src - editor
+- /build - build core, build engine, custom plugins
+- /core - engine core
+- /editor - editor
 
-### Src import order
+### `editor` import order
 
 1. external libs like `react`
 2. enbeded files like `img.png` `package.json`
-3. code from `src/lib/assets/`
-4. code from `src/lib/` - `core` `idb` `signal` `consts` `util` `hooks`
-5. code from `src/lib/typeInput/`
-6. code from `src/lib/components/`
-7. code from `src/lib/docs/`
-8. code from `src/hierarchy/`
-9. code from `src/files/`
-10. code from `src/inspector/`
-11. code from `src/ui/`
+3. code from `editor/lib/assets/`
+4. code from `editor/lib/` - `core` `idb` `signal` `consts` `util` `hooks`
+5. code from `editor/lib/typeInput/`
+6. code from `editor/lib/components/`
+7. code from `editor/lib/docs/`
+8. code from `editor/hierarchy/`
+9. code from `editor/files/`
+10. code from `editor/inspector/`
+11. code from `editor/ui/`
 
 ### Only html tags used in project (because of styles oprimization and code consistency)
 

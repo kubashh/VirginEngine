@@ -1,5 +1,5 @@
 /node_modules
 /bun.lock
 /dist
-/src/app/indexUpdated.html
-/src/lib/core.js
+/editor/app/indexUpdated.html
+/editor/lib/core.js

@@ -51,7 +51,7 @@ Tags using in this changelog:
 - add testing js (direct hydration) or html
 - add config.lockAspectRatio for consistency
 - add project compressing
-- braking: change src.components Script to be `{ code: "MY_CODE" }` insteadof `MY_CODE`
+- braking: change src.components Script to be `{ code: "MY_CODE" }` instead of `MY_CODE`
 
 <br />
 
@@ -63,10 +63,12 @@ Tags using in this changelog:
 - **fixed** `Enum<string>` when building
 - **add** Text.textAlign and Text.textBaseline
 - **fixed** `Enum<number>.selected`
+- **codespace** reorganize codespace `core` `src` => `build` `core` `editor`
+- **improve** coreBuild uses terser.minify instead of minify_sync (-0.1kB)
 
 ## 0.26.0 (22 Nov 2022) (https://github.com/kubashh/VirginEngine/commit/df3a7065c303929959f42d3d5afe271b3a8574a3, compiled 813.444 kB, 812.891 kB (0.439 kB (html) 16.269 kB (css) 760.667 kB (js) 35.516 kB (media)))
 
-- **optimize** add css minification (inline some vars and exec most calc). bundle size -0.9kB
+- **optimize** add css minification (inline some vars and exec most calc) (-0.9 kB)
 - **fixed** test canvas height on chromium based browsers
 - **optimize** css minification (inline more vars)
 - **fixed** chromium play sound error `NotSupportedError: The element has no supported sources.`
